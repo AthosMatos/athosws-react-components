@@ -1,6 +1,6 @@
 {
-  "name": "@athos/react-components",
-  "version": "1.0.0",
+  "name": "@athosws/react-components",
+  "version": "1.0.1",
   "private": false,
   "description": "This is a set of useful ReactJS components developed by Athos.\n Email:ladiesman217.as@gmail.com",
   "main": "build/index.js",
@@ -13,7 +13,9 @@
   "keywords": [
     "react",
     "components",
-    "athos"
+    "athos",
+    "matos",
+    "athosws"
   ],
   "author": "Athos Matos",
   "license": "MIT",
@@ -68,5 +70,8 @@
   "devDependencies": {
     "@swc/core": "^1.7.18",
     "typescript": "^5.2.2"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
