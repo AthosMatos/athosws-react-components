@@ -3,5 +3,5 @@
 Recomended to use yarn
 
 ## Main components
-### ATHOS_Table
-### ATHOS_ResizableDiv
+- `ATHOS_Table`
+- `ATHOS_ResizableDiv`
