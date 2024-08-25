@@ -1,9 +1,9 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
-/code/node_modules
-/code/.pnp
-/code/.pnp.js
+node_modules
+.pnp
+.pnp.js
 
 # testing
 /code//coverage
@@ -22,4 +22,3 @@
 /code/yarn-debug.log*
 /code/yarn-error.log*
 
-/package/node_modules
