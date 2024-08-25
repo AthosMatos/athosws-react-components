@@ -22,3 +22,4 @@
 /code/yarn-debug.log*
 /code/yarn-error.log*
 
+/package/node_modules
