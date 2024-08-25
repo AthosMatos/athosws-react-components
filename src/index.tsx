@@ -11,8 +11,3 @@ root.render(
     <App />
   </React.StrictMode>
 );
-/* 
-"publishConfig": {
-    "access": "public"
-  }
-*/

@@ -1,17 +1,23 @@
-export interface DefaultATHOSButtonProps {
+interface EnabledATHOSButtonProps {
   disabled?: false;
   type: "default" | "alt" | "action";
-  children: React.ReactNode;
   onClick?: () => void;
+  children: React.ReactNode;
   tooltip?: React.ReactNode;
+  style?: React.CSSProperties;
+  color?: string;
+  textColor?: string;
 }
 
-export interface DisabledATHOSButtonProps {
+interface DisabledATHOSButtonProps {
   disabled: true;
   children: React.ReactNode;
   tooltip?: React.ReactNode;
+  style?: React.CSSProperties;
+  color?: string;
+  textColor?: string;
 }
 
 export type ATHOSButtonProps =
-  | DefaultATHOSButtonProps
-  | DisabledATHOSButtonProps;
+  | DisabledATHOSButtonProps
+  | EnabledATHOSButtonProps;

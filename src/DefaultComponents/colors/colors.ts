@@ -1,6 +1,7 @@
 export const ATHOSColors = {
   aqua: {
     default: "#1FB5AD",
+    default_2: "#1ca19b",
     dark: "#15827C",
     darker: "#0F4D4A",
   },
@@ -15,7 +16,11 @@ export const ATHOSColors = {
   red: {
     default: "#DA2222",
   },
-  white: "#F3F3F3",
-  black: "#242424",
+  white: {
+    eggshell: "#F3F3F3",
+  },
+  black: {
+    coal: "#242424",
+  },
   background: "#ffffff",
 };

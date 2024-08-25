@@ -33,7 +33,7 @@ const Wrapper = styled.div`
 
 const Bwrapper = styled.div`
   display: flex;
-  gap: 2rem;
+  gap: 1rem;
 `;
 
 const mockData: ATHOSSideMenuDataI[] = [

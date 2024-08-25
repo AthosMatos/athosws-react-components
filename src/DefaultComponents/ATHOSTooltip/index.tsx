@@ -1,6 +1,5 @@
 import { Tooltip } from "react-tooltip";
 import { v4 } from "uuid";
-import { ATHOSColors } from "../colors/colors";
 import { ATHOSTooltipProps } from "./interface";
 import { JTTooltipText, JTWrapper } from "./styled";
 
@@ -11,8 +10,8 @@ export const ATHOSTooltip = (props: ATHOSTooltipProps) => {
     <>
       <Tooltip
         style={{
-          backgroundColor: ATHOSColors.black,
-          color: ATHOSColors.white,
+          backgroundColor: "black",
+          color: "white",
           borderRadius: "5px",
           ...props.wrapperStyle,
         }}

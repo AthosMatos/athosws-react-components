@@ -11,7 +11,7 @@ export const JIInput = styled.input`
   background-color: transparent;
   outline: none;
   font-weight: 400;
-  color: ${ATHOSColors.black};
+  color: ${"black"};
 
   &:focus {
     outline: none;

@@ -1,5 +1,5 @@
 import { ATHOSTooltip } from "../ATHOSTooltip";
-import { ATHOSButtonProps, DefaultATHOSButtonProps } from "./interfaces";
+import { ATHOSButtonProps } from "./interfaces";
 import {
   ATHOSButton_action,
   ATHOSButton_alt,
@@ -11,26 +11,47 @@ import {
  * DESCRIBE COMPONENT
  */
 export const ATHOSButton = (props: ATHOSButtonProps) => {
-  const { children, disabled, tooltip } = props;
+  const { children, disabled, tooltip, color, textColor, style } = props;
   const Bttn = () => {
     if (disabled) {
-      return <ATHOSButton_disabled>{children}</ATHOSButton_disabled>;
+      return (
+        <ATHOSButton_disabled color={color} textColor={textColor} style={style}>
+          {children}
+        </ATHOSButton_disabled>
+      );
     } else {
-      const { type, onClick } = props as DefaultATHOSButtonProps;
+      const { type, onClick } = props;
       switch (type) {
         case "default":
           return (
-            <ATHOSButton_default onClick={onClick}>
+            <ATHOSButton_default
+              color={color}
+              textColor={textColor}
+              style={style}
+              onClick={onClick}
+            >
               {children}
             </ATHOSButton_default>
           );
         case "alt":
           return (
-            <ATHOSButton_alt onClick={onClick}>{children}</ATHOSButton_alt>
+            <ATHOSButton_alt
+              color={color}
+              textColor={textColor}
+              style={style}
+              onClick={onClick}
+            >
+              {children}
+            </ATHOSButton_alt>
           );
         case "action":
           return (
-            <ATHOSButton_action onClick={onClick}>
+            <ATHOSButton_action
+              color={color}
+              textColor={textColor}
+              style={style}
+              onClick={onClick}
+            >
               {children}
             </ATHOSButton_action>
           );

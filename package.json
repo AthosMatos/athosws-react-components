@@ -2,9 +2,9 @@
   "name": "@athosws/react-components",
   "version": "1.0.5",
   "description": "This is a set of useful ReactJS components developed by Athos.\\n Email:ladiesman217.as@gmail.com",
-  "main": "dist/index.js",
-  "module": "dist/index.mjs",
-  "types": "dist/index.d.ts",
+  "main": "dist/module-index.js",
+  "module": "dist/module-index.mjs",
+  "types": "dist/module-index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/AthosMatos/ATHOS_React_Components.git"
@@ -65,5 +65,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "rollup": "rollup -c --bundleConfigAsCjs"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

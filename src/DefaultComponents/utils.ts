@@ -13,7 +13,7 @@ export const getUnitWithoutValue = (value: string) => {
 };
 
 export const generateColorShades = (
-  hexColor: string
+  color: string
 ): {
   lighter: string;
   light: string;
@@ -21,7 +21,7 @@ export const generateColorShades = (
   dark: string;
   darker: string;
 } => {
-  const chromaColor = chroma(hexColor);
+  const chromaColor = chroma(color);
   // Use chroma-js to create different shades by adjusting the luminance
   const lighter = chromaColor.brighten(1.5).hex(); // Lighter shade
   const light = chromaColor.brighten(0.75).hex(); // Light shade
@@ -31,7 +31,7 @@ export const generateColorShades = (
   return {
     lighter,
     light,
-    default: hexColor,
+    default: color,
     dark,
     darker,
   };
