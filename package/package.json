@@ -1,8 +1,9 @@
 {
   "name": "@athosws/react-components",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "This is a set of useful ReactJS components developed by Athos.\\n Email:ladiesman217.as@gmail.com",
   "main": "index.js",
+  "module": "index.mjs",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "rollup": "rollup -c --bundleConfigAsCjs"
