@@ -1,0 +1,25 @@
+{
+  "name": "@athosws/react-components",
+  "version": "1.0.0",
+  "description": "This is a set of useful ReactJS components developed by Athos.\\n Email:ladiesman217.as@gmail.com",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AthosMatos/ATHOS_React_Components.git"
+  },
+  "keywords": [
+    "athos",
+    "react",
+    "components",
+    "matos"
+  ],
+  "author": "Athos Matos",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AthosMatos/ATHOS_React_Components/issues"
+  },
+  "homepage": "https://github.com/AthosMatos/ATHOS_React_Components#readme"
+}
