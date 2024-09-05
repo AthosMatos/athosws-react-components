@@ -9,6 +9,11 @@ import {
 import styled from "styled-components";
 import { ATHOSColors } from "../colors/colors";
 
+/* 
+TODO FIX THESE INTERFACES TO EACH COMPONENT AND SITUATION HAVE ONE
+
+*/
+
 const JCContainer = styled.div`
   display: flex;
   /* flex-wrap: wrap;
@@ -22,6 +27,7 @@ const JCGWrapper = styled.div`
 interface ATHOSCardProps {
   id: string;
   index: number;
+  title?: string;
   component?: ReactNode;
   wrapperStyle?: React.CSSProperties;
   globalCardWrapperStyle?: React.CSSProperties;
@@ -41,7 +47,7 @@ const JCWrapper = styled.div`
 `;
 
 const JCText = styled.label`
-  font-size: 1.5rem;
+  font-size: 1rem;
   font-weight: bold;
   color: black;
   text-align: center;
@@ -50,6 +56,7 @@ const JCText = styled.label`
 const ATHOSCard = ({
   id,
   index,
+  title,
   component,
   wrapperStyle,
   globalCardWrapperStyle,
@@ -70,11 +77,11 @@ const ATHOSCard = ({
             {...provided.dragHandleProps}
             style={{
               width: "30px",
-              height: "10px",
+              height: "20px",
               backgroundColor: "red",
             }}
           />
-          {component ? component : <JCText>{id}</JCText>}
+          {component ? component : <JCText>{title}</JCText>}
         </JCWrapper>
       )}
     </Draggable>

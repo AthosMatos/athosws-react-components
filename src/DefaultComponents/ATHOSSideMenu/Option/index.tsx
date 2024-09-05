@@ -1,24 +1,24 @@
 import { useATHOSSideMenu } from "../context";
-import { ASBOptionProps } from "../interfaces";
+import { ASMOptionProps } from "../interfaces";
 import {
-  ASBArrowDown,
-  ASBIconWrapper,
-  ASBLabelIconWrapper,
-  ASBOptionContainer,
-  ASBOptionLabel,
-  ASBOptionWrapper,
-  ASBSubOptionsWrapper,
+  ASMArrowDown,
+  ASMIconWrapper,
+  ASMLabelIconWrapper,
+  ASMOptionContainer,
+  ASMOptionLabel,
+  ASMOptionWrapper,
+  ASMSubOptionsWrapper,
   defaulIconSize,
   suboptheight,
 } from "../styled";
 
-const ASBOption = ({
+const ASMOption = ({
   index,
   Icon,
   label,
   children,
   iconSize,
-}: ASBOptionProps) => {
+}: ASMOptionProps) => {
   const {
     selectOption,
     selectedDataTrack,
@@ -38,8 +38,8 @@ const ASBOption = ({
   const childrenHeight = `calc((${suboptheight} * ${childrenAmount}) + ${halfGap})`;
 
   return (
-    <ASBOptionContainer>
-      <ASBOptionWrapper
+    <ASMOptionContainer>
+      <ASMOptionWrapper
         accentColor={colors.accent}
         activeColor={colors.active}
         onClick={() => {
@@ -49,29 +49,31 @@ const ASBOption = ({
         hasChildren={hasChildren}
         clicked={isOpen || hasSelectedChildren}
       >
-        <ASBLabelIconWrapper>
-          <ASBIconWrapper iconSize={defaulIconSize}>
-            <Icon
-              style={{
-                pointerEvents: "none",
-              }}
-              size={iconSize ?? defaulIconSize}
-            />
-          </ASBIconWrapper>
+        <ASMLabelIconWrapper>
+          {Icon && (
+            <ASMIconWrapper iconSize={defaulIconSize}>
+              <Icon
+                style={{
+                  pointerEvents: "none",
+                }}
+                size={iconSize ?? defaulIconSize}
+              />
+            </ASMIconWrapper>
+          )}
 
-          <ASBOptionLabel>{label}</ASBOptionLabel>
-        </ASBLabelIconWrapper>
+          <ASMOptionLabel>{label}</ASMOptionLabel>
+        </ASMLabelIconWrapper>
 
-        {children && <ASBArrowDown clicked={isOpen} />}
-      </ASBOptionWrapper>
+        {children && <ASMArrowDown clicked={isOpen} />}
+      </ASMOptionWrapper>
 
       {children && (
-        <ASBSubOptionsWrapper ChildrenHeight={childrenHeight} isOpen={isOpen}>
+        <ASMSubOptionsWrapper ChildrenHeight={childrenHeight} isOpen={isOpen}>
           {children}
-        </ASBSubOptionsWrapper>
+        </ASMSubOptionsWrapper>
       )}
-    </ASBOptionContainer>
+    </ASMOptionContainer>
   );
 };
 
-export default ASBOption;
+export default ASMOption;

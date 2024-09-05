@@ -2,40 +2,40 @@ import { IconType } from "react-icons";
 import { ATHOSColors } from "../../colors/colors";
 import { useATHOSSideMenu } from "../context";
 import {
-  ASBIconWrapper,
-  ASBLabelIconWrapper,
-  ASBOptionLabel,
-  ASBOptionWrapper,
+  ASMIconWrapper,
+  ASMLabelIconWrapper,
+  ASMOptionLabel,
+  ASMOptionWrapper,
   defaulIconSize,
 } from "../styled";
 
-interface ASBOptionProps {
+interface ASMOptionProps {
   Icon: IconType;
   iconSize?: string | number;
   label: string;
   onClick?: () => void;
 }
 
-const ASBExitOption = ({
+const ASMExitOption = ({
   Icon,
   label,
 
   iconSize,
   onClick,
-}: ASBOptionProps) => {
+}: ASMOptionProps) => {
   const {
     props: { colors },
   } = useATHOSSideMenu();
   return (
-    <ASBOptionWrapper
+    <ASMOptionWrapper
       accentColor={colors.accent}
       activeColor={colors.active}
       onClick={() => {
         onClick && onClick();
       }}
     >
-      <ASBLabelIconWrapper>
-        <ASBIconWrapper iconSize={defaulIconSize}>
+      <ASMLabelIconWrapper>
+        <ASMIconWrapper iconSize={defaulIconSize}>
           <Icon
             style={{
               pointerEvents: "none",
@@ -43,12 +43,12 @@ const ASBExitOption = ({
             }}
             size={iconSize ?? defaulIconSize}
           />
-        </ASBIconWrapper>
+        </ASMIconWrapper>
 
-        <ASBOptionLabel>{label}</ASBOptionLabel>
-      </ASBLabelIconWrapper>
-    </ASBOptionWrapper>
+        <ASMOptionLabel>{label}</ASMOptionLabel>
+      </ASMLabelIconWrapper>
+    </ASMOptionWrapper>
   );
 };
 
-export default ASBExitOption;
+export default ASMExitOption;

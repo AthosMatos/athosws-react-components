@@ -21,8 +21,8 @@ export const RDContainer = styled.div<RDWrapperProps>`
 `;
 export const RDWrapper = styled.div<{ matchChildSize?: boolean }>`
   display: flex;
-  width: ${({ matchChildSize }) => (matchChildSize ? "100%" : "fit-content")};
-  height: ${({ matchChildSize }) => (matchChildSize ? "100%" : "fit-content")};
+  width: ${({ matchChildSize }) => (!matchChildSize ? "100%" : "fit-content")};
+  height: ${({ matchChildSize }) => (!matchChildSize ? "100%" : "fit-content")};
 `;
 export const RDPreWrapper = styled.div<{ withToogle?: boolean }>`
   ${(props) =>
@@ -33,8 +33,7 @@ export const RDPreWrapper = styled.div<{ withToogle?: boolean }>`
     align-items: flex-end;
     width: fit-content;
     height: fit-content;
-    padding: 1rem;
-    gap: 1rem;
+    gap: 0.5rem;
     `}
 `;
 export const RDDot = styled.div`

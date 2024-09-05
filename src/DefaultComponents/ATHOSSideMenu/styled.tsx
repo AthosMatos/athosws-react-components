@@ -1,13 +1,13 @@
 import { PiCaretDownBold } from "react-icons/pi";
 import styled from "styled-components";
-import { generateColorShades } from "../utils";
+import { generateColorShades, getContrastColor } from "../utils";
 import {
-  ASBColorsProps,
-  ASBOptionWrapperProps,
-  ASBSubOptionsWrapperProps,
+  ASMColorsProps,
+  ASMOptionWrapperProps,
+  ASMSubOptionsWrapperProps,
 } from "./interfaces";
 
-export const ASBContainer = styled.div<ASBColorsProps>`
+export const ASMContainer = styled.div<ASMColorsProps>`
   display: flex;
   flex-direction: column;
   width: 15rem;
@@ -17,14 +17,14 @@ export const ASBContainer = styled.div<ASBColorsProps>`
     ${({ accentColor }) => generateColorShades(accentColor).light};
 `;
 
-export const ASBWrapper = styled.div`
+export const ASMWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.4rem;
   width: 100%;
 `;
 
-export const ASBOptionLabel = styled.label`
+export const ASMOptionLabel = styled.label`
   font-size: 1.1rem;
   font-weight: 400;
   margin: 0;
@@ -32,13 +32,24 @@ export const ASBOptionLabel = styled.label`
   color: inherit;
   pointer-events: none;
 `;
-export const ASBLabelIconWrapper = styled.div`
+
+export const ASMSubOptionLabel = styled.label`
+  font-size: 1rem;
+  font-weight: 400;
+  margin: 0;
+  padding: 0;
+  color: inherit;
+  pointer-events: none;
+`;
+
+export const ASMLabelIconWrapper = styled.div`
   display: flex;
   gap: 0.4rem;
   align-items: center;
   pointer-events: none;
+  height: 1.6rem;
 `;
-export const ASBIconWrapper = styled.div<{ iconSize: number | string }>`
+export const ASMIconWrapper = styled.div<{ iconSize: number | string }>`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -51,7 +62,7 @@ export const ASBIconWrapper = styled.div<{ iconSize: number | string }>`
 `;
 
 export const defaulIconSize = "1.6rem";
-export const ASBSubOptionsWrapper = styled.div<ASBSubOptionsWrapperProps>`
+export const ASMSubOptionsWrapper = styled.div<ASMSubOptionsWrapperProps>`
   display: flex;
   width: 80%;
   align-self: flex-end;
@@ -60,10 +71,11 @@ export const ASBSubOptionsWrapper = styled.div<ASBSubOptionsWrapperProps>`
   overflow: hidden;
   gap: ${({ isOpen }) => isOpen && "0.4rem"};
   transition: all 0.12s;
-  padding: ${({ isOpen }) => (isOpen ? "0.4rem 0px 0px 0px" : "0px")};
+  padding: ${({ isOpen }) => (isOpen ? "0.4rem" : "0px")};
   height: ${({ isOpen, ChildrenHeight }) => (isOpen ? ChildrenHeight : "0px")};
 `;
-export const ASBOptionWrapper = styled.div<ASBOptionWrapperProps>`
+
+export const ASMOptionWrapper = styled.div<ASMOptionWrapperProps>`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -72,7 +84,6 @@ export const ASBOptionWrapper = styled.div<ASBOptionWrapperProps>`
   cursor: pointer;
   transition: all 0.14s;
   user-select: none;
-  color: "#000";
 
   &:hover {
     ${({
@@ -85,30 +96,40 @@ export const ASBOptionWrapper = styled.div<ASBOptionWrapperProps>`
       hasSelectedChildren && clicked
         ? `
         background-color: ${generateColorShades(accentColor).darker};
+        color: ${getContrastColor(generateColorShades(accentColor).darker)}
         `
         : !clicked
         ? `
         background-color: ${generateColorShades(accentColor).light};
+        color: ${getContrastColor(generateColorShades(accentColor).light)}
         `
         : hasChildren
         ? `
         background-color: ${generateColorShades(activeColor).darker};
+        color: ${getContrastColor(generateColorShades(activeColor).darker)}
         `
         : `
         background-color: ${generateColorShades(activeColor).dark};
+        color: ${getContrastColor(generateColorShades(activeColor).dark)}
         `}
   }
   &:active {
-    ${({ clicked, accentColor, activeColor }) =>
-      !clicked
+    transform: scale(1.04);
+    ${({ clicked, accentColor, activeColor, hasSelectedChildren }) =>
+      hasSelectedChildren
+        ? `
+        background-color: ${generateColorShades(accentColor).default};
+        color: ${getContrastColor(generateColorShades(accentColor).default)}
+        `
+        : !clicked
         ? `
         background-color: ${generateColorShades(accentColor).light};
+        color: ${getContrastColor(generateColorShades(accentColor).light)}
         `
         : `
         background-color: ${activeColor};
+        color: ${getContrastColor(activeColor)}
         `}
-
-    transform: scale(1.04);
   }
 
   ${({ clicked, hasChildren, hasSelectedChildren, accentColor, activeColor }) =>
@@ -116,17 +137,25 @@ export const ASBOptionWrapper = styled.div<ASBOptionWrapperProps>`
     `
          ${
            hasSelectedChildren
-             ? `background-color: ${generateColorShades(accentColor).dark};`
+             ? `background-color: ${generateColorShades(accentColor).dark};
+    color: ${getContrastColor(generateColorShades(accentColor).dark)}         
+    `
              : hasChildren
-             ? `background-color: ${generateColorShades(activeColor).dark};`
-             : `background-color: ${activeColor};`
+             ? `background-color: ${generateColorShades(activeColor).dark};
+      color: ${getContrastColor(
+        generateColorShades(activeColor).dark
+      )}           
+      `
+             : `background-color: ${activeColor};
+      color: ${getContrastColor(activeColor)}           
+      `
          }
-        color: #fff;
     `}
 `;
-export const suboptheight = "2.4rem";
 
-export const ASBSubOptionWrapper = styled.div<ASBOptionWrapperProps>`
+export const suboptheight = "2.6rem";
+
+export const ASMSubOptionWrapper = styled.div<ASMOptionWrapperProps>`
   display: flex;
   gap: 0.8rem;
   align-items: center;
@@ -142,9 +171,11 @@ export const ASBSubOptionWrapper = styled.div<ASBOptionWrapperProps>`
       !clicked
         ? `
         background-color: ${generateColorShades(accentColor).light};
+         color: ${getContrastColor(generateColorShades(accentColor).light)}
         `
         : `
         background-color: ${generateColorShades(activeColor).dark};
+         color: ${getContrastColor(generateColorShades(accentColor).dark)}
         `}
   }
   //on click create a ripple effect
@@ -153,9 +184,11 @@ export const ASBSubOptionWrapper = styled.div<ASBOptionWrapperProps>`
       !clicked
         ? `
         background-color: ${generateColorShades(accentColor).light};
+         color: ${getContrastColor(generateColorShades(accentColor).light)}
         `
         : `
         background-color: ${activeColor};
+         color: ${getContrastColor(activeColor)}
         `}
 
     color: #fff;
@@ -166,20 +199,20 @@ export const ASBSubOptionWrapper = styled.div<ASBOptionWrapperProps>`
     clicked &&
     `
         background-color: ${activeColor};
-        color: #fff;
+        color: ${getContrastColor(activeColor)}
     `}
 `;
 
-export const ASBOptionContainer = styled.div`
+export const ASMOptionContainer = styled.div`
   display: flex;
   flex-direction: column;
 `;
 
-export const ASBArrowDown = styled(PiCaretDownBold)<{ clicked: boolean }>`
+export const ASMArrowDown = styled(PiCaretDownBold)<{ clicked: boolean }>`
   pointer-events: none;
   font-size: 1rem;
-  margin-right: 0.4rem;
+  margin-right: 0.2rem;
   transform: ${({ clicked }) => (clicked ? "rotate(180deg)" : "rotate(0deg)")};
-
+  color: inherit;
   transition: transform 0.14s;
 `;

@@ -4,23 +4,29 @@ export interface SubOptionI {
   label: string;
   onClick?: () => void;
 }
-export interface ASBColorsProps {
+export interface ASMColorsProps {
   accentColor: string;
   activeColor: string;
 }
 
-export interface ASBOptionWrapperProps extends ASBColorsProps {
+export interface ASMOptionWrapperProps extends ASMColorsProps {
   clicked?: boolean;
   hasChildren?: boolean;
   hasSelectedChildren?: boolean;
+  children?: React.ReactNode;
+  onClick?: () => void;
 }
-export interface ASBSubOptionProps {
+export interface ASMSubOptionProps {
   label: string;
   index: number;
   parentIndex: number;
 }
-
-export interface ASBOptionProps {
+export interface ASMOWProps {
+  hoverColor: string;
+  activeColor: string;
+  clickedColor?: string;
+}
+export interface ASMOptionProps {
   Icon: IconType;
   iconSize?: string | number;
   label: string;
@@ -28,13 +34,13 @@ export interface ASBOptionProps {
   index: number;
 }
 
-export interface ASBSubOptionsWrapperProps {
+export interface ASMSubOptionsWrapperProps {
   isOpen: boolean;
   ChildrenHeight: string;
 }
 export interface ATHOSSideMenuDataI {
   label: string;
-  Icon: any;
+  Icon?: any;
   iconSize?: string | number;
   subOptions?: SubOptionI[];
   onClick?: () => void;

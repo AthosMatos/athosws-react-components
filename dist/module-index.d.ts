@@ -8,6 +8,7 @@ interface EnabledATHOSButtonProps {
     tooltip?: React.ReactNode;
     style?: React.CSSProperties;
     color?: string;
+    textColor?: string;
 }
 interface DisabledATHOSButtonProps {
     disabled: true;
@@ -15,6 +16,7 @@ interface DisabledATHOSButtonProps {
     tooltip?: React.ReactNode;
     style?: React.CSSProperties;
     color?: string;
+    textColor?: string;
 }
 type ATHOSButtonProps = DisabledATHOSButtonProps | EnabledATHOSButtonProps;
 
@@ -41,7 +43,7 @@ interface SubOptionI {
 }
 interface ATHOSSideMenuDataI {
     label: string;
-    Icon: any;
+    Icon?: any;
     iconSize?: string | number;
     subOptions?: SubOptionI[];
     onClick?: () => void;

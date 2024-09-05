@@ -1,10 +1,10 @@
 import { GoSignOut } from "react-icons/go";
-import ASBExitOption from "./ExitOption";
-import ASBOption from "./Option";
-import ASBSubOption from "./SubOption";
+import ASMExitOption from "./ExitOption";
+import ASMOption from "./Option";
+import ASMSubOption from "./SubOption";
 import { ATHOSSideMenuProvider } from "./context";
 import { ATHOSSideMenuProps } from "./interfaces";
-import { ASBContainer, ASBWrapper } from "./styled";
+import { ASMContainer, ASMWrapper } from "./styled";
 
 /**
  * DESCRIBE COMPONENT
@@ -13,13 +13,13 @@ import { ASBContainer, ASBWrapper } from "./styled";
 export const ATHOSSideMenu = (props: ATHOSSideMenuProps) => {
   return (
     <ATHOSSideMenuProvider props={props}>
-      <ASBContainer
+      <ASMContainer
         accentColor={props.colors.accent}
         activeColor={props.colors.active}
       >
-        <ASBWrapper>
+        <ASMWrapper>
           {props.options.map((data, index) => (
-            <ASBOption
+            <ASMOption
               iconSize={data.iconSize}
               key={index}
               index={index}
@@ -28,24 +28,24 @@ export const ATHOSSideMenu = (props: ATHOSSideMenuProps) => {
             >
               {data.subOptions &&
                 data.subOptions.map((subOption, subIndex) => (
-                  <ASBSubOption
+                  <ASMSubOption
                     parentIndex={index}
                     key={subIndex}
                     index={subIndex}
                     label={subOption.label}
                   />
                 ))}
-            </ASBOption>
+            </ASMOption>
           ))}
-        </ASBWrapper>
+        </ASMWrapper>
         {props.onExit && (
-          <ASBExitOption
+          <ASMExitOption
             onClick={props.onExit}
             Icon={GoSignOut}
             label={"Sair"}
           />
         )}
-      </ASBContainer>
+      </ASMContainer>
     </ATHOSSideMenuProvider>
   );
 };

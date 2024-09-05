@@ -8,6 +8,7 @@ export const ATHOSColors = {
   grey: {
     darker: "#4D4D4D",
     dark: "#888888",
+    dark_05: "#969696",
     default: "#A6A6A6",
     light: "#CACACA",
     light_2: "#e4e4e4",

@@ -1,14 +1,13 @@
 import { useState } from "react";
 import { FaUser } from "react-icons/fa";
-import { MdDashboard, MdOutlineAttachMoney } from "react-icons/md";
+import { MdOutlineAttachMoney } from "react-icons/md";
 import { PiGavelFill } from "react-icons/pi";
 import styled from "styled-components";
 import { v4 } from "uuid";
 import { ATHOSButton } from "./DefaultComponents/ATHOSButton";
-import { GroupI } from "./DefaultComponents/ATHOSCard";
+import ATHOSCards, { GroupI } from "./DefaultComponents/ATHOSCard";
 import ATHOSDynamicTable from "./DefaultComponents/ATHOSDynamicTable";
 import { ATHOSInput } from "./DefaultComponents/ATHOSInput";
-import { ATHOSResizableDiv } from "./DefaultComponents/ATHOSResizableDiv";
 import { ATHOSSideMenu } from "./DefaultComponents/ATHOSSideMenu";
 import { ATHOSSideMenuDataI } from "./DefaultComponents/ATHOSSideMenu/interfaces";
 import { ATHOSColors } from "./DefaultComponents/colors/colors";
@@ -39,7 +38,6 @@ const Bwrapper = styled.div`
 const mockData: ATHOSSideMenuDataI[] = [
   {
     label: "Dashboard",
-    Icon: MdDashboard,
     onClick: () => console.log("Dashboard"),
   },
   {
@@ -92,39 +90,7 @@ const TestPage = () => {
     import { ReactComponent as ATHOSLogo } from "../../DefaultComponents/assets/ATHOSLogo.svg";
     */
   const [error, setError] = useState<string>();
-  const [boards, setBoards] = useState<GroupI[]>([
-    {
-      id: v4(),
-      title: "group 1",
-      /* style: {
-                width: "350px"
-            }, */
-      items: Array.from({ length: 3 }, (_, i) => ({
-        id: v4(),
-
-        index: i,
-        component: (
-          <ATHOSResizableDiv
-            style={
-              {
-                //flexWrap: "wrap",
-                //gap: "2rem"
-              }
-            }
-          >
-            <label
-              style={{
-                fontSize: "2.5rem",
-              }}
-            >
-              teste
-            </label>
-          </ATHOSResizableDiv>
-        ),
-        /* wrapperStyle: {} */
-      })),
-    },
-  ]);
+  const [boards, setBoards] = useState<GroupI[]>([]);
   type TableData = {
     id: string;
     numero: string;
@@ -136,7 +102,8 @@ const TestPage = () => {
     {
       id: "1",
       numero: "0803174-22.2023.4.05.8400",
-      assunto: "Contract Dispute",
+      assunto:
+        "Contract Dispute Contract Dispute Contract Dispute Contract Dispute Contract Dispute",
       status: "Open",
     },
     {
@@ -199,8 +166,8 @@ const TestPage = () => {
     <Wrapper>
       <ATHOSSideMenu
         colors={{
-          accent: ATHOSColors.grey.default,
-          active: ATHOSColors.aqua.default,
+          accent: "#aaaaaa",
+          active: "#cf1e94",
         }}
         options={mockData}
         onExit={() => {
@@ -209,30 +176,18 @@ const TestPage = () => {
       />
 
       <Container>
-        <ATHOSDynamicTable data={tableData} columns={["numero", "assunto"]} />
-        {/* <ResizableDiv
-                    style={
-                        {
-                            //flexWrap: "wrap",
-                            //gap: "2rem"
-                        }
-                    }
-                    name={v4()}
-                >
-                    <label
-                        style={{
-                            fontSize: "2.5rem"
-                        }}
-                    >
-                        teste
-                    </label>
-                </ResizableDiv>
-                <ATHOSLogo
-                    style={{
-                        width: "100px",
-                        height: "100px"
-                    }}
-                /> */}
+        <ATHOSDynamicTable
+          //resizeable
+          highlightColor={ATHOSColors.aqua.default}
+          data={tableData}
+          columnsToShow={["numero", "assunto", "status"]}
+          paddingBetweenRows={15}
+          colConfig={{
+            numero: { label: "Numero do Processo" },
+            assunto: { label: "Assunto", maxWidth: 100 },
+          }}
+          minColWidthToShort={150}
+        />
         <Bwrapper>
           <ATHOSButton type="default">Default</ATHOSButton>
           <ATHOSButton
@@ -255,44 +210,57 @@ const TestPage = () => {
         <ATHOSInput />
         <ATHOSInput error={error} type="user" />
         <ATHOSInput error={error} type="password" />
-
-        {/*   <ATHOSCards
-                    globalGroupStyle={
-                        {
-                            //gap: "2rem"
-                        } 
-                    }
-                    globalCardWrapperStyle={{
-                        margin: "1rem",
-                        gap: "1rem"
-                    }}
-                    containerStyle={{
-                        height: "600px"
-                    }}
-                    updateBoards={(boards) => setBoards(boards)}
-                    groups={boards}
-                /> */}
-        {/*  <button
-                    style={{
-                        fontSize: "2rem"
-                    }}
-                    onClick={() =>
-                        setBoards((prev) => [
-                            ...prev,
-                            {
-                                id: v4(),
-                                title: "group 1",
-                                items: Array.from({ length: 3 }, (_, i) => ({
-                                    id: v4(),
-                                    title: `Card ${i + 1}`,
-                                    index: i
-                                }))
-                            }
-                        ])
-                    }
-                >
-                    Add Group
-                </button> */}
+      </Container>
+      <Container>
+        <ATHOSCards
+          globalGroupStyle={
+            {
+              //gap: "2rem"
+            }
+          }
+          globalCardWrapperStyle={{
+            margin: "0.2rem",
+            gap: "0.2rem",
+          }}
+          containerStyle={
+            {
+              //height: "600px",
+            }
+          }
+          updateBoards={(boards) => setBoards(boards)}
+          groups={boards}
+        />
+        <button
+          style={{
+            fontSize: "1rem",
+          }}
+          onClick={() =>
+            setBoards((prev) => [
+              ...prev,
+              {
+                id: v4().toString(),
+                title: `Group ${prev.length + 1}`,
+                items: Array.from({ length: 5 }, (_, i) => ({
+                  id: v4().toString(),
+                  title: `Card ${i + 1}`,
+                  index: i,
+                  component: (
+                    <div
+                      style={{
+                        width: "100px",
+                        height: "70px",
+                      }}
+                    >
+                      Card {i + 1}
+                    </div>
+                  ),
+                })),
+              },
+            ])
+          }
+        >
+          Add Group
+        </button>
       </Container>
     </Wrapper>
   );

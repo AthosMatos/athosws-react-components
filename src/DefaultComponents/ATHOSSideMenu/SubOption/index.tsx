@@ -1,8 +1,8 @@
 import { useATHOSSideMenu } from "../context";
-import { ASBSubOptionProps } from "../interfaces";
-import { ASBOptionLabel, ASBSubOptionWrapper } from "../styled";
+import { ASMSubOptionProps } from "../interfaces";
+import { ASMSubOptionLabel, ASMSubOptionWrapper } from "../styled";
 
-const ASBSubOption = ({ label, index, parentIndex }: ASBSubOptionProps) => {
+const ASMSubOption = ({ label, index, parentIndex }: ASMSubOptionProps) => {
   const {
     selectedDataTrack,
     selectSubOption,
@@ -12,7 +12,7 @@ const ASBSubOption = ({ label, index, parentIndex }: ASBSubOptionProps) => {
   const isOpen = subopts && subopts[index].show;
 
   return (
-    <ASBSubOptionWrapper
+    <ASMSubOptionWrapper
       accentColor={colors.accent}
       activeColor={colors.active}
       clicked={isOpen}
@@ -20,9 +20,9 @@ const ASBSubOption = ({ label, index, parentIndex }: ASBSubOptionProps) => {
         selectSubOption(parentIndex, index);
       }}
     >
-      <ASBOptionLabel>{label}</ASBOptionLabel>
-    </ASBSubOptionWrapper>
+      <ASMSubOptionLabel>{label}</ASMSubOptionLabel>
+    </ASMSubOptionWrapper>
   );
 };
 
-export default ASBSubOption;
+export default ASMSubOption;

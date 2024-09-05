@@ -11,7 +11,9 @@ export const getValueWithoutUnit = (value: string) => {
 export const getUnitWithoutValue = (value: string) => {
   return value.replace(/[0-9]/gi, "");
 };
-
+export function convertRemToPixels(rem: number) {
+  return rem * parseFloat(getComputedStyle(document.documentElement).fontSize);
+}
 export const generateColorShades = (
   color: string
 ): {
@@ -35,4 +37,9 @@ export const generateColorShades = (
     dark,
     darker,
   };
+};
+
+export const getContrastColor = (color: string) => {
+  const chromaColor = chroma(color);
+  return chromaColor.luminance() > 0.5 ? "black" : "white";
 };

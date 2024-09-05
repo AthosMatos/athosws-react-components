@@ -1,7 +1,11 @@
+import { PlacesType } from "react-tooltip";
+
 export interface ATHOSTooltipProps {
   children: React.ReactNode;
   content: React.ReactNode;
-  position?: "top" | "bottom" | "left" | "right";
+  position?: PlacesType;
+  toolTipStyle?: React.CSSProperties;
   wrapperStyle?: React.CSSProperties;
   textStyle?: React.CSSProperties;
+  float?: boolean;
 }

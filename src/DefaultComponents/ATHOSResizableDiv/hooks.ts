@@ -14,7 +14,7 @@ const useResizableDiv = ({
     bottom: true,
     left: false,
   };
-  const name = saveInLocalStorage ?? v4();
+  const name = saveInLocalStorage ?? v4().toString();
   const localStorage = window.localStorage;
   const wName = `width-${name}`;
   const hName = `height-${name}`;
@@ -49,9 +49,12 @@ const useResizableDiv = ({
 
   useEffect(() => {
     const div = document.getElementById(divName);
-    if (!div) return;
+    const borderIndicator = document.getElementById(borderName);
+    if (!div || !borderIndicator) return;
     if (withToogle && !toogle) {
       div.style.border = defaultBorder;
+      div.style.cursor = "auto";
+      borderIndicator.style.display = "none";
       return;
     } else if (withToogle) {
       if (resizableConers.right) {
@@ -67,7 +70,6 @@ const useResizableDiv = ({
         div.style.borderTop = highlightBorder;
       }
     }
-    const borderIndicator = document.getElementById(borderName);
 
     const mousemove = (e: MouseEvent) => {
       const divRect = getElementPositionWithScroll(div);

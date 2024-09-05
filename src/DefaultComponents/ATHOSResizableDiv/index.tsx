@@ -12,7 +12,14 @@ import {
 export const ATHOSResizableDiv = (props: ResizableDivProps) => {
   const { Height, Width, divName, borderName, setToogle, toogle } =
     useResizableDiv(props);
-  return (
+  return props.disabled ? (
+    <RDWrapper
+      matchChildSize={props.matchChildSize || props.disabled}
+      style={props.style}
+    >
+      {props.children}
+    </RDWrapper>
+  ) : (
     <RDPreWrapper withToogle={props.withToogle}>
       {props.withToogle && (
         <RDResizeIcon toogle={toogle} onClick={() => setToogle(!toogle)} />

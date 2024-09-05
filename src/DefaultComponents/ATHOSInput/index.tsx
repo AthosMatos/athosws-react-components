@@ -1,17 +1,17 @@
 import { useMemo, useRef, useState } from "react";
 import { ATHOSInputProps } from "./interfaces";
 import {
-  ATHOSInputWrapper,
-  JIErrorLabel,
-  JIEyeIcon,
-  JIEyeOffIcon,
-  JIIconWrapper,
-  JIInput,
-  JIInputLabel,
-  JIInputWrapper,
-  JILabelsWrapper,
-  JILockIcon,
-  JIUserIcon,
+  AIErrorLabel,
+  AIEyeIcon,
+  AIEyeOffIcon,
+  AIIconWrapper,
+  AIInput,
+  AIInputLabel,
+  AIInputWrapper,
+  AILabelsWrapper,
+  AILockIcon,
+  AIUserIcon,
+  AIWrapper,
 } from "./styled";
 
 /**
@@ -38,18 +38,18 @@ export const ATHOSInput = (props: ATHOSInputProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   return (
-    <ATHOSInputWrapper>
-      <JILabelsWrapper>
+    <AIWrapper>
+      <AILabelsWrapper>
         {type === "password" ? (
-          <JIInputLabel>{"Senha"}</JIInputLabel>
+          <AIInputLabel>{"Senha"}</AIInputLabel>
         ) : type === "user" ? (
-          <JIInputLabel>{"Usuário"}</JIInputLabel>
+          <AIInputLabel>{"Usuário"}</AIInputLabel>
         ) : (
-          label && <JIInputLabel>{label}</JIInputLabel>
+          label && <AIInputLabel>{label}</AIInputLabel>
         )}
-        {hasError && <JIErrorLabel>{`*${error}`}</JIErrorLabel>}
-      </JILabelsWrapper>
-      <JIInputWrapper
+        {hasError && <AIErrorLabel>{`*${error}`}</AIErrorLabel>}
+      </AILabelsWrapper>
+      <AIInputWrapper
         onClick={() => {
           inputRef.current?.focus();
         }}
@@ -57,11 +57,11 @@ export const ATHOSInput = (props: ATHOSInputProps) => {
         focused={isFocused}
       >
         {type === "user" ? (
-          <JIUserIcon error={hasError} />
+          <AIUserIcon error={hasError} />
         ) : (
-          type === "password" && <JILockIcon error={hasError} />
+          type === "password" && <AILockIcon error={hasError} />
         )}
-        <JIInput
+        <AIInput
           ref={inputRef}
           onFocus={onFocus}
           onBlur={onBlur}
@@ -76,15 +76,15 @@ export const ATHOSInput = (props: ATHOSInputProps) => {
         />
 
         {type === "password" && (
-          <JIIconWrapper iconSize={"1.2rem"}>
+          <AIIconWrapper iconSize={"1.2rem"}>
             {showPassword ? (
-              <JIEyeIcon onClick={() => setShowPassword(!showPassword)} />
+              <AIEyeIcon onClick={() => setShowPassword(!showPassword)} />
             ) : (
-              <JIEyeOffIcon onClick={() => setShowPassword(!showPassword)} />
+              <AIEyeOffIcon onClick={() => setShowPassword(!showPassword)} />
             )}
-          </JIIconWrapper>
+          </AIIconWrapper>
         )}
-      </JIInputWrapper>
-    </ATHOSInputWrapper>
+      </AIInputWrapper>
+    </AIWrapper>
   );
 };

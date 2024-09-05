@@ -4,17 +4,19 @@ import { ATHOSTooltipProps } from "./interface";
 import { JTTooltipText, JTWrapper } from "./styled";
 
 export const ATHOSTooltip = (props: ATHOSTooltipProps) => {
-  const id = v4();
+  const id = v4().toString();
 
   return (
     <>
       <Tooltip
+        float={props.float}
         style={{
           backgroundColor: "black",
           color: "white",
           borderRadius: "5px",
-          ...props.wrapperStyle,
+          ...props.toolTipStyle,
         }}
+        place={props.position}
         id={id}
       >
         {typeof props.content === "string" ? (
@@ -23,7 +25,11 @@ export const ATHOSTooltip = (props: ATHOSTooltipProps) => {
           props.content
         )}
       </Tooltip>
-      <JTWrapper data-tooltip-place={props.position} data-tooltip-id={id}>
+      <JTWrapper
+        style={props.wrapperStyle}
+        /* data-tooltip-place= */
+        data-tooltip-id={id}
+      >
         {props.children}
       </JTWrapper>
     </>

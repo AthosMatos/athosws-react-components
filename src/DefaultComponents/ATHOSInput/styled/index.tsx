@@ -2,11 +2,10 @@ import { FaLock, FaUser } from "react-icons/fa";
 import { IoEye, IoEyeOff } from "react-icons/io5";
 import styled from "styled-components";
 import { ATHOSColors } from "../../colors/colors";
-import { JIIconsDefault } from "./defaults";
+import { AIIconsDefault } from "./defaults";
 
-export const JIInput = styled.input`
+export const AIInput = styled.input`
   border: none;
-  width: 100%;
   font-size: 1rem;
   background-color: transparent;
   outline: none;
@@ -23,7 +22,7 @@ type InputProps = {
   error?: boolean;
 };
 
-export const JIInputWrapper = styled.div<InputProps>`
+export const AIInputWrapper = styled.div<InputProps>`
   display: flex;
   align-items: center;
   cursor: text;
@@ -69,8 +68,8 @@ type ATHOSInputIconProps = {
   error?: boolean;
 };
 
-export const JIUserIcon = styled(FaUser)<ATHOSInputIconProps>`
-  ${JIIconsDefault}
+export const AIUserIcon = styled(FaUser)<ATHOSInputIconProps>`
+  ${AIIconsDefault}
   ${({ error }) =>
     error &&
     `
@@ -78,15 +77,15 @@ export const JIUserIcon = styled(FaUser)<ATHOSInputIconProps>`
     `}
 `;
 
-export const JILockIcon = styled(FaLock)<ATHOSInputIconProps>`
-  ${JIIconsDefault}
+export const AILockIcon = styled(FaLock)<ATHOSInputIconProps>`
+  ${AIIconsDefault}
   ${({ error }) =>
     error &&
     `
         color: ${ATHOSColors.red.default};
     `}
 `;
-export const JIIconWrapper = styled.div<{ iconSize: number | string }>`
+export const AIIconWrapper = styled.div<{ iconSize: number | string }>`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -95,38 +94,37 @@ export const JIIconWrapper = styled.div<{ iconSize: number | string }>`
   height: ${({ iconSize }) =>
     typeof iconSize === "number" ? `${iconSize}rem ` : iconSize};
 `;
-export const JIEyeIcon = styled(IoEye)<ATHOSInputIconProps>`
+export const AIEyeIcon = styled(IoEye)<ATHOSInputIconProps>`
   cursor: pointer;
-  ${JIIconsDefault}
+  ${AIIconsDefault}
   font-size: 1.6rem;
 `;
 
-export const JIEyeOffIcon = styled(IoEyeOff)<ATHOSInputIconProps>`
+export const AIEyeOffIcon = styled(IoEyeOff)<ATHOSInputIconProps>`
   cursor: pointer;
 
-  ${JIIconsDefault}
+  ${AIIconsDefault}
   font-size: 1.6rem;
 `;
 
-export const ATHOSInputWrapper = styled.div`
+export const AIWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.4rem;
-
   width: fit-content;
 `;
 
-export const JIInputLabel = styled.label`
+export const AIInputLabel = styled.label`
   font-size: 1rem;
   color: ${ATHOSColors.grey.dark};
 `;
-export const JIErrorLabel = styled.label`
+export const AIErrorLabel = styled.label`
   font-size: 1rem;
   color: ${ATHOSColors.red.default};
   align-self: flex-end;
 `;
 
-export const JILabelsWrapper = styled.div`
+export const AILabelsWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   width: 100%;
