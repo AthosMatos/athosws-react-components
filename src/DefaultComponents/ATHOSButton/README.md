@@ -1,20 +1,11 @@
-# ATHOS React Components
-
-First install:
-
-```bash
-npm install @athosws/react-components
-yarn add @athosws/react-components
-```
-
-## ATHOSButton Component
+# ATHOSButton Component
 
 The `ATHOSButton` component is a versatile button component that supports multiple styles and states, such as `default`, `alt`, `action`, and `disabled`. It allows for customization of colors, text, and additional styling. It also supports an optional tooltip that provides extra information when hovering over the button.
 
 ![Animation](https://github.com/user-attachments/assets/704ef217-8c76-42f7-b3f9-1f094a30c227)
 
 
-### Import
+## Import
 
 To import the `ATHOSButton` component into your project, use the following import statement:
 
@@ -22,9 +13,9 @@ To import the `ATHOSButton` component into your project, use the following impor
 import { ATHOSButton } from "@athosws/react-components";
 ```
 
-### Usage
+## Usage
 
-#### Basic Usage
+### Basic Usage
 
 ```jsx
 import React from "react";
@@ -41,7 +32,7 @@ const App = () => {
 export default App;
 ```
 
-#### With Tooltip
+### With Tooltip
 
 To use a tooltip, pass the `tooltip` prop with the desired content:
 
@@ -55,7 +46,7 @@ To use a tooltip, pass the `tooltip` prop with the desired content:
 </ATHOSButton>
 ```
 
-#### Disabled State
+### Disabled State
 
 To disable the button, set the `disabled` prop to `true`:
 
@@ -65,7 +56,7 @@ To disable the button, set the `disabled` prop to `true`:
 </ATHOSButton>
 ```
 
-## Props
+# Props
 
 The `ATHOSButton` component accepts the following props:
 
