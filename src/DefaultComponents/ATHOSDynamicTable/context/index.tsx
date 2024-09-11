@@ -24,10 +24,9 @@ interface ADTContextProps<T> {
     selectedRows: number[];
     checkState: 0 | 1 | 2;
   };
-  highlightColor: string;
-
   columnsIDs: ColumnsIds<T> | undefined;
   setColumnsIDs: Dispatch<SetStateAction<ColumnsIds<T> | undefined>>;
+  uncheckAll: () => void;
 }
 
 type ColumnsIds<T> = {
@@ -50,7 +49,7 @@ export function ADTProvider<T>({
     columnsToShow,
     resizeable,
     highlightColor,
-    paddingBetweenRows,
+    paddingBetweenCells: paddingBetweenCells,
   } = props;
   const columns = useMemo(() => {
     if (columnsToHide) {
@@ -62,7 +61,9 @@ export function ADTProvider<T>({
     } else return Object.keys(data[0] as object) as (keyof T)[];
   }, [columnsToHide, columnsToShow, data]);
 
-  const { selectMethods, selectData } = useADTSelectedData({ pageSize: 5 });
+  const { selectMethods, selectData, uncheckAll } = useADTSelectedData({
+    pageSize: 5,
+  });
 
   const [columnsIDs, setColumnsIDs] = useState<ColumnsIds<T>>();
 
@@ -74,17 +75,40 @@ export function ADTProvider<T>({
     setColumnsIDs(columnsIDs);
   }, [columns]);
 
+  useEffect(() => {
+    /* if (selectData.selectedRows.length) {
+      const id = toast(
+        (t) => (
+          <ADTSelectedRowsToast
+            highlightColor={highlightColor ?? "#ff0000"}
+            tableID={props.tableID}
+            selectData={selectData}
+            selectedRows={selectData.selectedRows.length}
+            toastID={t.id}
+            uncheckAll={uncheckAll}
+          />
+        ),
+        { id: selectedRowsToastID ?? undefined }
+      );
+      setSelectedRowsToastID(id);
+    } else {
+      toast.dismiss(selectedRowsToastID!);
+      setSelectedRowsToastID(null);
+    } */
+  }, [selectData.selectedRows]);
+
   return (
     <ADTContext.Provider
       value={{
-        highlightColor: highlightColor ?? "#ff0000",
         selectMethods,
         selectData,
         columnsIDs,
         setColumnsIDs,
+        uncheckAll,
         props: {
           ...props,
           columns,
+          highlightColor: highlightColor ?? "#ff0000",
         },
       }}
     >

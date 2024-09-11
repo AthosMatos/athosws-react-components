@@ -25,6 +25,7 @@ const ASMExitOption = ({
 }: ASMOptionProps) => {
   const {
     props: { colors },
+    hideMenu,
   } = useATHOSSideMenu();
   return (
     <ASMOptionWrapper
@@ -45,7 +46,9 @@ const ASMExitOption = ({
           />
         </ASMIconWrapper>
 
-        <ASMOptionLabel>{label}</ASMOptionLabel>
+        <ASMOptionLabel hasIcon hide={hideMenu}>
+          {label}
+        </ASMOptionLabel>
       </ASMLabelIconWrapper>
     </ASMOptionWrapper>
   );

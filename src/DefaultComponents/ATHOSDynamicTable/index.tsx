@@ -1,5 +1,5 @@
-import { Toaster } from "react-hot-toast";
 import { ATHOSResizableDiv } from "../ATHOSResizableDiv";
+import ADTSelectedRowsToast from "./components/ADTSelectedRowsToast";
 import { ADTProvider } from "./context";
 import { DynamicTableProps } from "./interfaces";
 import ADTCells from "./Sections/ADTCells";
@@ -18,13 +18,23 @@ function ATHOSDynamicTable<T>(props: DynamicTableProps<T>) {
       withToogle
       style={props.style}
     >
-      <Toaster
-        toastOptions={{
-          duration: Infinity,
-        }}
-        position="bottom-right"
-      />
       <ADTProvider props={props}>
+        {/* <Toaster
+          containerStyle={{
+            zIndex: 10,
+          }}
+          toastOptions={{
+            duration: Infinity,
+            style: {
+              padding: 0,
+              maxWidth: "none",
+              zIndex: 10,
+            },
+          }}
+          position="bottom-right"
+        /> */}
+
+        <ADTSelectedRowsToast />
         <ADTTableWrapper>
           <ADTTable>
             <ADTHeader>

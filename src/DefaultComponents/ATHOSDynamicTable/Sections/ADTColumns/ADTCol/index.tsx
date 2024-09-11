@@ -3,10 +3,17 @@ import { useADTContext } from "../../../context";
 import { ADTColBorderWrapper, ADTColumnWrapper } from "../../../styled";
 
 const ADTCol = ({ value, column }: { value: any; column: string }) => {
-  const { columnsIDs } = useADTContext();
+  const {
+    columnsIDs,
+    props: { paddingBetweenColumns },
+  } = useADTContext();
   return (
     columnsIDs && (
-      <ADTColumnWrapper id={columnsIDs[column]} bRight>
+      <ADTColumnWrapper
+        id={columnsIDs[column]}
+        bRight
+        paddingHorizontal={paddingBetweenColumns}
+      >
         <ADTColBorderWrapper>
           {value} <ADTBorder colID={columnsIDs[column]} />
         </ADTColBorderWrapper>

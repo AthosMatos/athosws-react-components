@@ -1,6 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
-import toast from "react-hot-toast";
-import ADTSelectedRowsToast from "../components/ADTSelectedRowsToast";
+import { useCallback, useState } from "react";
 
 interface useADTSelectedDataProps {
   pageSize: number;
@@ -15,31 +13,8 @@ export const CheckState = {
 };
 
 const useADTSelectedData = ({ pageSize }: useADTSelectedDataProps) => {
-  const [selectedRowsToastID, setSelectedRowsToastID] = useState<string | null>(
-    null
-  );
   const [selectedRows, setSelectedRows] = useState<number[]>([]);
   const [checkState, setCheckState] = useState(CheckState.NONE);
-
-  useEffect(() => {
-    console.log("Selected rows: ", selectedRows);
-    if (selectedRows.length) {
-      const id = toast(
-        (t) => (
-          <ADTSelectedRowsToast
-            selectedRows={selectedRows.length}
-            toastID={t.id}
-            uncheckAll={uncheckAll}
-          />
-        ),
-        { id: selectedRowsToastID ?? undefined }
-      );
-      setSelectedRowsToastID(id);
-    } else {
-      toast.dismiss(selectedRowsToastID!);
-      setSelectedRowsToastID(null);
-    }
-  }, [selectedRows]);
 
   const checkAll = (dataAmount: number) => {
     setSelectedRows(Array.from({ length: dataAmount }, (_, i) => i));
@@ -96,7 +71,12 @@ const useADTSelectedData = ({ pageSize }: useADTSelectedDataProps) => {
     checkAllButtonClick,
   };
 
-  return { selectData, selectMethods };
+  return {
+    selectData,
+    selectMethods,
+
+    uncheckAll,
+  };
 };
 
 export default useADTSelectedData;

@@ -1,22 +1,85 @@
-import { PiCaretDownBold } from "react-icons/pi";
+import { PiCaretDownBold, PiCaretLeftBold } from "react-icons/pi";
 import styled from "styled-components";
 import { generateColorShades, getContrastColor } from "../utils";
+import { useATHOSSideMenu } from "./context";
 import {
   ASMColorsProps,
   ASMOptionWrapperProps,
   ASMSubOptionsWrapperProps,
 } from "./interfaces";
 
-export const ASMContainer = styled.div<ASMColorsProps>`
+export const sideMenuWidth = "15rem";
+const optionPad = "calc(0.8rem * 2)";
+const optionIconSize = "1.6rem";
+export const hidenMenuWidth = `calc(${optionPad} + ${optionIconSize})`;
+
+export const ASMMenuHiderWrapper = styled.div<{
+  height: number;
+  width: string;
+}>`
+  position: absolute;
+  width: ${({ width }) => width};
+  height: ${({ height }) => `${height}px`};
+`;
+
+export const ASMMH = styled.div<{ accentColor: string }>`
+  position: absolute;
   display: flex;
-  flex-direction: column;
-  width: 15rem;
-  padding: 0.6rem;
-  justify-content: space-between;
+  align-items: center;
+  justify-content: center;
+  right: -0.5rem;
+  top: calc(50% - 0.7rem);
+  width: 1rem;
+  height: 1.4rem;
+  border-radius: 2rem;
+  background-color: ${({ accentColor }) => accentColor};
+  cursor: pointer;
+  z-index: 3;
+
+  transition: all 0.14s;
+
+  &:hover {
+    transform: scale(1.2);
+  }
+
+  &:active {
+    transform: scale(1);
+  }
+`;
+
+export const ASMExtraContainer = styled.div<{ accentColor: string }>`
+  display: flex;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
   outline: 1px solid
     ${({ accentColor }) => generateColorShades(accentColor).light};
 `;
 
+const ASMC = styled.div<ASMColorsProps & { width: string; minWidth: string }>`
+  display: flex;
+  flex-direction: column;
+  width: ${({ width }) => width};
+  min-width: ${({ minWidth }) => minWidth};
+  padding: 0.6rem;
+  justify-content: space-between;
+  z-index: 2;
+  transition: all 0.24s;
+`;
+export const ASMContainer = (
+  props: ASMColorsProps & { children: React.ReactNode }
+) => {
+  const { hideMenu } = useATHOSSideMenu();
+  return (
+    <ASMC
+      {...props}
+      width={hideMenu ? hidenMenuWidth : sideMenuWidth}
+      minWidth={hideMenu ? hidenMenuWidth : sideMenuWidth}
+    >
+      {props.children}
+    </ASMC>
+  );
+};
 export const ASMWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -24,13 +87,42 @@ export const ASMWrapper = styled.div`
   width: 100%;
 `;
 
-export const ASMOptionLabel = styled.label`
+export const IconLessLabel = styled.label`
+  font-size: 1.4rem;
+  font-weight: 800;
+  margin: 0;
+  padding: 0;
+  color: inherit;
+
+  //fade in when created
+  opacity: 0;
+  transition: opacity 0.14s;
+
+  animation: fadeIn 0.14s forwards;
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+`;
+
+export const ASMOptionLabel = styled.label<{ hide: boolean; hasIcon: boolean }>`
   font-size: 1.1rem;
   font-weight: 400;
   margin: 0;
   padding: 0;
   color: inherit;
   pointer-events: none;
+
+  transition: opacity 0.2s;
+
+  opacity: ${({ hide }) => (hide ? "0" : "1")};
+  position: ${({ hide, hasIcon }) =>
+    hide && !hasIcon ? "absolute" : "relative"};
 `;
 
 export const ASMSubOptionLabel = styled.label`
@@ -214,5 +306,16 @@ export const ASMArrowDown = styled(PiCaretDownBold)<{ clicked: boolean }>`
   margin-right: 0.2rem;
   transform: ${({ clicked }) => (clicked ? "rotate(180deg)" : "rotate(0deg)")};
   color: inherit;
+  transition: transform 0.14s;
+`;
+
+export const ASMArrowLeft = styled(PiCaretLeftBold)<{
+  clicked: boolean;
+  activeColor: string;
+}>`
+  pointer-events: none;
+  font-size: 0.6rem;
+  transform: ${({ clicked }) => (clicked ? "rotate(180deg)" : "rotate(0deg)")};
+  color: ${({ activeColor }) => getContrastColor(activeColor)};
   transition: transform 0.14s;
 `;

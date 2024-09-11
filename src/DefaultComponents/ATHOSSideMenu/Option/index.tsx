@@ -9,6 +9,7 @@ import {
   ASMOptionWrapper,
   ASMSubOptionsWrapper,
   defaulIconSize,
+  IconLessLabel,
   suboptheight,
 } from "../styled";
 
@@ -23,6 +24,7 @@ const ASMOption = ({
     selectOption,
     selectedDataTrack,
     props: { colors },
+    hideMenu,
   } = useATHOSSideMenu();
 
   const hasChildren = !(children == undefined || children == null);
@@ -31,9 +33,6 @@ const ASMOption = ({
     (sub) => sub.show
   );
   const childrenAmount = (children as any)?.length;
-
-  //calculation of the height of the children container
-
   const halfGap = "0.2rem";
   const childrenHeight = `calc((${suboptheight} * ${childrenAmount}) + ${halfGap})`;
 
@@ -50,7 +49,7 @@ const ASMOption = ({
         clicked={isOpen || hasSelectedChildren}
       >
         <ASMLabelIconWrapper>
-          {Icon && (
+          {Icon ? (
             <ASMIconWrapper iconSize={defaulIconSize}>
               <Icon
                 style={{
@@ -59,15 +58,23 @@ const ASMOption = ({
                 size={iconSize ?? defaulIconSize}
               />
             </ASMIconWrapper>
+          ) : (
+            hideMenu && (
+              <ASMIconWrapper iconSize={defaulIconSize}>
+                <IconLessLabel>{label[0]}</IconLessLabel>
+              </ASMIconWrapper>
+            )
           )}
 
-          <ASMOptionLabel>{label}</ASMOptionLabel>
+          <ASMOptionLabel hasIcon={Icon != undefined} hide={hideMenu}>
+            {label}
+          </ASMOptionLabel>
         </ASMLabelIconWrapper>
 
-        {children && <ASMArrowDown clicked={isOpen} />}
+        {children && !hideMenu && <ASMArrowDown clicked={isOpen} />}
       </ASMOptionWrapper>
 
-      {children && (
+      {children && !hideMenu && (
         <ASMSubOptionsWrapper ChildrenHeight={childrenHeight} isOpen={isOpen}>
           {children}
         </ASMSubOptionsWrapper>

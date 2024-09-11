@@ -1,14 +1,10 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { FaUser } from "react-icons/fa";
 import { MdOutlineAttachMoney } from "react-icons/md";
 import { PiGavelFill } from "react-icons/pi";
 import styled from "styled-components";
-import { v4 } from "uuid";
-import { ATHOSButton } from "./DefaultComponents/ATHOSButton";
-import ATHOSCards, { GroupI } from "./DefaultComponents/ATHOSCard";
+import { GroupI } from "./DefaultComponents/ATHOSCard";
 import ATHOSDynamicTable from "./DefaultComponents/ATHOSDynamicTable";
-import { ATHOSInput } from "./DefaultComponents/ATHOSInput";
-import { ATHOSSideMenu } from "./DefaultComponents/ATHOSSideMenu";
 import { ATHOSSideMenuDataI } from "./DefaultComponents/ATHOSSideMenu/interfaces";
 import { ATHOSColors } from "./DefaultComponents/colors/colors";
 
@@ -17,7 +13,7 @@ const Container = styled.div`
   /* align-items: center;
     height: 100%; */
   gap: 2rem;
-  padding: 2rem;
+  /*  padding: 2rem; */
   flex-direction: column;
   overflow: auto;
 `;
@@ -95,7 +91,7 @@ const TestPage = () => {
     id: string;
     numero: string;
     assunto: string;
-    status: string;
+    status: React.ReactNode;
   };
 
   const [tableData, setTableData] = useState<TableData[]>([
@@ -104,7 +100,7 @@ const TestPage = () => {
       numero: "0803174-22.2023.4.05.8400",
       assunto:
         "Contract Dispute Contract Dispute Contract Dispute Contract Dispute Contract Dispute",
-      status: "Open",
+      status: <div style={{ color: "red" }}>Open</div>,
     },
     {
       id: "2",
@@ -164,31 +160,88 @@ const TestPage = () => {
 
   return (
     <Wrapper>
-      <ATHOSSideMenu
-        colors={{
-          accent: "#aaaaaa",
-          active: "#cf1e94",
+      {/*  <div
+        style={{
+          height: "50%",
         }}
-        options={mockData}
-        onExit={() => {
-          console.log("exit");
-        }}
-      />
+      >
+        <ATHOSSideMenu
+          colors={{
+            accent: "#aaaaaa",
+            active: "#cf1e94",
+          }}
+          options={mockData}
+          onExit={() => {
+            console.log("exit");
+          }}
+        />
+      </div> */}
 
       <Container>
         <ATHOSDynamicTable
-          //resizeable
+          tableID="Tabe1"
           highlightColor={ATHOSColors.aqua.default}
           data={tableData}
           columnsToShow={["numero", "assunto", "status"]}
-          paddingBetweenRows={15}
+          paddingBetweenCells={15}
+          paddingHeader={15}
           colConfig={{
             numero: { label: "Numero do Processo" },
-            assunto: { label: "Assunto", maxWidth: 100 },
+            assunto: {
+              label: "Assunto",
+              maxWidth: 100,
+              minColWidthToShort: 200,
+              maxCharToCut: 20,
+              shortOnlyifCut: true,
+            },
           }}
-          minColWidthToShort={150}
         />
-        <Bwrapper>
+        <ATHOSDynamicTable
+          tableID="Tabe2"
+          highlightColor={ATHOSColors.aqua.default}
+          data={tableData}
+          columnsToHide={["assunto"]}
+          paddingBetweenCells={15}
+          paddingHeader={15}
+          colConfig={{
+            numero: {
+              label: "Numero do Processo",
+              component: (
+                <div
+                  style={{
+                    color: "red",
+                  }}
+                >
+                  Numero do Processo
+                </div>
+              ),
+            },
+          }}
+        />
+        <ATHOSDynamicTable
+          tableID="Table3"
+          highlightColor={ATHOSColors.aqua.default}
+          data={tableData}
+          columnsToHide={["assunto"]}
+          paddingBetweenCells={15}
+          paddingHeader={15}
+          colConfig={{
+            numero: {
+              label: "Numero do Processo",
+              component: (
+                <div
+                  style={{
+                    color: "red",
+                  }}
+                >
+                  Numero do Processo
+                </div>
+              ),
+            },
+          }}
+        />
+
+        {/*   <Bwrapper>
           <ATHOSButton type="default">Default</ATHOSButton>
           <ATHOSButton
             onClick={() => {
@@ -209,9 +262,9 @@ const TestPage = () => {
         </Bwrapper>
         <ATHOSInput />
         <ATHOSInput error={error} type="user" />
-        <ATHOSInput error={error} type="password" />
+        <ATHOSInput error={error} type="password" /> */}
       </Container>
-      <Container>
+      {/*  <Container>
         <ATHOSCards
           globalGroupStyle={
             {
@@ -261,7 +314,7 @@ const TestPage = () => {
         >
           Add Group
         </button>
-      </Container>
+      </Container> */}
     </Wrapper>
   );
 };

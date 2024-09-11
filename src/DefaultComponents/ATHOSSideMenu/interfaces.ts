@@ -27,7 +27,7 @@ export interface ASMOWProps {
   clickedColor?: string;
 }
 export interface ASMOptionProps {
-  Icon: IconType;
+  Icon?: IconType;
   iconSize?: string | number;
   label: string;
   children?: React.ReactNode;
@@ -64,6 +64,8 @@ export interface ATHOSSideMenuContextProps {
   selectedDataTrack: SelecetDataTrackI[];
   selectSubOption: (parentIndex: number, index: number) => void;
   props: ATHOSSideMenuProps;
+  hideMenu: boolean;
+  setHideMenu: (hide: boolean) => void;
 }
 
 export interface ATHOSSideMenuProps {

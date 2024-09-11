@@ -12,6 +12,7 @@ export const ADTColBorderWrapper = styled.div`
 export const ADTColumnWrapper = styled.th<{
   checkBox?: boolean;
   bRight?: boolean;
+  paddingHorizontal?: number;
 }>`
   font-size: 1rem;
   font-weight: 400;
@@ -20,9 +21,17 @@ export const ADTColumnWrapper = styled.th<{
   ${(props) =>
     props.bRight &&
     `
-    
+      
     padding-left: 0.8rem;
   `}
+
+  ${(props) =>
+    props.paddingHorizontal &&
+    `
+    padding-left: ${props.paddingHorizontal}px;
+    padding-right: ${props.paddingHorizontal}px;
+  `}
+
   ${(props) =>
     props.checkBox &&
     `
@@ -30,14 +39,31 @@ export const ADTColumnWrapper = styled.th<{
   `}
 `;
 
-export const ADTCellWrapper = styled.td<{ bRight?: boolean }>`
+export const ADTCellWrapper = styled.td<{
+  bRightLeft?: boolean;
+  vertPad?: number;
+  paddingHorizontal?: number;
+}>`
   font-size: 1rem;
   font-weight: 400;
   ${(props) =>
-    props.bRight &&
+    props.bRightLeft &&
     `
-   
     padding-left: 0.8rem;
+    padding-right: 0.8rem;
+    
+  `}
+  ${(props) =>
+    props.paddingHorizontal &&
+    `
+    padding-left: ${props.paddingHorizontal}px;
+    padding-right: ${props.paddingHorizontal}px;
+  `}
+  ${(props) =>
+    props.vertPad &&
+    `
+    padding-top: ${props.vertPad}px;
+    padding-bottom: ${props.vertPad}px;
   `}
 `;
 

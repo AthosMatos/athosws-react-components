@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import {
   ATHOSSideMenuContextProps,
   ATHOSSideMenuProps,
@@ -16,6 +16,7 @@ const ATHOSSideMenuProvider = ({
 
   props: ATHOSSideMenuProps;
 }) => {
+  const [hideMenu, setHideMenu] = useState(false);
   const [selectedDataTrack, setSelectedData] = useState<SelecetDataTrackI[]>(
     props.options.map((dt, index) => {
       return {
@@ -60,6 +61,10 @@ const ATHOSSideMenuProvider = ({
         };
       })
     );
+
+    if (clickedHasSubOptions && hideMenu) {
+      setHideMenu(false);
+    }
   };
 
   const selectSubOption = (parentIndex: number, index: number) => {
@@ -97,6 +102,23 @@ const ATHOSSideMenuProvider = ({
     );
   };
 
+  useEffect(() => {
+    if (hideMenu) {
+      setSelectedData(
+        selectedDataTrack.map((dt, i) => {
+          const hasSubOptions = dt.subOptions && dt.subOptions.length > 0;
+          if (hasSubOptions) {
+            return {
+              ...dt,
+              show: false,
+            };
+          }
+          return dt;
+        })
+      );
+    }
+  }, [hideMenu]);
+
   return (
     <ATHOSSideMenuContext.Provider
       value={{
@@ -104,6 +126,8 @@ const ATHOSSideMenuProvider = ({
         selectedDataTrack,
         selectSubOption,
         props,
+        hideMenu,
+        setHideMenu,
       }}
     >
       {children}

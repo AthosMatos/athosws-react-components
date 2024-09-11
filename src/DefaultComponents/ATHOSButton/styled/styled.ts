@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { ATHOSColors } from "../../colors/colors";
-import { generateColorShades } from "../../utils";
+import { generateColorShades, getContrastColor } from "../../utils";
 import { ATHOSButton_dftanim, ATHOSButton_dftprops } from "./defaults";
 
 interface ButtonsProps {
@@ -15,7 +15,8 @@ export const ATHOSButton_default = styled.div<ButtonsProps>`
       props.color
         ? generateColorShades(props.color).darker
         : ATHOSColors.grey.default};
-  color: ${(props) => props.textColor || `black`};
+  color: ${(props) =>
+    props.textColor || getContrastColor(props.color || "white")};
 
   ${ATHOSButton_dftprops}
   ${ATHOSButton_dftanim}
@@ -24,7 +25,8 @@ export const ATHOSButton_default = styled.div<ButtonsProps>`
 export const ATHOSButton_alt = styled.div<ButtonsProps>`
   background-color: ${(props) => props.color || "black"};
   outline: none;
-  color: ${(props) => props.textColor || `white`};
+  color: ${(props) =>
+    props.textColor || getContrastColor(props.color || "black")};
 
   ${ATHOSButton_dftprops}
   ${ATHOSButton_dftanim}
@@ -36,7 +38,9 @@ export const ATHOSButton_action = styled.div<ButtonsProps>`
       props.color
         ? generateColorShades(props.color).darker
         : ATHOSColors.aqua.dark};
-  color: ${(props) => props.textColor || `white`};
+  color: ${(props) =>
+    props.textColor ||
+    getContrastColor(props.color || ATHOSColors.aqua.default)};
 
   ${ATHOSButton_dftprops}
   ${ATHOSButton_dftanim}
@@ -52,7 +56,9 @@ export const ATHOSButton_action = styled.div<ButtonsProps>`
 export const ATHOSButton_disabled = styled.div<ButtonsProps>`
   background-color: ${(props) => props.color || ATHOSColors.grey.default};
   outline: none;
-  color: ${(props) => props.textColor || `white`};
+  color: ${(props) =>
+    props.textColor ||
+    getContrastColor(props.color || ATHOSColors.grey.default)};
 
   ${ATHOSButton_dftprops}
   cursor: not-allowed;
