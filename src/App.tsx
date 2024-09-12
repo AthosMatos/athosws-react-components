@@ -1,13 +1,14 @@
 import React, { useState } from "react";
-import { FaUser } from "react-icons/fa";
+import { FaPlus, FaUser } from "react-icons/fa";
 import { MdOutlineAttachMoney } from "react-icons/md";
 import { PiGavelFill } from "react-icons/pi";
 import styled from "styled-components";
 import "./App.css";
-import { GroupI } from "./DefaultComponents/ATHOSCard";
-import { ATHOSSideMenu } from "./DefaultComponents/ATHOSSideMenu";
-import { ATHOSSideMenuDataI } from "./DefaultComponents/ATHOSSideMenu/interfaces";
-import { ATHOSColors } from "./DefaultComponents/colors/colors";
+import { GroupI } from "./Module/ATHOSCard";
+import { ATHOSDynamicTable } from "./Module/ATHOSDynamicTable";
+import { ATHOSSideMenu } from "./Module/ATHOSSideMenu";
+import { ATHOSSideMenuDataI } from "./Module/ATHOSSideMenu/interfaces";
+import { ATHOSColors } from "./Module/colors/colors";
 const Container = styled.div`
   display: flex;
   /* align-items: center;
@@ -173,7 +174,14 @@ const TestPage = () => {
       />
 
       <Container>
-        {/* <ATHOSDynamicTable
+        <ATHOSDynamicTable
+          //resizeable
+          extraColumns={[
+            {
+              //showCondition: (data) => data.status === "Open",
+              component: <FaPlus />,
+            },
+          ]}
           tableID="Tabe1"
           highlightColor={ATHOSColors.aqua.default}
           data={tableData}
@@ -194,7 +202,16 @@ const TestPage = () => {
             mainFunc: {
               label: "Fazer Peça",
               onClick: (selectedData) => {
-                console.log("main function", selectedData);
+                //console.log("main function", selectedData);
+                //remove the selected data from the tableData based on id
+                const td = [...tableData];
+                const newTd = td.filter((data) => {
+                  return !selectedData.some(
+                    (selected) => selected.id === data.id
+                  );
+                });
+                //console.log(newTd);
+                setTableData(newTd);
               },
             },
             othersFunc: [
@@ -213,6 +230,7 @@ const TestPage = () => {
             ],
           }}
         />
+        {/* 
         <ATHOSDynamicTable
           tableID="Tabe2"
           highlightColor={ATHOSColors.aqua.default}

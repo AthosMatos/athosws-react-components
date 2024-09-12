@@ -1,6 +1,31 @@
 import "./index.css";
 
-export { ATHOSButton as Button } from "./DefaultComponents/ATHOSButton";
-export { ATHOSInput as Input } from "./DefaultComponents/ATHOSInput";
-export { ATHOSSideMenu as SiedMenu } from "./DefaultComponents/ATHOSSideMenu";
-export { ATHOSTooltip as ToolTip } from "./DefaultComponents/ATHOSTooltip";
+/* Components */
+
+export { ATHOSButton } from "./Module/ATHOSButton";
+export { ATHOSDropDown } from "./Module/ATHOSDropDown";
+export { ATHOSDynamicTable } from "./Module/ATHOSDynamicTable";
+export { ATHOSInput } from "./Module/ATHOSInput";
+export { ATHOSResizableDiv } from "./Module/ATHOSResizableDiv";
+export { ATHOSSideMenu } from "./Module/ATHOSSideMenu";
+export { ATHOSToast } from "./Module/ATHOSToast";
+export { ATHOSTooltip } from "./Module/ATHOSTooltip";
+/* Utils */
+
+export {
+  generateColorShades,
+  getContrastColor,
+} from "./Module/utils/color-utils";
+
+export {
+  adaptSize,
+  convertRemToPixels,
+  getUnitWithoutValue,
+  getValueWithoutUnit,
+} from "./Module/utils/measure-utils";
+
+export { ATHOSColors } from "./Module/colors/colors";
+
+/* Hooks */
+
+export { useClickOutside } from "./Module/hooks/useClickOutside";
