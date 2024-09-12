@@ -1,4 +1,4 @@
-import { useATHOSSideMenu } from "../context";
+/* import { useATHOSSideMenu } from "../context";
 import {
   ASMArrowLeft,
   ASMMenuHiderWrapper,
@@ -13,7 +13,7 @@ interface ASMMenuHiderProps {
 }
 
 const ASMMenuHider = (props: ASMMenuHiderProps) => {
-  const { hideMenu, setHideMenu } = useATHOSSideMenu();
+  const { props:{hideMenu,setHideMenu} } = useATHOSSideMenu();
 
   return (
     <ASMMenuHiderWrapper
@@ -32,3 +32,4 @@ const ASMMenuHider = (props: ASMMenuHiderProps) => {
 };
 
 export default ASMMenuHider;
+ */

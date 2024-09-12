@@ -5,11 +5,31 @@ export type GlobalConfig = {
   minWidth?: number;
   minColWidthToShort?: number;
   shortOnlyifCut?: boolean;
-  component?: React.ReactNode;
+  colComponent?: React.ReactNode;
+  cellComponent?: (cell: string) => React.ReactNode;
 };
 
 export type ColConfig<T> = {
   [key in keyof T]?: GlobalConfig;
+};
+
+export type ADTLabelI<T> = {
+  label: string;
+  onClick: (selectedData: T[]) => void;
+};
+
+export type SelectedRowsTooltipI<T> = {
+  mainFunc?: {
+    label?: string;
+    icon?: React.ReactNode;
+    onClick: (selectedData: T[]) => void;
+  };
+  secondaryFunc?: {
+    label?: string;
+    icon?: React.ReactNode;
+    onClick: (selectedData: T[]) => void;
+  };
+  othersFunc?: ADTLabelI<T>[];
 };
 
 export type DynamicTableProps<T> = {
@@ -25,6 +45,7 @@ export type DynamicTableProps<T> = {
   paddingBetweenCells?: number;
   paddingHeader?: number;
   paddingBetweenColumns?: number;
+  selectedRowsTooltip?: SelectedRowsTooltipI<T>;
 };
 
 export interface ColumnsProps<T> {

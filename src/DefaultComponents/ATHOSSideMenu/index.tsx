@@ -1,7 +1,5 @@
-import { createRef, useEffect, useState } from "react";
 import { GoSignOut } from "react-icons/go";
 import ASMExitOption from "./ExitOption";
-import ASMMenuHider from "./MenuHider";
 import ASMOption from "./Option";
 import ASMSubOption from "./SubOption";
 import { ATHOSSideMenuProvider } from "./context";
@@ -13,28 +11,27 @@ import { ASMContainer, ASMExtraContainer, ASMWrapper } from "./styled";
  */
 
 export const ATHOSSideMenu = (props: ATHOSSideMenuProps) => {
-  const [extraContainerHeight, setExtraContainerHeight] = useState<number>();
+  /* const [extraContainerHeight, setExtraContainerHeight] = useState<number>();
   const extraContainerRef = createRef<HTMLDivElement>();
 
   useEffect(() => {
     if (extraContainerRef.current) {
-      console.log(extraContainerRef.current.clientHeight);
       setExtraContainerHeight(extraContainerRef.current.clientHeight);
     }
-  }, [extraContainerRef]);
+  }, [extraContainerRef]); */
 
   return (
     <ATHOSSideMenuProvider props={props}>
       <ASMExtraContainer
         accentColor={props.colors.accent}
-        ref={extraContainerRef}
+        //ref={extraContainerRef}
       >
-        {extraContainerHeight && (
+        {/* {extraContainerHeight && (
           <ASMMenuHider
             color={props.colors.accent}
             extraContainerHeight={extraContainerHeight}
           />
-        )}
+        )} */}
 
         <ASMContainer
           accentColor={props.colors.accent}
@@ -63,9 +60,9 @@ export const ATHOSSideMenu = (props: ATHOSSideMenuProps) => {
           </ASMWrapper>
           {props.onExit && (
             <ASMExitOption
-              onClick={props.onExit}
-              Icon={GoSignOut}
-              label={"Sair"}
+              onClick={props.onExit.onClick}
+              Icon={props.onExit.Icon ?? GoSignOut}
+              label={props.onExit.label}
             />
           )}
         </ASMContainer>

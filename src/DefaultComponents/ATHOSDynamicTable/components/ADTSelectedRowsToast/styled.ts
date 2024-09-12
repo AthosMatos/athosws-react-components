@@ -1,6 +1,37 @@
 import styled from "styled-components";
 import { generateColorShades, getContrastColor } from "../../../utils";
 
+/* 
+export const ATWrapper = styled(motion.div)`
+  position: fixed;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 14px;
+  padding: 8px 14px;
+  border-radius: 8px;
+  pointer-events: auto;
+  transition: all 0.14s;
+
+  box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.4);
+
+  background-color: white;
+`;
+*/
+
+export const ADTATWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 14px;
+  padding: 8px 14px;
+  border-radius: 8px;
+
+  box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.4);
+
+  background-color: white;
+`;
+
 export const ADTSRTFSWrapper = styled.div`
   display: flex;
   flex-direction: row;
@@ -8,24 +39,25 @@ export const ADTSRTFSWrapper = styled.div`
   gap: 10px;
 `;
 
-export const ADTSRTIconWrapper = styled.div`
+export const ADTSRTIconWrapper = styled.div<{ backColor: string; pad: number }>`
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 8px;
+  padding: ${(props) => props.pad}px;
   border-radius: 6px;
   cursor: pointer;
-  background-color: #f3f3f3;
-  outline: 1px solid #e0e0e0;
+  background-color: ${(props) => props.backColor};
+  /* outline: 1px solid ${(props) =>
+    generateColorShades(props.backColor).dark}; */
   user-select: none;
-
+  box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.2);
   transition: all 0.14s;
   &:active {
     transform: scale(0.92);
   }
 
   &:hover {
-    background-color: #e0e0e0;
+    background-color: ${(props) => generateColorShades(props.backColor).dark};
   }
 `;
 

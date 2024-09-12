@@ -6,6 +6,7 @@ import { useADTContext } from "../../context";
 import { ADTBRDSimple } from "../ADTBorder";
 import ADTCheckBox from "../ADTCheckBox";
 import {
+  ADTATWrapper,
   ADTSRTFSWrapper,
   ADTSRTIconWrapper,
   ADTSRTLabel,
@@ -16,67 +17,111 @@ const ADTSelectedRowsToast = () => {
   const {
     selectData,
     uncheckAll,
-    props: { tableID, highlightColor },
+    props: { tableID, highlightColor, selectedRowsTooltip, data },
   } = useADTContext();
 
   const [openDropDown, setOpenDropDown] = useState(false);
 
   const onDismiss = () => {
-    uncheckAll();
+    setTimeout(() => {
+      uncheckAll();
+    }, 5);
     setOpenDropDown(false);
   };
 
-  /* 
-   useEffect(() => {
-    verifyPos(selectData.selectedRows.length == 0);
-  }, [selectData.selectedRows]);
-
-  return (
-    <AnimatePresence>
-      {selectData.selectedRows.length > 0 && (
-  */
   return (
     <ATHOSToast
+      position="bottom-right"
       updateState={selectData.selectedRows}
       renderCondition={selectData.selectedRows.length > 0}
-      removeOnUpdateCondition={selectData.selectedRows.length == 0}
+      removeCondition={selectData.selectedRows.length == 0}
       id={tableID}
     >
-      <ADTSRTFSWrapper>
-        <ADTCheckBox
-          clicable={false}
-          big
-          checked={selectData.checkState == 0 ? true : selectData.checkState}
-          check={() => {}}
-        />
-        <ADTSRTLabel>{selectData.selectedRows.length} Items</ADTSRTLabel>
-      </ADTSRTFSWrapper>
-      <ADTBRDSimple w={1} h={20} />
-      <ADTSRTLabel>{tableID}</ADTSRTLabel>
-      <ADTBRDSimple w={1} h={20} />
-      <ADTSRTMainFunc highlightColor={highlightColor!}>
-        Main Func
-      </ADTSRTMainFunc>
-      <ATHOSDropDown
-        id={tableID}
-        positionVert="top"
-        positionHor="left"
-        open={openDropDown}
-      >
-        {(ref) => (
-          <ADTSRTIconWrapper
-            ref={ref}
-            onClick={() => {
-              setOpenDropDown(!openDropDown);
-            }}
-          >
-            <IoMenu />
-          </ADTSRTIconWrapper>
+      <ADTATWrapper>
+        <ADTSRTFSWrapper>
+          <ADTCheckBox
+            clicable={false}
+            big
+            checked={selectData.checkState == 0 ? true : selectData.checkState}
+            check={() => {}}
+          />
+          <ADTSRTLabel>{selectData.selectedRows.length} Items</ADTSRTLabel>
+        </ADTSRTFSWrapper>
+        <ADTBRDSimple w={1} h={20} />
+        <ADTSRTLabel>{tableID}</ADTSRTLabel>
+        <ADTBRDSimple w={1} h={20} />
+
+        {(selectedRowsTooltip?.mainFunc ||
+          selectedRowsTooltip?.secondaryFunc ||
+          selectedRowsTooltip?.othersFunc) && (
+          <ADTSRTFSWrapper>
+            {selectedRowsTooltip?.mainFunc && (
+              <ADTSRTMainFunc
+                onClick={() => {
+                  selectedRowsTooltip.mainFunc!.onClick(
+                    selectData.selectedRows.map((index) => data[index])
+                  );
+                }}
+                highlightColor={highlightColor!}
+              >
+                {selectedRowsTooltip.mainFunc.label}
+              </ADTSRTMainFunc>
+            )}
+            {selectedRowsTooltip?.secondaryFunc && (
+              <ADTSRTIconWrapper
+                pad={8}
+                backColor="#f3f3f3"
+                onClick={() => {
+                  selectedRowsTooltip.secondaryFunc!.onClick(
+                    selectData.selectedRows.map((index) => data[index])
+                  );
+                }}
+              >
+                {selectedRowsTooltip.secondaryFunc.label ??
+                  selectedRowsTooltip.secondaryFunc.icon}
+              </ADTSRTIconWrapper>
+            )}
+
+            {selectedRowsTooltip?.othersFunc && (
+              <ATHOSDropDown
+                close={() => {
+                  setOpenDropDown(false);
+                }}
+                labels={selectedRowsTooltip.othersFunc.map((func) => {
+                  return {
+                    label: func.label,
+                    onClick: () => {
+                      func.onClick(
+                        selectData.selectedRows.map((index) => data[index])
+                      );
+                    },
+                  };
+                })}
+                id={tableID}
+                positionVert="top"
+                positionHor="left"
+                open={openDropDown}
+              >
+                {(ref) => (
+                  <ADTSRTIconWrapper
+                    pad={8}
+                    backColor="#f3f3f3"
+                    ref={ref}
+                    onClick={() => {
+                      setOpenDropDown(!openDropDown);
+                    }}
+                  >
+                    <IoMenu />
+                  </ADTSRTIconWrapper>
+                )}
+              </ATHOSDropDown>
+            )}
+          </ADTSRTFSWrapper>
         )}
-      </ATHOSDropDown>
-      <ADTSRTIconWrapper onClick={onDismiss}>
-        <IoClose />
-      </ADTSRTIconWrapper>
+        <ADTSRTIconWrapper pad={5} backColor="#EE3131" onClick={onDismiss}>
+          <IoClose color="white" />
+        </ADTSRTIconWrapper>
+      </ADTATWrapper>
     </ATHOSToast>
   );
 };

@@ -3,11 +3,11 @@ import { FaUser } from "react-icons/fa";
 import { MdOutlineAttachMoney } from "react-icons/md";
 import { PiGavelFill } from "react-icons/pi";
 import styled from "styled-components";
+import "./App.css";
 import { GroupI } from "./DefaultComponents/ATHOSCard";
-import ATHOSDynamicTable from "./DefaultComponents/ATHOSDynamicTable";
+import { ATHOSSideMenu } from "./DefaultComponents/ATHOSSideMenu";
 import { ATHOSSideMenuDataI } from "./DefaultComponents/ATHOSSideMenu/interfaces";
 import { ATHOSColors } from "./DefaultComponents/colors/colors";
-
 const Container = styled.div`
   display: flex;
   /* align-items: center;
@@ -100,7 +100,7 @@ const TestPage = () => {
       numero: "0803174-22.2023.4.05.8400",
       assunto:
         "Contract Dispute Contract Dispute Contract Dispute Contract Dispute Contract Dispute",
-      status: <div style={{ color: "red" }}>Open</div>,
+      status: "Open",
     },
     {
       id: "2",
@@ -160,25 +160,20 @@ const TestPage = () => {
 
   return (
     <Wrapper>
-      {/*  <div
-        style={{
-          height: "50%",
+      <ATHOSSideMenu
+        colors={{
+          accent: "#aaaaaa",
+          active: "#cf1e94",
         }}
-      >
-        <ATHOSSideMenu
-          colors={{
-            accent: "#aaaaaa",
-            active: "#cf1e94",
-          }}
-          options={mockData}
-          onExit={() => {
-            console.log("exit");
-          }}
-        />
-      </div> */}
+        options={mockData}
+        onExit={{
+          label: "Sair",
+          onClick: () => console.log("Sair"),
+        }}
+      />
 
       <Container>
-        <ATHOSDynamicTable
+        {/* <ATHOSDynamicTable
           tableID="Tabe1"
           highlightColor={ATHOSColors.aqua.default}
           data={tableData}
@@ -195,6 +190,28 @@ const TestPage = () => {
               shortOnlyifCut: true,
             },
           }}
+          selectedRowsTooltip={{
+            mainFunc: {
+              label: "Fazer Peça",
+              onClick: (selectedData) => {
+                console.log("main function", selectedData);
+              },
+            },
+            othersFunc: [
+              {
+                label: "Enviar Email",
+                onClick: (selectedData) => {
+                  console.log("others function", selectedData);
+                },
+              },
+              {
+                label: "Print",
+                onClick: (selectedData) => {
+                  console.log("others function", selectedData);
+                },
+              },
+            ],
+          }}
         />
         <ATHOSDynamicTable
           tableID="Tabe2"
@@ -206,15 +223,17 @@ const TestPage = () => {
           colConfig={{
             numero: {
               label: "Numero do Processo",
-              component: (
-                <div
-                  style={{
-                    color: "red",
-                  }}
-                >
-                  Numero do Processo
-                </div>
-              ),
+              cellComponent: (cell) => {
+                return (
+                  <div
+                    style={{
+                      color: "red",
+                    }}
+                  >
+                    {cell}
+                  </div>
+                );
+              },
             },
           }}
         />
@@ -228,7 +247,7 @@ const TestPage = () => {
           colConfig={{
             numero: {
               label: "Numero do Processo",
-              component: (
+              colComponent: (
                 <div
                   style={{
                     color: "red",
@@ -239,7 +258,7 @@ const TestPage = () => {
               ),
             },
           }}
-        />
+        /> */}
 
         {/*   <Bwrapper>
           <ATHOSButton type="default">Default</ATHOSButton>

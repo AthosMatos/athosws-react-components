@@ -69,7 +69,9 @@ const ASMC = styled.div<ASMColorsProps & { width: string; minWidth: string }>`
 export const ASMContainer = (
   props: ASMColorsProps & { children: React.ReactNode }
 ) => {
-  const { hideMenu } = useATHOSSideMenu();
+  const {
+    props: { hideMenu },
+  } = useATHOSSideMenu();
   return (
     <ASMC
       {...props}
@@ -110,7 +112,10 @@ export const IconLessLabel = styled.label`
   }
 `;
 
-export const ASMOptionLabel = styled.label<{ hide: boolean; hasIcon: boolean }>`
+export const ASMOptionLabel = styled.label<{
+  hide?: boolean;
+  hasIcon: boolean;
+}>`
   font-size: 1.1rem;
   font-weight: 400;
   margin: 0;

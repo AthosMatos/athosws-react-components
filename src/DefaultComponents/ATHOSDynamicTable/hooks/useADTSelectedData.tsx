@@ -35,15 +35,12 @@ const useADTSelectedData = ({ pageSize }: useADTSelectedDataProps) => {
     (dataAmount: number) => {
       switch (checkState) {
         case 0:
-          console.log("checkAll");
           checkAll(dataAmount);
           break;
         case 1:
-          console.log("pageCheck");
           pageCheck();
           break;
         case 2:
-          console.log("uncheckAll");
           uncheckAll();
           break;
         default:

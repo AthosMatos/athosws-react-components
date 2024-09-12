@@ -29,6 +29,7 @@ const ADTCellColumn = ({ row, column }: { row: any; column: string }) => {
     : false;
 
   useEffect(() => {
+    if (colConfig && colConfig[column]?.cellComponent) return;
     if (!columnsIDs || !MCWTS) return;
     const DTColDiv = document.getElementById(columnsIDs[column]);
     if (!DTColDiv) return;
@@ -76,8 +77,12 @@ const ADTCellColumn = ({ row, column }: { row: any; column: string }) => {
       float
       content={row[column]}
     >
-      {rowValue}
+      {colConfig && colConfig[column]?.cellComponent
+        ? colConfig[column]?.cellComponent(rowValue)
+        : rowValue}
     </ATHOSTooltip>
+  ) : colConfig && colConfig[column]?.cellComponent ? (
+    colConfig[column]?.cellComponent(rowValue)
   ) : (
     rowValue
   );

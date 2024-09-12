@@ -23,8 +23,7 @@ const ASMOption = ({
   const {
     selectOption,
     selectedDataTrack,
-    props: { colors },
-    hideMenu,
+    props: { colors, hideMenu },
   } = useATHOSSideMenu();
 
   const hasChildren = !(children == undefined || children == null);

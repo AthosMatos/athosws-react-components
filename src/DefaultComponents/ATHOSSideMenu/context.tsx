@@ -13,10 +13,8 @@ const ATHOSSideMenuProvider = ({
   props,
 }: {
   children: React.ReactNode;
-
   props: ATHOSSideMenuProps;
 }) => {
-  const [hideMenu, setHideMenu] = useState(false);
   const [selectedDataTrack, setSelectedData] = useState<SelecetDataTrackI[]>(
     props.options.map((dt, index) => {
       return {
@@ -62,8 +60,8 @@ const ATHOSSideMenuProvider = ({
       })
     );
 
-    if (clickedHasSubOptions && hideMenu) {
-      setHideMenu(false);
+    if (clickedHasSubOptions && props.hideMenu) {
+      props.setHideMenu(false);
     }
   };
 
@@ -103,7 +101,7 @@ const ATHOSSideMenuProvider = ({
   };
 
   useEffect(() => {
-    if (hideMenu) {
+    if (props.hideMenu) {
       setSelectedData(
         selectedDataTrack.map((dt, i) => {
           const hasSubOptions = dt.subOptions && dt.subOptions.length > 0;
@@ -117,7 +115,7 @@ const ATHOSSideMenuProvider = ({
         })
       );
     }
-  }, [hideMenu]);
+  }, [props.hideMenu]);
 
   return (
     <ATHOSSideMenuContext.Provider
@@ -126,8 +124,6 @@ const ATHOSSideMenuProvider = ({
         selectedDataTrack,
         selectSubOption,
         props,
-        hideMenu,
-        setHideMenu,
       }}
     >
       {children}

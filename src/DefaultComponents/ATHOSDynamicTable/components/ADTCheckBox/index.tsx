@@ -15,7 +15,6 @@ const ADTCheckBox = ({ checked, check, big, clicable }: ADTCheckBoxProps) => {
       highlightColor={highlightColor!}
       checkedState={checked}
       onClick={() => {
-        console.log("clicked");
         check();
       }}
     >

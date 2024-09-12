@@ -64,12 +64,14 @@ export interface ATHOSSideMenuContextProps {
   selectedDataTrack: SelecetDataTrackI[];
   selectSubOption: (parentIndex: number, index: number) => void;
   props: ATHOSSideMenuProps;
-  hideMenu: boolean;
-  setHideMenu: (hide: boolean) => void;
 }
 
-export interface ATHOSSideMenuProps {
-  onExit?: () => void;
+export interface ATHOSSideMenuBaseProps {
+  onExit?: {
+    onClick: () => void;
+    Icon?: IconType;
+    label: string;
+  };
   goToFirstSubOnOpen?: boolean;
   options: ATHOSSideMenuDataI[];
   colors: {
@@ -78,3 +80,17 @@ export interface ATHOSSideMenuProps {
     background?: string;
   };
 }
+
+export interface ATHOSSideMenuWithHideProps extends ATHOSSideMenuBaseProps {
+  hideMenu: true;
+  setHideMenu: (hide: boolean) => void;
+}
+
+export interface ATHOSSideMenuWithoutHideProps extends ATHOSSideMenuBaseProps {
+  hideMenu?: false;
+  setHideMenu?: never;
+}
+
+export type ATHOSSideMenuProps =
+  | ATHOSSideMenuWithHideProps
+  | ATHOSSideMenuWithoutHideProps;

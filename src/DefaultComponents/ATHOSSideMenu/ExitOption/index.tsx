@@ -24,8 +24,7 @@ const ASMExitOption = ({
   onClick,
 }: ASMOptionProps) => {
   const {
-    props: { colors },
-    hideMenu,
+    props: { colors, hideMenu },
   } = useATHOSSideMenu();
   return (
     <ASMOptionWrapper

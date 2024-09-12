@@ -32,8 +32,8 @@ const ADTColumns = () => {
       {columns.map((column: any, index) => {
         let value: React.ReactNode = column;
         if (colConfig) {
-          if (colConfig[column]?.component) {
-            value = colConfig[column]?.component;
+          if (colConfig[column]?.colComponent) {
+            value = colConfig[column]?.colComponent;
           } else if (colConfig[column]?.label) {
             value = colConfig[column]?.label;
           }

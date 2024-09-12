@@ -1,54 +1,8 @@
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import ReactDOM from "react-dom";
-import styled from "styled-components";
-
-interface ATHOSDropDownProps {
-  children: (ref: any) => React.ReactNode;
-  open: boolean;
-  positionVert?: "top" | "bottom";
-  positionHor?: "left" | "right";
-  id: string;
-}
-type ChildSize = {
-  top?: number | string;
-  left?: number | string;
-  right?: number | string;
-  bottom?: number | string;
-  transform?: string;
-};
-
-type ADDContainerProps = {
-  top?: number | string;
-  left?: number | string;
-  right?: number | string;
-  bottom?: number | string;
-  width?: number | string;
-  height?: number | string;
-  opacity?: number;
-  transform?: string;
-};
-const ADDContainer = styled(motion.div)<ADDContainerProps>`
-  position: fixed;
-  top: ${({ top }) => top};
-  left: ${({ left }) => left};
-  right: ${({ right }) => right};
-  bottom: ${({ bottom }) => bottom};
-  opacity: ${({ opacity }) => opacity};
-  transform: ${({ transform }) => transform};
-  will-change: transform;
-  background-color: red;
-
-  z-index: 9999;
-`;
-
-const ADDChildWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  padding: 10px;
-  width: max-content;
-`;
+import { ATHOSDropDownProps, ChildSize } from "./interfaces";
+import { ADDChildWrapper, ADDContainer, ADDLabel } from "./styled";
 
 const ATHOSDropDown = ({
   children,
@@ -56,9 +10,12 @@ const ATHOSDropDown = ({
   positionVert,
   positionHor,
   id,
+  labels,
+  close,
 }: ATHOSDropDownProps) => {
   const [childSize, setChildSize] = useState<ChildSize>();
   const childRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const DDid = `${id}-ATHOSDropDown`;
   const gap = 10;
   const [dropdownRoot, setDropdownRoot] = useState<HTMLElement | null>(null);
@@ -119,6 +76,26 @@ const ATHOSDropDown = ({
     };
   }, []);
 
+  useEffect(() => {
+    //if click is outside the container, close the dropdown
+    const handleClick = (e: MouseEvent) => {
+      if (
+        containerRef.current &&
+        childRef.current &&
+        !containerRef.current.contains(e.target as Node) &&
+        !childRef.current.contains(e.target as Node)
+      ) {
+        close();
+      }
+    };
+
+    document.addEventListener("click", handleClick);
+
+    return () => {
+      document.removeEventListener("click", handleClick);
+    };
+  }, []);
+
   // If dropdownRoot is null, don't render anything yet
   if (!dropdownRoot) return null;
 
@@ -128,6 +105,7 @@ const ATHOSDropDown = ({
         <AnimatePresence>
           {open && (
             <ADDContainer
+              ref={containerRef}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -139,9 +117,9 @@ const ATHOSDropDown = ({
               transform={childSize?.transform}
             >
               <ADDChildWrapper>
-                <label>Secondary Func</label>
-                <label>Secondary Func</label>
-                <label>Secondary Func</label>
+                {labels.map((label) => (
+                  <ADDLabel onClick={label.onClick}>{label.label}</ADDLabel>
+                ))}
               </ADDChildWrapper>
             </ADDContainer>
           )}

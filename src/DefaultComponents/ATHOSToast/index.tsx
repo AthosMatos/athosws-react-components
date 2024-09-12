@@ -5,27 +5,18 @@ import styled from "styled-components";
 
 export const ATWrapper = styled(motion.div)`
   position: fixed;
-  right: 10px;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 14px;
-  padding: 8px 14px;
-  border-radius: 8px;
   pointer-events: auto;
   transition: all 0.14s;
-
-  box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.4);
-
-  background-color: white;
 `;
 
 interface ATHOSToastProps {
   id: string;
   updateState: any;
-  removeOnUpdateCondition?: boolean;
+  removeCondition?: boolean;
   renderCondition: boolean;
   children: React.ReactNode;
+  position?: "top-right" | "top-left" | "bottom-right" | "bottom-left";
+  gap?: number;
 }
 
 const ATHOSToast = ({
@@ -33,7 +24,9 @@ const ATHOSToast = ({
   updateState,
   children,
   renderCondition,
-  removeOnUpdateCondition,
+  removeCondition: removeOnUpdateCondition,
+  position = "top-right",
+  gap = 5,
 }: ATHOSToastProps) => {
   const toasDftID = `athos-toast`;
   const toastID = `${ID}-${toasDftID}`;
@@ -42,15 +35,18 @@ const ATHOSToast = ({
   const verifyPos = (remove?: boolean) => {
     //select all that have toasDftID
     const toastElements = document.querySelectorAll(`[id*=${toasDftID}]`);
-    console.log("toastElements", toastElements);
     //organize the toast elements in the screen
     let offset = 10;
     toastElements.forEach((element) => {
       if (remove && element.id == toastID) {
         return;
       }
-      (element as HTMLElement).style.bottom = `${offset}px`;
-      offset += element.clientHeight + 10;
+      if (position.includes("top")) {
+        (element as HTMLElement).style.top = `${offset}px`;
+      } else {
+        (element as HTMLElement).style.bottom = `${offset}px`;
+      }
+      offset += element.clientHeight + gap;
     });
   };
 
@@ -81,9 +77,15 @@ const ATHOSToast = ({
     <AnimatePresence>
       {renderCondition && (
         <ATWrapper
+          style={{
+            right: position.includes("right") ? gap * 2 : undefined,
+            left: position.includes("left") ? gap * 2 : undefined,
+          }}
           initial={{
             opacity: 0,
-            transform: "translate3d(0, 100%, 0)",
+            transform: `translate3d(0, ${
+              position.includes("top") ? -100 : 100
+            }%, 0)`,
           }}
           animate={{
             opacity: 1,
@@ -91,7 +93,9 @@ const ATHOSToast = ({
           }}
           exit={{
             opacity: 0,
-            transform: "translate3d(0, 100%, 0)",
+            transform: `translate3d(0, ${
+              position.includes("top") ? -100 : 100
+            }%, 0)`,
           }}
           id={toastID}
         >
