@@ -37,6 +37,10 @@ export type ExtraColumnsI<T> = {
   component: React.ReactNode;
 };
 
+export type StartShortI<T> = {
+  [key in keyof T]?: boolean;
+};
+
 export type DynamicTableProps<T> = {
   tableID: string;
   data: T[];
@@ -50,8 +54,10 @@ export type DynamicTableProps<T> = {
   paddingBetweenCells?: number;
   paddingHeader?: number;
   paddingBetweenColumns?: number;
+  paddingBetweenExtraColumns?: number;
   selectedRowsTooltip?: SelectedRowsTooltipI<T>;
   extraColumns?: ExtraColumnsI<T>[];
+  startShort?: StartShortI<T> | boolean;
 };
 
 export interface ColumnsProps<T> {

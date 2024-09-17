@@ -7,6 +7,7 @@ import { ATHOSButton_dftanim, ATHOSButton_dftprops } from "./defaults";
 interface ButtonsProps {
   color?: string;
   textColor?: string;
+  small?: boolean;
 }
 
 export const ATHOSButton_default = styled.div<ButtonsProps>`
@@ -20,6 +21,12 @@ export const ATHOSButton_default = styled.div<ButtonsProps>`
     props.textColor || getContrastColor(props.color || "white")};
 
   ${ATHOSButton_dftprops}
+  ${(props) =>
+    props.small &&
+    `
+    padding: 0.4rem;
+    font-size: 0.95rem;
+  `}
   ${ATHOSButton_dftanim}
 `;
 
@@ -30,6 +37,12 @@ export const ATHOSButton_alt = styled.div<ButtonsProps>`
     props.textColor || getContrastColor(props.color || "black")};
 
   ${ATHOSButton_dftprops}
+  ${(props) =>
+    props.small &&
+    `
+    padding: 0.4rem;
+    font-size: 0.95rem;
+  `}
   ${ATHOSButton_dftanim}
 `;
 export const ATHOSButton_action = styled.div<ButtonsProps>`
@@ -44,6 +57,12 @@ export const ATHOSButton_action = styled.div<ButtonsProps>`
     getContrastColor(props.color || ATHOSColors.aqua.default)};
 
   ${ATHOSButton_dftprops}
+  ${(props) =>
+    props.small &&
+    `
+    padding: 0.4rem;
+    font-size: 0.95rem;
+  `}
   ${ATHOSButton_dftanim}
 
     &:hover {
@@ -62,5 +81,11 @@ export const ATHOSButton_disabled = styled.div<ButtonsProps>`
     getContrastColor(props.color || ATHOSColors.grey.default)};
 
   ${ATHOSButton_dftprops}
+  ${(props) =>
+    props.small &&
+    `
+    padding: 0.4rem;
+    font-size: 0.95rem;
+  `}
   cursor: not-allowed;
 `;

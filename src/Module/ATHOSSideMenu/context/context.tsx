@@ -1,9 +1,8 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import {
-  ATHOSSideMenuContextProps,
-  ATHOSSideMenuProps,
-  SelecetDataTrackI,
-} from "./interfaces";
+import { v4 } from "uuid";
+import { SelectedDataTrackOptI } from "../ASM/Options/Option/interfaces";
+import { ATHOSSideMenuProps } from "../interfaces";
+import { ATHOSSideMenuContextProps } from "./interfaces";
 
 const ATHOSSideMenuContext = createContext<ATHOSSideMenuContextProps | null>(
   null
@@ -15,14 +14,26 @@ const ATHOSSideMenuProvider = ({
   children: React.ReactNode;
   props: ATHOSSideMenuProps;
 }) => {
-  const [selectedDataTrack, setSelectedData] = useState<SelecetDataTrackI[]>(
-    props.options.map((dt, index) => {
+  const dropId = "athos-side-menu-drop-area";
+  const [hideMenu, setHideMenu] = useState(false);
+  const [editing, setEditing] = useState(false);
+
+  const [selectedDataTrack, setSelectedData] = useState<
+    SelectedDataTrackOptI[]
+  >(
+    props.options.map((dt) => {
+      const index = v4();
       return {
+        id: `${dt.label}-${index}`,
         label: dt.label,
         onClick: dt.onClick,
         show: false,
+        Icon: dt.Icon,
+        iconSize: dt.iconSize,
         subOptions: dt.subOptions?.map((sub) => {
+          const subIndex = v4();
           return {
+            id: `${dt.label}-${sub.label}-${subIndex}`,
             label: sub.label,
             onClick: sub.onClick,
             show: false,
@@ -32,13 +43,13 @@ const ATHOSSideMenuProvider = ({
     })
   );
 
-  const selectOption = (index: number) => {
-    const subopts = selectedDataTrack[index].subOptions;
+  const selectOption = (id: string) => {
+    const subopts = selectedDataTrack.find((dt) => dt.id == id)?.subOptions;
     const clickedHasSubOptions = subopts && subopts.length > 0;
 
     setSelectedData(
       selectedDataTrack.map((dt, i) => {
-        if (i == index) {
+        if (dt.id == id) {
           dt.onClick && dt.onClick();
           return {
             ...dt,
@@ -60,19 +71,19 @@ const ATHOSSideMenuProvider = ({
       })
     );
 
-    if (clickedHasSubOptions && props.hideMenu) {
-      props.setHideMenu(false);
+    if (clickedHasSubOptions && hideMenu) {
+      setHideMenu(false);
     }
   };
 
-  const selectSubOption = (parentIndex: number, index: number) => {
+  const selectSubOption = (parentId: string, id: string) => {
     setSelectedData(
       selectedDataTrack.map((dt, i) => {
-        if (i == parentIndex) {
+        if (dt.id == parentId) {
           return {
             ...dt,
             subOptions: dt.subOptions?.map((sub, j) => {
-              if (j == index) {
+              if (sub.id == id) {
                 sub.onClick && sub.onClick();
                 return {
                   ...sub,
@@ -101,7 +112,7 @@ const ATHOSSideMenuProvider = ({
   };
 
   useEffect(() => {
-    if (props.hideMenu) {
+    if (hideMenu) {
       setSelectedData(
         selectedDataTrack.map((dt, i) => {
           const hasSubOptions = dt.subOptions && dt.subOptions.length > 0;
@@ -115,7 +126,7 @@ const ATHOSSideMenuProvider = ({
         })
       );
     }
-  }, [props.hideMenu]);
+  }, [hideMenu]);
 
   return (
     <ATHOSSideMenuContext.Provider
@@ -124,6 +135,12 @@ const ATHOSSideMenuProvider = ({
         selectedDataTrack,
         selectSubOption,
         props,
+        dropId,
+        setSelectedData,
+        hideMenu,
+        setHideMenu,
+        editing,
+        setEditing,
       }}
     >
       {children}

@@ -66,7 +66,8 @@ const ADTSelectedRowsToast = () => {
                 }}
                 highlightColor={highlightColor!}
               >
-                {selectedRowsTooltip.mainFunc.label}
+                {selectedRowsTooltip.mainFunc.icon ??
+                  selectedRowsTooltip.mainFunc.label}
               </ADTSRTMainFunc>
             )}
             {selectedRowsTooltip?.secondaryFunc && (

@@ -1,11 +1,10 @@
-import { PlacesType } from "react-tooltip";
-
+import { ReactNode } from "react";
 export interface ATHOSTooltipProps {
-  children: React.ReactNode;
-  content: React.ReactNode;
-  position?: PlacesType;
-  toolTipStyle?: React.CSSProperties;
-  wrapperStyle?: React.CSSProperties;
-  textStyle?: React.CSSProperties;
-  float?: boolean;
+  children: (ref: any) => ReactNode;
+  id?: string;
+  forceOpen?: boolean;
+  position?: "top" | "bottom";
+  followCursor?: boolean;
+  content: ReactNode;
+  maxWidth?: number | string;
 }

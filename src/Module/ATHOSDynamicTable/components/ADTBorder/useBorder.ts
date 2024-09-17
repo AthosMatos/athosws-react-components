@@ -11,14 +11,12 @@ export const useADTBorder = (colID: string) => {
     props: { paddingBetweenColumns },
   } = useADTContext();
   useEffect(() => {
-    //if (!doubleClicked) return;
     const BRDWrapperDiv = document.getElementById(wrapperid);
     const BRD = document.getElementById(id);
     const ColDiv = document.getElementById(colID);
     if (!BRDWrapperDiv || !ColDiv || !BRD) return;
 
-    const onMouseMove = (e: MouseEvent) => {
-      const pageX = e.pageX;
+    const handleMove = (pageX: number) => {
       const BRDWrapperDivRect = BRDWrapperDiv.getBoundingClientRect();
       const ColDivRect = ColDiv.getBoundingClientRect();
       const ColDivWidth = ColDivRect.width;
@@ -31,26 +29,46 @@ export const useADTBorder = (colID: string) => {
       ColDiv.style.width = `${newWidth}px`;
     };
 
+    const onMouseMove = (e: MouseEvent) => handleMove(e.pageX);
+
+    const onTouchMove = (e: TouchEvent) => {
+      const touch = e.touches[0];
+      if (touch) {
+        handleMove(touch.pageX);
+      }
+    };
+
     const onMouseDown = (e: MouseEvent) => {
       e.preventDefault();
       document.addEventListener("mousemove", onMouseMove);
     };
 
+    const onTouchStart = (e: TouchEvent) => {
+      e.preventDefault();
+      document.addEventListener("touchmove", onTouchMove);
+    };
+
     BRDWrapperDiv.addEventListener("mousedown", onMouseDown);
+    BRDWrapperDiv.addEventListener("touchstart", onTouchStart);
     document.addEventListener("mouseup", () => {
       document.removeEventListener("mousemove", onMouseMove);
-      //BRDWrapperDiv.removeEventListener("mousedown", onMouseDown);
+    });
+    document.addEventListener("touchend", () => {
+      document.removeEventListener("touchmove", onTouchMove);
     });
 
     return () => {
       BRDWrapperDiv.removeEventListener("mousedown", onMouseDown);
+      BRDWrapperDiv.removeEventListener("touchstart", onTouchStart);
       document.removeEventListener("mouseup", () => {
         document.removeEventListener("mousemove", onMouseMove);
       });
+      document.removeEventListener("touchend", () => {
+        document.removeEventListener("touchmove", onTouchMove);
+      });
     };
   }, []);
-  //}, [doubleClicked]);
+  //}, [wrapperid, id, colID, paddingBetweenColumns]);
 
-  //return { wrapperid, id, doubleClicked, setDoubleClicked };
   return { wrapperid, id };
 };

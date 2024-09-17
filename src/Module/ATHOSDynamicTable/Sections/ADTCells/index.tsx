@@ -7,6 +7,8 @@ const ADTCells = () => {
   const {
     selectMethods: { checkCellClick },
     selectData: { selectedRows, checkState },
+    columnsIDs,
+
     props: {
       data,
       columns,
@@ -16,6 +18,8 @@ const ADTCells = () => {
       colConfig,
       globalConfig,
       extraColumns,
+      startShort,
+      paddingBetweenExtraColumns,
     },
   } = useADTContext();
 
@@ -29,6 +33,7 @@ const ADTCells = () => {
     <AnimatePresence>
       {data.map((row, rowIndex) => (
         <ADTCell
+          columnsIDs={columnsIDs}
           key={row.id ?? rowIndex}
           isCheck={selectedRows.includes(rowIndex)}
           rowIndex={rowIndex}
@@ -43,6 +48,8 @@ const ADTCells = () => {
           colConfig={colConfig}
           globalConfig={globalConfig}
           extraColumns={extraColumns}
+          startShort={startShort}
+          paddingBetweenExtraColumns={paddingBetweenExtraColumns}
         />
       ))}
     </AnimatePresence>

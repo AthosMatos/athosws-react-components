@@ -3,6 +3,7 @@ interface EnabledATHOSButtonProps {
   type: "default" | "alt" | "action";
   onClick?: () => void;
   children: React.ReactNode;
+  small?: boolean;
   tooltip?: React.ReactNode;
   style?: React.CSSProperties;
   color?: string;
@@ -12,6 +13,7 @@ interface EnabledATHOSButtonProps {
 interface DisabledATHOSButtonProps {
   disabled: true;
   children: React.ReactNode;
+  small?: boolean;
   tooltip?: React.ReactNode;
   style?: React.CSSProperties;
   color?: string;

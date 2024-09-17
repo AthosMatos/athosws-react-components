@@ -30,8 +30,8 @@ import {
  */
 
 export const ATHOSButton = (props: ATHOSButtonProps) => {
-  const { children, disabled, tooltip, color, textColor, style } = props;
-  const Bttn = () => {
+  const { children, disabled, tooltip, color, textColor, style, small } = props;
+  const Bttn = (ref?: any) => {
     if (disabled) {
       return (
         <ATHOSButton_disabled color={color} textColor={textColor} style={style}>
@@ -44,6 +44,8 @@ export const ATHOSButton = (props: ATHOSButtonProps) => {
         case "default":
           return (
             <ATHOSButton_default
+              ref={ref}
+              small={small}
               color={color}
               textColor={textColor}
               style={style}
@@ -55,6 +57,8 @@ export const ATHOSButton = (props: ATHOSButtonProps) => {
         case "alt":
           return (
             <ATHOSButton_alt
+              ref={ref}
+              small={small}
               color={color}
               textColor={textColor}
               style={style}
@@ -66,6 +70,8 @@ export const ATHOSButton = (props: ATHOSButtonProps) => {
         case "action":
           return (
             <ATHOSButton_action
+              ref={ref}
+              small={small}
               color={color}
               textColor={textColor}
               style={style}
@@ -79,7 +85,7 @@ export const ATHOSButton = (props: ATHOSButtonProps) => {
   };
 
   return tooltip ? (
-    <ATHOSTooltip content={tooltip}>{Bttn()}</ATHOSTooltip>
+    <ATHOSTooltip content={tooltip}>{(ref) => Bttn(ref)}</ATHOSTooltip>
   ) : (
     Bttn()
   );

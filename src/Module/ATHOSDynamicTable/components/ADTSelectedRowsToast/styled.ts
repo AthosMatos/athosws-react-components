@@ -72,7 +72,7 @@ export const ADTSRTMainFunc = styled.div<{ highlightColor: string }>`
   font-weight: 500;
   color: ${(props) => getContrastColor(props.highlightColor)};
   cursor: pointer;
-
+  display: flex;
   transition: all 0.14s;
 
   &:active {

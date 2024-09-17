@@ -1,8 +1,9 @@
 import { useRef, useState } from "react";
 import { useClickOutside } from "../../hooks/useClickOutside";
-import { ChildSize } from "../interfaces";
+
+import useSetPortal from "../../hooks/useSetPortal";
+import { ChildSize } from "../../interfaces/interfaces";
 import useADDAdjustPos from "./useADDAdjustPos";
-import useADDSetPortal from "./useADDSetPortal";
 
 const useADD = ({
   positionVert,
@@ -24,8 +25,12 @@ const useADD = ({
   const gap = 10;
 
   useADDAdjustPos(childRef, positionVert, positionHor, gap, setChildSize);
-  useADDSetPortal(DDid, setDropdownRoot);
-  useClickOutside([containerRef, childRef], close);
+  useSetPortal(DDid, setDropdownRoot);
+  /* [containerRef, childRef], close */
+  useClickOutside({
+    callback: close,
+    refs: [containerRef, childRef],
+  });
 
   return { childRef, containerRef, childSize };
 };

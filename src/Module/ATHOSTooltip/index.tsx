@@ -1,37 +1,116 @@
-import { Tooltip } from "react-tooltip";
+import { AnimatePresence } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import ReactDOM from "react-dom";
 import { v4 } from "uuid";
+import useSetPortal from "../hooks/useSetPortal";
+import useHandlePosition from "./hooks/useHandlePosition";
 import { ATHOSTooltipProps } from "./interface";
-import { JTTooltipText, JTWrapper } from "./styled";
+import { ATTooltipWrapper } from "./styled";
 
 export const ATHOSTooltip = (props: ATHOSTooltipProps) => {
-  const id = v4().toString();
+  const {
+    children,
+    id = v4(),
+    forceOpen,
+    position = "top",
+    followCursor,
+    content,
+  } = props;
+  const [open, setOpen] = useState(false);
+  const [firstopen, setfirstOpen] = useState(true);
+  const [Root, setRoot] = useState<HTMLElement | null>(null);
+  const childRef = useRef<HTMLDivElement>(null);
+  const tooltipRef = useRef<HTMLDivElement>(null);
+  const DftID = `athos-tooltip`;
+  const ID = `${DftID} - ${id}`;
+  const gap = 10;
+  useSetPortal(ID, setRoot);
+  useHandlePosition({
+    childRef,
+    followCursor,
+    gap,
+    tooltipRef,
+    position,
+  });
+
+  useEffect(() => {
+    setTimeout(() => {
+      setfirstOpen(false);
+    }, 100);
+  }, []);
+
+  useEffect(() => {
+    const setopen = (e: any) => {
+      !e?.sourceCapabilities?.firesTouchEvents && setOpen(true);
+    };
+    const setclose = (e: any) => {
+      !e?.sourceCapabilities?.firesTouchEvents && setOpen(false);
+    };
+    if (followCursor) {
+      childRef.current?.addEventListener("mouseenter", setopen);
+      childRef.current?.addEventListener("mouseleave", setclose);
+    } else {
+      childRef.current?.removeEventListener("mouseenter", setopen);
+      childRef.current?.removeEventListener("mouseleave", setclose);
+    }
+    return () => {
+      childRef.current?.removeEventListener("mouseenter", setopen);
+      childRef.current?.removeEventListener("mouseleave", setclose);
+    };
+  }, []);
+
+  /*   useEffect(() => {
+    console.log("forceOpen", forceOpen, "open", open, "firstopen", firstopen);
+  }, [forceOpen, open, firstopen]); */
 
   return (
     <>
-      <Tooltip
-        float={props.float}
-        style={{
-          backgroundColor: "black",
-          color: "white",
-          borderRadius: "5px",
-          ...props.toolTipStyle,
-        }}
-        place={props.position}
-        id={id}
-      >
-        {typeof props.content === "string" ? (
-          <JTTooltipText style={props.textStyle}>{props.content}</JTTooltipText>
-        ) : (
-          props.content
+      {Root &&
+        ReactDOM.createPortal(
+          <AnimatePresence>
+            {(forceOpen || open || firstopen) && (
+              <ATTooltipWrapper
+                maxWidth={props.maxWidth}
+                animate={{ opacity: firstopen ? 0 : 1 }}
+                ref={tooltipRef}
+              >
+                {content}
+              </ATTooltipWrapper>
+            )}
+          </AnimatePresence>,
+          Root
         )}
-      </Tooltip>
-      <JTWrapper
-        style={props.wrapperStyle}
-        /* data-tooltip-place= */
-        data-tooltip-id={id}
-      >
-        {props.children}
-      </JTWrapper>
+
+      {children(childRef)}
     </>
   );
 };
+
+/* const handlePos = throttle(() => {
+    //console.log("handlePos");
+    const childRect = childRef.current!.getBoundingClientRect();
+    const tooltipRect = tooltipRef.current!.getBoundingClientRect();
+    //console.log("childRect", childRect);
+    //console.log("tooltipRect", tooltipRect);
+    const scrennWidth = window.innerWidth;
+    const screenHeight = window.innerHeight;
+    const topPlusTT = childRect.top - tooltipRect.height - gap;
+    const bottomPlusTT =
+      screenHeight - childRect.bottom - tooltipRect.height - gap;
+    
+    //verify if it needs to update
+    if()
+    
+
+    if (topPlusTT <= 0) {
+      tooltipRef.current!.style.bottom = `${bottomPlusTT}px`;
+    } else {
+      tooltipRef.current!.style.top = `${topPlusTT}px`;
+    }
+
+    if (childRect.left + tooltipRect.width > scrennWidth) {
+      tooltipRef.current!.style.right = `${scrennWidth - childRect.right}px`;
+    } else {
+      tooltipRef.current!.style.left = `${childRect.left}px`;
+    }
+  }, 5); */

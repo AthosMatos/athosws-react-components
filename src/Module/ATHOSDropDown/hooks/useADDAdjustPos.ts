@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { ChildSize } from "../interfaces";
+import { ChildSize } from "../../interfaces/interfaces";
 
 const useADDAdjustPos = (
   childRef: React.MutableRefObject<HTMLDivElement | null>,
@@ -13,13 +13,14 @@ const useADDAdjustPos = (
       const rect = childRef.current.getBoundingClientRect();
       const scrennWidth = window.innerWidth;
       const screenHeight = window.innerHeight;
-
+      //console.log(rect);
       let csize: ChildSize = {};
 
       if (positionVert) {
         switch (positionVert) {
           case "top":
-            csize.bottom = 0;
+            csize.bottom =
+              (screenHeight - rect.top + gap) * (csize.right === 0 ? -1 : 1);
             break;
           case "bottom":
             csize.top = 0;
@@ -31,7 +32,8 @@ const useADDAdjustPos = (
       if (positionHor) {
         switch (positionHor) {
           case "left":
-            csize.right = 0;
+            csize.right =
+              (scrennWidth - rect.right) * (csize.bottom === 0 ? -1 : 1);
             break;
           case "right":
             csize.left = 0;
@@ -40,7 +42,6 @@ const useADDAdjustPos = (
             break;
         }
       }
-
       const w = (scrennWidth - rect.right) * (csize.bottom === 0 ? -1 : 1);
       const h = (screenHeight - rect.top + gap) * (csize.right === 0 ? -1 : 1);
       csize.transform = `translate3d(${w}px, ${h}px, 0)`;

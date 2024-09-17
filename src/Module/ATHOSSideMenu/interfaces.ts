@@ -1,43 +1,11 @@
 import { IconType } from "react-icons";
+import { SubOptionI } from "./ASM/Options/SubOption/interfaces";
 
-export interface SubOptionI {
-  label: string;
-  onClick?: () => void;
-}
 export interface ASMColorsProps {
   accentColor: string;
   activeColor: string;
 }
 
-export interface ASMOptionWrapperProps extends ASMColorsProps {
-  clicked?: boolean;
-  hasChildren?: boolean;
-  hasSelectedChildren?: boolean;
-  children?: React.ReactNode;
-  onClick?: () => void;
-}
-export interface ASMSubOptionProps {
-  label: string;
-  index: number;
-  parentIndex: number;
-}
-export interface ASMOWProps {
-  hoverColor: string;
-  activeColor: string;
-  clickedColor?: string;
-}
-export interface ASMOptionProps {
-  Icon?: IconType;
-  iconSize?: string | number;
-  label: string;
-  children?: React.ReactNode;
-  index: number;
-}
-
-export interface ASMSubOptionsWrapperProps {
-  isOpen: boolean;
-  ChildrenHeight: string;
-}
 export interface ATHOSSideMenuDataI {
   label: string;
   Icon?: any;
@@ -46,31 +14,19 @@ export interface ATHOSSideMenuDataI {
   onClick?: () => void;
 }
 
-export interface SelecetDataTrackSubOptI {
-  label: string;
-  onClick?: () => void;
-  show: boolean;
-}
-
-export interface SelecetDataTrackI {
-  label: string;
-  onClick?: () => void;
-  show: boolean;
-  subOptions?: SelecetDataTrackSubOptI[];
-}
-
-export interface ATHOSSideMenuContextProps {
-  selectOption: (index: number) => void;
-  selectedDataTrack: SelecetDataTrackI[];
-  selectSubOption: (parentIndex: number, index: number) => void;
-  props: ATHOSSideMenuProps;
-}
-
 export interface ATHOSSideMenuBaseProps {
   onExit?: {
     onClick: () => void;
     Icon?: IconType;
     label: string;
+  };
+  editable?: {
+    Icon?: IconType;
+    label?: string;
+  };
+  collapsable?: {
+    Icon?: IconType;
+    label?: string;
   };
   goToFirstSubOnOpen?: boolean;
   options: ATHOSSideMenuDataI[];
@@ -79,18 +35,37 @@ export interface ATHOSSideMenuBaseProps {
     active: string;
     background?: string;
   };
+  onReorder?: (result: ATHOSSideMenuDataI[]) => void;
+  asOverlay?: false | undefined;
 }
 
-export interface ATHOSSideMenuWithHideProps extends ATHOSSideMenuBaseProps {
-  hideMenu: true;
-  setHideMenu: (hide: boolean) => void;
-}
+export interface ATHOSSideMenuOverlayProps {
+  onExit?: {
+    onClick: () => void;
+    Icon?: IconType;
+    label: string;
+  };
+  editable?: {
+    Icon?: IconType;
+    label?: string;
+  };
+  collapsable?: {
+    Icon?: IconType;
+    label?: string;
+  };
+  goToFirstSubOnOpen?: boolean;
+  options: ATHOSSideMenuDataI[];
+  colors: {
+    accent: string;
+    active: string;
+    background?: string;
+  };
+  onReorder?: (result: ATHOSSideMenuDataI[]) => void;
 
-export interface ATHOSSideMenuWithoutHideProps extends ATHOSSideMenuBaseProps {
-  hideMenu?: false;
-  setHideMenu?: never;
+  asOverlay: true;
+  children: React.ReactNode;
 }
 
 export type ATHOSSideMenuProps =
-  | ATHOSSideMenuWithHideProps
-  | ATHOSSideMenuWithoutHideProps;
+  | ATHOSSideMenuBaseProps
+  | ATHOSSideMenuOverlayProps;

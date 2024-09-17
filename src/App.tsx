@@ -1,21 +1,20 @@
 import React, { useState } from "react";
-import { FaPlus, FaUser } from "react-icons/fa";
+import { FaFile, FaPlus, FaUser } from "react-icons/fa";
 import { MdOutlineAttachMoney } from "react-icons/md";
 import { PiGavelFill } from "react-icons/pi";
 import styled from "styled-components";
 import "./App.css";
 import { GroupI } from "./Module/ATHOSCard";
-import { ATHOSDynamicTable } from "./Module/ATHOSDynamicTable";
 import { ATHOSSideMenu } from "./Module/ATHOSSideMenu";
 import { ATHOSSideMenuDataI } from "./Module/ATHOSSideMenu/interfaces";
+import { ATHOSTooltip } from "./Module/ATHOSTooltip";
 import { ATHOSColors } from "./Module/colors/colors";
+import { ATHOSButton, ATHOSDropDown, ATHOSDynamicTable } from "./module-index";
 const Container = styled.div`
   display: flex;
-  /* align-items: center;
-    height: 100%; */
   gap: 2rem;
-  /*  padding: 2rem; */
   flex-direction: column;
+  flex: 1;
   overflow: auto;
 `;
 const Wrapper = styled.div`
@@ -94,7 +93,7 @@ const TestPage = () => {
     assunto: string;
     status: React.ReactNode;
   };
-
+  const [open, setOpen] = useState(false);
   const [tableData, setTableData] = useState<TableData[]>([
     {
       id: "1",
@@ -160,50 +159,84 @@ const TestPage = () => {
   ]);
 
   return (
-    <Wrapper>
-      <ATHOSSideMenu
-        colors={{
-          accent: "#aaaaaa",
-          active: "#cf1e94",
+    <ATHOSSideMenu
+      collapsable={{
+        label: "Hide",
+      }}
+      editable={{
+        label: "Edit",
+      }}
+      colors={{
+        accent: "#aaaaaa",
+        active: "#cf1e94",
+      }}
+      options={mockData}
+      onExit={{
+        label: "Sair",
+        onClick: () => console.log("Sair"),
+      }}
+      asOverlay
+    >
+      <ATHOSDynamicTable
+        //resizeable
+        extraColumns={[
+          {
+            //showCondition: (data) => data.status === "Open",
+            component: (
+              <ATHOSButton small type="alt" color="#cf1e94">
+                Fazer Peça
+              </ATHOSButton>
+            ),
+          },
+          {
+            //showCondition: (data) => data.status === "Open",
+            component: (
+              <ATHOSButton small type="alt" color="#cf1e94">
+                <FaFile />
+              </ATHOSButton>
+            ),
+          },
+        ]}
+        startShort={{
+          assunto: true,
         }}
-        options={mockData}
-        onExit={{
-          label: "Sair",
-          onClick: () => console.log("Sair"),
+        tableID="Tabe1"
+        highlightColor={ATHOSColors.aqua.default}
+        data={tableData}
+        columnsToShow={["numero", "assunto", "status"]}
+        paddingBetweenCells={10}
+        paddingHeader={15}
+        colConfig={{
+          numero: { label: "Numero do Processo" },
+          assunto: {
+            label: "Assunto",
+            maxWidth: 100,
+            shortOnlyifCut: true,
+            maxCharToCut: 20,
+            minColWidthToShort: 200,
+          },
         }}
-      />
-
-      <Container>
-        <ATHOSDynamicTable
-          //resizeable
-          extraColumns={[
+        selectedRowsTooltip={{
+          mainFunc: {
+            icon: <FaPlus />,
+            onClick: (selectedData) => {
+              //console.log("main function", selectedData);
+              //remove the selected data from the tableData based on id
+              const td = [...tableData];
+              const newTd = td.filter((data) => {
+                return !selectedData.some(
+                  (selected) => selected.id === data.id
+                );
+              });
+              //console.log(newTd);
+              setTableData(newTd);
+            },
+          },
+          othersFunc: [
             {
-              //showCondition: (data) => data.status === "Open",
-              component: <FaPlus />,
-            },
-          ]}
-          tableID="Tabe1"
-          highlightColor={ATHOSColors.aqua.default}
-          data={tableData}
-          columnsToShow={["numero", "assunto", "status"]}
-          paddingBetweenCells={15}
-          paddingHeader={15}
-          colConfig={{
-            numero: { label: "Numero do Processo" },
-            assunto: {
-              label: "Assunto",
-              maxWidth: 100,
-              minColWidthToShort: 200,
-              maxCharToCut: 20,
-              shortOnlyifCut: true,
-            },
-          }}
-          selectedRowsTooltip={{
-            mainFunc: {
-              label: "Fazer Peça",
+              label: "Enviar Email",
               onClick: (selectedData) => {
-                //console.log("main function", selectedData);
-                //remove the selected data from the tableData based on id
+                console.log("others function", selectedData);
                 const td = [...tableData];
                 const newTd = td.filter((data) => {
                   return !selectedData.some(
@@ -214,23 +247,144 @@ const TestPage = () => {
                 setTableData(newTd);
               },
             },
-            othersFunc: [
-              {
-                label: "Enviar Email",
-                onClick: (selectedData) => {
-                  console.log("others function", selectedData);
-                },
+            {
+              label: "Print",
+              onClick: (selectedData) => {
+                console.log("others function", selectedData);
+                const td = [...tableData];
+                const newTd = td.filter((data) => {
+                  return !selectedData.some(
+                    (selected) => selected.id === data.id
+                  );
+                });
+                //console.log(newTd);
+                setTableData(newTd);
               },
-              {
-                label: "Print",
-                onClick: (selectedData) => {
-                  console.log("others function", selectedData);
-                },
-              },
-            ],
-          }}
-        />
-        {/* 
+            },
+          ],
+        }}
+      />
+
+      <button
+        onClick={() => {
+          setOpen((prev) => !prev);
+        }}
+      >
+        Click
+      </button>
+      <div style={{ display: "flex", flexDirection: "row", gap: 100 }}>
+        <ATHOSTooltip position="top" content={"testststs"} forceOpen={open}>
+          {(ref) => (
+            <div
+              ref={ref}
+              style={{
+                marginTop: "100px",
+                width: "100px",
+                height: "100px",
+                backgroundColor: "blue",
+              }}
+            />
+          )}
+        </ATHOSTooltip>
+        <ATHOSTooltip content={"testststs"} followCursor forceOpen={open}>
+          {(ref) => (
+            <div
+              ref={ref}
+              style={{
+                marginTop: "100px",
+                width: "100px",
+                height: "100px",
+                backgroundColor: "blue",
+              }}
+            />
+          )}
+        </ATHOSTooltip>
+      </div>
+      <div style={{ display: "flex", flexDirection: "row", gap: 100 }}>
+        <ATHOSDropDown
+          close={() => {}}
+          id="rere"
+          open
+          labels={[
+            {
+              label: "Option 1",
+              onClick: () => console.log("Option 1 clicked"),
+            },
+            {
+              label: "Option 2",
+              onClick: () => console.log("Option 2 clicked"),
+            },
+          ]}
+        >
+          {(ref) => (
+            <div
+              ref={ref}
+              style={{
+                marginTop: "100px",
+                width: "100px",
+                height: "100px",
+                backgroundColor: "blue",
+              }}
+            />
+          )}
+        </ATHOSDropDown>
+        <ATHOSDropDown
+          close={() => {}}
+          id="rer6556e"
+          open
+          labels={[
+            {
+              label: "Option 1",
+              onClick: () => console.log("Option 1 clicked"),
+            },
+            {
+              label: "Option 2",
+              onClick: () => console.log("Option 2 clicked"),
+            },
+          ]}
+        >
+          {(ref) => (
+            <div
+              ref={ref}
+              style={{
+                marginTop: "100px",
+                width: "100px",
+                height: "100px",
+                backgroundColor: "blue",
+              }}
+            />
+          )}
+        </ATHOSDropDown>
+      </div>
+      {/* <ATHOSDropDown
+        positionVert="bottom"
+        positionHor="right"
+        close={() => console.log("close")}
+        open={true}
+        id="reer"
+        labels={[
+          {
+            label: "Option 1",
+            onClick: () => console.log("Option 1 clicked"),
+          },
+          {
+            label: "Option 1",
+            onClick: () => console.log("Option 1 clicked"),
+          },
+        ]}
+      >
+        {(ref) => (
+          <div
+            ref={ref}
+            style={{
+              width: "100px",
+              height: "100px",
+              backgroundColor: "red",
+            }}
+          />
+        )}
+      </ATHOSDropDown> */}
+      {/* 
         <ATHOSDynamicTable
           tableID="Tabe2"
           highlightColor={ATHOSColors.aqua.default}
@@ -278,7 +432,7 @@ const TestPage = () => {
           }}
         /> */}
 
-        {/*   <Bwrapper>
+      {/*   <Bwrapper>
           <ATHOSButton type="default">Default</ATHOSButton>
           <ATHOSButton
             onClick={() => {
@@ -300,7 +454,6 @@ const TestPage = () => {
         <ATHOSInput />
         <ATHOSInput error={error} type="user" />
         <ATHOSInput error={error} type="password" /> */}
-      </Container>
       {/*  <Container>
         <ATHOSCards
           globalGroupStyle={
@@ -352,7 +505,7 @@ const TestPage = () => {
           Add Group
         </button>
       </Container> */}
-    </Wrapper>
+    </ATHOSSideMenu>
   );
 };
 

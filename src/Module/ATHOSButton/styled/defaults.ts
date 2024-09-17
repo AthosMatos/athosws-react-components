@@ -1,4 +1,5 @@
 export const ATHOSButton_dftprops = `
+    display: flex;
     cursor: pointer;
     border: none;
     text-align: center;

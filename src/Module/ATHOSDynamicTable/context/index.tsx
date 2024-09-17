@@ -30,7 +30,7 @@ interface ADTContextProps<T> {
   colsTRId: string;
 }
 
-type ColumnsIds<T> = {
+export type ColumnsIds<T> = {
   [key in keyof T]: string;
 };
 
