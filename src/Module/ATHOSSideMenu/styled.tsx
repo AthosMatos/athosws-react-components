@@ -1,10 +1,8 @@
 import { PiCaretDownBold, PiCaretLeftBold } from "react-icons/pi";
 import styled from "styled-components";
 
-import { generateColorShades, getContrastColor } from "../utils/color-utils";
-import { ASMOptionWrapperProps } from "./ASM/Options/Option/interfaces";
+import { generateColorShades } from "../utils/color-utils";
 import { optionIconSize, optionPad } from "./ASM/Options/Option/styled";
-import { ASMColorsProps } from "./interfaces";
 
 export const sideMenuWidth = "15rem";
 export const hiddenMenuWidth = `calc(${optionPad} + ${optionIconSize})`;
@@ -62,7 +60,7 @@ export const ASMExtraContainer = styled.div<{ accentColor: string }>`
     ${({ accentColor }) => generateColorShades(accentColor).light};
 `;
 
-export const ASMC = styled.div<ASMColorsProps & { width: string }>`
+export const ASMC = styled.div<{ width: string }>`
   display: flex;
   flex-direction: column;
   width: ${({ width }) => width};
@@ -123,7 +121,7 @@ export const ASMIconWrapper = styled.div<{ iconSize: number | string }>`
 
 export const defaulIconSize = "1.4rem";
 
-export const ASMBottomIconOptionWrapper = styled.div<ASMOptionWrapperProps>`
+export const ASMBottomIconOptionWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -134,76 +132,9 @@ export const ASMBottomIconOptionWrapper = styled.div<ASMOptionWrapperProps>`
   user-select: none;
   width: fit-content;
   border-radius: 0.3rem;
-  outline: 1px solid
-    ${({ accentColor }) => generateColorShades(accentColor).light};
-  &:hover {
-    ${({
-      clicked,
-      hasChildren,
-      hasSelectedChildren,
-      accentColor,
-      activeColor,
-    }) =>
-      hasSelectedChildren && clicked
-        ? `
-        background-color: ${generateColorShades(accentColor).darker};
-        color: ${getContrastColor(generateColorShades(accentColor).darker)}
-        `
-        : !clicked
-        ? `
-        background-color: ${generateColorShades(accentColor).light};
-        color: ${getContrastColor(generateColorShades(accentColor).light)}
-        `
-        : hasChildren
-        ? `
-        background-color: ${generateColorShades(activeColor).darker};
-        color: ${getContrastColor(generateColorShades(activeColor).darker)}
-        `
-        : `
-        background-color: ${generateColorShades(activeColor).dark};
-        color: ${getContrastColor(generateColorShades(activeColor).dark)}
-        `}
-  }
-  &:active {
-    transform: scale(1.04);
-    ${({ clicked, accentColor, activeColor, hasSelectedChildren }) =>
-      hasSelectedChildren
-        ? `
-        background-color: ${generateColorShades(accentColor).default};
-        color: ${getContrastColor(generateColorShades(accentColor).default)}
-        `
-        : !clicked
-        ? `
-        background-color: ${generateColorShades(accentColor).light};
-        color: ${getContrastColor(generateColorShades(accentColor).light)}
-        `
-        : `
-        background-color: ${activeColor};
-        color: ${getContrastColor(activeColor)}
-        `}
-  }
-
-  ${({ clicked, hasChildren, hasSelectedChildren, accentColor, activeColor }) =>
-    clicked &&
-    `
-         ${
-           hasSelectedChildren
-             ? `background-color: ${generateColorShades(accentColor).dark};
-    color: ${getContrastColor(generateColorShades(accentColor).dark)}         
-    `
-             : hasChildren
-             ? `background-color: ${generateColorShades(activeColor).dark};
-      color: ${getContrastColor(
-        generateColorShades(activeColor).dark
-      )}           
-      `
-             : `background-color: ${activeColor};
-      color: ${getContrastColor(activeColor)}           
-      `
-         }
-    `}
 `;
-
+/* outline: 1px solid
+    ${({ accentColor }) => generateColorShades(accentColor).light}; */
 export const ASMArrowDown = styled(PiCaretDownBold)<{ clicked: boolean }>`
   pointer-events: none;
   font-size: 1rem;

@@ -11,25 +11,11 @@ export const ADTBRDSimple = styled.div<{ w: number; h: number }>`
 export const BRD = styled.div<{ active?: boolean }>`
   width: 1px;
   height: 100%;
-  background-color: ${ATHOSColors.aqua.default};
+  background-color: ${ATHOSColors.grey.light};
   transition: all 0.14s;
   border-radius: 30px;
-  opacity: 0.14;
-
-  /* 
-     width: 80%;
-      background-color: ${ATHOSColors.grey.dark_05};
-    */
+  opacity: 0.44;
 `;
-/* 
-${(props) =>
-    props.over &&
-    `
-      background-color: ${ATHOSColors.grey.dark_05};
-    `}
-
-  
-*/
 const BRDWrapper = styled.div`
   display: flex;
   width: 8px;

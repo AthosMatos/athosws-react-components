@@ -1,42 +1,37 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import ADTCheckBox from "../../components/ADTCheckBox";
 import { useADTContext } from "../../context";
 import { ADTColumnWrapper, ADTTR } from "../../styled";
 import ADTCol from "./ADTCol";
 
-const ADTColumns = () => {
+interface ADTColumnsProps {
+  isPersistPrimaryColumn?: boolean;
+}
+
+const ADTColumns = ({ isPersistPrimaryColumn }: ADTColumnsProps) => {
   const {
     selectMethods,
     selectData,
     colsTRId,
-    props: {
-      columns,
-      colConfig,
-      paddingHeader,
-      data,
-      paddingBetweenColumns,
-      highlightColor,
-    },
+    colH,
+    props: { columns, colConfig, data, paddingBetweenColumns, tableStyle },
   } = useADTContext();
-  const [colH, setColH] = useState<number>();
-
-  useEffect(() => {
-    const DTColumnWrapperDiv = document.getElementById(colsTRId);
-    if (!DTColumnWrapperDiv || !paddingHeader) return;
-    const h = DTColumnWrapperDiv.getBoundingClientRect().height + paddingHeader;
-    setColH(h);
-  }, []);
 
   return (
     <ADTTR id={colsTRId} height={colH}>
-      <ADTColumnWrapper checkBox paddingHorizontal={paddingBetweenColumns}>
+      <ADTColumnWrapper
+        style={isPersistPrimaryColumn ? { paddingLeft: "0.4rem" } : {}}
+        checkBox
+        paddingHorizontal={paddingBetweenColumns}
+      >
         <ADTCheckBox
-          highlightColor={highlightColor!}
+          highlightColor={tableStyle?.highlightColor!}
           checked={selectData.checkState}
           check={() => selectMethods.checkAllButtonClick(data.length)}
         />
       </ADTColumnWrapper>
-      {columns.map((column: any) => {
+      {columns.map((column: any, index) => {
+        if (isPersistPrimaryColumn && index > 0) return null;
         let value: React.ReactNode = column;
         if (colConfig) {
           if (colConfig[column]?.colComponent) {
@@ -45,7 +40,14 @@ const ADTColumns = () => {
             value = colConfig[column]?.label;
           }
         }
-        return <ADTCol value={value} key={column} column={column} />;
+        return (
+          <ADTCol
+            isPersistPrimaryColumn={isPersistPrimaryColumn}
+            value={value}
+            key={column}
+            column={column}
+          />
+        );
       })}
     </ADTTR>
   );

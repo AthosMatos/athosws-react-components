@@ -1,12 +1,17 @@
 import { useEffect } from "react";
 
-const useSetPortal = (
-  Portalid: string,
-  setRoot: (root: HTMLElement | null) => void
-) => {
+const useSetPortal = ({
+  portalId,
+  setRoot,
+  onUnmount,
+}: {
+  portalId: string;
+  setRoot: (root: HTMLElement | null) => void;
+  onUnmount?: () => void;
+}) => {
   useEffect(() => {
     const dropDownRoot = document.createElement("div");
-    dropDownRoot.id = Portalid; // Set the id to ATHOSDropDown
+    dropDownRoot.id = portalId; // Set the id to ATHOSDropDown
 
     // Append the div to the root of the document
     document.body.appendChild(dropDownRoot);
@@ -17,6 +22,7 @@ const useSetPortal = (
     // Cleanup function to remove the div when the component unmounts
     return () => {
       dropDownRoot.remove();
+      onUnmount && onUnmount();
     };
   }, []);
 };

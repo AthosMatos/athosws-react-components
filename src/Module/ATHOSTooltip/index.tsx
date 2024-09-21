@@ -2,8 +2,8 @@ import { AnimatePresence } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import ReactDOM from "react-dom";
 import { v4 } from "uuid";
+import { useHandlePosition_F } from "../hooks/private/useHandlePosition";
 import useSetPortal from "../hooks/useSetPortal";
-import useHandlePosition from "./hooks/useHandlePosition";
 import { ATHOSTooltipProps } from "./interface";
 import { ATTooltipWrapper } from "./styled";
 
@@ -24,12 +24,15 @@ export const ATHOSTooltip = (props: ATHOSTooltipProps) => {
   const DftID = `athos-tooltip`;
   const ID = `${DftID} - ${id}`;
   const gap = 10;
-  useSetPortal(ID, setRoot);
-  useHandlePosition({
+  useSetPortal({
+    portalId: ID,
+    setRoot,
+  });
+  useHandlePosition_F({
     childRef,
     followCursor,
     gap,
-    tooltipRef,
+    compRef: tooltipRef,
     position,
   });
 
@@ -59,10 +62,6 @@ export const ATHOSTooltip = (props: ATHOSTooltipProps) => {
     };
   }, []);
 
-  /*   useEffect(() => {
-    console.log("forceOpen", forceOpen, "open", open, "firstopen", firstopen);
-  }, [forceOpen, open, firstopen]); */
-
   return (
     <>
       {Root &&
@@ -70,7 +69,7 @@ export const ATHOSTooltip = (props: ATHOSTooltipProps) => {
           <AnimatePresence>
             {(forceOpen || open || firstopen) && (
               <ATTooltipWrapper
-                maxWidth={props.maxWidth}
+                style={props.style}
                 animate={{ opacity: firstopen ? 0 : 1 }}
                 ref={tooltipRef}
               >

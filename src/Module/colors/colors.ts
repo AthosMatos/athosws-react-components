@@ -15,7 +15,10 @@ export const ATHOSColors = {
     lighter: "#fafafa",
   },
   red: {
+    darker: "#7A0000",
+    dark: "#9E1C1C",
     default: "#DA2222",
+    light: "#eb9c9c",
   },
   white: {
     eggshell: "#F3F3F3",

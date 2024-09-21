@@ -9,10 +9,6 @@ export type GlobalConfig = {
   cellComponent?: (cell: string) => React.ReactNode;
 };
 
-export type ColConfig<T> = {
-  [key in keyof T]?: GlobalConfig;
-};
-
 export type ADTLabelI<T> = {
   label: string;
   onClick: (selectedData: T[]) => void;
@@ -36,16 +32,34 @@ export type ExtraColumnsI<T> = {
   showCondition?: (data: T) => boolean;
   component: React.ReactNode;
 };
-
+export type ColConfig<T> = {
+  [key in keyof T]?: GlobalConfig;
+};
 export type StartShortI<T> = {
   [key in keyof T]?: boolean;
 };
 
+export type ColumnTextTableStyle<T> = {
+  [key in keyof T]?: string;
+};
+
+export type TableStyle<T> = {
+  highlightColor?: string;
+  cellTextColor?: {
+    global?: string;
+    specific?: ColumnTextTableStyle<T>;
+  };
+  columnTextColor?: {
+    global?: string;
+    specific?: ColumnTextTableStyle<T>;
+  };
+};
+
 export type DynamicTableProps<T> = {
-  tableID: string;
+  tableName: string;
   data: T[];
   resizeable?: boolean;
-  highlightColor?: string;
+  tableStyle?: TableStyle<T>;
   colConfig?: ColConfig<T>;
   globalConfig?: GlobalConfig;
   columnsToHide?: (keyof T)[];
@@ -58,6 +72,11 @@ export type DynamicTableProps<T> = {
   selectedRowsTooltip?: SelectedRowsTooltipI<T>;
   extraColumns?: ExtraColumnsI<T>[];
   startShort?: StartShortI<T> | boolean;
+  persistPrimaryColumn?:
+    | {
+        backgroundColor?: string;
+      }
+    | boolean;
 };
 
 export interface ColumnsProps<T> {

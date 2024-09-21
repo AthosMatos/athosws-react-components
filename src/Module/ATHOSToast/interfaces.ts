@@ -1,5 +1,5 @@
 export interface ATHOSToastProps {
-  id: string;
+  id?: string;
   updateState: any;
   removeCondition?: boolean;
   renderCondition: boolean;

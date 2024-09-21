@@ -6,5 +6,5 @@ export interface ATHOSTooltipProps {
   position?: "top" | "bottom";
   followCursor?: boolean;
   content: ReactNode;
-  maxWidth?: number | string;
+  style?: React.CSSProperties;
 }

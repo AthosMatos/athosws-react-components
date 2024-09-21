@@ -21,8 +21,8 @@ const ASMExitOption = ({ Icon, label, iconSize, onClick }: ASMOptionProps) => {
   return (
     <ASMBottomIconOptionWrapper
       title={label}
-      accentColor={colors.accent}
-      activeColor={colors.active}
+      /* accentColor={colors.accent}
+      activeColor={colors.active} */
       onClick={() => {
         onClick && onClick();
       }}

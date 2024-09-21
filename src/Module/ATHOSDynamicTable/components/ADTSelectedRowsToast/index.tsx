@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IoClose, IoMenu } from "react-icons/io5";
 import { ATHOSDropDown } from "../../../ATHOSDropDown";
 import { ATHOSToast } from "../../../ATHOSToast";
@@ -16,31 +16,39 @@ import {
 const ADTSelectedRowsToast = () => {
   const {
     selectData,
+    selectedRowsToastOpen,
+    setSelectedRowsToastOpen,
     uncheckAll,
-    props: { tableID, highlightColor, selectedRowsTooltip, data },
+    props: { tableName: tableID, selectedRowsTooltip, data, tableStyle },
   } = useADTContext();
 
   const [openDropDown, setOpenDropDown] = useState(false);
 
   const onDismiss = () => {
-    setTimeout(() => {
-      uncheckAll();
-    }, 5);
     setOpenDropDown(false);
+    uncheckAll();
   };
+
+  useEffect(() => {
+    if (selectData.selectedRows.length > 0) {
+      setSelectedRowsToastOpen(true);
+    } else {
+      setSelectedRowsToastOpen(false);
+    }
+  }, [selectData.selectedRows]);
 
   return (
     <ATHOSToast
       position="bottom-right"
       updateState={selectData.selectedRows}
-      renderCondition={selectData.selectedRows.length > 0}
+      renderCondition={selectedRowsToastOpen}
       removeCondition={selectData.selectedRows.length == 0}
       id={tableID}
     >
       <ADTATWrapper>
         <ADTSRTFSWrapper>
           <ADTCheckBox
-            highlightColor={highlightColor!}
+            highlightColor={tableStyle?.highlightColor!}
             clicable={false}
             big
             checked={selectData.checkState == 0 ? true : selectData.checkState}
@@ -59,12 +67,12 @@ const ADTSelectedRowsToast = () => {
             {selectedRowsTooltip?.mainFunc && (
               <ADTSRTMainFunc
                 onClick={() => {
-                  uncheckAll();
+                  onDismiss();
                   selectedRowsTooltip.mainFunc!.onClick(
                     selectData.selectedRows.map((index) => data[index])
                   );
                 }}
-                highlightColor={highlightColor!}
+                highlightColor={tableStyle?.highlightColor!}
               >
                 {selectedRowsTooltip.mainFunc.icon ??
                   selectedRowsTooltip.mainFunc.label}
@@ -75,7 +83,7 @@ const ADTSelectedRowsToast = () => {
                 pad={8}
                 backColor="#f3f3f3"
                 onClick={() => {
-                  uncheckAll();
+                  onDismiss();
                   selectedRowsTooltip.secondaryFunc!.onClick(
                     selectData.selectedRows.map((index) => data[index])
                   );
@@ -88,24 +96,23 @@ const ADTSelectedRowsToast = () => {
 
             {selectedRowsTooltip?.othersFunc && (
               <ATHOSDropDown
-                close={() => {
+                onClose={() => {
                   setOpenDropDown(false);
                 }}
                 labels={selectedRowsTooltip.othersFunc.map((func) => {
                   return {
                     label: func.label,
                     onClick: () => {
-                      uncheckAll();
                       func.onClick(
                         selectData.selectedRows.map((index) => data[index])
                       );
+                      onDismiss();
                     },
                   };
                 })}
                 id={tableID}
-                positionVert="top"
-                positionHor="left"
-                open={openDropDown}
+                position="top"
+                isOpen={openDropDown}
               >
                 {(ref) => (
                   <ADTSRTIconWrapper

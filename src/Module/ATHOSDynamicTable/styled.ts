@@ -10,20 +10,37 @@ export const ADTColBorderWrapper = styled.div`
   align-items: center;
 `;
 
-export const ADTColumnWrapper = styled.th<{
+interface ADTColWrapperProps {
   checkBox?: boolean;
-  bRight?: boolean;
+  pLeft?: boolean;
+  pRight?: boolean;
   paddingHorizontal?: number;
-}>`
+  textColor?: string;
+  height?: number;
+}
+
+export const ADTColumnWrapper = styled.th<ADTColWrapperProps>`
   font-size: 1rem;
   font-weight: 400;
-  color: ${ATHOSColors.grey.dark_05};
+  color: ${(props) => props.textColor ?? ATHOSColors.grey.dark_05};
   white-space: nowrap;
+
   ${(props) =>
-    props.bRight &&
+    props.height &&
     `
-      
+    height: ${props.height}px;
+  `}
+
+  ${(props) =>
+    props.pLeft &&
+    `
     padding-left: 0.8rem;
+  `}
+
+  ${(props) =>
+    props.pRight &&
+    `
+    padding-right: 0.8rem;
   `}
 
   ${(props) =>
@@ -40,11 +57,13 @@ export const ADTColumnWrapper = styled.th<{
   `}
 `;
 
-export const ADTCellWrapper = styled.td<{
+interface ADTCellWrapperProps {
   bRightLeft?: boolean;
   vertPad?: number;
   paddingHorizontal?: number;
-}>`
+}
+
+export const ADTCellWrapper = styled.td<ADTCellWrapperProps>`
   font-size: 1rem;
   font-weight: 400;
   ${(props) =>
@@ -78,17 +97,44 @@ export const ADTTR = styled(motion.tr)<{ height?: number }>`
     `}
 `;
 
-export const ADTTable = styled.table`
-  width: 100%;
-  height: 100%;
+interface ADTTableProps {
+  isPersistant?: boolean;
+  width?: number;
+  height?: number;
+  backgroundColor?: string;
+}
+
+export const ADTTable = styled(motion.table)<ADTTableProps>`
+  width: ${(props) => (props.width ? `${props.width}px` : "100%")};
+  height: ${(props) => (props.height ? `${props.height}px` : "100%")};
   border-collapse: collapse;
+
+  ${(props) =>
+    props.isPersistant &&
+    `
+    position: absolute;
+    /* pointer-events: none;
+    user-select: none; */
+    background-color: ${props.backgroundColor ?? "white"};
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
+    width: fit-content;
+  `}
 `;
 
 export const ADTHeader = styled.thead``;
 
 export const ADTBody = styled.tbody``;
 
-export const ADTTableWrapper = styled.div`
+export const ADTTableWrapper = styled.div<{ resizable?: boolean }>`
   padding: 0.8rem;
-  width: 100%;
+  position: relative;
+  width: ${(props) => (props.resizable ? "100%" : "fit-content")};
+  overflow: hidden;
+  ${(props) =>
+    !props.resizable &&
+    `
+     height: fit-content;
+     
+    `}
 `;

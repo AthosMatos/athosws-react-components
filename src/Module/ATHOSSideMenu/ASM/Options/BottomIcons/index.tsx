@@ -1,5 +1,6 @@
 import { BiSolidPencil } from "react-icons/bi";
 import { GoSignOut } from "react-icons/go";
+import { ATHOSColors } from "../../../../colors/colors";
 import { useATHOSSideMenu } from "../../../context/context";
 import { ASMArrowLeft, BottomIconsWrapper } from "../../../styled";
 import ASMEditOption from "./EditOption";
@@ -9,10 +10,9 @@ import ASMHideOption from "./HideOption";
 const BottomIcons = () => {
   const {
     props: {
-      onExit,
-      collapsable,
-      editable,
-      colors: { active, accent },
+      onExitIcon: onExit,
+      collapsableIcon: collapsable,
+      editableIcon: editable,
     },
     hideMenu,
   } = useATHOSSideMenu();
@@ -35,7 +35,10 @@ const BottomIcons = () => {
         <ASMHideOption
           Icon={
             collapsable.Icon ?? (
-              <ASMArrowLeft clicked={hideMenu} activeColor={accent} />
+              <ASMArrowLeft
+                clicked={hideMenu}
+                activeColor={ATHOSColors.grey.default}
+              />
             )
           }
           label={collapsable.label ?? ""}

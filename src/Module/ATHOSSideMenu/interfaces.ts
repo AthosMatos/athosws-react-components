@@ -1,71 +1,124 @@
 import { IconType } from "react-icons";
-import { SubOptionI } from "./ASM/Options/SubOption/interfaces";
 
-export interface ASMColorsProps {
-  accentColor: string;
-  activeColor: string;
+export interface ASMOptionColorConfig {
+  backColor?: string;
+  textColor?: string;
+  hover?: {
+    backColor?: string;
+    textColor?: string;
+    clicked?: {
+      backColor?: string;
+      textColor?: string;
+      hasChildren?: {
+        backColor?: string;
+        textColor?: string;
+      };
+      hasSelectedChildren?: {
+        backColor?: string;
+        textColor?: string;
+      };
+    };
+  };
+  clicked?: {
+    backColor?: string;
+    textColor?: string;
+    hasChildren?: {
+      backColor?: string;
+      textColor?: string;
+    };
+    hasSelectedChildren?: {
+      backColor?: string;
+      textColor?: string;
+    };
+  };
 }
-
-export interface ATHOSSideMenuDataI {
+export interface ASMSubOptionColorConfig {
+  backColor?: string;
+  textColor?: string;
+  hover?: {
+    backColor?: string;
+    textColor?: string;
+    clicked?: {
+      backColor?: string;
+      textColor?: string;
+    };
+  };
+  clicked?: {
+    backColor?: string;
+    textColor?: string;
+  };
+}
+export interface ASMOptionI {
   label: string;
-  Icon?: any;
+  Icon?: IconType | React.ReactNode;
   iconSize?: string | number;
-  subOptions?: SubOptionI[];
+  subOptions?: ASMSubOptionI[];
+  colorConfig?: ASMOptionColorConfig;
   onClick?: () => void;
 }
+export interface ASMSubOptionI {
+  label: string;
+  onClick?: () => void;
+  colorConfig?: ASMSubOptionColorConfig;
+}
 
-export interface ATHOSSideMenuBaseProps {
-  onExit?: {
+export interface ASMColorsProps {
+  background?: string;
+  sideBorder?: string;
+  primary?: string;
+  accent?: string;
+}
+
+/*
+  const colors = {
+      backColor: "transparent",
+      textColor: "white",
+      hover: {
+        backColor: "#5c5c5c",
+        textColor: "white",
+        clicked: {
+          backColor: "#2c7919",
+          textColor: "white",
+        },
+      },
+      clicked: {
+        backColor: "#38a01e",
+        textColor: "white",
+      },
+  }; 
+*/
+
+export type ATHOSSideMenuBaseProps = {
+  onExitIcon?: {
     onClick: () => void;
     Icon?: IconType;
     label: string;
   };
-  editable?: {
+  editableIcon?: {
     Icon?: IconType;
     label?: string;
   };
-  collapsable?: {
+  collapsableIcon?: {
     Icon?: IconType;
     label?: string;
   };
   goToFirstSubOnOpen?: boolean;
-  options: ATHOSSideMenuDataI[];
-  colors: {
-    accent: string;
-    active: string;
-    background?: string;
-  };
-  onReorder?: (result: ATHOSSideMenuDataI[]) => void;
+  options: ASMOptionI[];
+  colors: ASMColorsProps;
+  onReorder?: (result: ASMOptionI[]) => void;
+  asOverlay?: boolean;
+};
+
+export interface ATHOSSideMenuNoOverlayProps extends ATHOSSideMenuBaseProps {
   asOverlay?: false | undefined;
 }
 
-export interface ATHOSSideMenuOverlayProps {
-  onExit?: {
-    onClick: () => void;
-    Icon?: IconType;
-    label: string;
-  };
-  editable?: {
-    Icon?: IconType;
-    label?: string;
-  };
-  collapsable?: {
-    Icon?: IconType;
-    label?: string;
-  };
-  goToFirstSubOnOpen?: boolean;
-  options: ATHOSSideMenuDataI[];
-  colors: {
-    accent: string;
-    active: string;
-    background?: string;
-  };
-  onReorder?: (result: ATHOSSideMenuDataI[]) => void;
-
+export interface ATHOSSideMenuOverlayProps extends ATHOSSideMenuBaseProps {
   asOverlay: true;
   children: React.ReactNode;
+  overlayStyle?: React.CSSProperties;
 }
 
 export type ATHOSSideMenuProps =
-  | ATHOSSideMenuBaseProps
+  | ATHOSSideMenuNoOverlayProps
   | ATHOSSideMenuOverlayProps;

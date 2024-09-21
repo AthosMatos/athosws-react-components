@@ -1,4 +1,4 @@
-import { memo } from "react";
+import { memo, useMemo } from "react";
 import ADTCheckBox from "../../../components/ADTCheckBox";
 import { ColumnsIds } from "../../../context";
 import { CheckState } from "../../../hooks/useADTSelectedData";
@@ -7,6 +7,7 @@ import {
   ExtraColumnsI,
   GlobalConfig,
   StartShortI,
+  TableStyle,
 } from "../../../interfaces";
 import { ADTCellWrapper, ADTTR } from "../../../styled";
 import ADTCellColumn from "./ADTCellColumn";
@@ -18,7 +19,7 @@ interface ADTCellProps {
   columns: any[];
   paddingBetweenCells?: number;
   paddingBetweenColumns?: number;
-  highlightColor?: string;
+  tableStyle?: TableStyle<any>;
   isInit: boolean;
   checkCellClick: (row: number) => void;
   checkState: number;
@@ -28,17 +29,19 @@ interface ADTCellProps {
   startShort?: boolean | StartShortI<any>;
   columnsIDs?: ColumnsIds<any>;
   paddingBetweenExtraColumns?: number;
+  isPersistPrimaryColumn?: boolean;
 }
 
 const ADTCell = memo((props: ADTCellProps) => {
   const {
+    isPersistPrimaryColumn,
     isCheck,
     rowIndex,
     row,
     columns,
     paddingBetweenCells,
     paddingBetweenColumns,
-    highlightColor,
+    tableStyle,
     checkCellClick,
     checkState,
     isInit,
@@ -47,6 +50,7 @@ const ADTCell = memo((props: ADTCellProps) => {
     extraColumns,
     startShort,
     paddingBetweenExtraColumns,
+    columnsIDs,
   } = props;
 
   return (
@@ -57,55 +61,76 @@ const ADTCell = memo((props: ADTCellProps) => {
         transition={{ duration: 0.14 }}
       >
         <ADTCellWrapper
+          style={isPersistPrimaryColumn ? { paddingLeft: "0.4rem" } : {}}
           vertPad={paddingBetweenCells && paddingBetweenCells / 2}
           paddingHorizontal={paddingBetweenColumns}
         >
           <ADTCheckBox
-            highlightColor={highlightColor!}
+            highlightColor={tableStyle?.highlightColor!}
             checked={
               checkState === CheckState.PAGE && isCheck ? checkState : isCheck
             }
             check={() => checkCellClick(rowIndex)}
           />
         </ADTCellWrapper>
-        {(columns as any[]).map((column, index) => (
-          <ADTCellWrapper
-            id={`${columns[index]} - ${rowIndex} -${index}`}
-            paddingHorizontal={paddingBetweenColumns}
-            vertPad={paddingBetweenCells && paddingBetweenCells / 2}
-            bRightLeft
-            key={index}
-          >
-            <ADTCellColumn
-              cellId={`${columns[index]} - ${rowIndex} -${index}`}
-              columnsIDs={props.columnsIDs}
-              row={row}
-              column={column}
-              colConfig={colConfig}
-              globalConfig={globalConfig}
-              startShort={startShort}
-            />
-          </ADTCellWrapper>
-        ))}
-        {extraColumns &&
-          extraColumns.map((extraColumn, index) => {
-            if (extraColumn.showCondition && !extraColumn.showCondition(row))
-              return null;
+        {(columns as any[])
+          .filter((column, index) => !(isPersistPrimaryColumn && index > 0))
+          .map((column, index) => {
+            const textColor = useMemo(() => {
+              const globalColor = tableStyle?.cellTextColor?.global;
+              const specificColor =
+                tableStyle?.cellTextColor?.specific &&
+                tableStyle?.cellTextColor?.specific[column];
+
+              return specificColor ?? globalColor;
+            }, [tableStyle?.cellTextColor]);
             return (
               <ADTCellWrapper
-                style={{
-                  paddingRight: 0,
-                  paddingLeft: index == 0 ? 0 : paddingBetweenExtraColumns ?? 6,
-                }}
+                id={`${columns[index]} - ${rowIndex} -${index}`}
                 paddingHorizontal={paddingBetweenColumns}
                 vertPad={paddingBetweenCells && paddingBetweenCells / 2}
                 bRightLeft
                 key={index}
+                style={{
+                  color: textColor,
+                }}
               >
-                {extraColumn.component}
+                <ADTCellColumn
+                  cellId={`${columns[index]} - ${rowIndex} -${index}`}
+                  columnsIDs={columnsIDs}
+                  row={row}
+                  column={column}
+                  colConfig={colConfig}
+                  globalConfig={globalConfig}
+                  startShort={startShort}
+                />
               </ADTCellWrapper>
             );
           })}
+        {extraColumns &&
+          !isPersistPrimaryColumn &&
+          extraColumns
+            .filter(
+              (extraColumn) =>
+                !(extraColumn.showCondition && !extraColumn.showCondition(row))
+            )
+            .map((extraColumn, index) => {
+              return (
+                <ADTCellWrapper
+                  style={{
+                    paddingRight: 0,
+                    paddingLeft:
+                      index == 0 ? 0 : paddingBetweenExtraColumns ?? 6,
+                  }}
+                  paddingHorizontal={paddingBetweenColumns}
+                  vertPad={paddingBetweenCells && paddingBetweenCells / 2}
+                  bRightLeft
+                  key={index}
+                >
+                  {extraColumn.component}
+                </ADTCellWrapper>
+              );
+            })}
       </ADTTR>
     )
   );

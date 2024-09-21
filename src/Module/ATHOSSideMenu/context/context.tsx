@@ -24,19 +24,16 @@ const ATHOSSideMenuProvider = ({
     props.options.map((dt) => {
       const index = v4();
       return {
+        ...dt,
         id: `${dt.label}-${index}`,
-        label: dt.label,
-        onClick: dt.onClick,
-        show: false,
-        Icon: dt.Icon,
-        iconSize: dt.iconSize,
+        selected: false,
         subOptions: dt.subOptions?.map((sub) => {
           const subIndex = v4();
           return {
             id: `${dt.label}-${sub.label}-${subIndex}`,
             label: sub.label,
             onClick: sub.onClick,
-            show: false,
+            selected: false,
           };
         }),
       };
@@ -53,17 +50,17 @@ const ATHOSSideMenuProvider = ({
           dt.onClick && dt.onClick();
           return {
             ...dt,
-            show: clickedHasSubOptions ? !dt.show : true,
+            selected: clickedHasSubOptions ? !dt.selected : true,
           };
         }
         return {
           ...dt,
-          show: clickedHasSubOptions ? dt.show : false,
+          selected: clickedHasSubOptions ? dt.selected : false,
           subOptions: !clickedHasSubOptions
             ? dt.subOptions?.map((sub) => {
                 return {
                   ...sub,
-                  show: false,
+                  selected: false,
                 };
               })
             : dt.subOptions,
@@ -87,23 +84,23 @@ const ATHOSSideMenuProvider = ({
                 sub.onClick && sub.onClick();
                 return {
                   ...sub,
-                  show: true,
+                  selected: true,
                 };
               }
               return {
                 ...sub,
-                show: false,
+                selected: false,
               };
             }),
           };
         }
         return {
           ...dt,
-          show: false,
+          selected: false,
           subOptions: dt.subOptions?.map((sub) => {
             return {
               ...sub,
-              show: false,
+              selected: false,
             };
           }),
         };
@@ -119,7 +116,7 @@ const ATHOSSideMenuProvider = ({
           if (hasSubOptions) {
             return {
               ...dt,
-              show: false,
+              selected: false,
             };
           }
           return dt;

@@ -15,7 +15,7 @@ export const CheckState = {
 const useADTSelectedData = ({ pageSize }: useADTSelectedDataProps) => {
   const [selectedRows, setSelectedRows] = useState<number[]>([]);
   const [checkState, setCheckState] = useState(CheckState.NONE);
-
+  const [selectedRowsToastOpen, setSelectedRowsToastOpen] = useState(false);
   const checkAll = (dataAmount: number) => {
     setSelectedRows(Array.from({ length: dataAmount }, (_, i) => i));
     setCheckState(1);
@@ -74,7 +74,8 @@ const useADTSelectedData = ({ pageSize }: useADTSelectedDataProps) => {
   return {
     selectData,
     selectMethods,
-
+    selectedRowsToastOpen,
+    setSelectedRowsToastOpen,
     uncheckAll,
   };
 };

@@ -3,18 +3,21 @@ import { useEffect, useState } from "react";
 import { useADTContext } from "../../context";
 import ADTCell from "./ADTCell";
 
-const ADTCells = () => {
+interface ADTCellsProps {
+  isPersistPrimaryColumn?: boolean;
+}
+
+const ADTCells = ({ isPersistPrimaryColumn }: ADTCellsProps) => {
   const {
     selectMethods: { checkCellClick },
     selectData: { selectedRows, checkState },
     columnsIDs,
-
     props: {
       data,
       columns,
       paddingBetweenCells,
       paddingBetweenColumns,
-      highlightColor,
+      tableStyle,
       colConfig,
       globalConfig,
       extraColumns,
@@ -33,15 +36,16 @@ const ADTCells = () => {
     <AnimatePresence>
       {data.map((row, rowIndex) => (
         <ADTCell
+          isPersistPrimaryColumn={isPersistPrimaryColumn}
           columnsIDs={columnsIDs}
           key={row.id ?? rowIndex}
           isCheck={selectedRows.includes(rowIndex)}
           rowIndex={rowIndex}
           row={row}
           columns={columns}
+          tableStyle={tableStyle}
           paddingBetweenCells={paddingBetweenCells}
           paddingBetweenColumns={paddingBetweenColumns}
-          highlightColor={highlightColor}
           isInit={isInit}
           checkCellClick={checkCellClick}
           checkState={checkState}

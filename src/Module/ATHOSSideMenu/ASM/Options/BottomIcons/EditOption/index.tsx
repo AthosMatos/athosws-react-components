@@ -21,8 +21,8 @@ const ASMEditOption = ({ Icon, label, iconSize }: ASMOptionProps) => {
   return (
     <ASMBottomIconOptionWrapper
       title={label}
-      accentColor={colors.accent}
-      activeColor={colors.active}
+      /* accentColor={colors.accent}
+      activeColor={colors.active} */
       onClick={() => {
         setEditing(!editing);
       }}
@@ -31,7 +31,7 @@ const ASMEditOption = ({ Icon, label, iconSize }: ASMOptionProps) => {
         <Icon
           style={{
             pointerEvents: "none",
-            color: colors.accent,
+            //color: colors.accent,
           }}
           size={iconSize ?? defaulIconSize}
         />

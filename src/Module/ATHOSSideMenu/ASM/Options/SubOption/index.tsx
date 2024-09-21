@@ -6,15 +6,13 @@ const ASMSubOption = ({ parentId, subopt }: ASMSubOptionProps) => {
   const {
     selectSubOption,
     props: { colors },
-    editing,
   } = useATHOSSideMenu();
-  const isOpen = subopt.show;
+  const isOpen = subopt.selected;
 
   return (
     <ASMSubOptionWrapper
-      editing={editing}
-      accentColor={colors.accent}
-      activeColor={colors.active}
+      colorConfig={subopt.colorConfig}
+      label={subopt.label}
       clicked={isOpen}
       onClick={() => {
         selectSubOption(parentId, subopt.id);

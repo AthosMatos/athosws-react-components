@@ -14,7 +14,7 @@ const useResizableDiv = ({
     bottom: true,
     left: false,
   };
-  const name = saveInLocalStorage ?? v4().toString();
+  const name = saveInLocalStorage ?? v4();
   const localStorage = window.localStorage;
   const wName = `width-${name}`;
   const hName = `height-${name}`;

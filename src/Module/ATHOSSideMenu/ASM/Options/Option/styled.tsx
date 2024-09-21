@@ -1,12 +1,13 @@
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { DraggableProvided } from "react-beautiful-dnd";
-import { BiSolidPencil } from "react-icons/bi";
 import styled from "styled-components";
+import { ATHOSColors } from "../../../../colors/colors";
 import {
   generateColorShades,
   getContrastColor,
 } from "../../../../utils/color-utils";
 import { useATHOSSideMenu } from "../../../context/context";
+import { defaulIconSize } from "../../../styled";
 import { ASMOptionWrapperProps, ASMOWProps } from "./interfaces";
 
 export const optionPad = "calc(0.6rem * 2)";
@@ -24,69 +25,18 @@ export const ASMOW = styled.div<ASMOWProps>`
 
   pointer-events: ${({ editing }) => (editing ? "none" : "auto")};
 
-  &:hover {
-    ${({ hoverback, hovercolor }) =>
-      hoverback &&
-      hovercolor &&
-      `
-      background-color: ${hoverback};
-      color: ${hovercolor};
-    `}
-  }
-  &:active {
-    ${({ activeback, activecolor, scale }) =>
-      activeback &&
-      activecolor &&
-      scale &&
-      `
-      background-color: ${activeback};
-      color: ${activecolor};
-      transform: scale(${scale});
-      
-    `}
-  }
-
-  ${({ dftback, dftcolor }) =>
-    dftback &&
-    dftcolor &&
-    ` 
-    background-color: ${dftback};
-    color: ${dftcolor};
-  `}//if editing is true animate infinity a shake effect
+  background-color: ${({ background }) => background};
+  color: ${({ textColor }) => textColor};
+  transform: ${({ scale }) => `scale(${scale})`};
 `;
-/* ${({ editing }) =>
-    editing &&
-    `
-    animation: shake 0.4s infinite;
-    @keyframes shake {
-      0% { transform: rotate(0deg); }
-      25% { transform: rotate(1deg); }
-      50% { transform: rotate(-1deg); }
-      75% { transform: rotate(1deg); }
-      100% { transform: rotate(0deg); }
-    }
-    `} */
-export const ASMOptionWrapper = (props: ASMOptionWrapperProps) => {
-  const {
-    clicked,
-    accentColor,
-    activeColor,
-    hasSelectedChildren,
-    hasChildren,
-    editing,
-    children,
-    width,
-    onClick,
-  } = props;
-  const accentShades = generateColorShades(accentColor);
-  const activeShades = generateColorShades(activeColor);
 
-  const dft = useMemo(() => {
+/* 
+ const dft = useMemo(() => {
     if (clicked) {
       if (hasSelectedChildren) {
         return {
           backgroundColor: accentShades.dark,
-          color: getContrastColor(accentShades.darker),
+          color: getContrastColor(accentShades.dark),
         };
       } else if (hasChildren) {
         return {
@@ -99,6 +49,11 @@ export const ASMOptionWrapper = (props: ASMOptionWrapperProps) => {
           color: getContrastColor(activeColor),
         };
       }
+    } else {
+      return {
+        color: getContrastColor(colors.background ?? "white"),
+        //backgroundColor: "blue",
+      };
     }
   }, [
     hasSelectedChildren,
@@ -139,7 +94,7 @@ export const ASMOptionWrapper = (props: ASMOptionWrapperProps) => {
     if (hasSelectedChildren && clicked) {
       return {
         backgroundColor: accentShades.darker,
-        color: getContrastColor(accentShades.darker),
+        color: getContrastColor(accentShades.dark),
       };
     } else if (!clicked) {
       return {
@@ -165,36 +120,180 @@ export const ASMOptionWrapper = (props: ASMOptionWrapperProps) => {
     clicked,
     hasChildren,
   ]);
+*/
+
+export const ASMOptionWrapper = (props: ASMOptionWrapperProps) => {
+  const {
+    clicked,
+    hasSelectedChildren,
+    hasChildren,
+    children,
+    onClick,
+    label,
+    colorConfig,
+  } = props;
+
+  const {
+    props: { colors },
+    editing,
+    hideMenu,
+  } = useATHOSSideMenu();
+
+  const width = useMemo(() => {
+    return hideMenu ? defaulIconSize : "auto";
+  }, [hideMenu]);
+
+  //todo create a autocolor generate when theres only primary and/or accent colors
+
+  const [backColor, setBackColor] = useState(
+    colorConfig?.backColor || "transparent"
+  );
+  const [textColor, setTextColor] = useState(
+    colorConfig?.textColor ||
+      (colors.background ? getContrastColor(colors.background) : "black")
+  );
+  const [isOver, setIsOver] = useState(false);
+  const [scale, setScale] = useState(1);
+
+  const setHoverColor = () => {
+    if (clicked) {
+      if (hasSelectedChildren) {
+        const dftColor = colors.primary
+          ? generateColorShades(colors.primary).darker
+          : ATHOSColors.red.darker;
+        setBackColor(
+          colorConfig?.hover?.clicked?.hasSelectedChildren?.backColor ||
+            dftColor
+        );
+        setTextColor(
+          colorConfig?.hover?.clicked?.hasSelectedChildren?.textColor ||
+            getContrastColor(dftColor)
+        );
+      } else if (hasChildren) {
+        const dftColor = colors.accent
+          ? generateColorShades(colors.accent).dark
+          : ATHOSColors.grey.dark;
+        setBackColor(
+          colorConfig?.hover?.clicked?.hasChildren?.backColor || dftColor
+        );
+        setTextColor(
+          colorConfig?.hover?.clicked?.hasChildren?.textColor ||
+            getContrastColor(dftColor)
+        );
+      } else {
+        const dftColor = colors.primary
+          ? generateColorShades(colors.primary).dark
+          : ATHOSColors.red.dark;
+        setBackColor(colorConfig?.hover?.clicked?.backColor || dftColor);
+        setTextColor(
+          colorConfig?.hover?.clicked?.textColor || getContrastColor(dftColor)
+        );
+      }
+    } else {
+      const dftColor = colors.accent
+        ? generateColorShades(colors.accent).default
+        : ATHOSColors.grey.light;
+      setBackColor(colorConfig?.hover?.backColor || dftColor);
+      setTextColor(colorConfig?.hover?.textColor || getContrastColor(dftColor));
+    }
+  };
+
+  useEffect(() => {
+    if (isOver) {
+      setHoverColor();
+    } else {
+      if (clicked) {
+        if (hasChildren) {
+          if (hasSelectedChildren) {
+            const dftColor = colors.primary
+              ? generateColorShades(colors.primary).dark
+              : ATHOSColors.red.dark;
+            setBackColor(
+              colorConfig?.clicked?.hasSelectedChildren?.backColor || dftColor
+            );
+            setTextColor(
+              colorConfig?.clicked?.hasSelectedChildren?.textColor ||
+                getContrastColor(dftColor)
+            );
+          } else {
+            const dftColor = colors.accent
+              ? generateColorShades(colors.accent).light
+              : ATHOSColors.grey.light;
+            setBackColor(
+              colorConfig?.clicked?.hasChildren?.backColor || dftColor
+            );
+            setTextColor(
+              colorConfig?.clicked?.hasChildren?.textColor ||
+                getContrastColor(dftColor)
+            );
+          }
+        } else {
+          const dftColor = colors.primary
+            ? generateColorShades(colors.primary).default
+            : ATHOSColors.red.default;
+          setBackColor(colorConfig?.clicked?.backColor || dftColor);
+          setTextColor(
+            colorConfig?.clicked?.textColor || getContrastColor(dftColor)
+          );
+        }
+      } else {
+        setBackColor(colorConfig?.backColor || "transparent");
+        setTextColor(
+          colorConfig?.textColor ||
+            (colors.background ? getContrastColor(colors.background) : "black")
+        );
+      }
+    }
+  }, [clicked, isOver, hasSelectedChildren, hasChildren]);
+
+  const onOver = () => {
+    setIsOver(true);
+  };
+  const onOut = () => {
+    setIsOver(false);
+  };
+  const onMouseDown = () => {
+    setScale(1.04);
+  };
+  const onMouseUp = () => {
+    setScale(1);
+  };
+
   return (
     <ASMOW
-      {...props}
+      title={hideMenu ? label : ""}
       editing={editing}
-      dftback={dft?.backgroundColor}
-      dftcolor={dft?.color}
-      activeback={active?.backgroundColor}
-      activecolor={active?.color}
-      hoverback={hover?.backgroundColor}
-      hovercolor={hover?.color}
+      background={backColor}
+      textColor={textColor}
       onClick={onClick}
       width={width}
-      scale={active?.transform}
+      scale={scale}
+      onMouseOver={onOver}
+      onMouseOut={onOut}
+      onMouseDown={onMouseDown}
+      onMouseUp={onMouseUp}
     >
       {children}
     </ASMOW>
   );
 };
 
-const ASMOC = styled.div<{ editing: boolean; accent: string }>`
+const ASMOC = styled.div<{
+  editing: boolean;
+  backColor: string;
+  // textColor: string;
+}>`
   margin: 0.2rem 0rem;
   transition: box-shadow 0.2s;
-  box-shadow: ${({ editing, accent }) =>
-    editing ? `0 0 0 1px ${accent}` : "none"};
+  box-shadow: ${({ editing, backColor }) =>
+    editing ? `0 0 0 1px ${generateColorShades(backColor).darker}` : "none"};
   border-radius: 0.3rem;
-  background-color: ${({ editing, accent }) =>
-    editing ? generateColorShades(accent).light : "transparent"};
+  background-color: ${({ editing, backColor }) =>
+    editing ? backColor : "transparent"};
+
   //if editing is true animate infinity a up and down effect (floating)
 `;
-
+//color: ${({ textColor }) => textColor};
 const ASMFade = styled.div<{ editing: boolean }>`
   opacity: ${({ editing }) => (editing ? 0.2 : 1)};
   transition: opacity 0.2s;
@@ -202,30 +301,16 @@ const ASMFade = styled.div<{ editing: boolean }>`
   flex-direction: column;
 `;
 
-const EditPencilIcon = styled(BiSolidPencil)<{
-  editing: boolean;
-  accent: string;
-}>`
-  position: absolute;
-
-  font-size: 2.4rem;
-
-  transition: opacity 0.2s;
-  opacity: ${({ editing }) => (editing ? 1 : 0)};
-  color: ${({ accent }) => getContrastColor(generateColorShades(accent).light)};
-`;
-
 export const ASMOptionContainer = ({
-  accent,
-
+  backColor,
+  //textColor,
   children,
   provided,
-  childrenHeight,
 }: {
-  accent: string;
+  backColor: string;
   children: React.ReactNode;
   provided: DraggableProvided;
-  childrenHeight: string;
+  //textColor: string;
 }) => {
   const { editing } = useATHOSSideMenu();
 
@@ -236,23 +321,9 @@ export const ASMOptionContainer = ({
       {...provided.dragHandleProps}
       style={provided.draggableProps.style}
       editing={editing}
-      accent={accent}
+      backColor={backColor}
+      // textColor={textColor}
     >
-      {/*  <div
-        style={{
-          position: "absolute",
-          display: "flex",
-          flex: 1,
-          width: hiddenMenuWidth,
-          height: `calc((1.6rem + (0.52rem * 2)) + ${childrenHeight})`,
-          pointerEvents: "none",
-          alignItems: "center",
-          justifyContent: "center",
-          overflow: "hidden",
-        }}
-      >
-        <EditPencilIcon accent={accent} editing={editing} />
-      </div> */}
       <ASMFade editing={editing}>{children}</ASMFade>
     </ASMOC>
   );

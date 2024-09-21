@@ -3,22 +3,23 @@ import { v4 } from "uuid";
 import { useADTContext } from "../../context";
 
 export const useADTBorder = (colID: string) => {
-  const wrapperid = v4().toString();
-  const id = v4().toString();
+  const wrapperid = v4();
+  const id = v4();
 
   //const [doubleClicked, setDoubleClicked] = useState(false);
   const {
-    props: { paddingBetweenColumns },
+    props: { paddingBetweenColumns, tableStyle },
   } = useADTContext();
   useEffect(() => {
     const BRDWrapperDiv = document.getElementById(wrapperid);
     const BRD = document.getElementById(id);
-    const ColDiv = document.getElementById(colID);
-    if (!BRDWrapperDiv || !ColDiv || !BRD) return;
+    const ColDivs = document.querySelectorAll(`[id="${colID}"]`);
+
+    if (!BRDWrapperDiv || !ColDivs.length || !BRD) return;
 
     const handleMove = (pageX: number) => {
       const BRDWrapperDivRect = BRDWrapperDiv.getBoundingClientRect();
-      const ColDivRect = ColDiv.getBoundingClientRect();
+      const ColDivRect = ColDivs[0].getBoundingClientRect();
       const ColDivWidth = ColDivRect.width;
       const Plus = Math.round(
         pageX -
@@ -26,7 +27,9 @@ export const useADTBorder = (colID: string) => {
             (paddingBetweenColumns ? paddingBetweenColumns * 2 - 5 : 8))
       ); //+20 to centralize in the cursor
       const newWidth = ColDivWidth + Plus;
-      ColDiv.style.width = `${newWidth}px`;
+      ColDivs.forEach((col) => {
+        (col as HTMLElement).style.width = `${newWidth}px`;
+      });
     };
 
     const onMouseMove = (e: MouseEvent) => handleMove(e.pageX);

@@ -129,7 +129,9 @@ const ADTCellColumn = ({
 
   return showTooltip ? (
     <ATHOSTooltip
-      maxWidth={200}
+      style={{
+        maxWidth: "200px",
+      }}
       followCursor
       content={row[column]}
       forceOpen={touch}

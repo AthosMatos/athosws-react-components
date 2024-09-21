@@ -1,5 +1,7 @@
 import { useMemo } from "react";
 import { Draggable } from "react-beautiful-dnd";
+import { ATHOSColors } from "../../../../colors/colors";
+import { getContrastColor } from "../../../../utils/color-utils";
 import { useATHOSSideMenu } from "../../../context/context";
 import {
   ASMArrowDown,
@@ -15,15 +17,17 @@ import { ASMOptionContainer, ASMOptionLabel, ASMOptionWrapper } from "./styled";
 const ASMOption = ({ option, children, index }: ASMOptionProps) => {
   const {
     selectOption,
-    props: { colors },
+    props: {
+      colors: { background },
+    },
     hideMenu,
     editing,
   } = useATHOSSideMenu();
-  const { label, Icon, iconSize } = option;
+  const { label, Icon, iconSize, colorConfig } = option;
 
   const hasChildren = !(children == undefined || children == null);
-  const isOpen = option.show;
-  const hasSelectedChildren = option.subOptions?.some((sub) => sub.show);
+  const isOpen = option.selected;
+  const hasSelectedChildren = option.subOptions?.some((sub) => sub.selected);
 
   const childrenHeight = useMemo(() => {
     const childrenAmount = (children as any)?.length;
@@ -37,33 +41,39 @@ const ASMOption = ({ option, children, index }: ASMOptionProps) => {
     <Draggable isDragDisabled={!editing} draggableId={option.id} index={index}>
       {(provided) => (
         <ASMOptionContainer
-          childrenHeight={`calc(${childrenHeight} + ${
-            isOpen ? "0.8rem" : "0px"
-          })`}
-          accent={colors.accent}
+          backColor={
+            background
+              ? getContrastColor(background) == "black"
+                ? ATHOSColors.grey.light
+                : ATHOSColors.grey.darker
+              : ATHOSColors.grey.default
+          }
           provided={provided}
         >
           <ASMOptionWrapper
-            editing={editing}
-            width={hideMenu ? defaulIconSize : "auto"}
-            accentColor={colors.accent}
-            activeColor={colors.active}
+            colorConfig={colorConfig}
+            label={label}
+            hasSelectedChildren={hasSelectedChildren}
+            hasChildren={hasChildren}
+            clicked={isOpen || hasSelectedChildren}
             onClick={() => {
               !editing && selectOption(option.id);
             }}
-            hasSelectedChildren={!hasSelectedChildren && hasChildren}
-            hasChildren={hasChildren}
-            clicked={isOpen || hasSelectedChildren}
           >
             <ASMLabelIconWrapper>
               {Icon ? (
                 <ASMIconWrapper iconSize={defaulIconSize}>
-                  <Icon
-                    style={{
-                      pointerEvents: "none",
-                    }}
-                    size={iconSize ?? defaulIconSize}
-                  />
+                  {typeof Icon === "function" ? (
+                    <Icon
+                      style={{
+                        pointerEvents: "none",
+                        //color: colors.accent,
+                      }}
+                      size={iconSize ?? defaulIconSize}
+                    />
+                  ) : (
+                    Icon
+                  )}
                 </ASMIconWrapper>
               ) : (
                 hideMenu && (

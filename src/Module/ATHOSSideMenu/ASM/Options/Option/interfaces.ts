@@ -1,34 +1,26 @@
-import { ASMColorsProps } from "../../../interfaces";
+import { ASMOptionColorConfig, ASMOptionI } from "../../../interfaces";
 import { SelectedDataTrackSubOptI } from "../SubOption/interfaces";
-export interface SelectedDataTrackOptI {
+export interface SelectedDataTrackOptI extends ASMOptionI {
   id: string;
-  label: string;
-  Icon?: any;
-  iconSize?: string | number;
+  selected: boolean;
   subOptions?: SelectedDataTrackSubOptI[];
-  show: boolean;
-  onClick?: () => void;
 }
 export interface ASMOWProps {
-  hoverback?: string;
-  hovercolor?: string;
-  activeback?: string;
-  activecolor?: string;
-  dftback?: string;
-  dftcolor?: string;
-  scale?: number;
+  background: string;
+  textColor: string;
   width?: string;
   editing?: boolean;
+  scale?: number;
 }
 
-export interface ASMOptionWrapperProps extends ASMColorsProps {
+export interface ASMOptionWrapperProps {
   clicked?: boolean;
   hasChildren?: boolean;
   hasSelectedChildren?: boolean;
   children?: React.ReactNode;
   onClick?: () => void;
-  editing?: boolean;
-  width?: string;
+  label: string;
+  colorConfig?: ASMOptionColorConfig;
 }
 export interface ASMOptionProps {
   option: SelectedDataTrackOptI;

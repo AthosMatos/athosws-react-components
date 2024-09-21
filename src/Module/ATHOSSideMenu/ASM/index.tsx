@@ -7,20 +7,19 @@ import {
 import { reorder } from "../../utils/sort-utils";
 
 import { useATHOSSideMenu } from "../context/context";
-import { ASMColorsProps } from "../interfaces";
 import { ASMC, ASMWrapper, hiddenMenuWidth, sideMenuWidth } from "../styled";
 import BottomIcons from "./Options/BottomIcons";
 import ASMOption from "./Options/Option";
 import { SelectedDataTrackOptI } from "./Options/Option/interfaces";
 import ASMSubOption from "./Options/SubOption";
 
-export const ASM = (props: ASMColorsProps) => {
+export const ASM = () => {
   const {
     selectedDataTrack,
     hideMenu,
     dropId,
     setSelectedData,
-    props: { onReorder },
+    props: { onReorder, colors },
   } = useATHOSSideMenu();
   const onEnd = (res: DropResult, provided: ResponderProvided) => {
     // dropped outside the list
@@ -44,8 +43,10 @@ export const ASM = (props: ASMColorsProps) => {
       <Droppable droppableId={dropId}>
         {(provided) => (
           <ASMC
+            style={{
+              backgroundColor: colors.background,
+            }}
             ref={provided.innerRef}
-            {...props}
             {...provided.droppableProps}
             width={hideMenu ? hiddenMenuWidth : sideMenuWidth}
           >
@@ -53,7 +54,7 @@ export const ASM = (props: ASMColorsProps) => {
               {selectedDataTrack.map((option, index) => (
                 <ASMOption key={option.id} index={index} option={option}>
                   {option.subOptions &&
-                    option.subOptions.map((subOption, subIndex) => (
+                    option.subOptions.map((subOption) => (
                       <ASMSubOption
                         key={subOption.id}
                         subopt={subOption}

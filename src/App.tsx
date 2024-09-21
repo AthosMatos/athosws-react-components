@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { FaFile, FaPlus, FaUser } from "react-icons/fa";
 import { MdOutlineAttachMoney } from "react-icons/md";
 import { PiGavelFill } from "react-icons/pi";
@@ -6,9 +6,11 @@ import styled from "styled-components";
 import "./App.css";
 import { GroupI } from "./Module/ATHOSCard";
 import { ATHOSSideMenu } from "./Module/ATHOSSideMenu";
-import { ATHOSSideMenuDataI } from "./Module/ATHOSSideMenu/interfaces";
+import { ASMOptionI } from "./Module/ATHOSSideMenu/interfaces";
 import { ATHOSTooltip } from "./Module/ATHOSTooltip";
 import { ATHOSColors } from "./Module/colors/colors";
+
+import { tdata } from "./data-CC71BNrg8tmzETG2KjpiS";
 import { ATHOSButton, ATHOSDropDown, ATHOSDynamicTable } from "./module-index";
 const Container = styled.div`
   display: flex;
@@ -31,7 +33,7 @@ const Bwrapper = styled.div`
   gap: 1rem;
 `;
 
-const mockData: ATHOSSideMenuDataI[] = [
+const mockData: ASMOptionI[] = [
   {
     label: "Dashboard",
     onClick: () => console.log("Dashboard"),
@@ -87,101 +89,47 @@ const TestPage = () => {
     */
   const [error, setError] = useState<string>();
   const [boards, setBoards] = useState<GroupI[]>([]);
-  type TableData = {
-    id: string;
-    numero: string;
-    assunto: string;
-    status: React.ReactNode;
-  };
+  const [tableData, setTableData] = useState(tdata);
   const [open, setOpen] = useState(false);
-  const [tableData, setTableData] = useState<TableData[]>([
-    {
-      id: "1",
-      numero: "0803174-22.2023.4.05.8400",
-      assunto:
-        "Contract Dispute Contract Dispute Contract Dispute Contract Dispute Contract Dispute",
-      status: "Open",
-    },
-    {
-      id: "2",
-      numero: "0805123-33.2023.4.05.8400",
-      assunto: "Property Rights",
-      status: "Closed",
-    },
-    {
-      id: "3",
-      numero: "0807894-44.2023.4.05.8400",
-      assunto: "Fraud Investigation",
-      status: "Pending",
-    },
-    {
-      id: "4",
-      numero: "0809876-55.2023.4.05.8400",
-      assunto: "Employment Dispute",
-      status: "Open",
-    },
-    {
-      id: "5",
-      numero: "0801234-66.2023.4.05.8400",
-      assunto: "Patent Infringement",
-      status: "Closed",
-    },
-    {
-      id: "6",
-      numero: "0806543-77.2023.4.05.8400",
-      assunto: "Trademark Violation",
-      status: "Open",
-    },
-    {
-      id: "7",
-      numero: "0803456-88.2023.4.05.8400",
-      assunto: "Tax Evasion",
-      status: "Pending",
-    },
-    {
-      id: "8",
-      numero: "0801122-99.2023.4.05.8400",
-      assunto: "Breach of Contract",
-      status: "Closed",
-    },
-    {
-      id: "9",
-      numero: "0809987-00.2023.4.05.8400",
-      assunto: "Defamation Case",
-      status: "Open",
-    },
-    {
-      id: "10",
-      numero: "0808765-11.2023.4.05.8400",
-      assunto: "Insurance Claim",
-      status: "Pending",
-    },
-  ]);
 
   return (
     <ATHOSSideMenu
-      collapsable={{
+      collapsableIcon={{
         label: "Hide",
       }}
-      editable={{
+      editableIcon={{
         label: "Edit",
       }}
       colors={{
-        accent: "#aaaaaa",
-        active: "#cf1e94",
+        background: ATHOSColors.black.coal,
+        sideBorder: ATHOSColors.white.eggshell,
+        /*  options: {
+          active: "purple",
+          accent: ATHOSColors.grey.default,
+          specific: { ["Dashboard"]: { default: "red", text: "blue" } },
+        }, */
       }}
       options={mockData}
-      onExit={{
+      onExitIcon={{
         label: "Sair",
         onClick: () => console.log("Sair"),
       }}
       asOverlay
+      overlayStyle={{
+        display: "flex",
+        flexDirection: "row",
+        backgroundColor: ATHOSColors.black.coal,
+      }}
     >
       <ATHOSDynamicTable
         //resizeable
+        persistPrimaryColumn={{
+          backgroundColor: ATHOSColors.white.eggshell,
+        }}
         extraColumns={[
           {
-            //showCondition: (data) => data.status === "Open",
+            showCondition: (data) =>
+              parseFloat(data.currency.replace("$", "")) > 3000,
             component: (
               <ATHOSButton small type="alt" color="#cf1e94">
                 Fazer Peça
@@ -198,18 +146,35 @@ const TestPage = () => {
           },
         ]}
         startShort={{
-          assunto: true,
+          address: true,
         }}
-        tableID="Tabe1"
-        highlightColor={ATHOSColors.aqua.default}
+        tableName="Table1"
+        tableStyle={{
+          highlightColor: ATHOSColors.aqua.default,
+          cellTextColor: {
+            global: "blue",
+            specific: { address: "purple" },
+          },
+          columnTextColor: {
+            global: "red",
+            specific: { address: "green" },
+          },
+        }}
         data={tableData}
-        columnsToShow={["numero", "assunto", "status"]}
+        columnsToShow={[
+          "country",
+          "address",
+          "phone",
+          "currency",
+          "name",
+          "region",
+        ]}
         paddingBetweenCells={10}
         paddingHeader={15}
         colConfig={{
-          numero: { label: "Numero do Processo" },
-          assunto: {
-            label: "Assunto",
+          name: { label: "Name" },
+          address: {
+            label: "Adress",
             maxWidth: 100,
             shortOnlyifCut: true,
             maxCharToCut: 20,
@@ -265,97 +230,100 @@ const TestPage = () => {
         }}
       />
 
-      <button
-        onClick={() => {
-          setOpen((prev) => !prev);
+      <div
+        style={{
+          display: "flex",
+          gap: 100,
+          flexDirection: "column",
         }}
       >
-        Click
-      </button>
-      <div style={{ display: "flex", flexDirection: "row", gap: 100 }}>
-        <ATHOSTooltip position="top" content={"testststs"} forceOpen={open}>
-          {(ref) => (
-            <div
-              ref={ref}
-              style={{
-                marginTop: "100px",
-                width: "100px",
-                height: "100px",
-                backgroundColor: "blue",
-              }}
-            />
-          )}
-        </ATHOSTooltip>
-        <ATHOSTooltip content={"testststs"} followCursor forceOpen={open}>
-          {(ref) => (
-            <div
-              ref={ref}
-              style={{
-                marginTop: "100px",
-                width: "100px",
-                height: "100px",
-                backgroundColor: "blue",
-              }}
-            />
-          )}
-        </ATHOSTooltip>
-      </div>
-      <div style={{ display: "flex", flexDirection: "row", gap: 100 }}>
-        <ATHOSDropDown
-          close={() => {}}
-          id="rere"
-          open
-          labels={[
-            {
-              label: "Option 1",
-              onClick: () => console.log("Option 1 clicked"),
-            },
-            {
-              label: "Option 2",
-              onClick: () => console.log("Option 2 clicked"),
-            },
-          ]}
+        <button
+          onClick={() => {
+            setOpen((prev) => !prev);
+          }}
         >
-          {(ref) => (
-            <div
-              ref={ref}
-              style={{
-                marginTop: "100px",
-                width: "100px",
-                height: "100px",
-                backgroundColor: "blue",
-              }}
-            />
-          )}
-        </ATHOSDropDown>
-        <ATHOSDropDown
-          close={() => {}}
-          id="rer6556e"
-          open
-          labels={[
-            {
-              label: "Option 1",
-              onClick: () => console.log("Option 1 clicked"),
-            },
-            {
-              label: "Option 2",
-              onClick: () => console.log("Option 2 clicked"),
-            },
-          ]}
-        >
-          {(ref) => (
-            <div
-              ref={ref}
-              style={{
-                marginTop: "100px",
-                width: "100px",
-                height: "100px",
-                backgroundColor: "blue",
-              }}
-            />
-          )}
-        </ATHOSDropDown>
+          Click
+        </button>
+        <div style={{ display: "flex", flexDirection: "row", gap: 100 }}>
+          <ATHOSTooltip position="top" content={"testststs"} forceOpen={open}>
+            {(ref) => (
+              <div
+                ref={ref}
+                style={{
+                  width: "100px",
+                  height: "100px",
+                  backgroundColor: "blue",
+                }}
+              />
+            )}
+          </ATHOSTooltip>
+          <ATHOSTooltip content={"testststs"} followCursor forceOpen={open}>
+            {(ref) => (
+              <div
+                ref={ref}
+                style={{
+                  width: "100px",
+                  height: "100px",
+                  backgroundColor: "blue",
+                }}
+              />
+            )}
+          </ATHOSTooltip>
+        </div>
+        <div style={{ display: "flex", flexDirection: "row", gap: 100 }}>
+          <ATHOSDropDown
+            onClose={() => {}}
+            isOpen
+            labels={[
+              {
+                label: "Option 1",
+                onClick: () => console.log("Option 1 clicked"),
+              },
+              {
+                label: "Option 2",
+                onClick: () => console.log("Option 2 clicked"),
+              },
+            ]}
+          >
+            {(ref) => (
+              <div
+                ref={ref}
+                style={{
+                  width: "100px",
+                  height: "100px",
+                  backgroundColor: "blue",
+                }}
+              />
+            )}
+          </ATHOSDropDown>
+          <ATHOSDropDown
+            onClose={() => {}}
+            isOpen={open}
+            labels={[
+              {
+                label: "Option 1",
+                onClick: () => console.log("Option 1 clicked"),
+              },
+              {
+                label: "Option 2",
+                onClick: () => console.log("Option 2 clicked"),
+              },
+            ]}
+          >
+            {(ref) => (
+              <div
+                ref={ref}
+                style={{
+                  width: "100px",
+                  height: "100px",
+                  backgroundColor: "blue",
+                }}
+              />
+            )}
+          </ATHOSDropDown>
+        </div>
       </div>
+
       {/* <ATHOSDropDown
         positionVert="bottom"
         positionHor="right"

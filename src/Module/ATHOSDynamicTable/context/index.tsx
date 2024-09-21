@@ -13,7 +13,7 @@ import { DynamicTableProps } from "../interfaces";
 
 interface ADTContextProps<T> {
   props: DynamicTableProps<T> & {
-    columns: (keyof T)[];
+    columns: any[];
   };
 
   selectMethods: {
@@ -28,6 +28,9 @@ interface ADTContextProps<T> {
   setColumnsIDs: Dispatch<SetStateAction<ColumnsIds<T> | undefined>>;
   uncheckAll: () => void;
   colsTRId: string;
+  selectedRowsToastOpen: boolean;
+  setSelectedRowsToastOpen: Dispatch<SetStateAction<boolean>>;
+  colH?: number;
 }
 
 export type ColumnsIds<T> = {
@@ -43,7 +46,7 @@ export function ADTProvider<T>({
   children: React.ReactNode;
   props: DynamicTableProps<T>;
 }) {
-  const { data, columnsToHide, columnsToShow, highlightColor } = props;
+  const { data, columnsToHide, columnsToShow, tableStyle } = props;
   const columns = useMemo(() => {
     if (columnsToHide) {
       return Object.keys(data[0] as object).filter(
@@ -54,12 +57,18 @@ export function ADTProvider<T>({
     } else return Object.keys(data[0] as object) as (keyof T)[];
   }, [columnsToHide, columnsToShow, data]);
 
-  const { selectMethods, selectData, uncheckAll } = useADTSelectedData({
+  const {
+    selectMethods,
+    selectData,
+    uncheckAll,
+    selectedRowsToastOpen,
+    setSelectedRowsToastOpen,
+  } = useADTSelectedData({
     pageSize: 5,
   });
 
   const [columnsIDs, setColumnsIDs] = useState<ColumnsIds<T>>();
-  const [colsTRId, setColsTRId] = useState<string>(v4().toString());
+  const [colsTRId, setColsTRId] = useState<string>(v4());
 
   useEffect(() => {
     const columnsIDs = columns.reduce((acc, column) => {
@@ -69,9 +78,15 @@ export function ADTProvider<T>({
     setColumnsIDs(columnsIDs);
   }, [columns]);
 
-  /*  useEffect(() => {
-    
-  }, [data]); */
+  const [colH, setColH] = useState<number>();
+
+  useEffect(() => {
+    const DTColumnWrapperDiv = document.getElementById(colsTRId);
+    if (!DTColumnWrapperDiv || !props.paddingHeader) return;
+    const h =
+      DTColumnWrapperDiv.getBoundingClientRect().height + props.paddingHeader;
+    setColH(h);
+  }, []);
 
   return (
     <ADTContext.Provider
@@ -82,10 +97,16 @@ export function ADTProvider<T>({
         setColumnsIDs,
         uncheckAll,
         colsTRId,
+        selectedRowsToastOpen,
+        setSelectedRowsToastOpen,
+        colH,
         props: {
           ...props,
           columns,
-          highlightColor: highlightColor ?? "#ff0000",
+          tableStyle: {
+            ...tableStyle,
+            highlightColor: tableStyle?.highlightColor ?? "#ff6262",
+          },
         },
       }}
     >

@@ -5,12 +5,12 @@ export interface LabelI {
 
 export interface ATHOSDropDownProps {
   children: (ref: any) => React.ReactNode;
-  open: boolean;
-  close: () => void;
-  positionVert?: "top" | "bottom";
-  positionHor?: "left" | "right";
-  id: string;
+  isOpen: boolean;
+  onClose: () => void;
+  position?: "top" | "bottom";
+  id?: string;
   labels: LabelI[];
+  style?: React.CSSProperties;
 }
 
 export type ADDContainerProps = {
