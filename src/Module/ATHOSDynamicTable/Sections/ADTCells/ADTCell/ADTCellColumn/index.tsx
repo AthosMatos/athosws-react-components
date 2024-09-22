@@ -139,13 +139,13 @@ const ADTCellColumn = ({
       {(ref) => (
         <div ref={ref}>
           {colConfig && colConfig[column]?.cellComponent
-            ? colConfig[column]?.cellComponent(row[column])
+            ? colConfig[column]?.cellComponent!(row[column])
             : rowValue}
         </div>
       )}
     </ATHOSTooltip>
   ) : colConfig && colConfig[column]?.cellComponent ? (
-    colConfig[column]?.cellComponent(row[column])
+    colConfig[column]?.cellComponent!(row[column])
   ) : (
     rowValue
   );

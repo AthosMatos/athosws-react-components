@@ -78,11 +78,23 @@ const ADTCell = memo((props: ADTCellProps) => {
           .map((column, index) => {
             const textColor = useMemo(() => {
               const globalColor = tableStyle?.cellTextColor?.global;
-              const specificColor =
+              const specificGlobalColor =
                 tableStyle?.cellTextColor?.specific &&
-                tableStyle?.cellTextColor?.specific[column];
+                tableStyle?.cellTextColor?.specific[column]?.global;
+              const specificIndexColor =
+                tableStyle?.cellTextColor?.specific &&
+                tableStyle?.cellTextColor?.specific[column]?.specificIndex &&
+                tableStyle?.cellTextColor?.specific[column]?.specificIndex?.indexes.includes(
+                  rowIndex
+                ) &&
+                tableStyle?.cellTextColor?.specific[column]?.specificIndex?.color;
+              const specificConditionColor =
+                tableStyle?.cellTextColor?.specific &&
+                tableStyle?.cellTextColor?.specific[column]?.condional?.showCondition(
+                  row[column]
+                ) && tableStyle?.cellTextColor?.specific[column]?.condional?.color;
 
-              return specificColor ?? globalColor;
+              return specificConditionColor || specificIndexColor || specificGlobalColor || globalColor;
             }, [tableStyle?.cellTextColor]);
             return (
               <ADTCellWrapper

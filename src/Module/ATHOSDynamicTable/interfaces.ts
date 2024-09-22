@@ -43,11 +43,26 @@ export type ColumnTextTableStyle<T> = {
   [key in keyof T]?: string;
 };
 
+export type CellColumnTextTableStyle<T> = {
+  [key in keyof T]?: {
+    global?: string;
+    specificIndex?: {
+      indexes: number[];
+      color: string;
+    };
+    condional?: 
+    {
+      showCondition: (rowColumnData: string) => boolean;
+      color: string;
+    }
+   
+  };
+};
 export type TableStyle<T> = {
   highlightColor?: string;
   cellTextColor?: {
     global?: string;
-    specific?: ColumnTextTableStyle<T>;
+    specific?: CellColumnTextTableStyle<T>;
   };
   columnTextColor?: {
     global?: string;

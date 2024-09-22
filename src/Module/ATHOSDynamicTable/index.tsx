@@ -65,12 +65,12 @@ export function ATHOSDynamicTable<T>(props: DynamicTableProps<T>) {
           </AnimatePresence>
           <div
             id={tableWrapperId}
-            style={{
+            style={shouldRenderPersistantTable ?{
               position: "static",
               overflowX: "auto",
               overflowY: "hidden",
               width: "100%",
-            }}
+            }: undefined}
           >
             <Table />
           </div>

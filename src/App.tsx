@@ -153,7 +153,14 @@ const TestPage = () => {
           highlightColor: ATHOSColors.aqua.default,
           cellTextColor: {
             global: "blue",
-            specific: { address: "purple" },
+            specific: { address: 
+              { global: "green", specificIndex: { indexes: [5, 6, 7], color: "red" } },
+              name: { condional: { showCondition: (rowColumnData) => {
+                console.log(rowColumnData);
+                return rowColumnData == "Brennan Maxwell";
+              }, color: "white" } },
+            },
+            
           },
           columnTextColor: {
             global: "red",
