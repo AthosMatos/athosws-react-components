@@ -1,5 +1,5 @@
 import "./index.css";
-
+import "./styles.css";
 /* Components */
 
 export { ATHOSButton } from "./Module/ATHOSButton";

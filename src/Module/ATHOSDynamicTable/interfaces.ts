@@ -6,7 +6,7 @@ export type GlobalConfig = {
   minColWidthToShort?: number;
   shortOnlyifCut?: boolean;
   colComponent?: React.ReactNode;
-  cellComponent?: (cell: string) => React.ReactNode;
+  cellComponent?: (cell: any) => React.ReactNode;
 };
 
 export type ADTLabelI<T> = {
@@ -30,7 +30,7 @@ export type SelectedRowsTooltipI<T> = {
 
 export type ExtraColumnsI<T> = {
   showCondition?: (data: T) => boolean;
-  component: React.ReactNode;
+  component: (data: T) => React.ReactNode;
 };
 export type ColConfig<T> = {
   [key in keyof T]?: GlobalConfig;
@@ -50,12 +50,10 @@ export type CellColumnTextTableStyle<T> = {
       indexes: number[];
       color: string;
     };
-    condional?: 
-    {
+    condional?: {
       showCondition: (rowColumnData: string) => boolean;
       color: string;
-    }
-   
+    };
   };
 };
 export type TableStyle<T> = {

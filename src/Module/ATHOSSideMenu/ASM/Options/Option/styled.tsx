@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { DraggableProvided } from "react-beautiful-dnd";
 import styled from "styled-components";
 import { ATHOSColors } from "../../../../colors/colors";
@@ -7,16 +7,15 @@ import {
   getContrastColor,
 } from "../../../../utils/color-utils";
 import { useATHOSSideMenu } from "../../../context/context";
-import { defaulIconSize } from "../../../styled";
 import { ASMOptionWrapperProps, ASMOWProps } from "./interfaces";
 
 export const optionPad = "calc(0.6rem * 2)";
-export const optionIconSize = "1.4rem";
+export const optionIconSize = "2.8rem";
 export const ASMOW = styled.div<ASMOWProps>`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.52rem 0.6rem;
+  padding: 0.52rem 0.68rem;
   border-radius: 0.3rem;
   cursor: pointer;
   transition: background-color 0.14s, color 0.14s, transform 0.14s;
@@ -139,9 +138,7 @@ export const ASMOptionWrapper = (props: ASMOptionWrapperProps) => {
     hideMenu,
   } = useATHOSSideMenu();
 
-  const width = useMemo(() => {
-    return hideMenu ? defaulIconSize : "auto";
-  }, [hideMenu]);
+  const width = hideMenu ? "fit-content" : "auto";
 
   //todo create a autocolor generate when theres only primary and/or accent colors
 
@@ -272,6 +269,7 @@ export const ASMOptionWrapper = (props: ASMOptionWrapperProps) => {
       onMouseOut={onOut}
       onMouseDown={onMouseDown}
       onMouseUp={onMouseUp}
+      hideMenu={hideMenu}
     >
       {children}
     </ASMOW>
@@ -345,4 +343,5 @@ export const ASMOptionLabel = styled.label<{
   opacity: ${({ hide }) => (hide ? "0" : "1")};
   position: ${({ hide, hasIcon }) =>
     hide && !hasIcon ? "absolute" : "relative"};
+  display: ${({ hide }) => (hide ? "none" : "block")};
 `;

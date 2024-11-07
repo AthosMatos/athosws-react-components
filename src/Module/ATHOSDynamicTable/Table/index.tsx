@@ -5,6 +5,9 @@ import ADTColumns from "../Sections/ADTColumns";
 import { ADTBody, ADTHeader, ADTTable } from "../styled";
 
 export const Table = () => {
+  const {
+    props: { tableName },
+  } = useADTContext();
   return (
     <ADTTable>
       <ADTHeader>
@@ -84,25 +87,6 @@ export const PersistantTable = ({ tableWrapperId }: PersistantTableProps) => {
       resizeObserver.disconnect();
     };
   }, [tableWrapperId]);
-
-  //observe the scroll of the tableWrapper and compensate the scroll of the persistant table
-  /* useEffect(() => {
-    if (!tableWrapperId) return;
-    const tableWrapper = document.getElementById(tableWrapperId);
-    const persistantTable = document.getElementById(tId);
-    if (!tableWrapper || !persistantTable) return;
-
-    const onScroll = (e: Event) => {
-      //persistantTable.style.top = `-${tableWrapper.scrollTop}px`;
-      console.log("scrolling");
-    };
-
-    document.addEventListener("scroll", onScroll);
-
-    return () => {
-      document.removeEventListener("scroll", onScroll);
-    };
-  }, [tableWrapperId]); */
 
   return (
     <ADTTable

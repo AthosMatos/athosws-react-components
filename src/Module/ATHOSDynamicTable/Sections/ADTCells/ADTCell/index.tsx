@@ -84,17 +84,24 @@ const ADTCell = memo((props: ADTCellProps) => {
               const specificIndexColor =
                 tableStyle?.cellTextColor?.specific &&
                 tableStyle?.cellTextColor?.specific[column]?.specificIndex &&
-                tableStyle?.cellTextColor?.specific[column]?.specificIndex?.indexes.includes(
-                  rowIndex
-                ) &&
-                tableStyle?.cellTextColor?.specific[column]?.specificIndex?.color;
+                tableStyle?.cellTextColor?.specific[
+                  column
+                ]?.specificIndex?.indexes.includes(rowIndex) &&
+                tableStyle?.cellTextColor?.specific[column]?.specificIndex
+                  ?.color;
               const specificConditionColor =
                 tableStyle?.cellTextColor?.specific &&
-                tableStyle?.cellTextColor?.specific[column]?.condional?.showCondition(
-                  row[column]
-                ) && tableStyle?.cellTextColor?.specific[column]?.condional?.color;
+                tableStyle?.cellTextColor?.specific[
+                  column
+                ]?.condional?.showCondition(row[column]) &&
+                tableStyle?.cellTextColor?.specific[column]?.condional?.color;
 
-              return specificConditionColor || specificIndexColor || specificGlobalColor || globalColor;
+              return (
+                specificConditionColor ||
+                specificIndexColor ||
+                specificGlobalColor ||
+                globalColor
+              );
             }, [tableStyle?.cellTextColor]);
             return (
               <ADTCellWrapper
@@ -139,7 +146,7 @@ const ADTCell = memo((props: ADTCellProps) => {
                   bRightLeft
                   key={index}
                 >
-                  {extraColumn.component}
+                  {extraColumn.component(row)}
                 </ADTCellWrapper>
               );
             })}

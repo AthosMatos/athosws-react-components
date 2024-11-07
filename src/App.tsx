@@ -12,6 +12,7 @@ import { ATHOSColors } from "./Module/colors/colors";
 
 import { tdata } from "./data-CC71BNrg8tmzETG2KjpiS";
 import { ATHOSButton, ATHOSDropDown, ATHOSDynamicTable } from "./module-index";
+import Categorias_Modal from "./tt";
 const Container = styled.div`
   display: flex;
   gap: 2rem;
@@ -118,9 +119,10 @@ const TestPage = () => {
       overlayStyle={{
         display: "flex",
         flexDirection: "row",
-        backgroundColor: ATHOSColors.black.coal,
+        //backgroundColor: ATHOSColors.black.coal,
       }}
     >
+      <Categorias_Modal />
       <ATHOSDynamicTable
         //resizeable
         persistPrimaryColumn={{
@@ -130,7 +132,7 @@ const TestPage = () => {
           {
             showCondition: (data) =>
               parseFloat(data.currency.replace("$", "")) > 3000,
-            component: (
+            component: (data) => (
               <ATHOSButton small type="alt" color="#cf1e94">
                 Fazer Peça
               </ATHOSButton>
@@ -138,7 +140,7 @@ const TestPage = () => {
           },
           {
             //showCondition: (data) => data.status === "Open",
-            component: (
+            component: (data) => (
               <ATHOSButton small type="alt" color="#cf1e94">
                 <FaFile />
               </ATHOSButton>
@@ -148,19 +150,26 @@ const TestPage = () => {
         startShort={{
           address: true,
         }}
-        tableName="Table1"
+        tableName="Processos em atuação"
         tableStyle={{
           highlightColor: ATHOSColors.aqua.default,
           cellTextColor: {
             global: "blue",
-            specific: { address: 
-              { global: "green", specificIndex: { indexes: [5, 6, 7], color: "red" } },
-              name: { condional: { showCondition: (rowColumnData) => {
-                console.log(rowColumnData);
-                return rowColumnData == "Brennan Maxwell";
-              }, color: "white" } },
+            specific: {
+              address: {
+                global: "green",
+                specificIndex: { indexes: [5, 6, 7], color: "red" },
+              },
+              name: {
+                condional: {
+                  showCondition: (rowColumnData) => {
+                    console.log(rowColumnData);
+                    return rowColumnData == "Brennan Maxwell";
+                  },
+                  color: "green",
+                },
+              },
             },
-            
           },
           columnTextColor: {
             global: "red",

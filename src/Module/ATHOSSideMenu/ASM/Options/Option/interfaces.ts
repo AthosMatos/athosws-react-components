@@ -11,6 +11,7 @@ export interface ASMOWProps {
   width?: string;
   editing?: boolean;
   scale?: number;
+  hideMenu?: boolean;
 }
 
 export interface ASMOptionWrapperProps {

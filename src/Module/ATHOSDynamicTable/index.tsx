@@ -1,5 +1,6 @@
 import { AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
+import { FaCaretLeft, FaCaretRight, FaCog, FaSearch } from "react-icons/fa";
 import { ATHOSResizableDiv } from "../ATHOSResizableDiv";
 import ADTSelectedRowsToast from "./components/ADTSelectedRowsToast";
 import { ADTProvider } from "./context";
@@ -57,22 +58,52 @@ export function ATHOSDynamicTable<T>(props: DynamicTableProps<T>) {
         <ADTTableWrapper
           resizable={props.resizeable}
           style={stly ? props.style : undefined}
+          className="gap-5 flex flex-col"
         >
-          <AnimatePresence>
-            {shouldRenderPersistantTable && (
-              <PersistantTable tableWrapperId={tableWrapperId} />
-            )}
-          </AnimatePresence>
+          <div className="flex justify-between">
+            <div className="flex flex-col gap-0">
+              <h1 className="text-xl font-semibold leading-5">
+                {props.tableName}
+              </h1>
+              <p className="text-md text-gray-500 font-light">
+                {props.data.length} items
+              </p>
+            </div>
+            <div className="flex gap-2 text-gray-400 select-none">
+              <div className="transition-all active:scale-100 cursor-pointer hover:scale-95 rounded-md  border border-gray-300 w-9 h-9 flex items-center justify-center">
+                <FaCog />
+              </div>
+              <div className="transition-all active:scale-100 cursor-pointer hover:scale-95 rounded-md border border-gray-300 w-9 h-9 flex items-center justify-center">
+                <FaSearch />
+              </div>
+            </div>
+          </div>
+
           <div
+            className={`${
+              shouldRenderPersistantTable &&
+              "static overflow-x-auto overflow-y-hidden w-full"
+            }`}
             id={tableWrapperId}
-            style={shouldRenderPersistantTable ?{
-              position: "static",
-              overflowX: "auto",
-              overflowY: "hidden",
-              width: "100%",
-            }: undefined}
           >
+            <AnimatePresence>
+              {shouldRenderPersistantTable && (
+                <PersistantTable tableWrapperId={tableWrapperId} />
+              )}
+            </AnimatePresence>
             <Table />
+          </div>
+          <div className="flex self-end flex-col items-center">
+            <div className="flex gap-2 text-gray-400 rounded-lg select-none border border-gray-300 rounded-t-md items-center">
+              <div className="transition-all active:scale-100 cursor-pointer hover:scale-95 rounded-md border bg-gray-200 w-7 h-9 flex items-center justify-center">
+                <FaCaretLeft />
+              </div>
+              <p className="w-fit h-fit">1</p>
+              <div className="transition-all active:scale-100 cursor-pointer hover:scale-95 rounded-md border bg-gray-200 w-7 h-9 flex items-center justify-center">
+                <FaCaretRight />
+              </div>
+            </div>
+            1 2 3 4 5
           </div>
         </ADTTableWrapper>
       </ADTProvider>

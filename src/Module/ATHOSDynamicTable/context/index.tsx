@@ -8,6 +8,7 @@ import {
   useState,
 } from "react";
 import { v4 } from "uuid";
+import useADTFilterData from "../hooks/useADTFilterData";
 import useADTSelectedData from "../hooks/useADTSelectedData";
 import { DynamicTableProps } from "../interfaces";
 
@@ -58,13 +59,23 @@ export function ADTProvider<T>({
   }, [columnsToHide, columnsToShow, data]);
 
   const {
+    changePageSize,
+    filterBySearch,
+    filteredData,
+    movePage,
+    page,
+    pageSize,
+    searchFilter,
+  } = useADTFilterData({ data });
+
+  const {
     selectMethods,
     selectData,
     uncheckAll,
     selectedRowsToastOpen,
     setSelectedRowsToastOpen,
   } = useADTSelectedData({
-    pageSize: 5,
+    pageSize,
   });
 
   const [columnsIDs, setColumnsIDs] = useState<ColumnsIds<T>>();
@@ -103,6 +114,7 @@ export function ADTProvider<T>({
         props: {
           ...props,
           columns,
+          data: filteredData,
           tableStyle: {
             ...tableStyle,
             highlightColor: tableStyle?.highlightColor ?? "#ff6262",
