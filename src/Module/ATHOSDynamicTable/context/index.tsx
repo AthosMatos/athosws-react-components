@@ -1,7 +1,5 @@
 import {
   createContext,
-  Dispatch,
-  SetStateAction,
   useContext,
   useEffect,
   useMemo,
@@ -9,7 +7,7 @@ import {
   useState,
 } from "react";
 import { v4 } from "uuid";
-import useADTFilterData, { PageSizesType } from "../hooks/useADTFilterData";
+import useADTFilterData from "../hooks/useADTFilterData";
 import useADTSelectedData from "../hooks/useADTSelectedData";
 import { DynamicTableProps } from "../interfaces";
 import { ADTContextProps, ColumnsIds } from "./interfaces";
@@ -87,7 +85,6 @@ export function ADTProvider<T>({
   useEffect(() => {
     if (tableRef.current) {
       setTimeout(() => {
-        console.log(tableRef.current.clientHeight);
         setRowHeight(tableRef.current?.clientHeight);
       }, 100);
     }
