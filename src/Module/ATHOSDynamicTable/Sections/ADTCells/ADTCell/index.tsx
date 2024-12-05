@@ -1,6 +1,5 @@
 import { memo, useMemo } from "react";
 import ADTCheckBox from "../../../components/ADTCheckBox";
-import { ColumnsIds } from "../../../context";
 import { CheckState } from "../../../hooks/useADTSelectedData";
 import {
   ColConfig,
@@ -11,6 +10,9 @@ import {
 } from "../../../interfaces";
 import { ADTCellWrapper, ADTTR } from "../../../styled";
 import ADTCellColumn from "./ADTCellColumn";
+import { Variants } from "framer-motion";
+import { initial } from "lodash";
+import { ColumnsIds } from "../../../context/interfaces";
 
 interface ADTCellProps {
   isCheck: boolean;
@@ -31,6 +33,16 @@ interface ADTCellProps {
   paddingBetweenExtraColumns?: number;
   isPersistPrimaryColumn?: boolean;
 }
+
+const variants: Variants = {
+  scaleDown: { scale: 0, opacity: 0 },
+  /* initial: { translateY:'100%',
+    opacity: 0,
+  },
+  visible: { translateY: 0,
+    opacity: 1,
+  }, */
+};
 
 const ADTCell = memo((props: ADTCellProps) => {
   const {
@@ -56,9 +68,9 @@ const ADTCell = memo((props: ADTCellProps) => {
   return (
     isInit && (
       <ADTTR
-        layout="preserve-aspect"
-        exit={{ opacity: 0 }}
-        transition={{ duration: 0.14 }}
+        exit="scaleDown"
+        transition={{ duration: 0.44 }}
+        variants={variants}
       >
         <ADTCellWrapper
           style={isPersistPrimaryColumn ? { paddingLeft: "0.4rem" } : {}}

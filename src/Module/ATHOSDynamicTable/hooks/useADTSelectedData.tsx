@@ -2,6 +2,7 @@ import { useCallback, useState } from "react";
 
 interface useADTSelectedDataProps {
   pageSize: number;
+  totalItensAmount: number;
 }
 
 type checkStates = 0 | 1 | 2; // 0: none, 1: all, 2: page
@@ -12,7 +13,10 @@ export const CheckState = {
   PAGE: 2 as checkStates,
 };
 
-const useADTSelectedData = ({ pageSize }: useADTSelectedDataProps) => {
+const useADTSelectedData = ({
+  pageSize,
+  totalItensAmount,
+}: useADTSelectedDataProps) => {
   const [selectedRows, setSelectedRows] = useState<number[]>([]);
   const [checkState, setCheckState] = useState(CheckState.NONE);
   const [selectedRowsToastOpen, setSelectedRowsToastOpen] = useState(false);
@@ -31,24 +35,21 @@ const useADTSelectedData = ({ pageSize }: useADTSelectedDataProps) => {
     setCheckState(2);
   };
 
-  const checkAllButtonClick = useCallback(
-    (dataAmount: number) => {
-      switch (checkState) {
-        case 0:
-          checkAll(dataAmount);
-          break;
-        case 1:
-          pageCheck();
-          break;
-        case 2:
-          uncheckAll();
-          break;
-        default:
-          break;
-      }
-    },
-    [checkState]
-  );
+  const checkAllButtonClick = useCallback(() => {
+    switch (checkState) {
+      case 0:
+        checkAll(totalItensAmount);
+        break;
+      case 1:
+        pageCheck();
+        break;
+      case 2:
+        uncheckAll();
+        break;
+      default:
+        break;
+    }
+  }, [checkState]);
 
   const checkCellClick = useCallback(
     (row: number) => {

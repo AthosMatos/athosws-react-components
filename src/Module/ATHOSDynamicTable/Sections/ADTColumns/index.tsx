@@ -27,7 +27,7 @@ const ADTColumns = ({ isPersistPrimaryColumn }: ADTColumnsProps) => {
         <ADTCheckBox
           highlightColor={tableStyle?.highlightColor!}
           checked={selectData.checkState}
-          check={() => selectMethods.checkAllButtonClick(data.length)}
+          check={() => selectMethods.checkAllButtonClick()}
         />
       </ADTColumnWrapper>
       {columns.map((column: any, index) => {

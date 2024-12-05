@@ -13,6 +13,7 @@ import { ATHOSColors } from "./Module/colors/colors";
 import { tdata } from "./data-CC71BNrg8tmzETG2KjpiS";
 import { ATHOSButton, ATHOSDropDown, ATHOSDynamicTable } from "./module-index";
 import Categorias_Modal from "./tt";
+import TestComponent from "./TestComponent";
 const Container = styled.div`
   display: flex;
   gap: 2rem;
@@ -122,9 +123,10 @@ const TestPage = () => {
         //backgroundColor: ATHOSColors.black.coal,
       }}
     >
-      <Categorias_Modal />
+      {/*  <Categorias_Modal /> */}
       <ATHOSDynamicTable
-        //resizeable
+        // resizeable
+        className="border border-gray-400 m-5 rounded-md"
         persistPrimaryColumn={{
           backgroundColor: ATHOSColors.white.eggshell,
         }}
@@ -245,8 +247,8 @@ const TestPage = () => {
           ],
         }}
       />
-
-      <div
+      {/*  <TestComponent /> */}
+      {/* <div
         style={{
           display: "flex",
           gap: 100,
@@ -338,7 +340,7 @@ const TestPage = () => {
             )}
           </ATHOSDropDown>
         </div>
-      </div>
+      </div> */}
 
       {/* <ATHOSDropDown
         positionVert="bottom"

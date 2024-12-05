@@ -23,6 +23,7 @@ const ADTCells = ({ isPersistPrimaryColumn }: ADTCellsProps) => {
       extraColumns,
       startShort,
       paddingBetweenExtraColumns,
+      tableName
     },
   } = useADTContext();
 
@@ -33,30 +34,28 @@ const ADTCells = ({ isPersistPrimaryColumn }: ADTCellsProps) => {
   }, []);
 
   return (
-    <AnimatePresence>
-      {data.map((row, rowIndex) => (
-        <ADTCell
-          isPersistPrimaryColumn={isPersistPrimaryColumn}
-          columnsIDs={columnsIDs}
-          key={row.id ?? rowIndex}
-          isCheck={selectedRows.includes(rowIndex)}
-          rowIndex={rowIndex}
-          row={row}
-          columns={columns}
-          tableStyle={tableStyle}
-          paddingBetweenCells={paddingBetweenCells}
-          paddingBetweenColumns={paddingBetweenColumns}
-          isInit={isInit}
-          checkCellClick={checkCellClick}
-          checkState={checkState}
-          colConfig={colConfig}
-          globalConfig={globalConfig}
-          extraColumns={extraColumns}
-          startShort={startShort}
-          paddingBetweenExtraColumns={paddingBetweenExtraColumns}
-        />
-      ))}
-    </AnimatePresence>
+    data.map((row, rowIndex) => (
+      <ADTCell
+        isPersistPrimaryColumn={isPersistPrimaryColumn}
+        columnsIDs={columnsIDs}
+        key={row.id ?? rowIndex}
+        isCheck={selectedRows.includes(rowIndex)}
+        rowIndex={rowIndex}
+        row={row}
+        columns={columns}
+        tableStyle={tableStyle}
+        paddingBetweenCells={paddingBetweenCells}
+        paddingBetweenColumns={paddingBetweenColumns}
+        isInit={isInit}
+        checkCellClick={checkCellClick}
+        checkState={checkState}
+        colConfig={colConfig}
+        globalConfig={globalConfig}
+        extraColumns={extraColumns}
+        startShort={startShort}
+        paddingBetweenExtraColumns={paddingBetweenExtraColumns}
+      />
+    ))
   );
 };
 

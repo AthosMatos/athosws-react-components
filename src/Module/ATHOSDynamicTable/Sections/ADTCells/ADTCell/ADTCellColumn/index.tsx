@@ -1,7 +1,7 @@
 import { memo, useEffect, useState } from "react";
 import { ATHOSTooltip } from "../../../../../ATHOSTooltip";
-import { ColumnsIds } from "../../../../context";
 import { ColConfig, GlobalConfig } from "../../../../interfaces";
+import { ColumnsIds } from "../../../../context/interfaces";
 
 interface ADTCellColumnProps {
   row: any;

@@ -69,6 +69,7 @@ export type TableStyle<T> = {
 };
 
 export type DynamicTableProps<T> = {
+  className?: string;
   tableName: string;
   data: T[];
   resizeable?: boolean;
@@ -90,6 +91,8 @@ export type DynamicTableProps<T> = {
         backgroundColor?: string;
       }
     | boolean;
+  movePageTransitionDuration?: number;
+  autoLockHeight?: boolean;
 };
 
 export interface ColumnsProps<T> {

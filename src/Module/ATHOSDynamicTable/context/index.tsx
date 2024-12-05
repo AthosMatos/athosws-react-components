@@ -5,38 +5,14 @@ import {
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
 } from "react";
 import { v4 } from "uuid";
-import useADTFilterData from "../hooks/useADTFilterData";
+import useADTFilterData, { PageSizesType } from "../hooks/useADTFilterData";
 import useADTSelectedData from "../hooks/useADTSelectedData";
 import { DynamicTableProps } from "../interfaces";
-
-interface ADTContextProps<T> {
-  props: DynamicTableProps<T> & {
-    columns: any[];
-  };
-
-  selectMethods: {
-    checkCellClick: (row: number) => void;
-    checkAllButtonClick: (dataAmount: number) => void;
-  };
-  selectData: {
-    selectedRows: number[];
-    checkState: 0 | 1 | 2;
-  };
-  columnsIDs: ColumnsIds<T> | undefined;
-  setColumnsIDs: Dispatch<SetStateAction<ColumnsIds<T> | undefined>>;
-  uncheckAll: () => void;
-  colsTRId: string;
-  selectedRowsToastOpen: boolean;
-  setSelectedRowsToastOpen: Dispatch<SetStateAction<boolean>>;
-  colH?: number;
-}
-
-export type ColumnsIds<T> = {
-  [key in keyof T]: string;
-};
+import { ADTContextProps, ColumnsIds } from "./interfaces";
 
 const ADTContext = createContext<ADTContextProps<any> | undefined>(undefined);
 
@@ -57,7 +33,7 @@ export function ADTProvider<T>({
       return columnsToShow;
     } else return Object.keys(data[0] as object) as (keyof T)[];
   }, [columnsToHide, columnsToShow, data]);
-
+  const tableRef = useRef<any>(null);
   const {
     changePageSize,
     filterBySearch,
@@ -66,7 +42,14 @@ export function ADTProvider<T>({
     page,
     pageSize,
     searchFilter,
-  } = useADTFilterData({ data });
+    moving,
+    canGoBack,
+    canGoForward,
+    totalPages,
+  } = useADTFilterData({
+    data,
+    movePageTransitionDuration: props.movePageTransitionDuration,
+  });
 
   const {
     selectMethods,
@@ -76,10 +59,12 @@ export function ADTProvider<T>({
     setSelectedRowsToastOpen,
   } = useADTSelectedData({
     pageSize,
+    totalItensAmount: props.data.length,
   });
 
   const [columnsIDs, setColumnsIDs] = useState<ColumnsIds<T>>();
   const [colsTRId, setColsTRId] = useState<string>(v4());
+  const [rowHeight, setRowHeight] = useState<number>(0);
 
   useEffect(() => {
     const columnsIDs = columns.reduce((acc, column) => {
@@ -99,6 +84,15 @@ export function ADTProvider<T>({
     setColH(h);
   }, []);
 
+  useEffect(() => {
+    if (tableRef.current) {
+      setTimeout(() => {
+        console.log(tableRef.current.clientHeight);
+        setRowHeight(tableRef.current?.clientHeight);
+      }, 100);
+    }
+  }, [tableRef.current, pageSize]);
+
   return (
     <ADTContext.Provider
       value={{
@@ -111,10 +105,26 @@ export function ADTProvider<T>({
         selectedRowsToastOpen,
         setSelectedRowsToastOpen,
         colH,
+        tableRef,
+        rowHeight,
+        pageState: {
+          page,
+          pageSize,
+          changePageSize,
+          movePage,
+          moving,
+          canGoBack,
+          canGoForward,
+          totalPages,
+          filterBySearch,
+        },
         props: {
           ...props,
+          autoLockHeight:
+            props.autoLockHeight != undefined ? props.autoLockHeight : true,
           columns,
           data: filteredData,
+          originalData: data,
           tableStyle: {
             ...tableStyle,
             highlightColor: tableStyle?.highlightColor ?? "#ff6262",

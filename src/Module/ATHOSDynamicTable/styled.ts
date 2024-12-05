@@ -102,13 +102,20 @@ interface ADTTableProps {
   width?: number;
   height?: number;
   backgroundColor?: string;
+  autoLockHeight?: boolean;
 }
 
 export const ADTTable = styled(motion.table)<ADTTableProps>`
   width: ${(props) => (props.width ? `${props.width}px` : "100%")};
-  height: ${(props) => (props.height ? `${props.height}px` : "100%")};
-  border-collapse: collapse;
+  ${(props) =>
+    props.autoLockHeight
+      ? `
+    height: fit-content;
+  `
+      : `height: ${props.height ? `${props.height}px` : "100%"};`}
 
+  border-collapse: collapse;
+  overflow: hidden;
   ${(props) =>
     props.isPersistant &&
     `
