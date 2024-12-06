@@ -5,43 +5,13 @@ import ADTColumns from "../Sections/ADTColumns";
 import { ADTBody, ADTHeader, ADTTable } from "../styled";
 import { AnimatePresence } from "framer-motion";
 
-export const Tables = ({
-  tableWrapperId,
-  shouldRenderPersistantTable,
-}: {
-  tableWrapperId: string;
-  shouldRenderPersistantTable: boolean;
-}) => {
-  const {
-    rowHeight,
-    props: { autoLockHeight },
-  } = useADTContext();
-  return (
-    <div
-      style={autoLockHeight ? { height: rowHeight } : undefined}
-      className={`
-              
-              ${
-                shouldRenderPersistantTable &&
-                "static overflow-x-auto overflow-y-hidden w-full"
-              }`}
-      id={tableWrapperId}
-    >
-      <AnimatePresence>
-        {shouldRenderPersistantTable && (
-          <PersistantTable tableWrapperId={tableWrapperId} />
-        )}
-      </AnimatePresence>
-      <Table />
-    </div>
-  );
-};
-
 export const Table = () => {
   const {
     tableRef,
     pageState: { moving },
+    props: { autoLockHeight },
   } = useADTContext();
+
   return (
     <ADTTable ref={tableRef} animate={{ opacity: moving ? 0 : 1 }}>
       <ADTHeader>

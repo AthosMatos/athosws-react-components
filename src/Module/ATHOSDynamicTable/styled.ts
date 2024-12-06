@@ -136,12 +136,5 @@ export const ADTBody = styled.tbody``;
 export const ADTTableWrapper = styled.div<{ resizable?: boolean }>`
   padding: 0.8rem;
   position: relative;
-  width: ${(props) => (props.resizable ? "100%" : "fit-content")};
   overflow: hidden;
-  ${(props) =>
-    !props.resizable &&
-    `
-     height: fit-content;
-     
-    `}
 `;

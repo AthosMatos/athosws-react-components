@@ -3,9 +3,16 @@ import { useADTContext } from "../../context";
 import { MdTune } from "react-icons/md";
 import { memo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-const FuncWrapper = ({ children }: { children: React.ReactNode }) => (
+const FuncWrapper = ({
+  children,
+  onClick,
+}: {
+  children: React.ReactNode;
+  onClick?: () => void;
+}) => (
   <motion.div
     layout
+    onClick={onClick}
     transition={{ duration: 0.44 }}
     className="transition-all active:scale-100 cursor-pointer hover:scale-95 rounded-md  border border-gray-300 w-9 h-9 flex items-center justify-center"
   >
@@ -53,8 +60,8 @@ const ADTFuncs = () => {
               />
             )}
           </AnimatePresence>
-          <FuncWrapper>
-            <FaSearch onClick={toggleSearch} className="text-lg" />
+          <FuncWrapper onClick={toggleSearch}>
+            <FaSearch className="text-lg" />
           </FuncWrapper>
         </div>
       </div>

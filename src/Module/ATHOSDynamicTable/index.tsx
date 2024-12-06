@@ -1,14 +1,15 @@
 import { AnimatePresence } from "framer-motion";
-import { useEffect, useState } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
 import { FaCaretLeft, FaCaretRight, FaCog, FaSearch } from "react-icons/fa";
 import { ATHOSResizableDiv } from "../ATHOSResizableDiv";
 import ADTSelectedRowsToast from "./components/ADTSelectedRowsToast";
 import { ADTProvider } from "./context";
 import { DynamicTableProps } from "./interfaces";
 import { ADTTableWrapper } from "./styled";
-import { PersistantTable, Table, Tables } from "./Table";
+import { PersistantTable, Table } from "./Table";
 import ADTFuncs from "./Sections/ADTFuncs";
 import ADTNav from "./Sections/ADTNav";
+import Tables from "./Table/Tables";
 
 function hasScroll(element: HTMLElement) {
   return element.scrollWidth > element.clientWidth;
