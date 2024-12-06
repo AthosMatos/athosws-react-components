@@ -1,14 +1,13 @@
-import { AnimatePresence } from "framer-motion";
-import { lazy, Suspense, useEffect, useState } from "react";
-import { FaCaretLeft, FaCaretRight, FaCog, FaSearch } from "react-icons/fa";
+import { useEffect, useState } from "react";
+import { Provider } from "react-redux";
 import { ATHOSResizableDiv } from "../ATHOSResizableDiv";
 import ADTSelectedRowsToast from "./components/ADTSelectedRowsToast";
 import { ADTProvider } from "./context";
 import { DynamicTableProps } from "./interfaces";
-import { ADTTableWrapper } from "./styled";
-import { PersistantTable, Table } from "./Table";
+import { ADTStore } from "./redux/store";
 import ADTFuncs from "./Sections/ADTFuncs";
 import ADTNav from "./Sections/ADTNav";
+import { ADTTableWrapper } from "./styled";
 import Tables from "./Table/Tables";
 
 function hasScroll(element: HTMLElement) {
@@ -56,23 +55,25 @@ export function ATHOSDynamicTable<T>(props: DynamicTableProps<T>) {
 
   const Comp = (stly?: boolean) => {
     return (
-      <ADTProvider props={props}>
-        <ADTSelectedRowsToast />
-        <ADTTableWrapper
-          resizable={props.resizeable}
-          style={stly ? props.style : undefined}
-          className={`gap-5 flex flex-col ${props.className}`}
-        >
-          <ADTFuncs />
+      <Provider store={ADTStore}>
+        <ADTProvider props={props}>
+          <ADTSelectedRowsToast />
+          <ADTTableWrapper
+            resizable={props.resizeable}
+            style={stly ? props.style : undefined}
+            className={`gap-5 flex flex-col ${props.className}`}
+          >
+            <ADTFuncs />
 
-          <Tables
-            shouldRenderPersistantTable={shouldRenderPersistantTable}
-            tableWrapperId={tableWrapperId}
-          />
+            <Tables
+              shouldRenderPersistantTable={shouldRenderPersistantTable}
+              tableWrapperId={tableWrapperId}
+            />
 
-          <ADTNav />
-        </ADTTableWrapper>
-      </ADTProvider>
+            <ADTNav />
+          </ADTTableWrapper>
+        </ADTProvider>
+      </Provider>
     );
   };
 

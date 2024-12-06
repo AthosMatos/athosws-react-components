@@ -1,29 +1,42 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { DynamicTableProps } from "../../interfaces";
 
-interface State<T> {
-  props:
-    | (DynamicTableProps<T> & {
-        columns: any[];
-        originalData: T[];
-      })
-    | null;
+interface ADTPropsState<T> extends DynamicTableProps<T> {
+  columns: any[];
+  originalData: T[];
 }
 
-const initialState: State<any> = {
-  props: null,
-};
+const initialState: ADTPropsState<any> = {} as any;
 
 const Slice = createSlice({
   name: "ADTProps",
   initialState,
   reducers: {
-    fillProps: (state, action: PayloadAction<DynamicTableProps<any>>) => {},
+    fillProps: (
+      state,
+      action: PayloadAction<
+        DynamicTableProps<any> & {
+          columns: any[];
+          originalData: any[];
+        }
+      >
+    ) => {
+      console.log("fillProps2", action.payload);
+      return action.payload;
+    },
+    /*  setFilteredData: (
+      state,
+      action: PayloadAction<{
+        filteredData: any[];
+      }>
+    ) => {
+      state.data = action.payload.filteredData;
+    } */
   },
 });
 
 // Action creators are generated for each case reducer function
-const {} = Slice.actions;
+export const { fillProps } = Slice.actions;
 
 const ADTPropsReducer = Slice.reducer;
 

@@ -1,7 +1,9 @@
 import { AnimatePresence } from "framer-motion";
-import { useADTContext } from "../context";
-import { PersistantTable, Table } from ".";
 import { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { PersistantTable, Table } from ".";
+import { useADTContext } from "../context";
+import { ADTState } from "../redux/store";
 
 const Tables = ({
   tableWrapperId,
@@ -10,14 +12,12 @@ const Tables = ({
   tableWrapperId: string;
   shouldRenderPersistantTable: boolean;
 }) => {
-  const {
-    rowHeight,
-    props: { autoLockHeight },
-  } = useADTContext();
+  const { rowHeight } = useADTContext();
+  const selectedModel = useSelector((state: ADTState) => state.ADTPropsReducer);
 
-  //simulate expensive operation
-  const start = Date.now();
-  while (Date.now() - start < 4000) {}
+  useEffect(() => {
+    console.log("selectedModel", selectedModel);
+  }, [selectedModel]);
 
   return (
     <div

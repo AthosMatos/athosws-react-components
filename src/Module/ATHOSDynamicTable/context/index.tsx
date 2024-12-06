@@ -6,10 +6,12 @@ import {
   useRef,
   useState,
 } from "react";
+import { useDispatch } from "react-redux";
 import { v4 } from "uuid";
 import useADTFilterData from "../hooks/useADTFilterData";
 import useADTSelectedData from "../hooks/useADTSelectedData";
 import { DynamicTableProps } from "../interfaces";
+import { fillProps } from "../redux/props/provider";
 import { ADTContextProps, ColumnsIds } from "./interfaces";
 
 const ADTContext = createContext<ADTContextProps<any> | undefined>(undefined);
@@ -31,6 +33,7 @@ export function ADTProvider<T>({
       return columnsToShow;
     } else return Object.keys(data[0] as object) as (keyof T)[];
   }, [columnsToHide, columnsToShow, data]);
+
   const tableRef = useRef<any>(null);
   const {
     changePageSize,
@@ -89,6 +92,27 @@ export function ADTProvider<T>({
       }, 100);
     }
   }, [tableRef.current, pageSize]);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (columns.length && filteredData.length) {
+      console.log("fillProps");
+      const pr = {
+        ...props,
+        autoLockHeight:
+          props.autoLockHeight != undefined ? props.autoLockHeight : true,
+        columns,
+        data: filteredData,
+        originalData: data,
+        tableStyle: {
+          ...tableStyle,
+          highlightColor: tableStyle?.highlightColor ?? "#ff6262",
+        },
+      };
+      dispatch(fillProps(pr));
+    }
+  }, [columns, filteredData]);
 
   return (
     <ADTContext.Provider
