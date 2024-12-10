@@ -1,19 +1,12 @@
-import { useEffect } from "react";
+import { memo, useEffect } from "react";
 import { useADTContext } from "../context";
 import ADTCells from "../Sections/ADTCells";
 import ADTColumns from "../Sections/ADTColumns";
 import { ADTBody, ADTHeader, ADTTable } from "../styled";
-import { AnimatePresence } from "framer-motion";
 
-export const Table = () => {
-  const {
-    tableRef,
-    pageState: { moving },
-    props: { autoLockHeight },
-  } = useADTContext();
-
+export const Table = memo(() => {
   return (
-    <ADTTable ref={tableRef} animate={{ opacity: moving ? 0 : 1 }}>
+    <ADTTable>
       <ADTHeader>
         <ADTColumns />
       </ADTHeader>
@@ -22,7 +15,7 @@ export const Table = () => {
       </ADTBody>
     </ADTTable>
   );
-};
+});
 
 interface PersistantTableProps {
   tableWrapperId?: string;

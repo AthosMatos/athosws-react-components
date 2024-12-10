@@ -13,4 +13,6 @@ export interface ResizableDivProps {
   withToogle?: boolean;
   matchChildSize?: boolean;
   disabled?: boolean;
+  className?: string;
+  outerClassName?: string;
 }

@@ -68,11 +68,15 @@ export type TableStyle<T> = {
   };
 };
 
+type ResizableConfig = {
+  autoBorder?: boolean;
+};
+
 export type DynamicTableProps<T> = {
   className?: string;
   tableName: string;
   data: T[];
-  resizeable?: boolean;
+  resizeable?: boolean | ResizableConfig;
   tableStyle?: TableStyle<T>;
   colConfig?: ColConfig<T>;
   globalConfig?: GlobalConfig;

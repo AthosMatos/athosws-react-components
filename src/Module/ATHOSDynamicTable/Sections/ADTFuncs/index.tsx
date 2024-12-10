@@ -1,8 +1,8 @@
-import { FaCog, FaSearch } from "react-icons/fa";
-import { useADTContext } from "../../context";
-import { MdTune } from "react-icons/md";
-import { memo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import { memo, useState } from "react";
+import { FaSearch } from "react-icons/fa";
+import { MdTune } from "react-icons/md";
+import { useADTContext } from "../../context";
 const FuncWrapper = ({
   children,
   onClick,
@@ -31,7 +31,7 @@ const ADTFuncs = () => {
     setOpenSearch(!openSearch);
   };
   return (
-    <div className="flex justify-between">
+    <div className="flex mb-4 justify-between sticky left-0 top-0 bg-white z-40">
       <div className="flex flex-col gap-0">
         <h1 className="text-xl font-semibold leading-5">{props.tableName}</h1>
         <p className="text-md text-gray-500 font-light">

@@ -16,6 +16,7 @@ export const ATHOSResizableDiv = (props: ResizableDivProps) => {
     <RDWrapper
       matchChildSize={props.matchChildSize || props.disabled}
       style={props.style}
+      className={props.className}
     >
       {props.children}
     </RDWrapper>
@@ -28,9 +29,14 @@ export const ATHOSResizableDiv = (props: ResizableDivProps) => {
         width={Width}
         height={Height}
         id={divName}
+        className={props.outerClassName}
         style={props.OuterContainerStyle}
       >
-        <RDWrapper matchChildSize={props.matchChildSize} style={props.style}>
+        <RDWrapper
+          matchChildSize={props.matchChildSize}
+          className={props.className}
+          style={props.style}
+        >
           {props.children}
         </RDWrapper>
 

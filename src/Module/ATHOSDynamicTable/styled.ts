@@ -126,6 +126,7 @@ export const ADTTable = styled(motion.table)<ADTTableProps>`
     border-radius: 10px;
     box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
     width: fit-content;
+   
   `}
 `;
 
@@ -137,4 +138,10 @@ export const ADTTableWrapper = styled.div<{ resizable?: boolean }>`
   padding: 0.8rem;
   position: relative;
   overflow: hidden;
+  ${(props) =>
+    props.resizable &&
+    `
+    width: 100%;
+    overflow:auto
+  `}
 `;

@@ -1,7 +1,6 @@
-import { AnimatePresence } from "framer-motion";
-import { useEffect } from "react";
+import { motion } from "framer-motion";
 import { useSelector } from "react-redux";
-import { PersistantTable, Table } from ".";
+import { Table } from ".";
 import { useADTContext } from "../context";
 import { ADTState } from "../redux/store";
 
@@ -12,31 +11,25 @@ const Tables = ({
   tableWrapperId: string;
   shouldRenderPersistantTable: boolean;
 }) => {
-  const { rowHeight } = useADTContext();
   const selectedModel = useSelector((state: ADTState) => state.ADTPropsReducer);
-
-  useEffect(() => {
-    console.log("selectedModel", selectedModel);
-  }, [selectedModel]);
+  const {
+    pageState: { moving },
+  } = useADTContext();
 
   return (
-    <div
+    <motion.div
+      animate={{ opacity: moving ? 0 : 1 }}
       //style={autoLockHeight ? { height: rowHeight } : undefined}
-      className={`
-                
-                ${
-                  shouldRenderPersistantTable &&
-                  "static overflow-x-auto overflow-y-hidden w-full"
-                }`}
+      className={
+        //overflow-x-auto overflow-y-hidden
+        `
+                justify-self-start
+                ${shouldRenderPersistantTable && "static w-full"}`
+      }
       id={tableWrapperId}
     >
-      <AnimatePresence>
-        {shouldRenderPersistantTable && (
-          <PersistantTable tableWrapperId={tableWrapperId} />
-        )}
-      </AnimatePresence>
       <Table />
-    </div>
+    </motion.div>
   );
 };
 

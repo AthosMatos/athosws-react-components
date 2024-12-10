@@ -1,3 +1,4 @@
+import { AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
 import { Provider } from "react-redux";
 import { ATHOSResizableDiv } from "../ATHOSResizableDiv";
@@ -8,6 +9,7 @@ import { ADTStore } from "./redux/store";
 import ADTFuncs from "./Sections/ADTFuncs";
 import ADTNav from "./Sections/ADTNav";
 import { ADTTableWrapper } from "./styled";
+import { PersistantTable } from "./Table";
 import Tables from "./Table/Tables";
 
 function hasScroll(element: HTMLElement) {
@@ -59,12 +61,20 @@ export function ATHOSDynamicTable<T>(props: DynamicTableProps<T>) {
         <ADTProvider props={props}>
           <ADTSelectedRowsToast />
           <ADTTableWrapper
-            resizable={props.resizeable}
+            resizable={!!props.resizeable}
             style={stly ? props.style : undefined}
-            className={`gap-5 flex flex-col ${props.className}`}
+            className={`justify-between flex flex-col  ${
+              !props.resizeable && props.className
+            }`}
           >
             <ADTFuncs />
-
+            <div className="sticky left-0 z-30">
+              {shouldRenderPersistantTable && (
+                <AnimatePresence>
+                  <PersistantTable tableWrapperId={tableWrapperId} />
+                </AnimatePresence>
+              )}
+            </div>
             <Tables
               shouldRenderPersistantTable={shouldRenderPersistantTable}
               tableWrapperId={tableWrapperId}
@@ -83,6 +93,7 @@ export function ATHOSDynamicTable<T>(props: DynamicTableProps<T>) {
         saveInLocalStorage={tableId}
         withToogle
         style={props.style}
+        className={`${props.className}`}
       >
         {Comp()}
       </ATHOSResizableDiv>
