@@ -21,7 +21,6 @@ const Slice = createSlice({
         }
       >
     ) => {
-      console.log("fillProps2", action.payload);
       return action.payload;
     },
     /*  setFilteredData: (
@@ -36,7 +35,7 @@ const Slice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { fillProps } = Slice.actions;
+export const { fillProps: fillADTProps } = Slice.actions;
 
 const ADTPropsReducer = Slice.reducer;
 

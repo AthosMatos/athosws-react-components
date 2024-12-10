@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { IoClose, IoMenu } from "react-icons/io5";
+import { useSelector } from "react-redux";
 import { ATHOSDropDown } from "../../../ATHOSDropDown";
 import { ATHOSToast } from "../../../ATHOSToast";
-import { useADTContext } from "../../context";
+import { useADTSelectprops } from "../../redux/SelectProps/provider";
+import { ADTState } from "../../redux/store";
 import { ADTBRDSimple } from "../ADTBorder";
 import ADTCheckBox from "../ADTCheckBox";
 import {
@@ -14,15 +16,15 @@ import {
 } from "./styled";
 
 const ADTSelectedRowsToast = () => {
-  const {
-    selectData,
-    selectedRowsToastOpen,
-    setSelectedRowsToastOpen,
-    uncheckAll,
-    props: { tableName: tableID, selectedRowsTooltip, data, tableStyle },
-  } = useADTContext();
-
   const [openDropDown, setOpenDropDown] = useState(false);
+  const { selectedRows, selectedRowsToastOpen, checkState } = useSelector(
+    (state: ADTState) => state.ADTSelectPropsReducer
+  );
+  const { tableStyle, tableName, selectedRowsTooltip, data } = useSelector(
+    (state: ADTState) => state.ADTPropsReducer
+  );
+  const { uncheckAll, openSelectedRowsToast, closeSelectedRowsToast } =
+    useADTSelectprops();
 
   const onDismiss = () => {
     setOpenDropDown(false);
@@ -30,20 +32,20 @@ const ADTSelectedRowsToast = () => {
   };
 
   useEffect(() => {
-    if (selectData.selectedRows.length > 0) {
-      setSelectedRowsToastOpen(true);
+    if (selectedRows.length > 0) {
+      openSelectedRowsToast();
     } else {
-      setSelectedRowsToastOpen(false);
+      closeSelectedRowsToast();
     }
-  }, [selectData.selectedRows]);
+  }, [selectedRows]);
 
   return (
     <ATHOSToast
       position="bottom-right"
-      updateState={selectData.selectedRows}
+      updateState={selectedRows}
       renderCondition={selectedRowsToastOpen}
-      removeCondition={selectData.selectedRows.length == 0}
-      id={tableID}
+      removeCondition={selectedRows.length == 0}
+      id={tableName}
     >
       <ADTATWrapper>
         <ADTSRTFSWrapper>
@@ -51,13 +53,13 @@ const ADTSelectedRowsToast = () => {
             highlightColor={tableStyle?.highlightColor!}
             clicable={false}
             big
-            checked={selectData.checkState == 0 ? true : selectData.checkState}
+            checked={checkState == 0 ? true : checkState}
             check={() => {}}
           />
-          <ADTSRTLabel>{selectData.selectedRows.length} Items</ADTSRTLabel>
+          <ADTSRTLabel>{selectedRows.length} Items</ADTSRTLabel>
         </ADTSRTFSWrapper>
         <ADTBRDSimple w={1} h={20} />
-        <ADTSRTLabel>{tableID}</ADTSRTLabel>
+        <ADTSRTLabel>{tableName}</ADTSRTLabel>
         <ADTBRDSimple w={1} h={20} />
 
         {(selectedRowsTooltip?.mainFunc ||
@@ -69,7 +71,7 @@ const ADTSelectedRowsToast = () => {
                 onClick={() => {
                   onDismiss();
                   selectedRowsTooltip.mainFunc!.onClick(
-                    selectData.selectedRows.map((index) => data[index])
+                    selectedRows.map((index) => data[index])
                   );
                 }}
                 highlightColor={tableStyle?.highlightColor!}
@@ -85,7 +87,7 @@ const ADTSelectedRowsToast = () => {
                 onClick={() => {
                   onDismiss();
                   selectedRowsTooltip.secondaryFunc!.onClick(
-                    selectData.selectedRows.map((index) => data[index])
+                    selectedRows.map((index) => data[index])
                   );
                 }}
               >
@@ -103,14 +105,12 @@ const ADTSelectedRowsToast = () => {
                   return {
                     label: func.label,
                     onClick: () => {
-                      func.onClick(
-                        selectData.selectedRows.map((index) => data[index])
-                      );
+                      func.onClick(selectedRows.map((index) => data[index]));
                       onDismiss();
                     },
                   };
                 })}
-                id={tableID}
+                id={tableName}
                 position="top"
                 isOpen={openDropDown}
               >

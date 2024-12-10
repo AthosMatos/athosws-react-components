@@ -1,29 +1,22 @@
-import {
-  createContext,
-  useContext,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { useEffect, useMemo } from "react";
 import { useDispatch } from "react-redux";
 import { v4 } from "uuid";
 import useADTFilterData from "../hooks/useADTFilterData";
-import useADTSelectedData from "../hooks/useADTSelectedData";
 import { DynamicTableProps } from "../interfaces";
-import { fillProps } from "../redux/props/provider";
-import { ADTContextProps, ColumnsIds } from "./interfaces";
+import { fillADTProps } from "../redux/props/provider";
+import {
+  setColH,
+  setColsTRId,
+  setColumnsIDs,
+  setPageSize,
+  setTotalItensAmount,
+} from "../redux/TableProps/provider";
+import { ColumnsIds } from "./interfaces";
 
-const ADTContext = createContext<ADTContextProps<any> | undefined>(undefined);
-
-export function ADTProvider<T>({
-  children,
-  props,
-}: {
-  children: React.ReactNode;
-  props: DynamicTableProps<T>;
-}) {
+export function ADTInit<T>({ props }: { props: DynamicTableProps<T> }) {
   const { data, columnsToHide, columnsToShow, tableStyle } = props;
+  const dispatch = useDispatch();
+
   const columns = useMemo(() => {
     if (columnsToHide) {
       return Object.keys(data[0] as object).filter(
@@ -34,7 +27,14 @@ export function ADTProvider<T>({
     } else return Object.keys(data[0] as object) as (keyof T)[];
   }, [columnsToHide, columnsToShow, data]);
 
-  const tableRef = useRef<any>(null);
+  useEffect(() => {
+    const columnsIDs = columns.reduce((acc, column) => {
+      acc[column] = `${column as string}-${v4().toString()}`;
+      return acc;
+    }, {} as ColumnsIds<T>);
+    dispatch(setColumnsIDs(columnsIDs));
+  }, [columns]);
+
   const {
     changePageSize,
     filterBySearch,
@@ -52,52 +52,8 @@ export function ADTProvider<T>({
     movePageTransitionDuration: props.movePageTransitionDuration,
   });
 
-  const {
-    selectMethods,
-    selectData,
-    uncheckAll,
-    selectedRowsToastOpen,
-    setSelectedRowsToastOpen,
-  } = useADTSelectedData({
-    pageSize,
-    totalItensAmount: props.data.length,
-  });
-
-  const [columnsIDs, setColumnsIDs] = useState<ColumnsIds<T>>();
-  const [colsTRId, setColsTRId] = useState<string>(v4());
-  const [rowHeight, setRowHeight] = useState<number>(0);
-
-  useEffect(() => {
-    const columnsIDs = columns.reduce((acc, column) => {
-      acc[column] = `${column as string}-${v4().toString()}`;
-      return acc;
-    }, {} as ColumnsIds<T>);
-    setColumnsIDs(columnsIDs);
-  }, [columns]);
-
-  const [colH, setColH] = useState<number>();
-
-  useEffect(() => {
-    const DTColumnWrapperDiv = document.getElementById(colsTRId);
-    if (!DTColumnWrapperDiv || !props.paddingHeader) return;
-    const h =
-      DTColumnWrapperDiv.getBoundingClientRect().height + props.paddingHeader;
-    setColH(h);
-  }, []);
-
-  useEffect(() => {
-    if (tableRef.current) {
-      setTimeout(() => {
-        setRowHeight(tableRef.current?.clientHeight);
-      }, 100);
-    }
-  }, [tableRef.current, pageSize]);
-
-  const dispatch = useDispatch();
-
   useEffect(() => {
     if (columns.length && filteredData.length) {
-      console.log("fillProps");
       const pr = {
         ...props,
         autoLockHeight:
@@ -110,58 +66,33 @@ export function ADTProvider<T>({
           highlightColor: tableStyle?.highlightColor ?? "#ff6262",
         },
       };
-      dispatch(fillProps(pr));
+      dispatch(fillADTProps(pr));
     }
   }, [columns, filteredData]);
 
-  return (
-    <ADTContext.Provider
-      value={{
-        selectMethods,
-        selectData,
-        columnsIDs,
-        setColumnsIDs,
-        uncheckAll,
-        colsTRId,
-        selectedRowsToastOpen,
-        setSelectedRowsToastOpen,
-        colH,
-        tableRef,
-        rowHeight,
-        pageState: {
-          page,
-          pageSize,
-          changePageSize,
-          movePage,
-          moving,
-          canGoBack,
-          canGoForward,
-          totalPages,
-          filterBySearch,
-        },
-        props: {
-          ...props,
-          autoLockHeight:
-            props.autoLockHeight != undefined ? props.autoLockHeight : true,
-          columns,
-          data: filteredData,
-          originalData: data,
-          tableStyle: {
-            ...tableStyle,
-            highlightColor: tableStyle?.highlightColor ?? "#ff6262",
-          },
-        },
-      }}
-    >
-      {children}
-    </ADTContext.Provider>
-  );
-}
+  useEffect(() => {
+    if (pageSize) dispatch(setPageSize(pageSize));
+  }, [pageSize]);
 
-export function useADTContext<T>() {
-  const context = useContext(ADTContext);
-  if (context === undefined) {
-    throw new Error("useADTContext must be used within a ADTProvider");
-  }
-  return context;
+  useEffect(() => {
+    if (props.data.length) {
+      dispatch(setTotalItensAmount(props.data.length));
+    }
+  }, [props.data]);
+
+  const [colsTRId] = useMemo(() => [v4()], []);
+
+  useEffect(() => {
+    if (colsTRId) {
+      dispatch(setColsTRId(colsTRId));
+    }
+  }, [colsTRId]);
+
+  useEffect(() => {
+    const DTColumnWrapperDiv = document.getElementById(colsTRId);
+    if (!DTColumnWrapperDiv || !props.paddingHeader) return;
+    const h =
+      DTColumnWrapperDiv.getBoundingClientRect().height + props.paddingHeader;
+    dispatch(setColH(h));
+  }, []);
 }

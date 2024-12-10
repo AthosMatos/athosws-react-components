@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction } from "react";
-import { DynamicTableProps } from "../interfaces";
 import { PageSizesType } from "../hooks/useADTFilterData";
+import { DynamicTableProps } from "../interfaces";
 
 export interface ADTContextProps<T> {
   props: DynamicTableProps<T> & {
@@ -8,20 +8,11 @@ export interface ADTContextProps<T> {
     originalData: T[];
   };
 
-  selectMethods: {
-    checkCellClick: (row: number) => void;
-    checkAllButtonClick: () => void;
-  };
-  selectData: {
-    selectedRows: number[];
-    checkState: 0 | 1 | 2;
-  };
   columnsIDs: ColumnsIds<T> | undefined;
   setColumnsIDs: Dispatch<SetStateAction<ColumnsIds<T> | undefined>>;
-  uncheckAll: () => void;
+
   colsTRId: string;
-  selectedRowsToastOpen: boolean;
-  setSelectedRowsToastOpen: Dispatch<SetStateAction<boolean>>;
+
   colH?: number;
   tableRef: React.RefObject<any>;
   rowHeight: number;

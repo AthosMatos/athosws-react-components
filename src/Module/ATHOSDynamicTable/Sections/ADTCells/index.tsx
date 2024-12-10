@@ -1,6 +1,6 @@
-import { AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
-import { useADTContext } from "../../context";
+import { useSelector } from "react-redux";
+import { ADTState } from "../../redux/store";
 import ADTCell from "./ADTCell";
 
 interface ADTCellsProps {
@@ -8,55 +8,22 @@ interface ADTCellsProps {
 }
 
 const ADTCells = ({ isPersistPrimaryColumn }: ADTCellsProps) => {
-  const {
-    selectMethods: { checkCellClick },
-    selectData: { selectedRows, checkState },
-    columnsIDs,
-    props: {
-      data,
-      columns,
-      paddingBetweenCells,
-      paddingBetweenColumns,
-      tableStyle,
-      colConfig,
-      globalConfig,
-      extraColumns,
-      startShort,
-      paddingBetweenExtraColumns,
-      tableName
-    },
-  } = useADTContext();
-
   const [isInit, setIsInit] = useState(false);
+  const data = useSelector((state: ADTState) => state.ADTPropsReducer.data);
 
   useEffect(() => {
     setIsInit(true);
   }, []);
 
-  return (
-    data.map((row, rowIndex) => (
-      <ADTCell
-        isPersistPrimaryColumn={isPersistPrimaryColumn}
-        columnsIDs={columnsIDs}
-        key={row.id ?? rowIndex}
-        isCheck={selectedRows.includes(rowIndex)}
-        rowIndex={rowIndex}
-        row={row}
-        columns={columns}
-        tableStyle={tableStyle}
-        paddingBetweenCells={paddingBetweenCells}
-        paddingBetweenColumns={paddingBetweenColumns}
-        isInit={isInit}
-        checkCellClick={checkCellClick}
-        checkState={checkState}
-        colConfig={colConfig}
-        globalConfig={globalConfig}
-        extraColumns={extraColumns}
-        startShort={startShort}
-        paddingBetweenExtraColumns={paddingBetweenExtraColumns}
-      />
-    ))
-  );
+  return data?.map((row, rowIndex) => (
+    <ADTCell
+      key={row.id ?? rowIndex}
+      rowIndex={rowIndex}
+      row={row}
+      isInit={isInit}
+      isPersistPrimaryColumn={isPersistPrimaryColumn}
+    />
+  ));
 };
 
 export default ADTCells;

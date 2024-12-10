@@ -3,7 +3,8 @@ import { useEffect, useState } from "react";
 import { Provider } from "react-redux";
 import { ATHOSResizableDiv } from "../ATHOSResizableDiv";
 import ADTSelectedRowsToast from "./components/ADTSelectedRowsToast";
-import { ADTProvider } from "./context";
+
+import { ADTInit } from "./context";
 import { DynamicTableProps } from "./interfaces";
 import { ADTStore } from "./redux/store";
 import ADTFuncs from "./Sections/ADTFuncs";
@@ -55,34 +56,34 @@ export function ATHOSDynamicTable<T>(props: DynamicTableProps<T>) {
     };
   }, [tableWrapperId]);
 
+  ADTInit({ props });
+
   const Comp = (stly?: boolean) => {
     return (
       <Provider store={ADTStore}>
-        <ADTProvider props={props}>
-          <ADTSelectedRowsToast />
-          <ADTTableWrapper
-            resizable={!!props.resizeable}
-            style={stly ? props.style : undefined}
-            className={`justify-between flex flex-col  ${
-              !props.resizeable && props.className
-            }`}
-          >
-            <ADTFuncs />
-            <div className="sticky left-0 z-30">
-              {shouldRenderPersistantTable && (
-                <AnimatePresence>
-                  <PersistantTable tableWrapperId={tableWrapperId} />
-                </AnimatePresence>
-              )}
-            </div>
-            <Tables
-              shouldRenderPersistantTable={shouldRenderPersistantTable}
-              tableWrapperId={tableWrapperId}
-            />
+        <ADTSelectedRowsToast />
+        <ADTTableWrapper
+          resizable={!!props.resizeable}
+          style={stly ? props.style : undefined}
+          className={`justify-between flex flex-col  ${
+            !props.resizeable && props.className
+          }`}
+        >
+          <ADTFuncs />
+          <div className="sticky left-0 z-30">
+            {shouldRenderPersistantTable && (
+              <AnimatePresence>
+                <PersistantTable tableWrapperId={tableWrapperId} />
+              </AnimatePresence>
+            )}
+          </div>
+          <Tables
+            shouldRenderPersistantTable={shouldRenderPersistantTable}
+            tableWrapperId={tableWrapperId}
+          />
 
-            <ADTNav />
-          </ADTTableWrapper>
-        </ADTProvider>
+          <ADTNav />
+        </ADTTableWrapper>
       </Provider>
     );
   };

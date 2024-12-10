@@ -1,6 +1,9 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import ADTCheckBox from "../../components/ADTCheckBox";
 import { useADTContext } from "../../context";
+import { useADTSelectprops } from "../../redux/SelectProps/provider";
+import { ADTState } from "../../redux/store";
 import { ADTColumnWrapper, ADTTR } from "../../styled";
 import ADTCol from "./ADTCol";
 
@@ -10,13 +13,15 @@ interface ADTColumnsProps {
 
 const ADTColumns = ({ isPersistPrimaryColumn }: ADTColumnsProps) => {
   const {
-    selectMethods,
-    selectData,
     colsTRId,
     colH,
     props: { columns, colConfig, data, paddingBetweenColumns, tableStyle },
   } = useADTContext();
 
+  const checkState = useSelector(
+    (state: ADTState) => state.ADTSelectPropsReducer.checkState
+  );
+  const { checkAllButtonClick } = useADTSelectprops();
   return (
     <ADTTR id={colsTRId} height={colH}>
       <ADTColumnWrapper
@@ -26,8 +31,8 @@ const ADTColumns = ({ isPersistPrimaryColumn }: ADTColumnsProps) => {
       >
         <ADTCheckBox
           highlightColor={tableStyle?.highlightColor!}
-          checked={selectData.checkState}
-          check={() => selectMethods.checkAllButtonClick()}
+          checked={checkState}
+          check={() => checkAllButtonClick()}
         />
       </ADTColumnWrapper>
       {columns.map((column: any, index) => {

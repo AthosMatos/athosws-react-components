@@ -1,36 +1,17 @@
+import { Variants } from "framer-motion";
 import { memo, useMemo } from "react";
+import { useSelector } from "react-redux";
 import ADTCheckBox from "../../../components/ADTCheckBox";
 import { CheckState } from "../../../hooks/useADTSelectedData";
-import {
-  ColConfig,
-  ExtraColumnsI,
-  GlobalConfig,
-  StartShortI,
-  TableStyle,
-} from "../../../interfaces";
+import { useADTSelectprops } from "../../../redux/SelectProps/provider";
+import { ADTState } from "../../../redux/store";
 import { ADTCellWrapper, ADTTR } from "../../../styled";
 import ADTCellColumn from "./ADTCellColumn";
-import { Variants } from "framer-motion";
-import { initial } from "lodash";
-import { ColumnsIds } from "../../../context/interfaces";
 
 interface ADTCellProps {
-  isCheck: boolean;
+  isInit: boolean;
   rowIndex: number;
   row: any;
-  columns: any[];
-  paddingBetweenCells?: number;
-  paddingBetweenColumns?: number;
-  tableStyle?: TableStyle<any>;
-  isInit: boolean;
-  checkCellClick: (row: number) => void;
-  checkState: number;
-  colConfig?: ColConfig<any>;
-  globalConfig?: GlobalConfig;
-  extraColumns?: ExtraColumnsI<any>[];
-  startShort?: boolean | StartShortI<any>;
-  columnsIDs?: ColumnsIds<any>;
-  paddingBetweenExtraColumns?: number;
   isPersistPrimaryColumn?: boolean;
 }
 
@@ -45,26 +26,26 @@ const variants: Variants = {
 };
 
 const ADTCell = memo((props: ADTCellProps) => {
+  const { rowIndex, row, isInit, isPersistPrimaryColumn } = props;
   const {
-    isPersistPrimaryColumn,
-    isCheck,
-    rowIndex,
-    row,
-    columns,
     paddingBetweenCells,
     paddingBetweenColumns,
     tableStyle,
-    checkCellClick,
-    checkState,
-    isInit,
+    columns,
     colConfig,
     globalConfig,
-    extraColumns,
     startShort,
+    extraColumns,
     paddingBetweenExtraColumns,
-    columnsIDs,
-  } = props;
-
+  } = useSelector((state: ADTState) => state.ADTPropsReducer);
+  const { checkState, selectedRows } = useSelector(
+    (state: ADTState) => state.ADTSelectPropsReducer
+  );
+  const { columnsIDs } = useSelector(
+    (state: ADTState) => state.ADTablePropsReducer
+  );
+  const { checkCellClick } = useADTSelectprops();
+  const isCheck = selectedRows.includes(rowIndex);
   return (
     isInit && (
       <ADTTR
