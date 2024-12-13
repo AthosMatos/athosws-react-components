@@ -102,3 +102,7 @@ export type DynamicTableProps<T> = {
 export interface ColumnsProps<T> {
   columns: (keyof T)[];
 }
+
+export type ColumnsIds<T> = {
+  [key in keyof T]: string;
+};

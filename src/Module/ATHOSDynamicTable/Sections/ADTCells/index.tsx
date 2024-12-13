@@ -1,3 +1,4 @@
+import { AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { ADTState } from "../../redux/store";
@@ -9,21 +10,27 @@ interface ADTCellsProps {
 
 const ADTCells = ({ isPersistPrimaryColumn }: ADTCellsProps) => {
   const [isInit, setIsInit] = useState(false);
-  const data = useSelector((state: ADTState) => state.ADTPropsReducer.data);
+  const data = useSelector(
+    (state: ADTState) => state.ADTFilteredPropsReducer.filteredData
+  );
 
   useEffect(() => {
     setIsInit(true);
   }, []);
 
-  return data?.map((row, rowIndex) => (
-    <ADTCell
-      key={row.id ?? rowIndex}
-      rowIndex={rowIndex}
-      row={row}
-      isInit={isInit}
-      isPersistPrimaryColumn={isPersistPrimaryColumn}
-    />
-  ));
+  return (
+    <AnimatePresence mode="popLayout">
+      {data?.map((row, rowIndex) => (
+        <ADTCell
+          key={row.id ?? rowIndex}
+          rowIndex={rowIndex}
+          row={row}
+          isInit={isInit}
+          isPersistPrimaryColumn={isPersistPrimaryColumn}
+        />
+      ))}
+    </AnimatePresence>
+  );
 };
 
 export default ADTCells;

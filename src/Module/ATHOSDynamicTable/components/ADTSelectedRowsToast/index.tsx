@@ -3,7 +3,7 @@ import { IoClose, IoMenu } from "react-icons/io5";
 import { useSelector } from "react-redux";
 import { ATHOSDropDown } from "../../../ATHOSDropDown";
 import { ATHOSToast } from "../../../ATHOSToast";
-import { useADTSelectprops } from "../../redux/SelectProps/provider";
+import { useADTSelect } from "../../redux/Select/hook";
 import { ADTState } from "../../redux/store";
 import { ADTBRDSimple } from "../ADTBorder";
 import ADTCheckBox from "../ADTCheckBox";
@@ -24,7 +24,7 @@ const ADTSelectedRowsToast = () => {
     (state: ADTState) => state.ADTPropsReducer
   );
   const { uncheckAll, openSelectedRowsToast, closeSelectedRowsToast } =
-    useADTSelectprops();
+    useADTSelect();
 
   const onDismiss = () => {
     setOpenDropDown(false);

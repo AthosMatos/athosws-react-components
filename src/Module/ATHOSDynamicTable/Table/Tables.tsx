@@ -1,7 +1,5 @@
-import { motion } from "framer-motion";
 import { useSelector } from "react-redux";
 import { Table } from ".";
-import { useADTContext } from "../context";
 import { ADTState } from "../redux/store";
 
 const Tables = ({
@@ -11,14 +9,16 @@ const Tables = ({
   tableWrapperId: string;
   shouldRenderPersistantTable: boolean;
 }) => {
-  const selectedModel = useSelector((state: ADTState) => state.ADTPropsReducer);
-  const {
-    pageState: { moving },
-  } = useADTContext();
-
+  const { moving } = useSelector(
+    (state: ADTState) => state.ADTFilteredPropsReducer
+  );
+  /* 
+animate={{
+        translateX: moving ? "100%" : 0,
+      }}
+*/
   return (
-    <motion.div
-      animate={{ opacity: moving ? 0 : 1 }}
+    <div
       //style={autoLockHeight ? { height: rowHeight } : undefined}
       className={
         //overflow-x-auto overflow-y-hidden
@@ -29,7 +29,7 @@ const Tables = ({
       id={tableWrapperId}
     >
       <Table />
-    </motion.div>
+    </div>
   );
 };
 

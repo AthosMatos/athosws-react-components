@@ -1,12 +1,11 @@
-import { memo, useEffect } from "react";
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { useADTContext } from "../context";
 import { ADTState } from "../redux/store";
 import ADTCells from "../Sections/ADTCells";
 import ADTColumns from "../Sections/ADTColumns";
 import { ADTBody, ADTHeader, ADTTable } from "../styled";
 
-export const Table = memo(() => {
+export const Table = () => {
   return (
     <ADTTable>
       <ADTHeader>
@@ -17,20 +16,19 @@ export const Table = memo(() => {
       </ADTBody>
     </ADTTable>
   );
-});
+};
 
 interface PersistantTableProps {
   tableWrapperId?: string;
 }
 
 export const PersistantTable = ({ tableWrapperId }: PersistantTableProps) => {
-  const { columnsIDs } = useADTContext();
   const tId = `persistantTable-${tableWrapperId}`;
-  const columns = useSelector(
-    (state: ADTState) => state.ADTPropsReducer.columns
+  const { persistPrimaryColumn, columns } = useSelector(
+    (state: ADTState) => state.ADTPropsReducer
   );
-  const persistPrimaryColumn = useSelector(
-    (state: ADTState) => state.ADTPropsReducer.persistPrimaryColumn
+  const { columnsIDs } = useSelector(
+    (state: ADTState) => state.ADTablePropsReducer
   );
 
   useEffect(() => {

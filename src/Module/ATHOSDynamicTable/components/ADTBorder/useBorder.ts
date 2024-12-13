@@ -1,15 +1,18 @@
 import { useEffect } from "react";
+import { useSelector } from "react-redux";
 import { v4 } from "uuid";
-import { useADTContext } from "../../context";
+import { ADTState } from "../../redux/store";
 
 export const useADTBorder = (colID: string) => {
   const wrapperid = v4();
   const id = v4();
 
   //const [doubleClicked, setDoubleClicked] = useState(false);
-  const {
-    props: { paddingBetweenColumns, tableStyle },
-  } = useADTContext();
+
+  const { paddingBetweenColumns } = useSelector(
+    (state: ADTState) => state.ADTPropsReducer
+  );
+
   useEffect(() => {
     const BRDWrapperDiv = document.getElementById(wrapperid);
     const BRD = document.getElementById(id);

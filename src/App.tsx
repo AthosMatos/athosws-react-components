@@ -162,7 +162,7 @@ const TestPage = () => {
               name: {
                 condional: {
                   showCondition: (rowColumnData) => {
-                    console.log(rowColumnData);
+                    // console.log(rowColumnData);
                     return rowColumnData == "Brennan Maxwell";
                   },
                   color: "green",

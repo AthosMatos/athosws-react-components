@@ -1,5 +1,7 @@
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
-import { useADTContext } from "../../context";
+import { useSelector } from "react-redux";
+import { useADTPaging } from "../../redux/Paging/hook";
+import { ADTState } from "../../redux/store";
 
 interface NavButtonProps {
   onClick: () => void;
@@ -21,18 +23,26 @@ const NavButton = ({ onClick, children, disabled }: NavButtonProps) => (
 );
 
 const ADTNav = () => {
-  const {
-    pageState: { movePage, page, canGoBack, canGoForward, totalPages },
-  } = useADTContext();
+  const { page, canGoBack, canGoForward, totalPages, moving } = useSelector(
+    (state: ADTState) => state.ADTFilteredPropsReducer
+  );
+  const { movePage } = useADTPaging();
+
   return (
-    <div className="flex mt-4 w-full justify-end sticky bottom-0 left-0 self-end">
+    <div className="flex-1 items-end select-none flex mt-4 w-full justify-end sticky bottom-0 left-0 self-end">
       <div className="flex flex-col items-center ">
-        <div className="overflow-hidden bg-white flex gap-2 text-lg text-gray-500 rounded-lg select-none border border-gray-300 rounded-t-md items-center">
-          <NavButton disabled={!canGoBack} onClick={() => movePage("prev")}>
+        <div className="overflow-hidden bg-white flex gap-2 text-lg text-gray-500 rounded-lg  border border-gray-300 rounded-t-md items-center">
+          <NavButton
+            disabled={!canGoBack}
+            onClick={() => !moving && movePage("prev")}
+          >
             <IoIosArrowBack />
           </NavButton>
           <p className="w-fit h-fit  font-medium">{page}</p>
-          <NavButton disabled={!canGoForward} onClick={() => movePage("next")}>
+          <NavButton
+            disabled={!canGoForward}
+            onClick={() => !moving && movePage("next")}
+          >
             <IoIosArrowForward />
           </NavButton>
         </div>
@@ -45,7 +55,7 @@ const ADTNav = () => {
                 hover:text-gray-700 cursor-pointer
             ${num === page ? "underline text-gray-700" : ""}
             `}
-                onClick={() => movePage(num)}
+                onClick={() => !moving && movePage(num)}
               >
                 {num}
               </div>

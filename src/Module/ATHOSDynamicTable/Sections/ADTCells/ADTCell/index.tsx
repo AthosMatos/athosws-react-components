@@ -2,8 +2,8 @@ import { Variants } from "framer-motion";
 import { memo, useMemo } from "react";
 import { useSelector } from "react-redux";
 import ADTCheckBox from "../../../components/ADTCheckBox";
-import { CheckState } from "../../../hooks/useADTSelectedData";
-import { useADTSelectprops } from "../../../redux/SelectProps/provider";
+import { useADTSelect } from "../../../redux/Select/hook";
+import { CheckState } from "../../../redux/Select/interfaces";
 import { ADTState } from "../../../redux/store";
 import { ADTCellWrapper, ADTTR } from "../../../styled";
 import ADTCellColumn from "./ADTCellColumn";
@@ -25,6 +25,83 @@ const variants: Variants = {
   }, */
 };
 
+const Cell = memo(
+  ({
+    column,
+    index,
+    row,
+    rowIndex,
+  }: {
+    column: string;
+    index: number;
+    row: any;
+    rowIndex: number;
+  }) => {
+    const {
+      columns,
+      colConfig,
+      globalConfig,
+      startShort,
+      tableStyle,
+      paddingBetweenColumns,
+      paddingBetweenCells,
+    } = useSelector((state: ADTState) => state.ADTPropsReducer);
+
+    const { columnsIDs } = useSelector(
+      (state: ADTState) => state.ADTablePropsReducer
+    );
+
+    const textColor = useMemo(() => {
+      const globalColor = tableStyle?.cellTextColor?.global;
+      const specificGlobalColor =
+        tableStyle?.cellTextColor?.specific &&
+        tableStyle?.cellTextColor?.specific[column]?.global;
+      const specificIndexColor =
+        tableStyle?.cellTextColor?.specific &&
+        tableStyle?.cellTextColor?.specific[column]?.specificIndex &&
+        tableStyle?.cellTextColor?.specific[
+          column
+        ]?.specificIndex?.indexes.includes(rowIndex) &&
+        tableStyle?.cellTextColor?.specific[column]?.specificIndex?.color;
+      const specificConditionColor =
+        tableStyle?.cellTextColor?.specific &&
+        tableStyle?.cellTextColor?.specific[column]?.condional?.showCondition(
+          row[column]
+        ) &&
+        tableStyle?.cellTextColor?.specific[column]?.condional?.color;
+
+      return (
+        specificConditionColor ||
+        specificIndexColor ||
+        specificGlobalColor ||
+        globalColor
+      );
+    }, [tableStyle?.cellTextColor]);
+    return (
+      <ADTCellWrapper
+        id={`${columns[index]} - ${rowIndex} -${index}`}
+        paddingHorizontal={paddingBetweenColumns}
+        vertPad={paddingBetweenCells && paddingBetweenCells / 2}
+        bRightLeft
+        key={index}
+        style={{
+          color: textColor,
+        }}
+      >
+        <ADTCellColumn
+          cellId={`${columns[index]} - ${rowIndex} -${index}`}
+          columnsIDs={columnsIDs}
+          row={row}
+          column={column}
+          colConfig={colConfig}
+          globalConfig={globalConfig}
+          startShort={startShort}
+        />
+      </ADTCellWrapper>
+    );
+  }
+);
+
 const ADTCell = memo((props: ADTCellProps) => {
   const { rowIndex, row, isInit, isPersistPrimaryColumn } = props;
   const {
@@ -32,26 +109,32 @@ const ADTCell = memo((props: ADTCellProps) => {
     paddingBetweenColumns,
     tableStyle,
     columns,
-    colConfig,
-    globalConfig,
-    startShort,
     extraColumns,
     paddingBetweenExtraColumns,
   } = useSelector((state: ADTState) => state.ADTPropsReducer);
   const { checkState, selectedRows } = useSelector(
     (state: ADTState) => state.ADTSelectPropsReducer
   );
-  const { columnsIDs } = useSelector(
-    (state: ADTState) => state.ADTablePropsReducer
-  );
-  const { checkCellClick } = useADTSelectprops();
+  const { checkCellClick } = useADTSelect();
   const isCheck = selectedRows.includes(rowIndex);
+
+  const { moving } = useSelector(
+    (state: ADTState) => state.ADTFilteredPropsReducer
+  );
+
   return (
     isInit && (
       <ADTTR
-        exit="scaleDown"
-        transition={{ duration: 0.44 }}
-        variants={variants}
+        //className="absolute"
+        exit={{
+          translateX: "100%",
+        }}
+        initial={{
+          translateX: "-100%",
+        }}
+        animate={{
+          translateX: 0,
+        }}
       >
         <ADTCellWrapper
           style={isPersistPrimaryColumn ? { paddingLeft: "0.4rem" } : {}}
@@ -67,58 +150,10 @@ const ADTCell = memo((props: ADTCellProps) => {
           />
         </ADTCellWrapper>
         {(columns as any[])
-          .filter((column, index) => !(isPersistPrimaryColumn && index > 0))
-          .map((column, index) => {
-            const textColor = useMemo(() => {
-              const globalColor = tableStyle?.cellTextColor?.global;
-              const specificGlobalColor =
-                tableStyle?.cellTextColor?.specific &&
-                tableStyle?.cellTextColor?.specific[column]?.global;
-              const specificIndexColor =
-                tableStyle?.cellTextColor?.specific &&
-                tableStyle?.cellTextColor?.specific[column]?.specificIndex &&
-                tableStyle?.cellTextColor?.specific[
-                  column
-                ]?.specificIndex?.indexes.includes(rowIndex) &&
-                tableStyle?.cellTextColor?.specific[column]?.specificIndex
-                  ?.color;
-              const specificConditionColor =
-                tableStyle?.cellTextColor?.specific &&
-                tableStyle?.cellTextColor?.specific[
-                  column
-                ]?.condional?.showCondition(row[column]) &&
-                tableStyle?.cellTextColor?.specific[column]?.condional?.color;
-
-              return (
-                specificConditionColor ||
-                specificIndexColor ||
-                specificGlobalColor ||
-                globalColor
-              );
-            }, [tableStyle?.cellTextColor]);
-            return (
-              <ADTCellWrapper
-                id={`${columns[index]} - ${rowIndex} -${index}`}
-                paddingHorizontal={paddingBetweenColumns}
-                vertPad={paddingBetweenCells && paddingBetweenCells / 2}
-                bRightLeft
-                key={index}
-                style={{
-                  color: textColor,
-                }}
-              >
-                <ADTCellColumn
-                  cellId={`${columns[index]} - ${rowIndex} -${index}`}
-                  columnsIDs={columnsIDs}
-                  row={row}
-                  column={column}
-                  colConfig={colConfig}
-                  globalConfig={globalConfig}
-                  startShort={startShort}
-                />
-              </ADTCellWrapper>
-            );
-          })}
+          .filter((_, index) => !(isPersistPrimaryColumn && index > 0))
+          .map((column, index) => (
+            <Cell column={column} index={index} row={row} rowIndex={rowIndex} />
+          ))}
         {extraColumns &&
           !isPersistPrimaryColumn &&
           extraColumns

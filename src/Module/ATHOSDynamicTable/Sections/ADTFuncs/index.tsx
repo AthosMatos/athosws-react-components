@@ -3,7 +3,7 @@ import { memo, useState } from "react";
 import { FaSearch } from "react-icons/fa";
 import { MdTune } from "react-icons/md";
 import { useSelector } from "react-redux";
-import { useADTContext } from "../../context";
+import { useADTPaging } from "../../redux/Paging/hook";
 import { ADTState } from "../../redux/store";
 const FuncWrapper = ({
   children,
@@ -23,18 +23,12 @@ const FuncWrapper = ({
 );
 
 const ADTFuncs = () => {
-  const {
-    pageState: { filterBySearch },
-  } = useADTContext();
-
   const [openSearch, setOpenSearch] = useState(false);
-  const data = useSelector((state: ADTState) => state.ADTPropsReducer.data);
-  const originalData = useSelector(
-    (state: ADTState) => state.ADTPropsReducer.originalData
+  const filteredData = useSelector(
+    (state: ADTState) => state.ADTFilteredPropsReducer.filteredData
   );
-  const tableName = useSelector(
-    (state: ADTState) => state.ADTPropsReducer.tableName
-  );
+  const props = useSelector((state: ADTState) => state.ADTPropsReducer);
+  const { filterBySearch } = useADTPaging();
 
   const toggleSearch = () => {
     setOpenSearch(!openSearch);
@@ -42,9 +36,9 @@ const ADTFuncs = () => {
   return (
     <div className="flex mb-4 justify-between sticky left-0 top-0 bg-white z-40">
       <div className="flex flex-col gap-0">
-        <h1 className="text-xl font-semibold leading-5">{tableName}</h1>
+        <h1 className="text-xl font-semibold leading-5">{props.tableName}</h1>
         <p className="text-md text-gray-500 font-light">
-          {data?.length} items / {originalData?.length} total
+          {filteredData?.length} items / {props.data?.length} total
         </p>
       </div>
       <div className="flex gap-2 text-gray-400 select-none">

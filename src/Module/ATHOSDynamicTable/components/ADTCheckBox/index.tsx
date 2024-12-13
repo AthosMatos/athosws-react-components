@@ -1,5 +1,5 @@
 import { memo, useMemo } from "react";
-import { CheckState } from "../../hooks/useADTSelectedData";
+import { CheckState } from "../../redux/Select/interfaces";
 import { ADTCheckBoxProps } from "./interfaces";
 import { ADTCheckBoxWrapper, ADTCheckIcon, ADTDoubleCheckIcon } from "./styled";
 

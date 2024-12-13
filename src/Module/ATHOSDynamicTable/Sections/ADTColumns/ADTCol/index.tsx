@@ -1,6 +1,7 @@
 import { useMemo } from "react";
+import { useSelector } from "react-redux";
 import ADTBorder from "../../../components/ADTBorder";
-import { useADTContext } from "../../../context";
+import { ADTState } from "../../../redux/store";
 import { ADTColBorderWrapper, ADTColumnWrapper } from "../../../styled";
 
 const ADTCol = ({
@@ -12,11 +13,12 @@ const ADTCol = ({
   column: string;
   isPersistPrimaryColumn?: boolean;
 }) => {
-  const {
-    columnsIDs,
-    props: { paddingBetweenColumns, tableStyle, persistPrimaryColumn },
-  } = useADTContext();
-
+  const { paddingBetweenColumns, tableStyle } = useSelector(
+    (state: ADTState) => state.ADTPropsReducer
+  );
+  const { columnsIDs } = useSelector(
+    (state: ADTState) => state.ADTablePropsReducer
+  );
   const textColor = useMemo(() => {
     const globalColor = tableStyle?.columnTextColor?.global;
     const specificColor =

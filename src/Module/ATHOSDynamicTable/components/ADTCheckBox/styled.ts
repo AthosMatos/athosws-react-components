@@ -2,8 +2,7 @@ import { FaCheck, FaCircle } from "react-icons/fa";
 import styled from "styled-components";
 import { ATHOSColors } from "../../../colors/colors";
 import { generateColorShades } from "../../../utils/color-utils";
-
-import { CheckState } from "../../hooks/useADTSelectedData";
+import { CheckState } from "../../redux/Select/interfaces";
 
 export const ADTCheckBoxWrapper = styled.div<{
   highlightColor: string;

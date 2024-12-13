@@ -86,9 +86,9 @@ export const ASMSubOptionWrapper = (props: ASMSubOptionWrapperProps) => {
   const [isOver, setIsOver] = useState(false);
   const [scale, setScale] = useState(1);
 
-  useEffect(() => {
+  /*  useEffect(() => {
     console.log("textColor", textColor);
-  }, [textColor]);
+  }, [textColor]); */
 
   const setHoverColor = () => {
     if (clicked) {

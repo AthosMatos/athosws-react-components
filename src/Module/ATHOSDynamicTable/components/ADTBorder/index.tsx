@@ -19,13 +19,13 @@ export const BRD = styled.div<{ active?: boolean }>`
 const BRDWrapper = styled.div`
   display: flex;
   width: 8px;
-  height: clamp(0.7rem, 70%, 1rem);
+  height: 1rem;
   justify-content: center;
   cursor: e-resize;
 `;
 const ADTBorder = ({ colID }: { colID: string }) => {
   const { id, wrapperid } = useADTBorder(colID);
-
+  console.log("ADTBorder");
   return (
     <BRDWrapper id={wrapperid}>
       <BRD id={id} />
