@@ -9,7 +9,6 @@ export interface PagingState {
   canGoBack: boolean;
   canGoForward: boolean;
   totalPages: number;
-  goingBack: boolean;
   goingForward: boolean;
   totalItensAmount: number;
 }

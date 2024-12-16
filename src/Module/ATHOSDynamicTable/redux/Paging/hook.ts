@@ -3,7 +3,6 @@ import { ADTState } from "../store";
 import { PageSizesType } from "./interfaces";
 import {
   setFilteredData,
-  setGoingBack,
   setGoingForward,
   setMoving,
   setPage,
@@ -60,11 +59,9 @@ export const useADTPaging = () => {
       dispatch(setMoving(false));
 
       if (to < page) {
-        dispatch(setGoingBack(true));
         dispatch(setGoingForward(false));
       }
       if (to > page) {
-        dispatch(setGoingBack(false));
         dispatch(setGoingForward(true));
       }
       return;
@@ -76,14 +73,12 @@ export const useADTPaging = () => {
       dispatch(setMoving(true));
       dispatch(setPage(page + 1));
       dispatch(setMoving(false));
-      dispatch(setGoingBack(false));
       dispatch(setGoingForward(true));
     } else if (to === "prev" && page > 1) {
       dispatch(setMoving(true));
       dispatch(setPage(page - 1));
       dispatch(setMoving(false));
       dispatch(setGoingForward(false));
-      dispatch(setGoingBack(true));
     }
   };
   const changePageSize = (size: PageSizesType) => {

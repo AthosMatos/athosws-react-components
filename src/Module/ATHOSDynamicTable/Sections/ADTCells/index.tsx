@@ -19,7 +19,7 @@ const ADTCells = ({ isPersistPrimaryColumn }: ADTCellsProps) => {
   }, []);
 
   return (
-    <AnimatePresence mode="wait">
+    <AnimatePresence mode="sync">
       {data?.map((row, rowIndex) => (
         <ADTCell
           key={row.id ?? rowIndex}

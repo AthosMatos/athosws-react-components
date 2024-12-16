@@ -47,9 +47,9 @@ const ADTColumns = ({ isPersistPrimaryColumn }: ADTColumnsProps) => {
         }
         return (
           <ADTCol
+            key={`${column}-${index}`}
             isPersistPrimaryColumn={isPersistPrimaryColumn}
             value={value}
-            key={column}
             column={column}
           />
         );
