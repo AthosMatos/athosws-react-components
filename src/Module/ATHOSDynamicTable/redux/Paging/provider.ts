@@ -7,6 +7,8 @@ const initialState: PagingState = {
   page: 1,
   pageSize: 5,
   moving: false,
+  goingBack: false,
+  goingForward: false,
   canGoBack: false,
   canGoForward: false,
   totalPages: 0,
@@ -45,6 +47,12 @@ const Slice = createSlice({
     setTotalItensAmount: (state, action: PayloadAction<number>) => {
       state.totalItensAmount = action.payload;
     },
+    setGoingBack: (state, action: PayloadAction<boolean>) => {
+      state.goingBack = action.payload;
+    },
+    setGoingForward: (state, action: PayloadAction<boolean>) => {
+      state.goingForward = action.payload;
+    },
   },
 });
 
@@ -59,6 +67,8 @@ export const {
   setCanGoForward,
   setTotalPages,
   setTotalItensAmount,
+  setGoingBack,
+  setGoingForward,
 } = Slice.actions;
 
 const ADTPagingReducer = Slice.reducer;

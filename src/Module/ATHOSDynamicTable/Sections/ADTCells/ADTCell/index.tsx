@@ -118,7 +118,7 @@ const ADTCell = memo((props: ADTCellProps) => {
   const { checkCellClick } = useADTSelect();
   const isCheck = selectedRows.includes(rowIndex);
 
-  const { moving } = useSelector(
+  const { moving, goingForward, goingBack } = useSelector(
     (state: ADTState) => state.ADTFilteredPropsReducer
   );
 
@@ -127,13 +127,17 @@ const ADTCell = memo((props: ADTCellProps) => {
       <ADTTR
         //className="absolute"
         exit={{
-          translateX: "100%",
+          translateX: goingForward ? "-100%" : "100%",
         }}
         initial={{
-          translateX: "-100%",
+          translateX: goingForward ? "100%" : "-100%",
         }}
         animate={{
           translateX: 0,
+        }}
+        transition={{
+          duration: 0.24,
+          // delay: rowIndex * 0.05,
         }}
       >
         <ADTCellWrapper

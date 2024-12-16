@@ -3,6 +3,8 @@ import { ADTState } from "../store";
 import { PageSizesType } from "./interfaces";
 import {
   setFilteredData,
+  setGoingBack,
+  setGoingForward,
   setMoving,
   setPage,
   setPageSize,
@@ -11,9 +13,7 @@ import {
 
 export const useADTPaging = () => {
   const dispatch = useDispatch();
-  const { data, movePageTransitionDuration = 240 } = useSelector(
-    (state: ADTState) => state.ADTPropsReducer
-  );
+  const { data } = useSelector((state: ADTState) => state.ADTPropsReducer);
   const { page, totalPages, canGoBack, canGoForward, pageSize } = useSelector(
     (state: ADTState) => state.ADTFilteredPropsReducer
   );
@@ -58,20 +58,32 @@ export const useADTPaging = () => {
       dispatch(setMoving(true));
       dispatch(setPage(to));
       dispatch(setMoving(false));
+
+      if (to < page) {
+        dispatch(setGoingBack(true));
+        dispatch(setGoingForward(false));
+      }
+      if (to > page) {
+        dispatch(setGoingBack(false));
+        dispatch(setGoingForward(true));
+      }
       return;
     }
     if ((to === "next" && !canGoForward) || (to === "prev" && !canGoBack)) {
       return;
     }
-
     if (to === "next" && page * pageSize < data?.length) {
       dispatch(setMoving(true));
       dispatch(setPage(page + 1));
       dispatch(setMoving(false));
+      dispatch(setGoingBack(false));
+      dispatch(setGoingForward(true));
     } else if (to === "prev" && page > 1) {
       dispatch(setMoving(true));
       dispatch(setPage(page - 1));
       dispatch(setMoving(false));
+      dispatch(setGoingForward(false));
+      dispatch(setGoingBack(true));
     }
   };
   const changePageSize = (size: PageSizesType) => {
