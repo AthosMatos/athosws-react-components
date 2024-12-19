@@ -9,23 +9,17 @@ interface ADTCellsProps {
 }
 
 const ADTCells = ({ isPersistPrimaryColumn }: ADTCellsProps) => {
-  const [isInit, setIsInit] = useState(false);
   const data = useSelector(
     (state: ADTState) => state.ADTFilteredPropsReducer.filteredData
   );
 
-  useEffect(() => {
-    setIsInit(true);
-  }, []);
-
   return (
-    <AnimatePresence mode="sync">
+    <AnimatePresence mode="popLayout">
       {data?.map((row, rowIndex) => (
         <ADTCell
-          key={row.id ?? rowIndex}
+          key={`row-${rowIndex}-${row.id}`}
           rowIndex={rowIndex}
           row={row}
-          isInit={isInit}
           isPersistPrimaryColumn={isPersistPrimaryColumn}
         />
       ))}

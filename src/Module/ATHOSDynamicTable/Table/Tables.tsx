@@ -9,9 +9,6 @@ const Tables = ({
   tableWrapperId: string;
   shouldRenderPersistantTable: boolean;
 }) => {
-  const { moving } = useSelector(
-    (state: ADTState) => state.ADTFilteredPropsReducer
-  );
   /* 
 animate={{
         translateX: moving ? "100%" : 0,

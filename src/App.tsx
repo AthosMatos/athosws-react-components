@@ -122,8 +122,8 @@ const TestPage = () => {
     >
       {/*  <Categorias_Modal /> */}
       <ATHOSDynamicTable
-        resizeable
-        className=" rounded-md w-full h-3/4"
+        //resizeable
+        className=" m-4 rounded-md w-full h-3/4"
         persistPrimaryColumn={{
           backgroundColor: ATHOSColors.white.eggshell,
         }}

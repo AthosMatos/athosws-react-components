@@ -29,34 +29,10 @@ export const useADTPaging = () => {
     dispatch(setFilteredData(filtered));
   };
 
-  /* const movePage = (to: "next" | "prev" | number) => {
-    if (typeof to === "number" && to > 0 && to <= totalPages && to !== page) {
-      dispatch(setMoving(true));
-      setTimeout(() => {
-        dispatch(setPage(to));
-        dispatch(setMoving(false));
-      }, movePageTransitionDuration);
-      return;
-    }
-    if ((to === "next" && !canGoForward) || (to === "prev" && !canGoBack)) {
-      return;
-    }
-    dispatch(setMoving(true));
-    setTimeout(() => {
-      if (to === "next" && page * pageSize < data?.length) {
-        dispatch(setPage(page + 1));
-      } else if (to === "prev" && page > 1) {
-        dispatch(setPage(page - 1));
-      }
-      dispatch(setMoving(false));
-    }, movePageTransitionDuration);
-  }; */
-
   const movePage = (to: "next" | "prev" | number) => {
     if (typeof to === "number" && to > 0 && to <= totalPages && to !== page) {
       dispatch(setMoving(true));
       dispatch(setPage(to));
-      dispatch(setMoving(false));
 
       if (to < page) {
         dispatch(setGoingForward(false));
@@ -64,6 +40,9 @@ export const useADTPaging = () => {
       if (to > page) {
         dispatch(setGoingForward(true));
       }
+      setTimeout(() => {
+        dispatch(setMoving(false));
+      }, 1200);
       return;
     }
     if ((to === "next" && !canGoForward) || (to === "prev" && !canGoBack)) {
@@ -72,13 +51,17 @@ export const useADTPaging = () => {
     if (to === "next" && page * pageSize < data?.length) {
       dispatch(setMoving(true));
       dispatch(setPage(page + 1));
-      dispatch(setMoving(false));
       dispatch(setGoingForward(true));
+      setTimeout(() => {
+        dispatch(setMoving(false));
+      }, 1200);
     } else if (to === "prev" && page > 1) {
       dispatch(setMoving(true));
       dispatch(setPage(page - 1));
-      dispatch(setMoving(false));
       dispatch(setGoingForward(false));
+      setTimeout(() => {
+        dispatch(setMoving(false));
+      }, 1200);
     }
   };
   const changePageSize = (size: PageSizesType) => {

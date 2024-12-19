@@ -2,6 +2,8 @@ import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { useSelector } from "react-redux";
 import { useADTPaging } from "../../redux/Paging/hook";
 import { ADTState } from "../../redux/store";
+import { useDispatch } from "react-redux";
+import { setMoving } from "../../redux/Paging/provider";
 
 interface NavButtonProps {
   onClick: () => void;
@@ -23,7 +25,7 @@ const NavButton = ({ onClick, children, disabled }: NavButtonProps) => (
 );
 
 const ADTNav = () => {
-  const { page, canGoBack, canGoForward, totalPages, moving } = useSelector(
+  const { page, canGoBack, canGoForward, totalPages } = useSelector(
     (state: ADTState) => state.ADTFilteredPropsReducer
   );
   const { movePage } = useADTPaging();
@@ -34,15 +36,14 @@ const ADTNav = () => {
         <div className="overflow-hidden bg-white flex gap-2 text-lg text-gray-500 rounded-lg  border border-gray-300 rounded-t-md items-center">
           <NavButton
             disabled={!canGoBack}
-            onClick={() => !moving && movePage("prev")}
+            onClick={() => {
+              movePage("prev");
+            }}
           >
             <IoIosArrowBack />
           </NavButton>
           <p className="w-fit h-fit  font-medium">{page}</p>
-          <NavButton
-            disabled={!canGoForward}
-            onClick={() => !moving && movePage("next")}
-          >
+          <NavButton disabled={!canGoForward} onClick={() => movePage("next")}>
             <IoIosArrowForward />
           </NavButton>
         </div>
@@ -55,7 +56,7 @@ const ADTNav = () => {
                 hover:text-gray-700 cursor-pointer
             ${num === page ? "underline text-gray-700" : ""}
             `}
-                onClick={() => !moving && movePage(num)}
+                onClick={() => movePage(num)}
               >
                 {num}
               </div>

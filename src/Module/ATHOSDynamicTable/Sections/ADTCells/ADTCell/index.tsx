@@ -1,5 +1,5 @@
 import { Variants } from "framer-motion";
-import { memo, useMemo } from "react";
+import { memo, useEffect, useMemo } from "react";
 import { useSelector } from "react-redux";
 import ADTCheckBox from "../../../components/ADTCheckBox";
 import { useADTSelect } from "../../../redux/Select/hook";
@@ -9,7 +9,6 @@ import { ADTCellWrapper, ADTTR } from "../../../styled";
 import ADTCellColumn from "./ADTCellColumn";
 
 interface ADTCellProps {
-  isInit: boolean;
   rowIndex: number;
   row: any;
   isPersistPrimaryColumn?: boolean;
@@ -103,7 +102,7 @@ const Cell = memo(
 );
 
 const ADTCell = memo((props: ADTCellProps) => {
-  const { rowIndex, row, isInit, isPersistPrimaryColumn } = props;
+  const { rowIndex, row, isPersistPrimaryColumn } = props;
   const {
     paddingBetweenCells,
     paddingBetweenColumns,
@@ -118,73 +117,58 @@ const ADTCell = memo((props: ADTCellProps) => {
   const { checkCellClick } = useADTSelect();
   const isCheck = selectedRows.includes(rowIndex);
 
-  const { goingForward } = useSelector(
-    (state: ADTState) => state.ADTFilteredPropsReducer
-  );
-
   return (
-    isInit && (
-      <ADTTR
-        //className="absolute"
-        exit={{
-          translateX: goingForward ? "-100%" : "100%",
-        }}
-        initial={{
-          translateX: goingForward ? "100%" : "-100%",
-        }}
-        animate={{
-          translateX: 0,
-        }}
-        transition={{
-          duration: 1.2,
-          ease: "circInOut",
-          // delay: rowIndex * 0.05,
-        }}
+    <ADTTR
+      layout
+      //animate={{ scale: 1, opacity: 1 }}
+      //exit={{ scale: 0.8, opacity: 0 }}
+      transition={{ type: "spring" }}
+      /* exit={{
+          opacity: 0,
+        }} */
+    >
+      <ADTCellWrapper
+        style={isPersistPrimaryColumn ? { paddingLeft: "0.4rem" } : {}}
+        vertPad={paddingBetweenCells && paddingBetweenCells / 2}
+        paddingHorizontal={paddingBetweenColumns}
       >
-        <ADTCellWrapper
-          style={isPersistPrimaryColumn ? { paddingLeft: "0.4rem" } : {}}
-          vertPad={paddingBetweenCells && paddingBetweenCells / 2}
-          paddingHorizontal={paddingBetweenColumns}
-        >
-          <ADTCheckBox
-            highlightColor={tableStyle?.highlightColor!}
-            checked={
-              checkState === CheckState.PAGE && isCheck ? checkState : isCheck
-            }
-            check={() => checkCellClick(rowIndex)}
-          />
-        </ADTCellWrapper>
-        {(columns as any[])
-          .filter((_, index) => !(isPersistPrimaryColumn && index > 0))
-          .map((column, index) => (
-            <Cell column={column} index={index} row={row} rowIndex={rowIndex} />
-          ))}
-        {extraColumns &&
-          !isPersistPrimaryColumn &&
-          extraColumns
-            .filter(
-              (extraColumn) =>
-                !(extraColumn.showCondition && !extraColumn.showCondition(row))
-            )
-            .map((extraColumn, index) => {
-              return (
-                <ADTCellWrapper
-                  style={{
-                    paddingRight: 0,
-                    paddingLeft:
-                      index == 0 ? 0 : paddingBetweenExtraColumns ?? 6,
-                  }}
-                  paddingHorizontal={paddingBetweenColumns}
-                  vertPad={paddingBetweenCells && paddingBetweenCells / 2}
-                  bRightLeft
-                  key={index}
-                >
-                  {extraColumn.component(row)}
-                </ADTCellWrapper>
-              );
-            })}
-      </ADTTR>
-    )
+        <ADTCheckBox
+          highlightColor={tableStyle?.highlightColor!}
+          checked={
+            checkState === CheckState.PAGE && isCheck ? checkState : isCheck
+          }
+          check={() => checkCellClick(rowIndex)}
+        />
+      </ADTCellWrapper>
+      {(columns as any[])
+        .filter((_, index) => !(isPersistPrimaryColumn && index > 0))
+        .map((column, index) => (
+          <Cell column={column} index={index} row={row} rowIndex={rowIndex} />
+        ))}
+      {extraColumns &&
+        !isPersistPrimaryColumn &&
+        extraColumns
+          .filter(
+            (extraColumn) =>
+              !(extraColumn.showCondition && !extraColumn.showCondition(row))
+          )
+          .map((extraColumn, index) => {
+            return (
+              <ADTCellWrapper
+                style={{
+                  paddingRight: 0,
+                  paddingLeft: index == 0 ? 0 : paddingBetweenExtraColumns ?? 6,
+                }}
+                paddingHorizontal={paddingBetweenColumns}
+                vertPad={paddingBetweenCells && paddingBetweenCells / 2}
+                bRightLeft
+                key={index}
+              >
+                {extraColumn.component(row)}
+              </ADTCellWrapper>
+            );
+          })}
+    </ADTTR>
   );
 });
 
