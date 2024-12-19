@@ -14,6 +14,7 @@ import {
   setTotalItensAmount,
   setTotalPages,
 } from "../redux/Paging/provider";
+import { ADTPropsState } from "../redux/props/interfaces";
 import { fillADTProps } from "../redux/props/provider";
 import { ADTState } from "../redux/store";
 
@@ -66,8 +67,9 @@ export function ADTController<T>({ props }: { props: DynamicTableProps<T> }) {
 
   useEffect(() => {
     if (columns?.length) {
-      const pr = {
+      const pr: ADTPropsState<any> = {
         ...props,
+        persistPrimaryColumn: props.persistPrimaryColumn ?? true,
         autoLockHeight:
           props.autoLockHeight != undefined ? props.autoLockHeight : true,
         columns,

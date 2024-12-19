@@ -2,8 +2,6 @@ import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { useSelector } from "react-redux";
 import { useADTPaging } from "../../redux/Paging/hook";
 import { ADTState } from "../../redux/store";
-import { useDispatch } from "react-redux";
-import { setMoving } from "../../redux/Paging/provider";
 
 interface NavButtonProps {
   onClick: () => void;

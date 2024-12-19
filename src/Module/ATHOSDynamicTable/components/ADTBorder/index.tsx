@@ -1,3 +1,4 @@
+import { memo } from "react";
 import styled from "styled-components";
 import { ATHOSColors } from "../../../colors/colors";
 import { useADTBorder } from "./useBorder";
@@ -33,4 +34,4 @@ const ADTBorder = ({ colID }: { colID: string }) => {
   );
 };
 
-export default ADTBorder;
+export default memo(ADTBorder);

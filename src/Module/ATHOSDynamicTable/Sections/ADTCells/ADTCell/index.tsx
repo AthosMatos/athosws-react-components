@@ -1,12 +1,10 @@
-import { Variants } from "framer-motion";
-import { memo, useEffect, useMemo } from "react";
+import { memo } from "react";
 import { useSelector } from "react-redux";
-import ADTCheckBox from "../../../components/ADTCheckBox";
-import { useADTSelect } from "../../../redux/Select/hook";
-import { CheckState } from "../../../redux/Select/interfaces";
 import { ADTState } from "../../../redux/store";
-import { ADTCellWrapper, ADTTR } from "../../../styled";
+import { ADTTR } from "../../../styled";
+import ADTCellCheckBox from "./ADTCellCheckBox";
 import ADTCellColumn from "./ADTCellColumn";
+import ADTCellExtraCols from "./ADTCellExtraCols";
 
 interface ADTCellProps {
   rowIndex: number;
@@ -14,160 +12,78 @@ interface ADTCellProps {
   isPersistPrimaryColumn?: boolean;
 }
 
-const variants: Variants = {
-  scaleDown: { scale: 0, opacity: 0 },
-  /* initial: { translateY:'100%',
-    opacity: 0,
-  },
-  visible: { translateY: 0,
-    opacity: 1,
-  }, */
-};
+const duration = 1.4;
 
-const Cell = memo(
-  ({
-    column,
-    index,
-    row,
-    rowIndex,
-  }: {
-    column: string;
-    index: number;
-    row: any;
-    rowIndex: number;
-  }) => {
-    const {
-      columns,
-      colConfig,
-      globalConfig,
-      startShort,
-      tableStyle,
-      paddingBetweenColumns,
-      paddingBetweenCells,
-    } = useSelector((state: ADTState) => state.ADTPropsReducer);
+const WrapperPos = ({ children }: { children: any }) => (
+  <ADTTR
+    layout={"position"}
+    transition={{
+      duration,
+      ease: "anticipate",
+    }}
+  >
+    {children}
+  </ADTTR>
+);
+const WrapperNoPos = ({ children }: { children: any }) => (
+  <ADTTR
+    animate={{
+      translateX: 0,
+    }}
+    initial={{
+      translateX: "-100%",
+    }}
+    transition={{
+      duration,
+      ease: "anticipate",
+    }}
+    exit={{
+      scale: 0,
+    }}
+  >
+    {children}
+  </ADTTR>
+);
 
-    const { columnsIDs } = useSelector(
-      (state: ADTState) => state.ADTablePropsReducer
-    );
-
-    const textColor = useMemo(() => {
-      const globalColor = tableStyle?.cellTextColor?.global;
-      const specificGlobalColor =
-        tableStyle?.cellTextColor?.specific &&
-        tableStyle?.cellTextColor?.specific[column]?.global;
-      const specificIndexColor =
-        tableStyle?.cellTextColor?.specific &&
-        tableStyle?.cellTextColor?.specific[column]?.specificIndex &&
-        tableStyle?.cellTextColor?.specific[
-          column
-        ]?.specificIndex?.indexes.includes(rowIndex) &&
-        tableStyle?.cellTextColor?.specific[column]?.specificIndex?.color;
-      const specificConditionColor =
-        tableStyle?.cellTextColor?.specific &&
-        tableStyle?.cellTextColor?.specific[column]?.condional?.showCondition(
-          row[column]
-        ) &&
-        tableStyle?.cellTextColor?.specific[column]?.condional?.color;
-
-      return (
-        specificConditionColor ||
-        specificIndexColor ||
-        specificGlobalColor ||
-        globalColor
-      );
-    }, [tableStyle?.cellTextColor]);
-    return (
-      <ADTCellWrapper
-        id={`${columns[index]} - ${rowIndex} -${index}`}
-        paddingHorizontal={paddingBetweenColumns}
-        vertPad={paddingBetweenCells && paddingBetweenCells / 2}
-        bRightLeft
-        key={index}
-        style={{
-          color: textColor,
-        }}
-      >
-        <ADTCellColumn
-          cellId={`${columns[index]} - ${rowIndex} -${index}`}
-          columnsIDs={columnsIDs}
-          row={row}
-          column={column}
-          colConfig={colConfig}
-          globalConfig={globalConfig}
-          startShort={startShort}
-        />
-      </ADTCellWrapper>
-    );
-  }
+const Wrapper = memo(
+  ({ children, slided }: { children: any; slided: boolean }) =>
+    slided ? (
+      <WrapperPos>{children}</WrapperPos>
+    ) : (
+      <WrapperNoPos>{children}</WrapperNoPos>
+    )
 );
 
 const ADTCell = memo((props: ADTCellProps) => {
   const { rowIndex, row, isPersistPrimaryColumn } = props;
-  const {
-    paddingBetweenCells,
-    paddingBetweenColumns,
-    tableStyle,
-    columns,
-    extraColumns,
-    paddingBetweenExtraColumns,
-  } = useSelector((state: ADTState) => state.ADTPropsReducer);
-  const { checkState, selectedRows } = useSelector(
-    (state: ADTState) => state.ADTSelectPropsReducer
+  const { columns, extraColumns } = useSelector(
+    (state: ADTState) => state.ADTPropsReducer
   );
-  const { checkCellClick } = useADTSelect();
-  const isCheck = selectedRows.includes(rowIndex);
 
   return (
-    <ADTTR
-      layout
-      //animate={{ scale: 1, opacity: 1 }}
-      //exit={{ scale: 0.8, opacity: 0 }}
-      transition={{ type: "spring" }}
-      /* exit={{
-          opacity: 0,
-        }} */
-    >
-      <ADTCellWrapper
-        style={isPersistPrimaryColumn ? { paddingLeft: "0.4rem" } : {}}
-        vertPad={paddingBetweenCells && paddingBetweenCells / 2}
-        paddingHorizontal={paddingBetweenColumns}
-      >
-        <ADTCheckBox
-          highlightColor={tableStyle?.highlightColor!}
-          checked={
-            checkState === CheckState.PAGE && isCheck ? checkState : isCheck
-          }
-          check={() => checkCellClick(rowIndex)}
-        />
-      </ADTCellWrapper>
+    <ADTTR layout="position">
+      <ADTCellCheckBox
+        rowIndex={rowIndex}
+        isPersistPrimaryColumn={isPersistPrimaryColumn}
+      />
+
       {(columns as any[])
         .filter((_, index) => !(isPersistPrimaryColumn && index > 0))
         .map((column, index) => (
-          <Cell column={column} index={index} row={row} rowIndex={rowIndex} />
+          <ADTCellColumn
+            column={column}
+            index={index}
+            row={row}
+            rowIndex={rowIndex}
+          />
         ))}
-      {extraColumns &&
-        !isPersistPrimaryColumn &&
-        extraColumns
-          .filter(
-            (extraColumn) =>
-              !(extraColumn.showCondition && !extraColumn.showCondition(row))
-          )
-          .map((extraColumn, index) => {
-            return (
-              <ADTCellWrapper
-                style={{
-                  paddingRight: 0,
-                  paddingLeft: index == 0 ? 0 : paddingBetweenExtraColumns ?? 6,
-                }}
-                paddingHorizontal={paddingBetweenColumns}
-                vertPad={paddingBetweenCells && paddingBetweenCells / 2}
-                bRightLeft
-                key={index}
-              >
-                {extraColumn.component(row)}
-              </ADTCellWrapper>
-            );
-          })}
+
+      {extraColumns && (
+        <ADTCellExtraCols
+          isPersistPrimaryColumn={isPersistPrimaryColumn}
+          row={row}
+        />
+      )}
     </ADTTR>
   );
 });

@@ -8,7 +8,14 @@ const Slice = createSlice({
   name: "ADTProps",
   initialState,
   reducers: {
-    fillProps: (state, action: PayloadAction<DynamicTableProps<any>>) => {
+    fillProps: (
+      state,
+      action: PayloadAction<
+        DynamicTableProps<any> & {
+          columns: any[];
+        }
+      >
+    ) => {
       return { ...state, ...action.payload };
     },
     setColumns: (state, action: PayloadAction<any[]>) => {

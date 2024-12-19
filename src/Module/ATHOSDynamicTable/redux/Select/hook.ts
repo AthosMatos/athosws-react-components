@@ -9,7 +9,7 @@ import {
 export const useADTSelect = () => {
   const dispatch = useDispatch();
 
-  const { pageSize, totalItensAmount } = useSelector(
+  const { pageSize, totalItensAmount, page } = useSelector(
     (state: ADTState) => state.ADTFilteredPropsReducer
   );
   const { selectedRows, checkState } = useSelector(
@@ -27,7 +27,22 @@ export const useADTSelect = () => {
   };
 
   const pageCheck = () => {
-    dispatch(setSelectedRows(Array.from({ length: pageSize }, (_, i) => i)));
+    const currPageA = Math.abs((page - 1) * pageSize - totalItensAmount);
+    console.log("currPageA", currPageA);
+    const currPageAmount = currPageA < pageSize ? currPageA : pageSize;
+    console.log("currPageAmount", currPageAmount);
+    /*  const divAmount = currPageAmount % pageSize;
+    console.log("pageCheck", divAmount); */
+    dispatch(
+      setSelectedRows(
+        Array.from(
+          {
+            length: currPageAmount,
+          },
+          (_, i) => i + (page - 1) * pageSize
+        )
+      )
+    );
     dispatch(setCheckState(2));
   };
 
@@ -47,7 +62,9 @@ export const useADTSelect = () => {
     }
   };
 
-  const checkCellClick = (row: number) => {
+  const checkCellClick = (rr: number) => {
+    const row = rr + (page - 1) * pageSize;
+    // console.log("row", row);
     const newSelectedRows = selectedRows.includes(row)
       ? selectedRows.filter((r) => r !== row)
       : [...selectedRows, row];

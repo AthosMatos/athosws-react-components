@@ -6,12 +6,14 @@ import ADTSelectedRowsToast from "./components/ADTSelectedRowsToast";
 
 import { ADTController } from "./Controller";
 import { DynamicTableProps } from "./interfaces";
-import { ADTStore } from "./redux/store";
+import { ADTState, ADTStore } from "./redux/store";
 import ADTFuncs from "./Sections/ADTFuncs";
 import ADTNav from "./Sections/ADTNav";
 import { ADTTableWrapper } from "./styled";
-import { PersistantTable } from "./Table";
-import Tables from "./Table/Tables";
+
+import { useSelector } from "react-redux";
+import Table from "./Table";
+import PersistantTable from "./Table/PersistantTable";
 
 function hasScroll(element: HTMLElement) {
   return element.scrollWidth > element.clientWidth;
@@ -64,23 +66,26 @@ const Comp = ({
 
   ADTController({ props });
 
+  const { persistPrimaryColumn } = useSelector(
+    (state: ADTState) => state.ADTPropsReducer
+  );
   return (
     <>
       <ADTSelectedRowsToast />
       <ADTTableWrapper
         resizable={!!props.resizeable}
         style={stly ? props.style : undefined}
-        className={` flex flex-col  ${!props.resizeable && props.className}`}
+        className={`flex flex-col  ${!props.resizeable && props.className} m-0`}
       >
         <ADTFuncs />
         <div className="sticky left-0 z-30">
-          {shouldRenderPersistantTable && (
+          {shouldRenderPersistantTable && persistPrimaryColumn && (
             <AnimatePresence>
               <PersistantTable tableWrapperId={tableWrapperId} />
             </AnimatePresence>
           )}
         </div>
-        <Tables
+        <Table
           shouldRenderPersistantTable={shouldRenderPersistantTable}
           tableWrapperId={tableWrapperId}
         />

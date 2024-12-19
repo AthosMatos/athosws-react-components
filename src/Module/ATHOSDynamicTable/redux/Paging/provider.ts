@@ -6,7 +6,6 @@ const initialState: PagingState = {
   searchFilter: "",
   page: 1,
   pageSize: 5,
-  moving: false,
   goingForward: false,
   canGoBack: false,
   canGoForward: false,
@@ -26,9 +25,6 @@ const Slice = createSlice({
     },
     setPage: (state, action: PayloadAction<number>) => {
       state.page = action.payload;
-    },
-    setMoving: (state, action: PayloadAction<boolean>) => {
-      state.moving = action.payload;
     },
 
     setCanGoBack: (state, action: PayloadAction<boolean>) => {
@@ -56,7 +52,6 @@ const Slice = createSlice({
 export const {
   setFilteredData,
   setSearchFilter,
-  setMoving,
   setPage,
   setPageSize,
   setCanGoBack,
