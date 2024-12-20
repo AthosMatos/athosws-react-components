@@ -46,6 +46,7 @@ export const usePersistantTable = ({
   useEffect(() => {
     if (!tableWrapperId) return;
     const tableWrapper = document.getElementById(tableWrapperId);
+    console.log("tableWrapper", tableWrapper);
     const persistantTable = document.getElementById(tId);
     if (!tableWrapper || !persistantTable) return;
 

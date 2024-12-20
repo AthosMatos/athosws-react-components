@@ -1,12 +1,11 @@
-import { memo, useRef } from "react";
-import { useSelector } from "react-redux";
+import { memo } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setMovingPage } from "../../../redux/Paging/provider";
 import { ADTState } from "../../../redux/store";
 import { ADTTR } from "../../../styled";
 import ADTCellCheckBox from "./ADTCellCheckBox";
 import ADTCellColumn from "./ADTCellColumn";
 import ADTCellExtraCols from "./ADTCellExtraCols";
-import { useDispatch } from "react-redux";
-import { setMovingPage } from "../../../redux/Paging/provider";
 
 interface ADTCellProps {
   rowIndex: number;
@@ -58,7 +57,7 @@ const ADTCell = memo((props: ADTCellProps) => {
               scale: 0,
             }
       }
-      transition={{ duration: 0.34, ease: "easeInOut" }}
+      transition={{ duration: 0.24, ease: "easeInOut" }}
     >
       <ADTCellCheckBox
         rowIndex={rowIndex}

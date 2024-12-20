@@ -1,9 +1,8 @@
-import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
-import { useSelector } from "react-redux";
-import { ADTState } from "../../redux/store";
-import { useDispatch } from "react-redux";
 import { useMemo } from "react";
+import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+import { useDispatch, useSelector } from "react-redux";
 import { movePage } from "../../redux/Paging/provider";
+import { ADTState } from "../../redux/store";
 
 interface NavButtonProps {
   onClick: () => void;
@@ -28,7 +27,7 @@ const ADTNav = () => {
   const { totalItems } = useSelector(
     (state: ADTState) => state.ADTCustomStatesReducer
   );
-  const { page, pageSize } = useSelector(
+  const { page, pageSize, movingPage } = useSelector(
     (state: ADTState) => state.ADTPagingReducer
   );
   const { data } = useSelector((state: ADTState) => state.ADTPropsReducer);

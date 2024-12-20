@@ -74,6 +74,7 @@ type ResizableConfig = {
 
 export type DynamicTableProps<T> = {
   className?: string;
+  tableClassName?: string;
   tableName: string;
   data: T[];
   resizeable?: boolean | ResizableConfig;

@@ -100,22 +100,13 @@ export const ADTTR = styled(motion.tr)<{ height?: number }>`
 interface ADTTableProps {
   isPersistant?: boolean;
   width?: number;
-  height?: number;
   backgroundColor?: string;
   autoLockHeight?: boolean;
 }
 
 export const ADTTable = styled(motion.table)<ADTTableProps>`
   width: ${(props) => (props.width ? `${props.width}px` : "100%")};
-  ${(props) =>
-    props.autoLockHeight
-      ? `
-    height: fit-content;
-  `
-      : `height: ${props.height ? `${props.height}px` : "100%"};`}
-
   border-collapse: separate;
-  overflow: hidden;
   ${(props) =>
     props.isPersistant &&
     `

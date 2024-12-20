@@ -4,11 +4,11 @@ import { Provider } from "react-redux";
 import { ATHOSResizableDiv } from "../ATHOSResizableDiv";
 import ADTSelectedRowsToast from "./components/ADTSelectedRowsToast";
 
-import { ADTStatesController } from "./StatesController";
 import { DynamicTableProps } from "./interfaces";
 import { ADTState, ADTStore } from "./redux/store";
 import ADTFuncs from "./Sections/ADTFuncs";
 import ADTNav from "./Sections/ADTNav";
+import { ADTStatesController } from "./StatesController";
 import { ADTTableWrapper } from "./styled";
 
 import { useSelector } from "react-redux";
@@ -107,12 +107,7 @@ export function ATHOSDynamicTable<T>(props: DynamicTableProps<T>) {
   return (
     <Provider store={ADTStore}>
       {props.resizeable ? (
-        <ATHOSResizableDiv
-          saveInLocalStorage={tableId}
-          withToogle
-          style={props.style}
-          className={`${props.className}`}
-        >
+        <ATHOSResizableDiv saveInLocalStorage={tableId} withToogle>
           <Comp props={props} />
         </ATHOSResizableDiv>
       ) : (

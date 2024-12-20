@@ -1,3 +1,5 @@
+import { useSelector } from "react-redux";
+import { ADTState } from "../redux/store";
 import ADTCells from "../Sections/ADTCells";
 import ADTColumns from "../Sections/ADTColumns";
 import { ADTBody, ADTHeader, ADTTable } from "../styled";
@@ -9,12 +11,17 @@ const Table = ({
   tableWrapperId: string;
   shouldRenderPersistantTable: boolean;
 }) => {
+  const { tableClassName } = useSelector(
+    (state: ADTState) => state.ADTPropsReducer
+  );
   return (
     <div
-      className={`h-full ${shouldRenderPersistantTable && "w-full"}`}
       id={tableWrapperId}
+      className={`${shouldRenderPersistantTable ? "w-full" : ""} `}
     >
-      <ADTTable className="rounded-md border border-gray-300 ">
+      <ADTTable
+        className={`rounded-md border border-gray-300 ${tableClassName}`}
+      >
         <ADTHeader>
           <ADTColumns />
         </ADTHeader>

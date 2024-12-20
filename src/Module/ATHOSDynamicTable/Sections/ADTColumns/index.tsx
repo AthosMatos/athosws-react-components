@@ -1,4 +1,3 @@
-import React from "react";
 import { useSelector } from "react-redux";
 import ADTCheckBox from "../../components/ADTCheckBox";
 import { useADTSelect } from "../../redux/Select/hook";
@@ -14,7 +13,7 @@ const ADTColumns = ({ isPersistPrimaryColumn }: ADTColumnsProps) => {
   const checkState = useSelector(
     (state: ADTState) => state.ADTSelectReducer.checkState
   );
-  const { columns, colConfig, paddingBetweenColumns, tableStyle } = useSelector(
+  const { columns, paddingBetweenColumns, tableStyle } = useSelector(
     (state: ADTState) => state.ADTPropsReducer
   );
   const { colH, colsTRId } = useSelector(
@@ -35,25 +34,15 @@ const ADTColumns = ({ isPersistPrimaryColumn }: ADTColumnsProps) => {
           check={() => checkAllButtonClick()}
         />
       </ADTColumnWrapper>
-      {columns?.map((column: any, index) => {
-        if (isPersistPrimaryColumn && index > 0) return null;
-        let value: React.ReactNode = column;
-        if (colConfig) {
-          if (colConfig[column]?.colComponent) {
-            value = colConfig[column]?.colComponent;
-          } else if (colConfig[column]?.label) {
-            value = colConfig[column]?.label;
-          }
-        }
-        return (
+      {columns
+        ?.filter((_, index) => !(isPersistPrimaryColumn && index > 0))
+        .map((column: any, index) => (
           <ADTCol
             key={`${column}-${index}`}
             isPersistPrimaryColumn={isPersistPrimaryColumn}
-            value={value}
             column={column}
           />
-        );
-      })}
+        ))}
     </ADTTR>
   );
 };

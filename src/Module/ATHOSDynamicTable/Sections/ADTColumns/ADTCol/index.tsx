@@ -1,24 +1,23 @@
-import { useMemo } from "react";
+import { ReactNode, useMemo } from "react";
 import { useSelector } from "react-redux";
 import ADTBorder from "../../../components/ADTBorder";
 import { ADTState } from "../../../redux/store";
 import { ADTColBorderWrapper, ADTColumnWrapper } from "../../../styled";
 
 const ADTCol = ({
-  value,
   column,
   isPersistPrimaryColumn,
 }: {
-  value: any;
   column: string;
   isPersistPrimaryColumn?: boolean;
 }) => {
-  const { paddingBetweenColumns, tableStyle } = useSelector(
+  const { paddingBetweenColumns, tableStyle, colConfig } = useSelector(
     (state: ADTState) => state.ADTPropsReducer
   );
   const { columnsIDs } = useSelector(
     (state: ADTState) => state.ADTCustomStatesReducer
   );
+
   const textColor = useMemo(() => {
     const globalColor = tableStyle?.columnTextColor?.global;
     const specificColor =
@@ -27,6 +26,18 @@ const ADTCol = ({
 
     return specificColor ?? globalColor;
   }, [tableStyle?.columnTextColor]);
+
+  const value = useMemo(() => {
+    let v: ReactNode = column;
+    if (colConfig) {
+      if (colConfig[column]?.colComponent) {
+        v = colConfig[column]?.colComponent;
+      } else if (colConfig[column]?.label) {
+        v = colConfig[column]?.label;
+      }
+    }
+    return v;
+  }, [column, colConfig]);
 
   return (
     columnsIDs && (

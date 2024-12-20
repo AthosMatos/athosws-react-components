@@ -51,9 +51,10 @@ const Slice = createSlice({
     ) => {
       const { to, totalPages, page, canGoBack, canGoForward, data } =
         action.payload;
-      state.movingPage = true;
+      if (state.movingPage) return;
       if (typeof to === "number" && to > 0 && to <= totalPages && to !== page) {
         state.page = to;
+        state.movingPage = true;
         const start = (to - 1) * state.pageSize;
         const end = start + state.pageSize;
         state.filteredData = data.slice(start, end);
@@ -73,12 +74,14 @@ const Slice = createSlice({
         const end = start + state.pageSize;
         state.filteredData = data.slice(start, end);
         state.page += 1;
+        state.movingPage = true;
         state.goingForward = true;
       } else if (to === "prev") {
         const start = (state.page - 2) * state.pageSize;
         const end = start + state.pageSize;
         state.filteredData = data.slice(start, end);
         state.page -= 1;
+        state.movingPage = true;
         state.goingForward = false;
       }
     },

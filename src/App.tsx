@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { FaFile, FaPlus, FaUser } from "react-icons/fa";
 import { MdOutlineAttachMoney } from "react-icons/md";
 import { PiGavelFill } from "react-icons/pi";
@@ -125,7 +125,9 @@ const TestPage = () => {
       <ATHOSDynamicTable
         //resizeable
         autoLockHeight
-        className=""
+        className="h-4/5"
+        //tableClassName="h-[50vh]"
+        tableClassName="max-h-[30vh]"
         persistPrimaryColumn={{
           backgroundColor: ATHOSColors.white.eggshell,
         }}
