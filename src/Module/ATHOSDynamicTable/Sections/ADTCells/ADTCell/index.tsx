@@ -1,10 +1,12 @@
-import { memo } from "react";
+import { memo, useRef } from "react";
 import { useSelector } from "react-redux";
 import { ADTState } from "../../../redux/store";
 import { ADTTR } from "../../../styled";
 import ADTCellCheckBox from "./ADTCellCheckBox";
 import ADTCellColumn from "./ADTCellColumn";
 import ADTCellExtraCols from "./ADTCellExtraCols";
+import { useDispatch } from "react-redux";
+import { setMovingPage } from "../../../redux/Paging/provider";
 
 interface ADTCellProps {
   rowIndex: number;
@@ -12,56 +14,52 @@ interface ADTCellProps {
   isPersistPrimaryColumn?: boolean;
 }
 
-const duration = 1.4;
-
-const WrapperPos = ({ children }: { children: any }) => (
-  <ADTTR
-    layout={"position"}
-    transition={{
-      duration,
-      ease: "anticipate",
-    }}
-  >
-    {children}
-  </ADTTR>
-);
-const WrapperNoPos = ({ children }: { children: any }) => (
-  <ADTTR
-    animate={{
-      translateX: 0,
-    }}
-    initial={{
-      translateX: "-100%",
-    }}
-    transition={{
-      duration,
-      ease: "anticipate",
-    }}
-    exit={{
-      scale: 0,
-    }}
-  >
-    {children}
-  </ADTTR>
-);
-
-const Wrapper = memo(
-  ({ children, slided }: { children: any; slided: boolean }) =>
-    slided ? (
-      <WrapperPos>{children}</WrapperPos>
-    ) : (
-      <WrapperNoPos>{children}</WrapperNoPos>
-    )
-);
-
 const ADTCell = memo((props: ADTCellProps) => {
   const { rowIndex, row, isPersistPrimaryColumn } = props;
   const { columns, extraColumns } = useSelector(
     (state: ADTState) => state.ADTPropsReducer
   );
-
+  const { movingPage, goingForward } = useSelector(
+    (state: ADTState) => state.ADTPagingReducer
+  );
+  const dispatch = useDispatch();
   return (
-    <ADTTR layout="position">
+    <ADTTR
+      layout={"position"}
+      onAnimationComplete={(anim: any) => {
+        if (anim.translateX === 0) {
+          dispatch(setMovingPage(false));
+        }
+      }}
+      initial={
+        movingPage
+          ? {
+              translateX: goingForward ? "100%" : "-100%",
+            }
+          : {
+              scale: 0,
+            }
+      }
+      animate={
+        movingPage
+          ? {
+              translateX: 0,
+            }
+          : {
+              scale: 1,
+            }
+      }
+      exit={
+        movingPage
+          ? {
+              translateX: goingForward ? "-100%" : "100%",
+            }
+          : {
+              scale: 0,
+            }
+      }
+      transition={{ duration: 0.34, ease: "easeInOut" }}
+    >
       <ADTCellCheckBox
         rowIndex={rowIndex}
         isPersistPrimaryColumn={isPersistPrimaryColumn}
@@ -71,6 +69,7 @@ const ADTCell = memo((props: ADTCellProps) => {
         .filter((_, index) => !(isPersistPrimaryColumn && index > 0))
         .map((column, index) => (
           <ADTCellColumn
+            key={column}
             column={column}
             index={index}
             row={row}

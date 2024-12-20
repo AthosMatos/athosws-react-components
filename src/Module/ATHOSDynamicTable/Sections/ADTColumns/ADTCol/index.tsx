@@ -17,7 +17,7 @@ const ADTCol = ({
     (state: ADTState) => state.ADTPropsReducer
   );
   const { columnsIDs } = useSelector(
-    (state: ADTState) => state.ADTablePropsReducer
+    (state: ADTState) => state.ADTCustomStatesReducer
   );
   const textColor = useMemo(() => {
     const globalColor = tableStyle?.columnTextColor?.global;

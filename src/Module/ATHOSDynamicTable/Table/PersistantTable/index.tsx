@@ -22,7 +22,7 @@ const PersistantTable = ({ tableWrapperId }: PersistantTableProps) => {
   });
   return (
     <ADTTable
-      className="mt-2 ml-2"
+      //className="mt-2 ml-2"
       backgroundColor={
         persistPrimaryColumn && typeof persistPrimaryColumn !== "boolean"
           ? persistPrimaryColumn.backgroundColor

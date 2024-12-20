@@ -23,7 +23,7 @@ const ADTCellColumn = ({
   } = useSelector((state: ADTState) => state.ADTPropsReducer);
 
   const { columnsIDs } = useSelector(
-    (state: ADTState) => state.ADTablePropsReducer
+    (state: ADTState) => state.ADTCustomStatesReducer
   );
 
   const { rowValue, textColor, touch, showTooltip } = useADTCellCol({

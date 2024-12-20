@@ -6,26 +6,31 @@ import {
   setColH,
   setColsTRId,
   setColumnsIDs,
+  setTotalItems,
 } from "../redux/CustomStates/provider";
-import {
-  setCanGoBack,
-  setCanGoForward,
-  setFilteredData,
-  setTotalItensAmount,
-  setTotalPages,
-} from "../redux/Paging/provider";
 import { ADTPropsState } from "../redux/props/interfaces";
 import { fillADTProps } from "../redux/props/provider";
-import { ADTState } from "../redux/store";
+import { setFilteredData } from "../redux/Paging/provider";
 
-export function ADTController<T>({ props }: { props: DynamicTableProps<T> }) {
+//check if data values have id
+const fillIds = (data: any[]) => {
+  return data.map((row, index) => {
+    if (!row.id) {
+      row.id = v4();
+    }
+    return row;
+  });
+};
+
+export function ADTStatesController<T>({
+  props,
+}: {
+  props: DynamicTableProps<T>;
+}) {
   const { data, columnsToHide, columnsToShow, paddingHeader, tableStyle } =
     props;
   const dispatch = useDispatch();
 
-  const { page, pageSize } = useSelector(
-    (state: ADTState) => state.ADTFilteredPropsReducer
-  );
   const columns = useMemo(() => {
     if (columnsToHide) {
       return Object.keys(data[0] as object).filter(
@@ -44,12 +49,6 @@ export function ADTController<T>({ props }: { props: DynamicTableProps<T> }) {
     dispatch(setColumnsIDs(columnsIDs));
   }, [columns]);
 
-  useEffect(() => {
-    if (data.length) {
-      dispatch(setTotalItensAmount(data.length));
-    }
-  }, [data]);
-
   const [colsTRId] = useMemo(() => [v4()], []);
 
   useEffect(() => {
@@ -57,6 +56,13 @@ export function ADTController<T>({ props }: { props: DynamicTableProps<T> }) {
       dispatch(setColsTRId(colsTRId));
     }
   }, [colsTRId]);
+
+  useEffect(() => {
+    if (data.length) {
+      dispatch(setTotalItems(data.length));
+      dispatch(setFilteredData(data));
+    }
+  }, [data]);
 
   useEffect(() => {
     const DTColumnWrapperDiv = document.getElementById(colsTRId);
@@ -81,25 +87,4 @@ export function ADTController<T>({ props }: { props: DynamicTableProps<T> }) {
       dispatch(fillADTProps(pr));
     }
   }, [columns]);
-
-  useEffect(() => {
-    const totalPages = Math.ceil(data?.length / pageSize);
-    dispatch(setTotalPages(totalPages));
-  }),
-    [pageSize, data];
-
-  useEffect(() => {
-    const canGoBack = page > 1;
-    dispatch(setCanGoBack(canGoBack));
-  }, [page]);
-
-  useEffect(() => {
-    const start = (page - 1) * pageSize;
-    const end = start + pageSize;
-    const paginatedData = data?.slice(start, end);
-    dispatch(setFilteredData(paginatedData));
-
-    const canGoForward = page * pageSize < data?.length;
-    dispatch(setCanGoForward(canGoForward));
-  }, [page, pageSize, data]);
 }

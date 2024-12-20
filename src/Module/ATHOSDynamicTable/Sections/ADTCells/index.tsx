@@ -1,26 +1,26 @@
 import { AnimatePresence } from "framer-motion";
-import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { ADTState } from "../../redux/store";
 import ADTCell from "./ADTCell";
+import { ADTTR } from "../../styled";
+import { useEffect, useMemo } from "react";
+import { useDispatch } from "react-redux";
+import { setMovingPage } from "../../redux/Paging/provider";
 
 interface ADTCellsProps {
   isPersistPrimaryColumn?: boolean;
 }
 
 const ADTCells = ({ isPersistPrimaryColumn }: ADTCellsProps) => {
-  const filteredData = useSelector(
-    (state: ADTState) => state.ADTFilteredPropsReducer.filteredData
+  const { movingPage, filteredData } = useSelector(
+    (state: ADTState) => state.ADTPagingReducer
   );
-  const [data, setData] = useState<any[]>([]);
-  useEffect(() => {
-    setData(filteredData);
-  }, [filteredData]);
+
   return (
-    <AnimatePresence>
-      {data?.map((row, rowIndex) => (
+    <AnimatePresence mode={movingPage ? "wait" : "sync"}>
+      {filteredData?.map((row, rowIndex) => (
         <ADTCell
-          key={`${rowIndex}-${row.id}`}
+          key={row.id}
           rowIndex={rowIndex}
           row={row}
           isPersistPrimaryColumn={isPersistPrimaryColumn}

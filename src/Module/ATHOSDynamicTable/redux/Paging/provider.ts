@@ -7,58 +7,102 @@ const initialState: PagingState = {
   page: 1,
   pageSize: 5,
   goingForward: false,
-  canGoBack: false,
-  canGoForward: false,
-  totalPages: 0,
-  totalItensAmount: 0,
+  movingPage: false,
 };
 
 const Slice = createSlice({
   name: "ADTFilteredProps",
   initialState,
   reducers: {
-    setFilteredData: (state, action: PayloadAction<any[]>) => {
-      state.filteredData = action.payload;
+    filterBySearch: (
+      state,
+      action: PayloadAction<{
+        searchFilter: string;
+        data: any[];
+      }>
+    ) => {
+      const { searchFilter, data } = action.payload;
+      state.searchFilter = searchFilter;
+      state.page = 1;
+      const start = 0;
+      const end = state.pageSize;
+      const filtered = data
+        ?.filter((row) => {
+          return Object.values(row).some((value: any) => {
+            return value
+              .toString()
+              .toLowerCase()
+              .includes(searchFilter.toLowerCase());
+          });
+        })
+        .slice(start, end);
+      state.filteredData = filtered;
     },
-    setSearchFilter: (state, action: PayloadAction<string>) => {
-      state.searchFilter = action.payload;
+    movePage: (
+      state,
+      action: PayloadAction<{
+        to: "next" | "prev" | number;
+        totalPages: number;
+        page: number;
+        canGoForward: boolean;
+        canGoBack: boolean;
+        data: any[];
+      }>
+    ) => {
+      const { to, totalPages, page, canGoBack, canGoForward, data } =
+        action.payload;
+      state.movingPage = true;
+      if (typeof to === "number" && to > 0 && to <= totalPages && to !== page) {
+        state.page = to;
+        const start = (to - 1) * state.pageSize;
+        const end = start + state.pageSize;
+        state.filteredData = data.slice(start, end);
+        if (to < page) {
+          state.goingForward = false;
+        }
+        if (to > page) {
+          state.goingForward = true;
+        }
+        return;
+      }
+      if ((to === "next" && !canGoForward) || (to === "prev" && !canGoBack)) {
+        return;
+      }
+      if (to === "next") {
+        const start = state.page * state.pageSize;
+        const end = start + state.pageSize;
+        state.filteredData = data.slice(start, end);
+        state.page += 1;
+        state.goingForward = true;
+      } else if (to === "prev") {
+        const start = (state.page - 2) * state.pageSize;
+        const end = start + state.pageSize;
+        state.filteredData = data.slice(start, end);
+        state.page -= 1;
+        state.goingForward = false;
+      }
     },
-    setPage: (state, action: PayloadAction<number>) => {
-      state.page = action.payload;
-    },
-
-    setCanGoBack: (state, action: PayloadAction<boolean>) => {
-      state.canGoBack = action.payload;
-    },
-    setCanGoForward: (state, action: PayloadAction<boolean>) => {
-      state.canGoForward = action.payload;
-    },
-    setTotalPages: (state, action: PayloadAction<number>) => {
-      state.totalPages = action.payload;
-    },
-    setPageSize: (state, action: PayloadAction<PageSizesType>) => {
+    changePageSize: (state, action: PayloadAction<PageSizesType>) => {
       state.pageSize = action.payload;
     },
-    setTotalItensAmount: (state, action: PayloadAction<number>) => {
-      state.totalItensAmount = action.payload;
+    setMovingPage: (state, action: PayloadAction<boolean>) => {
+      state.movingPage = action.payload;
     },
-    setGoingForward: (state, action: PayloadAction<boolean>) => {
-      state.goingForward = action.payload;
+    setFilteredData: (state, action: PayloadAction<any[]>) => {
+      const start = (state.page - 1) * state.pageSize;
+      const end = start + state.pageSize;
+      state.filteredData = action.payload.slice(start, end);
     },
   },
 });
 
 // Action creators are generated for each case reducer function
 export const {
+  filterBySearch,
   setFilteredData,
-  setSearchFilter,
-  setPage,
-  setPageSize,
-  setCanGoBack,
-  setCanGoForward,
-  setTotalPages,
-  setTotalItensAmount,
-  setGoingForward,
+  movePage,
+  changePageSize,
+  setMovingPage,
 } = Slice.actions;
 
 const ADTPagingReducer = Slice.reducer;

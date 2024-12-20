@@ -11,12 +11,10 @@ const Table = ({
 }) => {
   return (
     <div
-      className={`rounded-md border border-gray-300 p-2 ${
-        shouldRenderPersistantTable && "w-full"
-      }`}
+      className={`h-full ${shouldRenderPersistantTable && "w-full"}`}
       id={tableWrapperId}
     >
-      <ADTTable>
+      <ADTTable className="rounded-md border border-gray-300 ">
         <ADTHeader>
           <ADTColumns />
         </ADTHeader>

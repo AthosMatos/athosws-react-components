@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaFile, FaPlus, FaUser } from "react-icons/fa";
 import { MdOutlineAttachMoney } from "react-icons/md";
 import { PiGavelFill } from "react-icons/pi";
@@ -117,14 +117,15 @@ const TestPage = () => {
       overlayStyle={{
         display: "flex",
         flexDirection: "row",
+        margin: "20px",
         //backgroundColor: ATHOSColors.black.coal,
       }}
     >
       {/*  <Categorias_Modal /> */}
       <ATHOSDynamicTable
-        resizeable
+        //resizeable
         autoLockHeight
-        className="rounded-md w-full h-3/4 border border-gray-300"
+        className=""
         persistPrimaryColumn={{
           backgroundColor: ATHOSColors.white.eggshell,
         }}
@@ -201,16 +202,16 @@ const TestPage = () => {
           mainFunc: {
             icon: <FaPlus />,
             onClick: (selectedData) => {
-              //console.log("main function", selectedData);
-              //remove the selected data from the tableData based on id
-              const td = [...tableData];
-              const newTd = td.filter((data) => {
-                return !selectedData.some(
-                  (selected) => selected.id === data.id
-                );
+              console.log("main function", selectedData);
+
+              setTableData((prev) => {
+                //remove selectedData from tableData
+                return prev.filter((data) => {
+                  return !selectedData.some(
+                    (selected) => selected.id === data.id
+                  );
+                });
               });
-              //console.log(newTd);
-              setTableData(newTd);
             },
           },
           othersFunc: [

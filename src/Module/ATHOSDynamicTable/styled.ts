@@ -114,7 +114,7 @@ export const ADTTable = styled(motion.table)<ADTTableProps>`
   `
       : `height: ${props.height ? `${props.height}px` : "100%"};`}
 
-  border-collapse: collapse;
+  border-collapse: separate;
   overflow: hidden;
   ${(props) =>
     props.isPersistant &&
@@ -137,11 +137,10 @@ export const ADTBody = styled.tbody``;
 export const ADTTableWrapper = styled.div<{ resizable?: boolean }>`
   padding: 0.8rem;
   position: relative;
-  overflow: hidden;
+  overflow: auto;
   ${(props) =>
     props.resizable &&
     `
     width: 100%;
-    overflow:auto
   `}
 `;

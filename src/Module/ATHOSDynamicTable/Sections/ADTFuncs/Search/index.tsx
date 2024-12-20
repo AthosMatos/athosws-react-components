@@ -1,25 +1,33 @@
 import { memo, useState } from "react";
 import { FaSearch } from "react-icons/fa";
 import { MdTune } from "react-icons/md";
-import { useADTPaging } from "../../../redux/Paging/hook";
 import { IconWrapper } from "../IconWrapper";
+import { useDispatch } from "react-redux";
+import { filterBySearch } from "../../../redux/Paging/provider";
+import { useSelector } from "react-redux";
+import { ADTState } from "../../../redux/store";
 
 const Search = () => {
   const [openSearch, setOpenSearch] = useState(false);
-
-  const { filterBySearch } = useADTPaging();
-
+  const dispatch = useDispatch();
   const toggleSearch = () => {
     setOpenSearch(!openSearch);
   };
-
+  const { data } = useSelector((state: ADTState) => state.ADTPropsReducer);
   return (
     <div className="flex gap-1 text-gray-400 select-none flex-1 justify-end">
       <IconWrapper>
         <MdTune className="text-2xl" />
       </IconWrapper>
       <input
-        onChange={(event) => filterBySearch(event.currentTarget.value)}
+        onChange={(event) =>
+          dispatch(
+            filterBySearch({
+              data,
+              searchFilter: event.target.value,
+            })
+          )
+        }
         className={`rounded-md outline-none transition-all duration-500 w-0 p-0 h-9 opacity-0
         ${
           openSearch

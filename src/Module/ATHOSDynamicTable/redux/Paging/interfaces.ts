@@ -5,9 +5,6 @@ export interface PagingState {
   searchFilter: string;
   page: number;
   pageSize: PageSizesType;
-  canGoBack: boolean;
-  canGoForward: boolean;
-  totalPages: number;
+  movingPage: boolean;
   goingForward: boolean;
-  totalItensAmount: number;
 }

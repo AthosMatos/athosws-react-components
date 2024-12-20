@@ -7,9 +7,9 @@ import ADTSelectReducer from "./Select/provider";
 export const ADTStore = configureStore({
   reducer: {
     ADTPropsReducer,
-    ADTablePropsReducer: ADTCustomStatesReducer,
-    ADTSelectPropsReducer: ADTSelectReducer,
-    ADTFilteredPropsReducer: ADTPagingReducer,
+    ADTCustomStatesReducer: ADTCustomStatesReducer,
+    ADTSelectReducer: ADTSelectReducer,
+    ADTPagingReducer: ADTPagingReducer,
   },
 });
 

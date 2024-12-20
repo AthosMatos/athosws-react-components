@@ -4,7 +4,7 @@ import { Provider } from "react-redux";
 import { ATHOSResizableDiv } from "../ATHOSResizableDiv";
 import ADTSelectedRowsToast from "./components/ADTSelectedRowsToast";
 
-import { ADTController } from "./Controller";
+import { ADTStatesController } from "./StatesController";
 import { DynamicTableProps } from "./interfaces";
 import { ADTState, ADTStore } from "./redux/store";
 import ADTFuncs from "./Sections/ADTFuncs";
@@ -64,7 +64,9 @@ const Comp = ({
     };
   }, [tableWrapperId]);
 
-  ADTController({ props });
+  ADTStatesController({ props });
+
+  console.log("Comp");
 
   const { persistPrimaryColumn } = useSelector(
     (state: ADTState) => state.ADTPropsReducer
@@ -75,16 +77,19 @@ const Comp = ({
       <ADTTableWrapper
         resizable={!!props.resizeable}
         style={stly ? props.style : undefined}
-        className={`flex flex-col  ${!props.resizeable && props.className} m-0`}
+        className={`flex flex-col rounded-md w-full border border-gray-300 ${
+          !props.resizeable && props.className
+        } m-0`}
       >
         <ADTFuncs />
-        <div className="sticky left-0 z-30">
-          {shouldRenderPersistantTable && persistPrimaryColumn && (
+        {shouldRenderPersistantTable && persistPrimaryColumn && (
+          <div className="sticky left-0 z-30">
             <AnimatePresence>
               <PersistantTable tableWrapperId={tableWrapperId} />
             </AnimatePresence>
-          )}
-        </div>
+          </div>
+        )}
+
         <Table
           shouldRenderPersistantTable={shouldRenderPersistantTable}
           tableWrapperId={tableWrapperId}

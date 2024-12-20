@@ -18,7 +18,7 @@ import {
 const ADTSelectedRowsToast = () => {
   const [openDropDown, setOpenDropDown] = useState(false);
   const { selectedRows, selectedRowsToastOpen, checkState } = useSelector(
-    (state: ADTState) => state.ADTSelectPropsReducer
+    (state: ADTState) => state.ADTSelectReducer
   );
   const { tableStyle, tableName, selectedRowsTooltip, data } = useSelector(
     (state: ADTState) => state.ADTPropsReducer

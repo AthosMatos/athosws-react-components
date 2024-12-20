@@ -12,13 +12,13 @@ interface ADTColumnsProps {
 
 const ADTColumns = ({ isPersistPrimaryColumn }: ADTColumnsProps) => {
   const checkState = useSelector(
-    (state: ADTState) => state.ADTSelectPropsReducer.checkState
+    (state: ADTState) => state.ADTSelectReducer.checkState
   );
   const { columns, colConfig, paddingBetweenColumns, tableStyle } = useSelector(
     (state: ADTState) => state.ADTPropsReducer
   );
   const { colH, colsTRId } = useSelector(
-    (state: ADTState) => state.ADTablePropsReducer
+    (state: ADTState) => state.ADTCustomStatesReducer
   );
 
   const { checkAllButtonClick } = useADTSelect();

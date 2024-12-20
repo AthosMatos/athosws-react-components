@@ -32,7 +32,7 @@ const ADTCellExtraCols = ({ row, isPersistPrimaryColumn }: ExtraColsProps) => {
             paddingHorizontal={paddingBetweenColumns}
             vertPad={paddingBetweenCells && paddingBetweenCells / 2}
             bRightLeft
-            key={index}
+            key={extraColumn.component.toString()}
           >
             {extraColumn.component(row)}
           </ADTCellWrapper>

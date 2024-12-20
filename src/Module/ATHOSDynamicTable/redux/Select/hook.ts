@@ -8,12 +8,14 @@ import {
 
 export const useADTSelect = () => {
   const dispatch = useDispatch();
-
-  const { pageSize, totalItensAmount, page } = useSelector(
-    (state: ADTState) => state.ADTFilteredPropsReducer
+  const { totalItems } = useSelector(
+    (state: ADTState) => state.ADTCustomStatesReducer
+  );
+  const { pageSize, page } = useSelector(
+    (state: ADTState) => state.ADTPagingReducer
   );
   const { selectedRows, checkState } = useSelector(
-    (state: ADTState) => state.ADTSelectPropsReducer
+    (state: ADTState) => state.ADTSelectReducer
   );
 
   const checkAll = (dataAmount: number) => {
@@ -27,7 +29,7 @@ export const useADTSelect = () => {
   };
 
   const pageCheck = () => {
-    const currPageA = Math.abs((page - 1) * pageSize - totalItensAmount);
+    const currPageA = Math.abs((page - 1) * pageSize - totalItems);
     console.log("currPageA", currPageA);
     const currPageAmount = currPageA < pageSize ? currPageA : pageSize;
     console.log("currPageAmount", currPageAmount);
@@ -49,7 +51,7 @@ export const useADTSelect = () => {
   const checkAllButtonClick = () => {
     switch (checkState) {
       case 0:
-        checkAll(totalItensAmount);
+        checkAll(totalItems);
         break;
       case 1:
         pageCheck();

@@ -16,11 +16,11 @@ const ADTCellCheckBox = ({
   const { paddingBetweenCells, paddingBetweenColumns, tableStyle } =
     useSelector((state: ADTState) => state.ADTPropsReducer);
   const { checkState, selectedRows } = useSelector(
-    (state: ADTState) => state.ADTSelectPropsReducer
+    (state: ADTState) => state.ADTSelectReducer
   );
   const { checkCellClick } = useADTSelect();
   const { pageSize, page } = useSelector(
-    (state: ADTState) => state.ADTFilteredPropsReducer
+    (state: ADTState) => state.ADTPagingReducer
   );
   const isCheck = useMemo(
     () => selectedRows.includes(rowIndex + (page - 1) * pageSize),

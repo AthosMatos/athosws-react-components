@@ -1,7 +1,9 @@
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { useSelector } from "react-redux";
-import { useADTPaging } from "../../redux/Paging/hook";
 import { ADTState } from "../../redux/store";
+import { useDispatch } from "react-redux";
+import { useMemo } from "react";
+import { movePage } from "../../redux/Paging/provider";
 
 interface NavButtonProps {
   onClick: () => void;
@@ -23,11 +25,23 @@ const NavButton = ({ onClick, children, disabled }: NavButtonProps) => (
 );
 
 const ADTNav = () => {
-  const { page, canGoBack, canGoForward, totalPages } = useSelector(
-    (state: ADTState) => state.ADTFilteredPropsReducer
+  const { totalItems } = useSelector(
+    (state: ADTState) => state.ADTCustomStatesReducer
   );
-  const { movePage } = useADTPaging();
-
+  const { page, pageSize } = useSelector(
+    (state: ADTState) => state.ADTPagingReducer
+  );
+  const { data } = useSelector((state: ADTState) => state.ADTPropsReducer);
+  const dispatch = useDispatch();
+  const canGoForward = useMemo(
+    () => page * pageSize < totalItems,
+    [totalItems, page, pageSize]
+  );
+  const canGoBack = useMemo(() => page > 1, [page]);
+  const totalPages = useMemo(
+    () => Math.ceil(totalItems / pageSize),
+    [totalItems, pageSize]
+  );
   return (
     <div className="flex-1 items-end select-none flex mt-4 w-full justify-end sticky bottom-0 left-0 self-end">
       <div className="flex flex-col items-center ">
@@ -35,13 +49,36 @@ const ADTNav = () => {
           <NavButton
             disabled={!canGoBack}
             onClick={() => {
-              movePage("prev");
+              dispatch(
+                movePage({
+                  canGoBack,
+                  canGoForward,
+                  page,
+                  to: "prev",
+                  totalPages,
+                  data,
+                })
+              );
             }}
           >
             <IoIosArrowBack />
           </NavButton>
           <p className="w-fit h-fit  font-medium">{page}</p>
-          <NavButton disabled={!canGoForward} onClick={() => movePage("next")}>
+          <NavButton
+            disabled={!canGoForward}
+            onClick={() => {
+              dispatch(
+                movePage({
+                  canGoBack,
+                  canGoForward,
+                  page,
+                  to: "next",
+                  totalPages,
+                  data,
+                })
+              );
+            }}
+          >
             <IoIosArrowForward />
           </NavButton>
         </div>
@@ -54,7 +91,19 @@ const ADTNav = () => {
                 hover:text-gray-700 cursor-pointer
             ${num === page ? "underline text-gray-700" : ""}
             `}
-                onClick={() => movePage(num)}
+                onClick={() => {
+                  dispatch(
+                    movePage({
+                      canGoBack,
+                      canGoForward,
+                      page,
+                      to: num,
+                      totalPages,
+
+                      data,
+                    })
+                  );
+                }}
               >
                 {num}
               </div>
