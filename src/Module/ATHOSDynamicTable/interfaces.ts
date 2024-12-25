@@ -73,7 +73,8 @@ type ResizableConfig = {
 };
 
 export type DynamicTableProps<T> = {
-  className?: string;
+  wrapperClassName?: string;
+  tableWrapperClassName?: string;
   tableClassName?: string;
   tableName: string;
   data: T[];
@@ -94,6 +95,7 @@ export type DynamicTableProps<T> = {
   persistPrimaryColumn?:
     | {
         backgroundColor?: string;
+        borderColor?: string;
       }
     | boolean;
   movePageTransitionDuration?: number;

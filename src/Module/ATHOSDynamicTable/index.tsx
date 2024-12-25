@@ -1,19 +1,16 @@
-import { AnimatePresence } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Provider } from "react-redux";
 import { ATHOSResizableDiv } from "../ATHOSResizableDiv";
 import ADTSelectedRowsToast from "./components/ADTSelectedRowsToast";
 
 import { DynamicTableProps } from "./interfaces";
-import { ADTState, ADTStore } from "./redux/store";
+import { ADTStore } from "./redux/store";
 import ADTFuncs from "./Sections/ADTFuncs";
 import ADTNav from "./Sections/ADTNav";
 import { ADTStatesController } from "./StatesController";
 import { ADTTableWrapper } from "./styled";
 
-import { useSelector } from "react-redux";
 import Table from "./Table";
-import PersistantTable from "./Table/PersistantTable";
 
 function hasScroll(element: HTMLElement) {
   return element.scrollWidth > element.clientWidth;
@@ -36,7 +33,7 @@ const Comp = ({
   const [shouldRenderPersistantTable, setShouldRenderPersistantTable] =
     useState(false);
 
-  useEffect(() => {
+  /* useEffect(() => {
     if (!props.persistPrimaryColumn) return;
     const tableWrapper = document.getElementById(tableWrapperId);
 
@@ -62,15 +59,10 @@ const Comp = ({
     return () => {
       resizeObserver.disconnect();
     };
-  }, [tableWrapperId]);
+  }, [tableWrapperId]); */
 
   ADTStatesController({ props });
 
-  console.log("Comp");
-
-  const { persistPrimaryColumn } = useSelector(
-    (state: ADTState) => state.ADTPropsReducer
-  );
   return (
     <>
       <ADTSelectedRowsToast />
@@ -78,22 +70,19 @@ const Comp = ({
         resizable={!!props.resizeable}
         style={stly ? props.style : undefined}
         className={`flex flex-col rounded-md w-full border border-gray-300 ${
-          !props.resizeable && props.className
+          !props.resizeable ? props.wrapperClassName : ""
         } m-0`}
       >
         <ADTFuncs />
-        {shouldRenderPersistantTable && persistPrimaryColumn && (
+        {/*  {shouldRenderPersistantTable && persistPrimaryColumn && (
           <div className="sticky left-0 z-30">
             <AnimatePresence>
               <PersistantTable tableWrapperId={tableWrapperId} />
             </AnimatePresence>
           </div>
-        )}
+        )} */}
 
-        <Table
-          shouldRenderPersistantTable={shouldRenderPersistantTable}
-          tableWrapperId={tableWrapperId}
-        />
+        <Table tableWrapperId={tableWrapperId} />
 
         <ADTNav />
       </ADTTableWrapper>

@@ -125,12 +125,13 @@ const TestPage = () => {
       <ATHOSDynamicTable
         //resizeable
         autoLockHeight
-        className="h-4/5"
-        //tableClassName="h-[50vh]"
-        tableClassName="max-h-[30vh]"
-        persistPrimaryColumn={{
+        wrapperClassName="h-4/5"
+        tableWrapperClassName="h-[50vh]"
+        //persistPrimaryColumn={false}
+        /*  persistPrimaryColumn={{
           backgroundColor: ATHOSColors.white.eggshell,
-        }}
+          borderColor: ATHOSColors.aqua.default,
+        }} */
         extraColumns={[
           {
             showCondition: (data) =>

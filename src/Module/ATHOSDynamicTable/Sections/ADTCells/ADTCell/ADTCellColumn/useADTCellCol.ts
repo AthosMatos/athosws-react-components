@@ -21,6 +21,27 @@ const useADTCellCol = ({
   columnsIDs: any;
 }) => {
   const cellId = `${columns[index]} - ${rowIndex} -${index}`;
+  const maxCharToCut = globalConfig?.maxCharToCut
+    ? globalConfig.maxCharToCut
+    : colConfig
+    ? colConfig[column]?.maxCharToCut
+    : 20;
+
+  const showTTifShort = globalConfig?.shortOnlyifCut
+    ? globalConfig.shortOnlyifCut
+    : colConfig
+    ? colConfig[column]?.shortOnlyifCut
+    : undefined;
+
+  const MWTS = globalConfig?.minColWidthToShort
+    ? globalConfig.minColWidthToShort
+    : colConfig
+    ? colConfig[column]?.minColWidthToShort
+    : 160;
+
+  const [showTooltip, setShowTooltip] = useState(false);
+  const [touch, setTouch] = useState(false);
+  const [rowValue, setRowValue] = useState(getInitalValue());
 
   const textColor = useMemo(() => {
     const globalColor = tableStyle?.cellTextColor?.global;
@@ -49,47 +70,20 @@ const useADTCellCol = ({
     );
   }, [tableStyle?.cellTextColor]);
 
-  const [showTooltip, setShowTooltip] = useState(false);
-  const [rowValue, setRowValue] = useState("");
-  const [touch, setTouch] = useState(false);
-  const [maxCharToCut, setMaxCharToCut] = useState(
-    globalConfig?.maxCharToCut
-      ? globalConfig.maxCharToCut
-      : colConfig
-      ? colConfig[column]?.maxCharToCut
-      : false
-  );
-
-  const showTTifShort = globalConfig?.shortOnlyifCut
-    ? globalConfig.shortOnlyifCut
-    : colConfig
-    ? colConfig[column]?.shortOnlyifCut
-    : undefined;
-
-  const [MWTS, setMWTS] = useState(
-    globalConfig?.minColWidthToShort
-      ? globalConfig.minColWidthToShort
-      : colConfig
-      ? colConfig[column]?.minColWidthToShort
-      : undefined
-  );
-
-  useEffect(() => {
+  function getInitalValue() {
+    let rowValue = "";
     if (
       (typeof startShort === "boolean" && startShort) ||
       (typeof startShort === "object" && startShort[column])
     ) {
-      const mctc = maxCharToCut ?? 20;
-
-      const cut = mctc && row[column].length > mctc;
+      const cut = maxCharToCut && row[column].length > maxCharToCut;
       if (cut) {
-        setRowValue(`${row[column].slice(0, mctc)}...`);
-      } else setRowValue(row[column] as string);
+        rowValue = `${row[column].slice(0, maxCharToCut)}...`;
+      } else rowValue = row[column] as string;
+    } else rowValue = row[column] as string;
 
-      setMaxCharToCut(mctc);
-      if (!MWTS) setMWTS(160);
-    } else setRowValue(row[column] as string);
-  }, []);
+    return rowValue;
+  }
 
   useEffect(() => {
     if (colConfig && colConfig[column]?.cellComponent) return;

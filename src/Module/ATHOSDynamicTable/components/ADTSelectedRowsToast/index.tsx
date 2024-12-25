@@ -5,10 +5,10 @@ import { ATHOSDropDown } from "../../../ATHOSDropDown";
 import { ATHOSToast } from "../../../ATHOSToast";
 import { useADTSelect } from "../../redux/Select/hook";
 import { ADTState } from "../../redux/store";
-import { ADTBRDSimple } from "../ADTBorder";
 import ADTCheckBox from "../ADTCheckBox";
 import {
   ADTATWrapper,
+  ADTBRDSimple,
   ADTSRTFSWrapper,
   ADTSRTIconWrapper,
   ADTSRTLabel,

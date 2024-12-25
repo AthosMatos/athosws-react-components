@@ -1,6 +1,8 @@
 import { useSelector } from "react-redux";
+
 import { ADTState } from "../../../../redux/store";
 import { ADTCellWrapper } from "../../../../styled";
+import CellExitWrapper, { cellWrapperAnim } from "../ADTCellExitWrapper";
 
 interface ExtraColsProps {
   row: any;
@@ -25,6 +27,7 @@ const ADTCellExtraCols = ({ row, isPersistPrimaryColumn }: ExtraColsProps) => {
       .map((extraColumn, index) => {
         return (
           <ADTCellWrapper
+            {...cellWrapperAnim}
             style={{
               paddingRight: 0,
               paddingLeft: index == 0 ? 0 : paddingBetweenExtraColumns ?? 6,
@@ -34,7 +37,7 @@ const ADTCellExtraCols = ({ row, isPersistPrimaryColumn }: ExtraColsProps) => {
             bRightLeft
             key={extraColumn.component.toString()}
           >
-            {extraColumn.component(row)}
+            <CellExitWrapper>{extraColumn.component(row)}</CellExitWrapper>
           </ADTCellWrapper>
         );
       })

@@ -1,8 +1,15 @@
 import styled from "styled-components";
+import { ATHOSColors } from "../../../colors/colors";
 import {
   generateColorShades,
   getContrastColor,
 } from "../../../utils/color-utils";
+
+export const ADTBRDSimple = styled.div<{ w: number; h: number }>`
+  width: ${(props) => props.w}px;
+  height: ${(props) => props.h}px;
+  background-color: ${ATHOSColors.grey.light};
+`;
 
 /* 
 export const ATWrapper = styled(motion.div)`

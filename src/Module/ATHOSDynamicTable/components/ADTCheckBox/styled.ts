@@ -1,10 +1,13 @@
+import { motion } from "framer-motion";
 import { FaCheck, FaCircle } from "react-icons/fa";
 import styled from "styled-components";
 import { ATHOSColors } from "../../../colors/colors";
 import { generateColorShades } from "../../../utils/color-utils";
 import { CheckState } from "../../redux/Select/interfaces";
 
-export const ADTCheckBoxWrapper = styled.div<{
+export const CheckBoxWidth = "1rem";
+
+export const ADTCheckBoxWrapper = styled(motion.div)<{
   highlightColor: string;
   checkedState: number | boolean;
   big?: boolean;
@@ -13,8 +16,8 @@ export const ADTCheckBoxWrapper = styled.div<{
   display: flex;
   align-items: center;
   justify-content: center;
-  width: ${({ big }) => (big ? "1.5rem" : "1rem")};
-  height: ${({ big }) => (big ? "1.5rem" : "1rem")};
+  width: ${({ big }) => (big ? "1.5rem" : CheckBoxWidth)};
+  height: ${({ big }) => (big ? "1.5rem" : CheckBoxWidth)};
   border: 1px solid ${ATHOSColors.grey.light};
   cursor: ${({ clicable }) => (clicable != false ? "pointer" : "default")};
   border-radius: 0.4rem;

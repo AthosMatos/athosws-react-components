@@ -1,20 +1,26 @@
 import { memo, useMemo } from "react";
 import { useSelector } from "react-redux";
+import { ATHOSColors } from "../../../../../colors/colors";
 import ADTCheckBox from "../../../../components/ADTCheckBox";
 import { useADTSelect } from "../../../../redux/Select/hook";
 import { CheckState } from "../../../../redux/Select/interfaces";
 import { ADTState } from "../../../../redux/store";
-import { ADTCellWrapper } from "../../../../styled";
+import { ADTCellWrapper, borderStyle, bWidth } from "../../../../styled";
+import CellExitWrapper, { cellWrapperAnim } from "../ADTCellExitWrapper";
 
 const ADTCellCheckBox = ({
   rowIndex,
-  isPersistPrimaryColumn,
+  isLast,
 }: {
   rowIndex: number;
-  isPersistPrimaryColumn?: boolean;
+  isLast: boolean;
 }) => {
-  const { paddingBetweenCells, paddingBetweenColumns, tableStyle } =
-    useSelector((state: ADTState) => state.ADTPropsReducer);
+  const {
+    paddingBetweenCells,
+    paddingBetweenColumns,
+    tableStyle,
+    persistPrimaryColumn,
+  } = useSelector((state: ADTState) => state.ADTPropsReducer);
   const { checkState, selectedRows } = useSelector(
     (state: ADTState) => state.ADTSelectReducer
   );
@@ -27,19 +33,51 @@ const ADTCellCheckBox = ({
     [selectedRows, rowIndex, page, pageSize]
   );
 
+  const persistStyle = useMemo(() => {
+    if (persistPrimaryColumn) {
+      const obj = {} as any;
+      if (typeof persistPrimaryColumn == "boolean") {
+        obj["backgroundColor"] = ATHOSColors.white.eggshell;
+      } else {
+        if (persistPrimaryColumn.backgroundColor) {
+          obj["backgroundColor"] = persistPrimaryColumn.backgroundColor;
+        }
+        if (persistPrimaryColumn.borderColor) {
+          obj["borderLeftColor"] = persistPrimaryColumn.borderColor;
+          obj["borderLeftWidth"] = bWidth;
+          obj["borderLeftStyle"] = borderStyle;
+
+          if (isLast) {
+            obj["borderBottomColor"] = persistPrimaryColumn.borderColor;
+            obj["borderBottomWidth"] = bWidth;
+            obj["borderBottomStyle"] = borderStyle;
+          }
+        }
+      }
+      return obj;
+    }
+  }, [persistPrimaryColumn]);
+
   return (
     <ADTCellWrapper
-      style={isPersistPrimaryColumn ? { paddingLeft: "0.4rem" } : {}}
+      {...cellWrapperAnim}
+      className={`${persistPrimaryColumn ? "sticky left-0" : ""} ${
+        isLast ? "rounded-es-md" : ""
+      }`}
+      style={persistStyle}
       vertPad={paddingBetweenCells && paddingBetweenCells / 2}
       paddingHorizontal={paddingBetweenColumns}
+      bLeft
     >
-      <ADTCheckBox
-        highlightColor={tableStyle?.highlightColor!}
-        checked={
-          checkState === CheckState.PAGE && isCheck ? checkState : isCheck
-        }
-        check={() => checkCellClick(rowIndex)}
-      />
+      <CellExitWrapper>
+        <ADTCheckBox
+          highlightColor={tableStyle?.highlightColor!}
+          checked={
+            checkState === CheckState.PAGE && isCheck ? checkState : isCheck
+          }
+          check={() => checkCellClick(rowIndex)}
+        />
+      </CellExitWrapper>
     </ADTCellWrapper>
   );
 };

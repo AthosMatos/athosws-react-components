@@ -13,11 +13,14 @@ interface NavButtonProps {
 const NavButton = ({ onClick, children, disabled }: NavButtonProps) => (
   <div
     onClick={disabled ? undefined : onClick}
-    className={`transition-all w-8 h-9 flex items-center justify-center ${
-      disabled
-        ? "opacity-50 cursor-not-allowed"
-        : "cursor-pointer hover:bg-gray-300 "
-    }`}
+    className={`transition-all bg-gray-100 
+      active:scale-95 text-gray-400
+      rounded-lg border border-gray-300
+       w-9 h-9 flex items-center justify-center ${
+         disabled
+           ? "opacity-30 cursor-not-allowed"
+           : "cursor-pointer hover:bg-gray-200 "
+       }`}
   >
     {children}
   </div>
@@ -27,7 +30,7 @@ const ADTNav = () => {
   const { totalItems } = useSelector(
     (state: ADTState) => state.ADTCustomStatesReducer
   );
-  const { page, pageSize, movingPage } = useSelector(
+  const { page, pageSize } = useSelector(
     (state: ADTState) => state.ADTPagingReducer
   );
   const { data } = useSelector((state: ADTState) => state.ADTPropsReducer);
@@ -41,43 +44,34 @@ const ADTNav = () => {
     () => Math.ceil(totalItems / pageSize),
     [totalItems, pageSize]
   );
+
+  const move = (to: number | "prev" | "next") => {
+    dispatch(
+      movePage({
+        canGoBack,
+        canGoForward,
+        page,
+        to,
+        totalPages,
+        data,
+      })
+    );
+  };
   return (
     <div className="flex-1 items-end select-none flex mt-4 w-full justify-end sticky bottom-0 left-0 self-end">
       <div className="flex flex-col items-center ">
-        <div className="overflow-hidden bg-white flex gap-2 text-lg text-gray-500 rounded-lg  border border-gray-300 rounded-t-md items-center">
-          <NavButton
-            disabled={!canGoBack}
-            onClick={() => {
-              dispatch(
-                movePage({
-                  canGoBack,
-                  canGoForward,
-                  page,
-                  to: "prev",
-                  totalPages,
-                  data,
-                })
-              );
-            }}
-          >
+        <div className="bg-white flex gap-2 text-lg text-gray-500 items-center">
+          <NavButton disabled={!canGoBack} onClick={() => move("prev")}>
             <IoIosArrowBack />
           </NavButton>
-          <p className="w-fit h-fit  font-medium">{page}</p>
-          <NavButton
-            disabled={!canGoForward}
-            onClick={() => {
-              dispatch(
-                movePage({
-                  canGoBack,
-                  canGoForward,
-                  page,
-                  to: "next",
-                  totalPages,
-                  data,
-                })
-              );
-            }}
+          <div
+            className="rounded-md items-center 
+            justify-center flex border
+             border-gray-300 w-8 h-8 text-gray-400"
           >
+            <p className="font-medium">{page}</p>
+          </div>
+          <NavButton disabled={!canGoForward} onClick={() => move("next")}>
             <IoIosArrowForward />
           </NavButton>
         </div>
@@ -90,19 +84,7 @@ const ADTNav = () => {
                 hover:text-gray-700 cursor-pointer
             ${num === page ? "underline text-gray-700" : ""}
             `}
-                onClick={() => {
-                  dispatch(
-                    movePage({
-                      canGoBack,
-                      canGoForward,
-                      page,
-                      to: num,
-                      totalPages,
-
-                      data,
-                    })
-                  );
-                }}
+                onClick={() => move(num)}
               >
                 {num}
               </div>

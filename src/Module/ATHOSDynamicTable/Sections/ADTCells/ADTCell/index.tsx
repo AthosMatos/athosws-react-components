@@ -1,10 +1,10 @@
 import { memo } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { setMovingPage } from "../../../redux/Paging/provider";
+import { useSelector } from "react-redux";
 import { ADTState } from "../../../redux/store";
 import { ADTTR } from "../../../styled";
 import ADTCellCheckBox from "./ADTCellCheckBox";
 import ADTCellColumn from "./ADTCellColumn";
+import { transition } from "./ADTCellExitWrapper";
 import ADTCellExtraCols from "./ADTCellExtraCols";
 
 interface ADTCellProps {
@@ -13,68 +13,27 @@ interface ADTCellProps {
   isPersistPrimaryColumn?: boolean;
 }
 
-const ADTCell = memo((props: ADTCellProps) => {
+const ADTCell = (props: ADTCellProps) => {
   const { rowIndex, row, isPersistPrimaryColumn } = props;
   const { columns, extraColumns } = useSelector(
     (state: ADTState) => state.ADTPropsReducer
   );
-  const { movingPage, goingForward } = useSelector(
-    (state: ADTState) => state.ADTPagingReducer
-  );
-  const dispatch = useDispatch();
-  return (
-    <ADTTR
-      layout={"position"}
-      onAnimationComplete={(anim: any) => {
-        if (anim.translateX === 0) {
-          dispatch(setMovingPage(false));
-        }
-      }}
-      initial={
-        movingPage
-          ? {
-              translateX: goingForward ? "100%" : "-100%",
-            }
-          : {
-              scale: 0,
-            }
-      }
-      animate={
-        movingPage
-          ? {
-              translateX: 0,
-            }
-          : {
-              scale: 1,
-            }
-      }
-      exit={
-        movingPage
-          ? {
-              translateX: goingForward ? "-100%" : "100%",
-            }
-          : {
-              scale: 0,
-            }
-      }
-      transition={{ duration: 0.24, ease: "easeInOut" }}
-    >
-      <ADTCellCheckBox
-        rowIndex={rowIndex}
-        isPersistPrimaryColumn={isPersistPrimaryColumn}
-      />
+  const { pageSize } = useSelector((state: ADTState) => state.ADTPagingReducer);
+  const isLast = pageSize && rowIndex === pageSize - 1;
 
-      {(columns as any[])
-        .filter((_, index) => !(isPersistPrimaryColumn && index > 0))
-        .map((column, index) => (
-          <ADTCellColumn
-            key={column}
-            column={column}
-            index={index}
-            row={row}
-            rowIndex={rowIndex}
-          />
-        ))}
+  return (
+    <ADTTR layout="preserve-aspect" transition={transition}>
+      <ADTCellCheckBox isLast={isLast} rowIndex={rowIndex} />
+      {(columns as any[]).map((column, index) => (
+        <ADTCellColumn
+          key={column[row]}
+          isLast={isLast}
+          column={column}
+          index={index}
+          row={row}
+          rowIndex={rowIndex}
+        />
+      ))}
 
       {extraColumns && (
         <ADTCellExtraCols
@@ -84,6 +43,6 @@ const ADTCell = memo((props: ADTCellProps) => {
       )}
     </ADTTR>
   );
-});
+};
 
-export default ADTCell;
+export default memo(ADTCell);

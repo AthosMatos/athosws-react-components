@@ -61,11 +61,17 @@ interface ADTCellWrapperProps {
   bRightLeft?: boolean;
   vertPad?: number;
   paddingHorizontal?: number;
+  bLeft?: boolean;
 }
 
-export const ADTCellWrapper = styled.td<ADTCellWrapperProps>`
+export const ADTCellWrapper = styled(motion.td)<ADTCellWrapperProps>`
   font-size: 1rem;
   font-weight: 400;
+  ${(props) =>
+    props.bLeft &&
+    `
+      padding-left: 0.8rem;
+    `}
   ${(props) =>
     props.bRightLeft &&
     `
@@ -97,28 +103,13 @@ export const ADTTR = styled(motion.tr)<{ height?: number }>`
     `}
 `;
 
-interface ADTTableProps {
-  isPersistant?: boolean;
-  width?: number;
-  backgroundColor?: string;
-  autoLockHeight?: boolean;
-}
+export const bWidth = "2px";
+export const borderStyle = "solid";
 
-export const ADTTable = styled(motion.table)<ADTTableProps>`
-  width: ${(props) => (props.width ? `${props.width}px` : "100%")};
+export const ADTTable = styled(motion.table)`
   border-collapse: separate;
-  ${(props) =>
-    props.isPersistant &&
-    `
-    position: absolute;
-    /* pointer-events: none;
-    user-select: none; */
-    background-color: ${props.backgroundColor ?? "white"};
-    border-radius: 10px;
-    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
-    width: fit-content;
-   
-  `}
+  border-spacing: 0px;
+  width: 100%;
 `;
 
 export const ADTHeader = styled.thead``;

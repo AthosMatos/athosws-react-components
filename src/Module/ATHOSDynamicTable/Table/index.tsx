@@ -4,24 +4,19 @@ import ADTCells from "../Sections/ADTCells";
 import ADTColumns from "../Sections/ADTColumns";
 import { ADTBody, ADTHeader, ADTTable } from "../styled";
 
-const Table = ({
-  tableWrapperId,
-  shouldRenderPersistantTable,
-}: {
-  tableWrapperId: string;
-  shouldRenderPersistantTable: boolean;
-}) => {
-  const { tableClassName } = useSelector(
+const Table = ({ tableWrapperId }: { tableWrapperId: string }) => {
+  const { tableClassName, tableWrapperClassName } = useSelector(
     (state: ADTState) => state.ADTPropsReducer
   );
   return (
     <div
+      className={`rounded-md border p-2  border-gray-300 min-w-fit overflow-x-clip ${tableWrapperClassName}`}
+      style={{
+        overflowY: "overlay" as any,
+      }}
       id={tableWrapperId}
-      className={`${shouldRenderPersistantTable ? "w-full" : ""} `}
     >
-      <ADTTable
-        className={`rounded-md border border-gray-300 ${tableClassName}`}
-      >
+      <ADTTable className={tableClassName}>
         <ADTHeader>
           <ADTColumns />
         </ADTHeader>

@@ -7,7 +7,6 @@ const initialState: PagingState = {
   page: 1,
   pageSize: 5,
   goingForward: false,
-  movingPage: false,
 };
 
 const Slice = createSlice({
@@ -51,10 +50,9 @@ const Slice = createSlice({
     ) => {
       const { to, totalPages, page, canGoBack, canGoForward, data } =
         action.payload;
-      if (state.movingPage) return;
       if (typeof to === "number" && to > 0 && to <= totalPages && to !== page) {
         state.page = to;
-        state.movingPage = true;
+
         const start = (to - 1) * state.pageSize;
         const end = start + state.pageSize;
         state.filteredData = data.slice(start, end);
@@ -74,23 +72,21 @@ const Slice = createSlice({
         const end = start + state.pageSize;
         state.filteredData = data.slice(start, end);
         state.page += 1;
-        state.movingPage = true;
+
         state.goingForward = true;
       } else if (to === "prev") {
         const start = (state.page - 2) * state.pageSize;
         const end = start + state.pageSize;
         state.filteredData = data.slice(start, end);
         state.page -= 1;
-        state.movingPage = true;
+
         state.goingForward = false;
       }
     },
     changePageSize: (state, action: PayloadAction<PageSizesType>) => {
       state.pageSize = action.payload;
     },
-    setMovingPage: (state, action: PayloadAction<boolean>) => {
-      state.movingPage = action.payload;
-    },
+
     setFilteredData: (state, action: PayloadAction<any[]>) => {
       const start = (state.page - 1) * state.pageSize;
       const end = start + state.pageSize;
@@ -100,13 +96,8 @@ const Slice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const {
-  filterBySearch,
-  setFilteredData,
-  movePage,
-  changePageSize,
-  setMovingPage,
-} = Slice.actions;
+export const { filterBySearch, setFilteredData, movePage, changePageSize } =
+  Slice.actions;
 
 const ADTPagingReducer = Slice.reducer;
 

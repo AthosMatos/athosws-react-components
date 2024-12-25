@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { v4 } from "uuid";
-import { ADTState } from "../../redux/store";
+import { ADTState } from "../../../../redux/store";
 
 export const useADTBorder = (colID: string) => {
   const wrapperid = v4();
