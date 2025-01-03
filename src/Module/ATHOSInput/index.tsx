@@ -30,10 +30,7 @@ export const ATHOSInput = (props: ATHOSInputProps) => {
     setIsFocused(false);
   };
 
-  const hasError = useMemo(
-    () => !(error == undefined || error == null),
-    [error]
-  );
+  const hasError = useMemo(() => !(error == undefined || error == null), [error]);
 
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -56,23 +53,13 @@ export const ATHOSInput = (props: ATHOSInputProps) => {
         error={hasError}
         focused={isFocused}
       >
-        {type === "user" ? (
-          <AIUserIcon error={hasError} />
-        ) : (
-          type === "password" && <AILockIcon error={hasError} />
-        )}
+        {type === "user" ? <AIUserIcon error={hasError} /> : type === "password" && <AILockIcon error={hasError} />}
         <AIInput
           ref={inputRef}
           onFocus={onFocus}
           onBlur={onBlur}
           type={type === "password" && showPassword ? "text" : type}
-          placeholder={
-            type === "user"
-              ? "Usuário"
-              : type === "password"
-              ? "Senha"
-              : placeholder
-          }
+          placeholder={type === "user" ? "Usuário" : type === "password" ? "Senha" : placeholder}
         />
 
         {type === "password" && (

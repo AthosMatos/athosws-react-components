@@ -9,38 +9,16 @@ import ASMHideOption from "./HideOption";
 
 const BottomIcons = () => {
   const {
-    props: {
-      onExitIcon: onExit,
-      collapsableIcon: collapsable,
-      editableIcon: editable,
-    },
+    props: { onExitIcon: onExit, collapsableIcon: collapsable, editableIcon: editable },
     hideMenu,
   } = useATHOSSideMenu();
   return (
     <BottomIconsWrapper hideMenu={hideMenu}>
-      {onExit && !hideMenu && (
-        <ASMExitOption
-          onClick={onExit.onClick}
-          Icon={onExit.Icon ?? GoSignOut}
-          label={onExit.label}
-        />
-      )}
-      {editable && !hideMenu && (
-        <ASMEditOption
-          Icon={editable.Icon ?? BiSolidPencil}
-          label={editable.label ?? ""}
-        />
-      )}
+      {onExit && !hideMenu && <ASMExitOption onClick={onExit.onClick} Icon={onExit.Icon ?? GoSignOut} label={onExit.label} />}
+      {editable && !hideMenu && <ASMEditOption Icon={editable.Icon ?? BiSolidPencil} label={editable.label ?? ""} />}
       {collapsable && (
         <ASMHideOption
-          Icon={
-            collapsable.Icon ?? (
-              <ASMArrowLeft
-                clicked={hideMenu}
-                activeColor={ATHOSColors.grey.default}
-              />
-            )
-          }
+          Icon={collapsable.Icon ?? <ASMArrowLeft clicked={hideMenu} activeColor={ATHOSColors.grey.default} />}
           label={collapsable.label ?? ""}
         />
       )}

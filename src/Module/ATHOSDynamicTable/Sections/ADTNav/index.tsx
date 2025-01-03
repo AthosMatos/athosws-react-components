@@ -1,8 +1,8 @@
 import { useMemo } from "react";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { movePage } from "../../redux/Paging/provider";
-import { ADTState } from "../../redux/store";
+import useSelectors_ADTNav from "./useSelectors";
 
 interface NavButtonProps {
   onClick: () => void;
@@ -15,35 +15,19 @@ const NavButton = ({ onClick, children, disabled }: NavButtonProps) => (
     onClick={disabled ? undefined : onClick}
     className={`transition-all bg-gray-100 
       active:scale-95 text-gray-400
-      rounded-lg border border-gray-300
-       w-9 h-9 flex items-center justify-center ${
-         disabled
-           ? "opacity-30 cursor-not-allowed"
-           : "cursor-pointer hover:bg-gray-200 "
-       }`}
+      rounded-lg border border-gray-300 duration-100
+       w-9 h-9 flex items-center justify-center ${disabled ? "opacity-30 cursor-not-allowed" : "cursor-pointer hover:bg-gray-200 "}`}
   >
     {children}
   </div>
 );
 
 const ADTNav = () => {
-  const { totalItems } = useSelector(
-    (state: ADTState) => state.ADTCustomStatesReducer
-  );
-  const { page, pageSize } = useSelector(
-    (state: ADTState) => state.ADTPagingReducer
-  );
-  const { data } = useSelector((state: ADTState) => state.ADTPropsReducer);
+  const { totalItems, page, pageSize, movingPage, data } = useSelectors_ADTNav();
   const dispatch = useDispatch();
-  const canGoForward = useMemo(
-    () => page * pageSize < totalItems,
-    [totalItems, page, pageSize]
-  );
+  const canGoForward = useMemo(() => page * pageSize < totalItems, [totalItems, page, pageSize]);
   const canGoBack = useMemo(() => page > 1, [page]);
-  const totalPages = useMemo(
-    () => Math.ceil(totalItems / pageSize),
-    [totalItems, pageSize]
-  );
+  const totalPages = useMemo(() => Math.ceil(totalItems / pageSize), [totalItems, pageSize]);
 
   const move = (to: number | "prev" | "next") => {
     dispatch(
@@ -59,7 +43,7 @@ const ADTNav = () => {
   };
   return (
     <div className="flex-1 items-end select-none flex mt-4 w-full justify-end sticky bottom-0 left-0 self-end">
-      <div className="flex flex-col items-center ">
+      <div className="flex flex-col items-center gap-2">
         <div className="bg-white flex gap-2 text-lg text-gray-500 items-center">
           <NavButton disabled={!canGoBack} onClick={() => move("prev")}>
             <IoIosArrowBack />
@@ -75,19 +59,19 @@ const ADTNav = () => {
             <IoIosArrowForward />
           </NavButton>
         </div>
-        <div className="flex text-gray-400 gap-4">
+        <div className="flex text-gray-400 gap-1">
           {totalPages > 1 &&
             Array.from({ length: totalPages }, (_, i) => i + 1).map((num) => (
-              <div
+              <p
                 key={num}
-                className={`
-                hover:text-gray-700 cursor-pointer
-            ${num === page ? "underline text-gray-700" : ""}
-            `}
                 onClick={() => move(num)}
+                className={`flex hover:text-gray-700 text-sm
+              cursor-pointer w-5 rounded-[0.2rem] h-5 transition-all duration-100
+              items-center justify-center hover:border-gray-300 hover:border
+              ${num === page ? "bg-gray-100 text-gray-700 border border-gray-300" : "opacity-50"}`}
               >
                 {num}
-              </div>
+              </p>
             ))}
         </div>
       </div>

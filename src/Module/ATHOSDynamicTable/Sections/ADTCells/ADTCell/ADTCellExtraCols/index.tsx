@@ -2,7 +2,8 @@ import { useSelector } from "react-redux";
 
 import { ADTState } from "../../../../redux/store";
 import { ADTCellWrapper } from "../../../../styled";
-import CellExitWrapper, { cellWrapperAnim } from "../ADTCellExitWrapper";
+import { getCellWrapperStyle } from "../../../consts";
+import CellExitWrapper from "../ADTCellExitWrapper";
 
 interface ExtraColsProps {
   row: any;
@@ -10,31 +11,30 @@ interface ExtraColsProps {
 }
 
 const ADTCellExtraCols = ({ row, isPersistPrimaryColumn }: ExtraColsProps) => {
-  const {
-    paddingBetweenCells,
-    paddingBetweenColumns,
-    extraColumns,
-    paddingBetweenExtraColumns,
-  } = useSelector((state: ADTState) => state.ADTPropsReducer);
+  const paddingBetweenCells = useSelector((state: ADTState) => state.ADTPropsReducer.spacingBetweenCells);
+  const paddingBetweenColumns = useSelector((state: ADTState) => state.ADTPropsReducer.spacingBetweenColumns);
+  const extraColumns = useSelector((state: ADTState) => state.ADTPropsReducer.extraColumns);
+  const paddingBetweenExtraColumns = useSelector((state: ADTState) => state.ADTPropsReducer.spacingBetweenExtraColumns);
+  const movingPage = useSelector((state: ADTState) => state.ADTPagingReducer.movingPage);
 
   return (
     !isPersistPrimaryColumn &&
     extraColumns
-      ?.filter(
-        (extraColumn) =>
-          !(extraColumn.showCondition && !extraColumn.showCondition(row))
-      )
+      ?.filter((extraColumn) => !(extraColumn.showCondition && !extraColumn.showCondition(row)))
       .map((extraColumn, index) => {
         return (
           <ADTCellWrapper
-            {...cellWrapperAnim}
+            /*  variants={movingPage ? undefined : DefaultVariants}
+            exit={"unPad"} */
             style={{
+              ...getCellWrapperStyle({
+                bRightLeft: true,
+                paddingHorizontal: paddingBetweenColumns,
+                vertPad: paddingBetweenCells && paddingBetweenCells / 2,
+              }),
               paddingRight: 0,
               paddingLeft: index == 0 ? 0 : paddingBetweenExtraColumns ?? 6,
             }}
-            paddingHorizontal={paddingBetweenColumns}
-            vertPad={paddingBetweenCells && paddingBetweenCells / 2}
-            bRightLeft
             key={extraColumn.component.toString()}
           >
             <CellExitWrapper>{extraColumn.component(row)}</CellExitWrapper>

@@ -33,8 +33,7 @@ export const AIInputWrapper = styled.div<InputProps>`
   background-color: ${ATHOSColors.grey.lighter};
   transition: all 0.14s;
 
-  ${({ focused }) =>
-    focused && `outline: 1px solid ${ATHOSColors.aqua.default};`}
+  ${({ focused }) => focused && `outline: 1px solid ${ATHOSColors.aqua.default};`}
 
   //on error shake
     ${({ error }) =>
@@ -89,10 +88,8 @@ export const AIIconWrapper = styled.div<{ iconSize: number | string }>`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: ${({ iconSize }) =>
-    typeof iconSize === "number" ? `${iconSize}rem ` : iconSize};
-  height: ${({ iconSize }) =>
-    typeof iconSize === "number" ? `${iconSize}rem ` : iconSize};
+  width: ${({ iconSize }) => (typeof iconSize === "number" ? `${iconSize}rem ` : iconSize)};
+  height: ${({ iconSize }) => (typeof iconSize === "number" ? `${iconSize}rem ` : iconSize)};
 `;
 export const AIEyeIcon = styled(IoEye)<ATHOSInputIconProps>`
   cursor: pointer;

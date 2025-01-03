@@ -1,4 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
+import { useSelector } from "react-redux";
+import { ATHOSColors } from "../../../../../colors/colors";
+import { ADTState } from "../../../../redux/store";
+import { borderStyle, bWidth } from "../../../../styled";
 import { ADTCellColumnProps } from "./interfaces";
 
 const useADTCellCol = ({
@@ -6,26 +10,21 @@ const useADTCellCol = ({
   index,
   row,
   rowIndex,
-  colConfig,
-  columns,
-  columnsIDs,
-  globalConfig,
-  startShort,
-  tableStyle,
+
+  isLast,
 }: ADTCellColumnProps & {
-  columns: string[];
-  colConfig: any;
-  globalConfig: any;
-  startShort: any;
-  tableStyle: any;
-  columnsIDs: any;
+  isLast: any;
 }) => {
+  const columns = useSelector((state: ADTState) => state.ADTPropsReducer.columns);
+  const colConfig = useSelector((state: ADTState) => state.ADTPropsReducer.colConfig);
+  const globalConfig = useSelector((state: ADTState) => state.ADTPropsReducer.globalConfig);
+  const tableStyle = useSelector((state: ADTState) => state.ADTPropsReducer.tableStyle);
+  const persistPrimaryColumn = useSelector((state: ADTState) => state.ADTPropsReducer.persistPrimaryColumn);
+  const startShort = useSelector((state: ADTState) => state.ADTPropsReducer.startShort);
+  const tableName = useSelector((state: ADTState) => state.ADTPropsReducer.tableName);
+
   const cellId = `${columns[index]} - ${rowIndex} -${index}`;
-  const maxCharToCut = globalConfig?.maxCharToCut
-    ? globalConfig.maxCharToCut
-    : colConfig
-    ? colConfig[column]?.maxCharToCut
-    : 20;
+  const maxCharToCut = globalConfig?.maxCharToCut ? globalConfig.maxCharToCut : colConfig ? colConfig[column]?.maxCharToCut : 20;
 
   const showTTifShort = globalConfig?.shortOnlyifCut
     ? globalConfig.shortOnlyifCut
@@ -33,11 +32,7 @@ const useADTCellCol = ({
     ? colConfig[column]?.shortOnlyifCut
     : undefined;
 
-  const MWTS = globalConfig?.minColWidthToShort
-    ? globalConfig.minColWidthToShort
-    : colConfig
-    ? colConfig[column]?.minColWidthToShort
-    : 160;
+  const MWTS = globalConfig?.minColWidthToShort ? globalConfig.minColWidthToShort : colConfig ? colConfig[column]?.minColWidthToShort : 160;
 
   const [showTooltip, setShowTooltip] = useState(false);
   const [touch, setTouch] = useState(false);
@@ -45,37 +40,23 @@ const useADTCellCol = ({
 
   const textColor = useMemo(() => {
     const globalColor = tableStyle?.cellTextColor?.global;
-    const specificGlobalColor =
-      tableStyle?.cellTextColor?.specific &&
-      tableStyle?.cellTextColor?.specific[column]?.global;
+    const specificGlobalColor = tableStyle?.cellTextColor?.specific && tableStyle?.cellTextColor?.specific[column]?.global;
     const specificIndexColor =
       tableStyle?.cellTextColor?.specific &&
       tableStyle?.cellTextColor?.specific[column]?.specificIndex &&
-      tableStyle?.cellTextColor?.specific[
-        column
-      ]?.specificIndex?.indexes.includes(rowIndex) &&
+      tableStyle?.cellTextColor?.specific[column]?.specificIndex?.indexes.includes(rowIndex) &&
       tableStyle?.cellTextColor?.specific[column]?.specificIndex?.color;
     const specificConditionColor =
       tableStyle?.cellTextColor?.specific &&
-      tableStyle?.cellTextColor?.specific[column]?.condional?.showCondition(
-        row[column]
-      ) &&
+      tableStyle?.cellTextColor?.specific[column]?.condional?.showCondition(row[column]) &&
       tableStyle?.cellTextColor?.specific[column]?.condional?.color;
 
-    return (
-      specificConditionColor ||
-      specificIndexColor ||
-      specificGlobalColor ||
-      globalColor
-    );
+    return specificConditionColor || specificIndexColor || specificGlobalColor || globalColor;
   }, [tableStyle?.cellTextColor]);
 
   function getInitalValue() {
     let rowValue = "";
-    if (
-      (typeof startShort === "boolean" && startShort) ||
-      (typeof startShort === "object" && startShort[column])
-    ) {
+    if ((typeof startShort === "boolean" && startShort) || (typeof startShort === "object" && startShort[column])) {
       const cut = maxCharToCut && row[column].length > maxCharToCut;
       if (cut) {
         rowValue = `${row[column].slice(0, maxCharToCut)}...`;
@@ -88,8 +69,8 @@ const useADTCellCol = ({
   useEffect(() => {
     if (colConfig && colConfig[column]?.cellComponent) return;
 
-    if (!columnsIDs || !MWTS) return;
-    const DTColDiv = document.getElementById(columnsIDs[column]);
+    if (!MWTS) return;
+    const DTColDiv = document.getElementById(`${tableName}-${column}-th`);
     if (!DTColDiv) return;
 
     // Callback function to execute when resize is observed
@@ -124,11 +105,11 @@ const useADTCellCol = ({
       resizeObserver.unobserve(DTColDiv);
       resizeObserver.disconnect();
     };
-  }, [columnsIDs, showTooltip, maxCharToCut, MWTS]);
+  }, [showTooltip, maxCharToCut, MWTS]);
 
   useEffect(() => {
     //on touch set touch to true
-    if (!columnsIDs || !showTTifShort || !showTooltip) return;
+    if (!showTTifShort || !showTooltip) return;
     const CellId = document.getElementById(cellId);
     if (!CellId) return;
 
@@ -146,12 +127,38 @@ const useADTCellCol = ({
       CellId.removeEventListener("touchstart", handleTouchStart);
       CellId.removeEventListener("touchend", handleTouchEnd);
     };
-  }, [columnsIDs, showTTifShort, showTooltip]);
+  }, [showTTifShort, showTooltip]);
+
+  const persistStyle = useMemo(() => {
+    if (persistPrimaryColumn && index === 0) {
+      const obj = {} as any;
+      if (typeof persistPrimaryColumn == "boolean") {
+        obj["backgroundColor"] = ATHOSColors.white.eggshell_faded;
+      } else {
+        if (persistPrimaryColumn.backgroundColor) {
+          obj["backgroundColor"] = persistPrimaryColumn.backgroundColor;
+        }
+      }
+      const bColor = (persistPrimaryColumn as any).borderColor ?? "rgba(0, 0, 0, 0.13)";
+      obj["borderRightColor"] = bColor;
+      obj["borderRightWidth"] = bWidth;
+      obj["borderRightStyle"] = borderStyle;
+
+      if (isLast) {
+        obj["borderBottomColor"] = bColor;
+        obj["borderBottomWidth"] = bWidth;
+        obj["borderBottomStyle"] = borderStyle;
+      }
+      return obj;
+    }
+  }, [persistPrimaryColumn, isLast, index]);
+
   return {
     textColor,
     showTooltip,
     rowValue,
     touch,
+    persistStyle,
   };
 };
 

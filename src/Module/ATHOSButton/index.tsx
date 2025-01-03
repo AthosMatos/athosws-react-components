@@ -1,11 +1,6 @@
 import { ATHOSTooltip } from "../ATHOSTooltip";
 import { ATHOSButtonProps } from "./interfaces";
-import {
-  ATHOSButton_action,
-  ATHOSButton_alt,
-  ATHOSButton_default,
-  ATHOSButton_disabled,
-} from "./styled/styled";
+import { ATHOSButton_action, ATHOSButton_alt, ATHOSButton_default, ATHOSButton_disabled } from "./styled/styled";
 
 /**
  * A versatile button component with multiple styles (`default`, `alt`, `action`, `disabled`), customizable colors, and optional tooltip support.
@@ -43,40 +38,19 @@ export const ATHOSButton = (props: ATHOSButtonProps) => {
       switch (type) {
         case "default":
           return (
-            <ATHOSButton_default
-              ref={ref}
-              small={small}
-              color={color}
-              textColor={textColor}
-              style={style}
-              onClick={onClick}
-            >
+            <ATHOSButton_default ref={ref} small={small} color={color} textColor={textColor} style={style} onClick={onClick}>
               {children}
             </ATHOSButton_default>
           );
         case "alt":
           return (
-            <ATHOSButton_alt
-              ref={ref}
-              small={small}
-              color={color}
-              textColor={textColor}
-              style={style}
-              onClick={onClick}
-            >
+            <ATHOSButton_alt ref={ref} small={small} color={color} textColor={textColor} style={style} onClick={onClick}>
               {children}
             </ATHOSButton_alt>
           );
         case "action":
           return (
-            <ATHOSButton_action
-              ref={ref}
-              small={small}
-              color={color}
-              textColor={textColor}
-              style={style}
-              onClick={onClick}
-            >
+            <ATHOSButton_action ref={ref} small={small} color={color} textColor={textColor} style={style} onClick={onClick}>
               {children}
             </ATHOSButton_action>
           );
@@ -84,9 +58,5 @@ export const ATHOSButton = (props: ATHOSButtonProps) => {
     }
   };
 
-  return tooltip ? (
-    <ATHOSTooltip content={tooltip}>{(ref) => Bttn(ref)}</ATHOSTooltip>
-  ) : (
-    Bttn()
-  );
+  return tooltip ? <ATHOSTooltip content={tooltip}>{(ref) => Bttn(ref)}</ATHOSTooltip> : Bttn();
 };

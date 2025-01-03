@@ -4,23 +4,13 @@ import { SelectedDataTrackOptI } from "../ASM/Options/Option/interfaces";
 import { ATHOSSideMenuProps } from "../interfaces";
 import { ATHOSSideMenuContextProps } from "./interfaces";
 
-const ATHOSSideMenuContext = createContext<ATHOSSideMenuContextProps | null>(
-  null
-);
-const ATHOSSideMenuProvider = ({
-  children,
-  props,
-}: {
-  children: React.ReactNode;
-  props: ATHOSSideMenuProps;
-}) => {
+const ATHOSSideMenuContext = createContext<ATHOSSideMenuContextProps | null>(null);
+const ATHOSSideMenuProvider = ({ children, props }: { children: React.ReactNode; props: ATHOSSideMenuProps }) => {
   const dropId = "athos-side-menu-drop-area";
   const [hideMenu, setHideMenu] = useState(false);
   const [editing, setEditing] = useState(false);
 
-  const [selectedDataTrack, setSelectedData] = useState<
-    SelectedDataTrackOptI[]
-  >(
+  const [selectedDataTrack, setSelectedData] = useState<SelectedDataTrackOptI[]>(
     props.options.map((dt) => {
       const index = v4();
       return {
@@ -148,9 +138,7 @@ const ATHOSSideMenuProvider = ({
 const useATHOSSideMenu = () => {
   const context = useContext(ATHOSSideMenuContext);
   if (!context) {
-    throw new Error(
-      "useATHOSSideMenu must be used within a ATHOSSideMenuProvider"
-    );
+    throw new Error("useATHOSSideMenu must be used within a ATHOSSideMenuProvider");
   }
   return context;
 };

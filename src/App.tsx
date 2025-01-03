@@ -123,19 +123,19 @@ const TestPage = () => {
     >
       {/*  <Categorias_Modal /> */}
       <ATHOSDynamicTable
-        //resizeable
+        resizeable
         autoLockHeight
         wrapperClassName="h-4/5"
         tableWrapperClassName="h-[50vh]"
+        boldHeader
         //persistPrimaryColumn={false}
-        /*  persistPrimaryColumn={{
-          backgroundColor: ATHOSColors.white.eggshell,
+        persistPrimaryColumn={{
+          backgroundColor: ATHOSColors.white.eggshell_faded,
           borderColor: ATHOSColors.aqua.default,
-        }} */
+        }}
         extraColumns={[
           {
-            showCondition: (data) =>
-              parseFloat(data.currency.replace("$", "")) > 3000,
+            showCondition: (data) => parseFloat(data.currency.replace("$", "")) > 3000,
             component: (data) => (
               <ATHOSButton small type="alt" color="#cf1e94">
                 Fazer Peça
@@ -181,16 +181,10 @@ const TestPage = () => {
           },
         }}
         data={tableData}
-        columnsToShow={[
-          "country",
-          "address",
-          "phone",
-          "currency",
-          "name",
-          "region",
-        ]}
-        paddingBetweenCells={10}
-        paddingHeader={15}
+        columnsToShow={["country", "address", "phone", "currency", "name", "region"]}
+        spacingBetweenCells={10}
+        spacingBetweenColumns={14}
+        spacingHeader={15}
         colConfig={{
           name: { label: "Name" },
           address: {
@@ -210,9 +204,7 @@ const TestPage = () => {
               setTableData((prev) => {
                 //remove selectedData from tableData
                 return prev.filter((data) => {
-                  return !selectedData.some(
-                    (selected) => selected.id === data.id
-                  );
+                  return !selectedData.some((selected) => selected.id === data.id);
                 });
               });
             },
@@ -224,9 +216,7 @@ const TestPage = () => {
                 console.log("others function", selectedData);
                 const td = [...tableData];
                 const newTd = td.filter((data) => {
-                  return !selectedData.some(
-                    (selected) => selected.id === data.id
-                  );
+                  return !selectedData.some((selected) => selected.id === data.id);
                 });
                 //console.log(newTd);
                 setTableData(newTd);
@@ -238,9 +228,7 @@ const TestPage = () => {
                 console.log("others function", selectedData);
                 const td = [...tableData];
                 const newTd = td.filter((data) => {
-                  return !selectedData.some(
-                    (selected) => selected.id === data.id
-                  );
+                  return !selectedData.some((selected) => selected.id === data.id);
                 });
                 //console.log(newTd);
                 setTableData(newTd);

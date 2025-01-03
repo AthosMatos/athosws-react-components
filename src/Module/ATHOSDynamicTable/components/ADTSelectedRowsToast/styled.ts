@@ -1,9 +1,6 @@
 import styled from "styled-components";
 import { ATHOSColors } from "../../../colors/colors";
-import {
-  generateColorShades,
-  getContrastColor,
-} from "../../../utils/color-utils";
+import { generateColorShades, getContrastColor } from "../../../utils/color-utils";
 
 export const ADTBRDSimple = styled.div<{ w: number; h: number }>`
   width: ${(props) => props.w}px;
@@ -57,8 +54,7 @@ export const ADTSRTIconWrapper = styled.div<{ backColor: string; pad: number }>`
   border-radius: 6px;
   cursor: pointer;
   background-color: ${(props) => props.backColor};
-  /* outline: 1px solid ${(props) =>
-    generateColorShades(props.backColor).dark}; */
+  /* outline: 1px solid ${(props) => generateColorShades(props.backColor).dark}; */
   user-select: none;
   box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.2);
   transition: all 0.14s;

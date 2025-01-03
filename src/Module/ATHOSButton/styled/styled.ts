@@ -12,13 +12,8 @@ interface ButtonsProps {
 
 export const ATHOSButton_default = styled.div<ButtonsProps>`
   background-color: ${(props) => props.color || "white"};
-  outline: 0.1rem solid
-    ${(props) =>
-      props.color
-        ? generateColorShades(props.color).darker
-        : ATHOSColors.grey.default};
-  color: ${(props) =>
-    props.textColor || getContrastColor(props.color || "white")};
+  outline: 0.1rem solid ${(props) => (props.color ? generateColorShades(props.color).darker : ATHOSColors.grey.default)};
+  color: ${(props) => props.textColor || getContrastColor(props.color || "white")};
 
   ${ATHOSButton_dftprops}
   ${(props) =>
@@ -33,8 +28,7 @@ export const ATHOSButton_default = styled.div<ButtonsProps>`
 export const ATHOSButton_alt = styled.div<ButtonsProps>`
   background-color: ${(props) => props.color || "black"};
   outline: none;
-  color: ${(props) =>
-    props.textColor || getContrastColor(props.color || "black")};
+  color: ${(props) => props.textColor || getContrastColor(props.color || "black")};
 
   ${ATHOSButton_dftprops}
   ${(props) =>
@@ -47,14 +41,8 @@ export const ATHOSButton_alt = styled.div<ButtonsProps>`
 `;
 export const ATHOSButton_action = styled.div<ButtonsProps>`
   background-color: ${(props) => props.color || ATHOSColors.aqua.default};
-  outline: 0.1rem solid
-    ${(props) =>
-      props.color
-        ? generateColorShades(props.color).darker
-        : ATHOSColors.aqua.dark};
-  color: ${(props) =>
-    props.textColor ||
-    getContrastColor(props.color || ATHOSColors.aqua.default)};
+  outline: 0.1rem solid ${(props) => (props.color ? generateColorShades(props.color).darker : ATHOSColors.aqua.dark)};
+  color: ${(props) => props.textColor || getContrastColor(props.color || ATHOSColors.aqua.default)};
 
   ${ATHOSButton_dftprops}
   ${(props) =>
@@ -66,19 +54,14 @@ export const ATHOSButton_action = styled.div<ButtonsProps>`
   ${ATHOSButton_dftanim}
 
     &:hover {
-    background-color: ${(props) =>
-      props.color
-        ? generateColorShades(props.color).dark
-        : ATHOSColors.aqua.default_2};
+    background-color: ${(props) => (props.color ? generateColorShades(props.color).dark : ATHOSColors.aqua.default_2)};
   }
 `;
 
 export const ATHOSButton_disabled = styled.div<ButtonsProps>`
   background-color: ${(props) => props.color || ATHOSColors.grey.default};
   outline: none;
-  color: ${(props) =>
-    props.textColor ||
-    getContrastColor(props.color || ATHOSColors.grey.default)};
+  color: ${(props) => props.textColor || getContrastColor(props.color || ATHOSColors.grey.default)};
 
   ${ATHOSButton_dftprops}
   ${(props) =>

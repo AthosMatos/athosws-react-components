@@ -1,16 +1,9 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { ATHOSColors } from "../../../../colors/colors";
-import {
-  generateColorShades,
-  getContrastColor,
-} from "../../../../utils/color-utils";
+import { generateColorShades, getContrastColor } from "../../../../utils/color-utils";
 import { useATHOSSideMenu } from "../../../context/context";
-import {
-  ASMSOWProps,
-  ASMSubOptionsWrapperProps,
-  ASMSubOptionWrapperProps,
-} from "./interfaces";
+import { ASMSOWProps, ASMSubOptionsWrapperProps, ASMSubOptionWrapperProps } from "./interfaces";
 export const suboptheight = "2.4rem";
 export const ASMSubOptionLabel = styled.label`
   font-size: 1rem;
@@ -76,13 +69,8 @@ export const ASMSubOptionWrapper = (props: ASMSubOptionWrapperProps) => {
     hideMenu,
   } = useATHOSSideMenu();
 
-  const [backColor, setBackColor] = useState(
-    colorConfig?.backColor || "transparent"
-  );
-  const [textColor, setTextColor] = useState(
-    colorConfig?.textColor ||
-      (colors.background ? getContrastColor(colors.background) : "black")
-  );
+  const [backColor, setBackColor] = useState(colorConfig?.backColor || "transparent");
+  const [textColor, setTextColor] = useState(colorConfig?.textColor || (colors.background ? getContrastColor(colors.background) : "black"));
   const [isOver, setIsOver] = useState(false);
   const [scale, setScale] = useState(1);
 
@@ -92,13 +80,9 @@ export const ASMSubOptionWrapper = (props: ASMSubOptionWrapperProps) => {
 
   const setHoverColor = () => {
     if (clicked) {
-      const dftColor = colors.primary
-        ? generateColorShades(colors.primary).darker
-        : ATHOSColors.red.darker;
+      const dftColor = colors.primary ? generateColorShades(colors.primary).darker : ATHOSColors.red.darker;
       setBackColor(colorConfig?.hover?.clicked?.backColor || dftColor);
-      setTextColor(
-        colorConfig?.hover?.clicked?.textColor || getContrastColor(dftColor)
-      );
+      setTextColor(colorConfig?.hover?.clicked?.textColor || getContrastColor(dftColor));
     } else {
       console.log("hover");
       const dftColor = colors.accent ?? ATHOSColors.grey.light;
@@ -112,19 +96,12 @@ export const ASMSubOptionWrapper = (props: ASMSubOptionWrapperProps) => {
       setHoverColor();
     } else {
       if (clicked) {
-        const dftColor = colors.primary
-          ? generateColorShades(colors.primary).default
-          : ATHOSColors.red.default;
+        const dftColor = colors.primary ? generateColorShades(colors.primary).default : ATHOSColors.red.default;
         setBackColor(colorConfig?.clicked?.backColor || dftColor);
-        setTextColor(
-          colorConfig?.clicked?.textColor || getContrastColor(dftColor)
-        );
+        setTextColor(colorConfig?.clicked?.textColor || getContrastColor(dftColor));
       } else {
         setBackColor(colorConfig?.backColor || "transparent");
-        setTextColor(
-          colorConfig?.textColor ||
-            (colors.background ? getContrastColor(colors.background) : "black")
-        );
+        setTextColor(colorConfig?.textColor || (colors.background ? getContrastColor(colors.background) : "black"));
       }
     }
   }, [clicked, isOver]);

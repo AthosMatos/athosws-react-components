@@ -119,6 +119,4 @@ export interface ATHOSSideMenuOverlayProps extends ATHOSSideMenuBaseProps {
   overlayStyle?: React.CSSProperties;
 }
 
-export type ATHOSSideMenuProps =
-  | ATHOSSideMenuNoOverlayProps
-  | ATHOSSideMenuOverlayProps;
+export type ATHOSSideMenuProps = ATHOSSideMenuNoOverlayProps | ATHOSSideMenuOverlayProps;

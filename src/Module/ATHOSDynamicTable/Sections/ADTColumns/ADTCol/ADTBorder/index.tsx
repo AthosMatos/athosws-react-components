@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { ATHOSColors } from "../../../../../colors/colors";
 import { useADTBorder } from "./useBorder";
 
-export const BRD = styled.div<{ active?: boolean }>`
+export const BRD = styled.div`
   width: 1px;
   height: 100%;
   background-color: ${ATHOSColors.grey.light};
@@ -18,10 +18,10 @@ const BRDWrapper = styled.div`
   cursor: e-resize;
 `;
 const ADTBorder = ({ colID }: { colID: string }) => {
-  const { id, wrapperid } = useADTBorder(colID);
+  const { wrapperid } = useADTBorder(colID);
   return (
     <BRDWrapper id={wrapperid}>
-      <BRD id={id} />
+      <BRD />
     </BRDWrapper>
   );
 };

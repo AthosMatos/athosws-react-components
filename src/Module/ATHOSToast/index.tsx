@@ -58,9 +58,7 @@ const ATHOSToast = memo(
               }}
               initial={{
                 opacity: 0,
-                transform: `translate3d(0, ${
-                  position.includes("top") ? -100 : 100
-                }%, 0)`,
+                transform: `translate3d(0, ${position.includes("top") ? -100 : 100}%, 0)`,
               }}
               animate={{
                 opacity: 1,
@@ -68,9 +66,7 @@ const ATHOSToast = memo(
               }}
               exit={{
                 opacity: 0,
-                transform: `translate3d(0, ${
-                  position.includes("top") ? -100 : 100
-                }%, 0)`,
+                transform: `translate3d(0, ${position.includes("top") ? -100 : 100}%, 0)`,
               }}
               id={toastID}
             >

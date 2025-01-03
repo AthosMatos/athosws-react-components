@@ -3,13 +3,7 @@ import { Draggable } from "react-beautiful-dnd";
 import { ATHOSColors } from "../../../../colors/colors";
 import { getContrastColor } from "../../../../utils/color-utils";
 import { useATHOSSideMenu } from "../../../context/context";
-import {
-  ASMArrowDown,
-  ASMIconWrapper,
-  ASMLabelIconWrapper,
-  defaulIconSize,
-  IconlessLabel,
-} from "../../../styled";
+import { ASMArrowDown, ASMIconWrapper, ASMLabelIconWrapper, defaulIconSize, IconlessLabel } from "../../../styled";
 import { ASMSubOptionsWrapper, suboptheight } from "../SubOption/styled";
 import { ASMOptionProps } from "./interfaces";
 import { ASMOptionContainer, ASMOptionLabel, ASMOptionWrapper } from "./styled";
@@ -32,8 +26,7 @@ const ASMOption = ({ option, children, index }: ASMOptionProps) => {
   const childrenHeight = useMemo(() => {
     const childrenAmount = (children as any)?.length;
     const halfGap = "0.2rem";
-    if (isOpen)
-      return `calc((${suboptheight} * ${childrenAmount}) + ${halfGap})`;
+    if (isOpen) return `calc((${suboptheight} * ${childrenAmount}) + ${halfGap})`;
     return "0px";
   }, [isOpen]);
 
@@ -91,10 +84,7 @@ const ASMOption = ({ option, children, index }: ASMOptionProps) => {
             {children && !hideMenu && <ASMArrowDown clicked={isOpen} />}
           </ASMOptionWrapper>
           {children && !hideMenu && (
-            <ASMSubOptionsWrapper
-              ChildrenHeight={childrenHeight}
-              isOpen={isOpen}
-            >
+            <ASMSubOptionsWrapper ChildrenHeight={childrenHeight} isOpen={isOpen}>
               {children}
             </ASMSubOptionsWrapper>
           )}

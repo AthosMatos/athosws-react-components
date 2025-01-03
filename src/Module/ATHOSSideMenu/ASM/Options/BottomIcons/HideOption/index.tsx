@@ -1,11 +1,7 @@
 import { ReactNode } from "react";
 import { IconType } from "react-icons";
 import { useATHOSSideMenu } from "../../../../context/context";
-import {
-  ASMBottomIconOptionWrapper,
-  ASMIconWrapper,
-  defaulIconSize,
-} from "../../../../styled";
+import { ASMBottomIconOptionWrapper, ASMIconWrapper, defaulIconSize } from "../../../../styled";
 
 interface ASMOptionProps {
   Icon: IconType | ReactNode;

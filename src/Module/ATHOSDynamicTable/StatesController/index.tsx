@@ -1,16 +1,11 @@
-import { useEffect, useMemo } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useMemo, useState } from "react";
+import { useDispatch } from "react-redux";
 import { v4 } from "uuid";
-import { ColumnsIds, DynamicTableProps } from "../interfaces";
-import {
-  setColH,
-  setColsTRId,
-  setColumnsIDs,
-  setTotalItems,
-} from "../redux/CustomStates/provider";
+import { DynamicTableProps } from "../interfaces";
+import { setColH, setColsTRId, setTotalItems } from "../redux/CustomStates/provider";
+import { setBeingMoved, setFilteredData, setFirstOpen } from "../redux/Paging/provider";
 import { ADTPropsState } from "../redux/props/interfaces";
 import { fillADTProps } from "../redux/props/provider";
-import { setFilteredData } from "../redux/Paging/provider";
 
 //check if data values have id
 const fillIds = (data: any[]) => {
@@ -22,32 +17,25 @@ const fillIds = (data: any[]) => {
   });
 };
 
-export function ADTStatesController<T>({
-  props,
-}: {
-  props: DynamicTableProps<T>;
-}) {
-  const { data, columnsToHide, columnsToShow, paddingHeader, tableStyle } =
-    props;
+export function ADTStatesController<T>({ props, tableWrapperId }: { props: DynamicTableProps<T>; tableWrapperId: string }) {
+  const { data, columnsToHide, columnsToShow, spacingHeader: paddingHeader, tableStyle } = props;
   const dispatch = useDispatch();
 
   const columns = useMemo(() => {
     if (columnsToHide) {
-      return Object.keys(data[0] as object).filter(
-        (column) => !columnsToHide.includes(column as keyof T)
-      ) as (keyof T)[];
+      return Object.keys(data[0] as object).filter((column) => !columnsToHide.includes(column as keyof T)) as (keyof T)[];
     } else if (columnsToShow) {
       return columnsToShow;
     } else return Object.keys(data[0] as object) as (keyof T)[];
   }, [columnsToHide, columnsToShow, data]);
 
-  useEffect(() => {
+  /* useEffect(() => {
     const columnsIDs = columns.reduce((acc, column) => {
       acc[column] = `${column as string}-${v4().toString()}`;
       return acc;
     }, {} as ColumnsIds<T>);
     dispatch(setColumnsIDs(columnsIDs));
-  }, [columns]);
+  }, [columns]); */
 
   const [colsTRId] = useMemo(() => [v4()], []);
 
@@ -61,6 +49,10 @@ export function ADTStatesController<T>({
     if (data.length) {
       dispatch(setTotalItems(data.length));
       dispatch(setFilteredData(data));
+      dispatch(setBeingMoved(data.map((d: any) => d.id)));
+      setTimeout(() => {
+        dispatch(setFirstOpen(false));
+      }, 100);
     }
   }, [data]);
 
@@ -76,8 +68,7 @@ export function ADTStatesController<T>({
       const pr: ADTPropsState<any> = {
         ...props,
         persistPrimaryColumn: props.persistPrimaryColumn ?? true,
-        autoLockHeight:
-          props.autoLockHeight != undefined ? props.autoLockHeight : true,
+        autoLockHeight: props.autoLockHeight != undefined ? props.autoLockHeight : true,
         columns,
         tableStyle: {
           ...tableStyle,
@@ -87,4 +78,36 @@ export function ADTStatesController<T>({
       dispatch(fillADTProps(pr));
     }
   }, [columns]);
+
+  const [hasXScroll, setHasXScroll] = useState(false);
+
+  useEffect(() => {
+    if (!props.persistPrimaryColumn) return;
+    const tableWrapper = document.getElementById(tableWrapperId);
+
+    if (!tableWrapper) return;
+
+    function hasScroll(element: HTMLElement) {
+      return element.scrollWidth > element.clientWidth;
+    }
+
+    const observerCallback: ResizeObserverCallback = (entries: ResizeObserverEntry[]) => {
+      window.requestAnimationFrame((): void | undefined => {
+        if (!Array.isArray(entries) || !entries.length) {
+          return;
+        }
+        if (tableWrapper && hasScroll(tableWrapper)) {
+          setHasXScroll(true);
+        } else {
+          setHasXScroll(false);
+        }
+      });
+    };
+    const resizeObserver = new ResizeObserver(observerCallback);
+
+    resizeObserver.observe(tableWrapper);
+    return () => {
+      resizeObserver.disconnect();
+    };
+  }, [tableWrapperId]);
 }

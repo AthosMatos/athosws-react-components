@@ -2,10 +2,7 @@ import { useEffect, useState } from "react";
 import { DraggableProvided } from "react-beautiful-dnd";
 import styled from "styled-components";
 import { ATHOSColors } from "../../../../colors/colors";
-import {
-  generateColorShades,
-  getContrastColor,
-} from "../../../../utils/color-utils";
+import { generateColorShades, getContrastColor } from "../../../../utils/color-utils";
 import { useATHOSSideMenu } from "../../../context/context";
 import { ASMOptionWrapperProps, ASMOWProps } from "./interfaces";
 
@@ -122,15 +119,7 @@ export const ASMOW = styled.div<ASMOWProps>`
 */
 
 export const ASMOptionWrapper = (props: ASMOptionWrapperProps) => {
-  const {
-    clicked,
-    hasSelectedChildren,
-    hasChildren,
-    children,
-    onClick,
-    label,
-    colorConfig,
-  } = props;
+  const { clicked, hasSelectedChildren, hasChildren, children, onClick, label, colorConfig } = props;
 
   const {
     props: { colors },
@@ -142,54 +131,28 @@ export const ASMOptionWrapper = (props: ASMOptionWrapperProps) => {
 
   //todo create a autocolor generate when theres only primary and/or accent colors
 
-  const [backColor, setBackColor] = useState(
-    colorConfig?.backColor || "transparent"
-  );
-  const [textColor, setTextColor] = useState(
-    colorConfig?.textColor ||
-      (colors.background ? getContrastColor(colors.background) : "black")
-  );
+  const [backColor, setBackColor] = useState(colorConfig?.backColor || "transparent");
+  const [textColor, setTextColor] = useState(colorConfig?.textColor || (colors.background ? getContrastColor(colors.background) : "black"));
   const [isOver, setIsOver] = useState(false);
   const [scale, setScale] = useState(1);
 
   const setHoverColor = () => {
     if (clicked) {
       if (hasSelectedChildren) {
-        const dftColor = colors.primary
-          ? generateColorShades(colors.primary).darker
-          : ATHOSColors.red.darker;
-        setBackColor(
-          colorConfig?.hover?.clicked?.hasSelectedChildren?.backColor ||
-            dftColor
-        );
-        setTextColor(
-          colorConfig?.hover?.clicked?.hasSelectedChildren?.textColor ||
-            getContrastColor(dftColor)
-        );
+        const dftColor = colors.primary ? generateColorShades(colors.primary).darker : ATHOSColors.red.darker;
+        setBackColor(colorConfig?.hover?.clicked?.hasSelectedChildren?.backColor || dftColor);
+        setTextColor(colorConfig?.hover?.clicked?.hasSelectedChildren?.textColor || getContrastColor(dftColor));
       } else if (hasChildren) {
-        const dftColor = colors.accent
-          ? generateColorShades(colors.accent).dark
-          : ATHOSColors.grey.dark;
-        setBackColor(
-          colorConfig?.hover?.clicked?.hasChildren?.backColor || dftColor
-        );
-        setTextColor(
-          colorConfig?.hover?.clicked?.hasChildren?.textColor ||
-            getContrastColor(dftColor)
-        );
+        const dftColor = colors.accent ? generateColorShades(colors.accent).dark : ATHOSColors.grey.dark;
+        setBackColor(colorConfig?.hover?.clicked?.hasChildren?.backColor || dftColor);
+        setTextColor(colorConfig?.hover?.clicked?.hasChildren?.textColor || getContrastColor(dftColor));
       } else {
-        const dftColor = colors.primary
-          ? generateColorShades(colors.primary).dark
-          : ATHOSColors.red.dark;
+        const dftColor = colors.primary ? generateColorShades(colors.primary).dark : ATHOSColors.red.dark;
         setBackColor(colorConfig?.hover?.clicked?.backColor || dftColor);
-        setTextColor(
-          colorConfig?.hover?.clicked?.textColor || getContrastColor(dftColor)
-        );
+        setTextColor(colorConfig?.hover?.clicked?.textColor || getContrastColor(dftColor));
       }
     } else {
-      const dftColor = colors.accent
-        ? generateColorShades(colors.accent).default
-        : ATHOSColors.grey.light;
+      const dftColor = colors.accent ? generateColorShades(colors.accent).default : ATHOSColors.grey.light;
       setBackColor(colorConfig?.hover?.backColor || dftColor);
       setTextColor(colorConfig?.hover?.textColor || getContrastColor(dftColor));
     }
@@ -202,43 +165,22 @@ export const ASMOptionWrapper = (props: ASMOptionWrapperProps) => {
       if (clicked) {
         if (hasChildren) {
           if (hasSelectedChildren) {
-            const dftColor = colors.primary
-              ? generateColorShades(colors.primary).dark
-              : ATHOSColors.red.dark;
-            setBackColor(
-              colorConfig?.clicked?.hasSelectedChildren?.backColor || dftColor
-            );
-            setTextColor(
-              colorConfig?.clicked?.hasSelectedChildren?.textColor ||
-                getContrastColor(dftColor)
-            );
+            const dftColor = colors.primary ? generateColorShades(colors.primary).dark : ATHOSColors.red.dark;
+            setBackColor(colorConfig?.clicked?.hasSelectedChildren?.backColor || dftColor);
+            setTextColor(colorConfig?.clicked?.hasSelectedChildren?.textColor || getContrastColor(dftColor));
           } else {
-            const dftColor = colors.accent
-              ? generateColorShades(colors.accent).light
-              : ATHOSColors.grey.light;
-            setBackColor(
-              colorConfig?.clicked?.hasChildren?.backColor || dftColor
-            );
-            setTextColor(
-              colorConfig?.clicked?.hasChildren?.textColor ||
-                getContrastColor(dftColor)
-            );
+            const dftColor = colors.accent ? generateColorShades(colors.accent).light : ATHOSColors.grey.light;
+            setBackColor(colorConfig?.clicked?.hasChildren?.backColor || dftColor);
+            setTextColor(colorConfig?.clicked?.hasChildren?.textColor || getContrastColor(dftColor));
           }
         } else {
-          const dftColor = colors.primary
-            ? generateColorShades(colors.primary).default
-            : ATHOSColors.red.default;
+          const dftColor = colors.primary ? generateColorShades(colors.primary).default : ATHOSColors.red.default;
           setBackColor(colorConfig?.clicked?.backColor || dftColor);
-          setTextColor(
-            colorConfig?.clicked?.textColor || getContrastColor(dftColor)
-          );
+          setTextColor(colorConfig?.clicked?.textColor || getContrastColor(dftColor));
         }
       } else {
         setBackColor(colorConfig?.backColor || "transparent");
-        setTextColor(
-          colorConfig?.textColor ||
-            (colors.background ? getContrastColor(colors.background) : "black")
-        );
+        setTextColor(colorConfig?.textColor || (colors.background ? getContrastColor(colors.background) : "black"));
       }
     }
   }, [clicked, isOver, hasSelectedChildren, hasChildren]);
@@ -283,11 +225,9 @@ const ASMOC = styled.div<{
 }>`
   margin: 0.2rem 0rem;
   transition: box-shadow 0.2s;
-  box-shadow: ${({ editing, backColor }) =>
-    editing ? `0 0 0 1px ${generateColorShades(backColor).darker}` : "none"};
+  box-shadow: ${({ editing, backColor }) => (editing ? `0 0 0 1px ${generateColorShades(backColor).darker}` : "none")};
   border-radius: 0.3rem;
-  background-color: ${({ editing, backColor }) =>
-    editing ? backColor : "transparent"};
+  background-color: ${({ editing, backColor }) => (editing ? backColor : "transparent")};
 
   //if editing is true animate infinity a up and down effect (floating)
 `;
@@ -341,7 +281,6 @@ export const ASMOptionLabel = styled.label<{
   transition: opacity 0.2s;
 
   opacity: ${({ hide }) => (hide ? "0" : "1")};
-  position: ${({ hide, hasIcon }) =>
-    hide && !hasIcon ? "absolute" : "relative"};
+  position: ${({ hide, hasIcon }) => (hide && !hasIcon ? "absolute" : "relative")};
   display: ${({ hide }) => (hide ? "none" : "block")};
 `;

@@ -6,7 +6,10 @@ const initialState: PagingState = {
   searchFilter: "",
   page: 1,
   pageSize: 5,
+  movingPage: false,
+  beingMoved: [],
   goingForward: false,
+  firstOpen: true,
 };
 
 const Slice = createSlice({
@@ -28,10 +31,7 @@ const Slice = createSlice({
       const filtered = data
         ?.filter((row) => {
           return Object.values(row).some((value: any) => {
-            return value
-              .toString()
-              .toLowerCase()
-              .includes(searchFilter.toLowerCase());
+            return value.toString().toLowerCase().includes(searchFilter.toLowerCase());
           });
         })
         .slice(start, end);
@@ -48,14 +48,17 @@ const Slice = createSlice({
         data: any[];
       }>
     ) => {
-      const { to, totalPages, page, canGoBack, canGoForward, data } =
-        action.payload;
+      // if (state.movingPage) return;
+
+      const { to, totalPages, page, canGoBack, canGoForward, data } = action.payload;
       if (typeof to === "number" && to > 0 && to <= totalPages && to !== page) {
         state.page = to;
-
+        state.movingPage = true;
         const start = (to - 1) * state.pageSize;
         const end = start + state.pageSize;
-        state.filteredData = data.slice(start, end);
+        const filter = data.slice(start, end);
+        state.beingMoved = filter.map((row) => row.id);
+        state.filteredData = filter;
         if (to < page) {
           state.goingForward = false;
         }
@@ -67,21 +70,21 @@ const Slice = createSlice({
       if ((to === "next" && !canGoForward) || (to === "prev" && !canGoBack)) {
         return;
       }
+      let start = 0;
       if (to === "next") {
-        const start = state.page * state.pageSize;
-        const end = start + state.pageSize;
-        state.filteredData = data.slice(start, end);
-        state.page += 1;
-
+        start = state.page * state.pageSize;
         state.goingForward = true;
-      } else if (to === "prev") {
-        const start = (state.page - 2) * state.pageSize;
-        const end = start + state.pageSize;
-        state.filteredData = data.slice(start, end);
-        state.page -= 1;
-
+        state.page += 1;
+      } else {
+        start = (state.page - 2) * state.pageSize;
         state.goingForward = false;
+        state.page -= 1;
       }
+      const end = start + state.pageSize;
+      const filter = data.slice(start, end);
+      state.beingMoved = filter.map((row) => row.id);
+      state.filteredData = filter;
+      state.movingPage = true;
     },
     changePageSize: (state, action: PayloadAction<PageSizesType>) => {
       state.pageSize = action.payload;
@@ -92,12 +95,20 @@ const Slice = createSlice({
       const end = start + state.pageSize;
       state.filteredData = action.payload.slice(start, end);
     },
+    setMovingPage: (state, action: PayloadAction<boolean>) => {
+      state.movingPage = action.payload;
+    },
+    setFirstOpen: (state, action: PayloadAction<boolean>) => {
+      state.firstOpen = action.payload;
+    },
+    setBeingMoved: (state, action: PayloadAction<string[]>) => {
+      state.beingMoved = action.payload;
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { filterBySearch, setFilteredData, movePage, changePageSize } =
-  Slice.actions;
+export const { filterBySearch, setFilteredData, movePage, setBeingMoved, changePageSize, setFirstOpen, setMovingPage } = Slice.actions;
 
 const ADTPagingReducer = Slice.reducer;
 

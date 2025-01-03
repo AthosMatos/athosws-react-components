@@ -1,9 +1,4 @@
-import {
-  DragDropContext,
-  Droppable,
-  DropResult,
-  ResponderProvided,
-} from "react-beautiful-dnd";
+import { DragDropContext, Droppable, DropResult, ResponderProvided } from "react-beautiful-dnd";
 import { reorder } from "../../utils/sort-utils";
 
 import { useATHOSSideMenu } from "../context/context";
@@ -27,11 +22,7 @@ export const ASM = () => {
       return;
     }
     if (res.source.droppableId === res.destination.droppableId) {
-      const newItems = reorder<SelectedDataTrackOptI>(
-        selectedDataTrack,
-        res.source.index,
-        res.destination.index
-      );
+      const newItems = reorder<SelectedDataTrackOptI>(selectedDataTrack, res.source.index, res.destination.index);
 
       setSelectedData(newItems);
       onReorder && onReorder(newItems);
@@ -54,13 +45,7 @@ export const ASM = () => {
               {selectedDataTrack.map((option, index) => (
                 <ASMOption key={option.id} index={index} option={option}>
                   {option.subOptions &&
-                    option.subOptions.map((subOption) => (
-                      <ASMSubOption
-                        key={subOption.id}
-                        subopt={subOption}
-                        parentId={option.id}
-                      />
-                    ))}
+                    option.subOptions.map((subOption) => <ASMSubOption key={subOption.id} subopt={subOption} parentId={option.id} />)}
                 </ASMOption>
               ))}
             </ASMWrapper>

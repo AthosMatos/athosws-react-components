@@ -56,8 +56,7 @@ export const ASMExtraContainer = styled.div<{ accentColor: string }>`
   height: 100%;
   overflow-y: auto;
   overflow-x: hidden;
-  outline: 1px solid
-    ${({ accentColor }) => generateColorShades(accentColor).light};
+  outline: 1px solid ${({ accentColor }) => generateColorShades(accentColor).light};
 `;
 
 export const ASMC = styled.div<{ width: string }>`
@@ -111,10 +110,8 @@ export const ASMIconWrapper = styled.div<{ iconSize: number | string }>`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: ${({ iconSize }) =>
-    typeof iconSize === "number" ? `${iconSize}rem ` : iconSize};
-  height: ${({ iconSize }) =>
-    typeof iconSize === "number" ? `${iconSize}rem ` : iconSize};
+  width: ${({ iconSize }) => (typeof iconSize === "number" ? `${iconSize}rem ` : iconSize)};
+  height: ${({ iconSize }) => (typeof iconSize === "number" ? `${iconSize}rem ` : iconSize)};
 
   pointer-events: none;
 `;

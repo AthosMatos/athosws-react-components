@@ -12,15 +12,7 @@ import { ADDLabel, ADDWrapper } from "./styled";
  *
  */
 
-const ATHOSDropDown = ({
-  children,
-  isOpen,
-  onClose,
-  position = "top",
-  id = v4(),
-  labels,
-  style,
-}: ATHOSDropDownProps) => {
+const ATHOSDropDown = ({ children, isOpen, onClose, position = "top", id = v4(), labels, style }: ATHOSDropDownProps) => {
   const [Root, setRoot] = useState<HTMLElement | null>(null);
   const [firstopen, setfirstOpen] = useState(true);
   const childRef = useRef<HTMLDivElement>(null);
@@ -54,11 +46,7 @@ const ATHOSDropDown = ({
         ReactDOM.createPortal(
           <AnimatePresence>
             {(isOpen || firstopen) && (
-              <ADDWrapper
-                ref={dropdownRef}
-                style={style}
-                animate={{ opacity: firstopen ? 0 : 1 }}
-              >
+              <ADDWrapper ref={dropdownRef} style={style} animate={{ opacity: firstopen ? 0 : 1 }}>
                 {labels.map((label) => (
                   <ADDLabel onClick={label.onClick}>{label.label}</ADDLabel>
                 ))}

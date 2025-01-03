@@ -1,11 +1,5 @@
 import { ReactNode } from "react";
-import {
-  DragDropContext,
-  Draggable,
-  Droppable,
-  DropResult,
-  ResponderProvided,
-} from "react-beautiful-dnd";
+import { DragDropContext, Draggable, Droppable, DropResult, ResponderProvided } from "react-beautiful-dnd";
 import styled from "styled-components";
 import { ATHOSColors } from "../colors/colors";
 
@@ -53,14 +47,7 @@ const JCText = styled.label`
   text-align: center;
 `;
 
-const ATHOSCard = ({
-  id,
-  index,
-  title,
-  component,
-  wrapperStyle,
-  globalCardWrapperStyle,
-}: ATHOSCardProps) => {
+const ATHOSCard = ({ id, index, title, component, wrapperStyle, globalCardWrapperStyle }: ATHOSCardProps) => {
   return (
     <Draggable draggableId={id} index={index}>
       {(provided) => (
@@ -107,21 +94,11 @@ const JCGroupWrapper = styled.div`
   width: fit-content;
 `;
 
-const ATHOSCardGroup = ({
-  id,
-  title,
-  children,
-  style,
-  globalCardWrapperStyle,
-}: ATHOSCardGroupProps) => {
+const ATHOSCardGroup = ({ id, title, children, style, globalCardWrapperStyle }: ATHOSCardGroupProps) => {
   return (
     <Droppable droppableId={id}>
       {(provided) => (
-        <JCGroupWrapper
-          ref={provided.innerRef}
-          style={style}
-          {...provided.droppableProps}
-        >
+        <JCGroupWrapper ref={provided.innerRef} style={style} {...provided.droppableProps}>
           <h2
             style={{
               fontSize: "1.5rem",
@@ -132,12 +109,7 @@ const ATHOSCardGroup = ({
             {title}
           </h2>
           {children.map((card, index) => (
-            <ATHOSCard
-              globalCardWrapperStyle={globalCardWrapperStyle}
-              key={card.id}
-              {...card}
-              index={index}
-            />
+            <ATHOSCard globalCardWrapperStyle={globalCardWrapperStyle} key={card.id} {...card} index={index} />
           ))}
           {provided.placeholder}
         </JCGroupWrapper>
@@ -185,26 +157,12 @@ const ATHOSCards = ({
     }
 
     if (res.source.droppableId === res.destination.droppableId) {
-      const newItems = reorder(
-        boards.find((board) => board.id === res.source.droppableId)?.items,
-        res.source.index,
-        res.destination.index
-      );
+      const newItems = reorder(boards.find((board) => board.id === res.source.droppableId)?.items, res.source.index, res.destination.index);
 
-      updateBoards(
-        boards.map((board) =>
-          board.id === res.source.droppableId
-            ? { ...board, items: newItems }
-            : board
-        )
-      );
+      updateBoards(boards.map((board) => (board.id === res.source.droppableId ? { ...board, items: newItems } : board)));
     } else {
-      const source = boards.find(
-        (board) => board.id === res.source.droppableId
-      );
-      const destination = boards.find(
-        (board) => board.id === res.destination?.droppableId
-      );
+      const source = boards.find((board) => board.id === res.source.droppableId);
+      const destination = boards.find((board) => board.id === res.destination?.droppableId);
       if (!source || !destination) return;
       const sourceItems = Array.from(source.items);
       const destinationItems = Array.from(destination.items);

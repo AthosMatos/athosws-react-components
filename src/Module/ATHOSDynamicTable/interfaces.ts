@@ -73,6 +73,7 @@ type ResizableConfig = {
 };
 
 export type DynamicTableProps<T> = {
+  boldHeader?: boolean;
   wrapperClassName?: string;
   tableWrapperClassName?: string;
   tableClassName?: string;
@@ -85,10 +86,10 @@ export type DynamicTableProps<T> = {
   columnsToHide?: (keyof T)[];
   columnsToShow?: (keyof T)[];
   style?: React.CSSProperties;
-  paddingBetweenCells?: number;
-  paddingHeader?: number;
-  paddingBetweenColumns?: number;
-  paddingBetweenExtraColumns?: number;
+  spacingBetweenCells?: number;
+  spacingHeader?: number;
+  spacingBetweenColumns?: number;
+  spacingBetweenExtraColumns?: number;
   selectedRowsTooltip?: SelectedRowsTooltipI<T>;
   extraColumns?: ExtraColumnsI<T>[];
   startShort?: StartShortI<T> | boolean;

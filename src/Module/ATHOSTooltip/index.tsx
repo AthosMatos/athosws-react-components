@@ -8,14 +8,7 @@ import { ATHOSTooltipProps } from "./interface";
 import { ATTooltipWrapper } from "./styled";
 
 export const ATHOSTooltip = (props: ATHOSTooltipProps) => {
-  const {
-    children,
-    id = v4(),
-    forceOpen,
-    position = "top",
-    followCursor,
-    content,
-  } = props;
+  const { children, id = v4(), forceOpen, position = "top", followCursor, content } = props;
   const [open, setOpen] = useState(false);
   const [firstopen, setfirstOpen] = useState(true);
   const [Root, setRoot] = useState<HTMLElement | null>(null);
@@ -68,11 +61,7 @@ export const ATHOSTooltip = (props: ATHOSTooltipProps) => {
         ReactDOM.createPortal(
           <AnimatePresence>
             {(forceOpen || open || firstopen) && (
-              <ATTooltipWrapper
-                style={props.style}
-                animate={{ opacity: firstopen ? 0 : 1 }}
-                ref={tooltipRef}
-              >
+              <ATTooltipWrapper style={props.style} animate={{ opacity: firstopen ? 0 : 1 }} ref={tooltipRef}>
                 {content}
               </ATTooltipWrapper>
             )}

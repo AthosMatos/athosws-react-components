@@ -5,12 +5,12 @@ import ADTColumns from "../Sections/ADTColumns";
 import { ADTBody, ADTHeader, ADTTable } from "../styled";
 
 const Table = ({ tableWrapperId }: { tableWrapperId: string }) => {
-  const { tableClassName, tableWrapperClassName } = useSelector(
-    (state: ADTState) => state.ADTPropsReducer
-  );
+  const tableClassName = useSelector((state: ADTState) => state.ADTPropsReducer.tableClassName);
+  const tableWrapperClassName = useSelector((state: ADTState) => state.ADTPropsReducer.tableWrapperClassName);
+
   return (
     <div
-      className={`rounded-md border p-2  border-gray-300 min-w-fit overflow-x-clip ${tableWrapperClassName}`}
+      className={`rounded-md border p-2  border-gray-300 ${tableWrapperClassName}`}
       style={{
         overflowY: "overlay" as any,
       }}

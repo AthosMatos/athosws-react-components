@@ -1,47 +1,78 @@
-import { memo, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { memo, useEffect, useRef, useState } from "react";
 import { FaSearch } from "react-icons/fa";
-import { MdTune } from "react-icons/md";
-import { IconWrapper } from "../IconWrapper";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { filterBySearch } from "../../../redux/Paging/provider";
-import { useSelector } from "react-redux";
 import { ADTState } from "../../../redux/store";
+import { IconWrapper } from "../IconWrapper";
 
-const Search = () => {
+interface SInputProps {
+  onChange: (event: any) => void;
+  wRef?: any;
+}
+/* 
+${
+    openSearch
+      ? `w-2/5 max-w-[300px] px-2 focus:bg-gray-100 
+  bg-gray-50 border
+   border-gray-200 opacity-100`
+      : "hidden"
+  }
+*/
+const SInput = ({ onChange, wRef }: SInputProps) => (
+  <motion.input
+    ref={wRef}
+    placeholder="Search"
+    onChange={onChange}
+    className={`rounded-md outline-none h-9 bg-transparent max-w-[300px] focus:bg-gray-100 bg-gray-50 border
+   border-gray-200`}
+    initial={{ width: 0, opacity: 0, paddingLeft: 0, paddingRight: 0 }}
+    animate={{ width: "66%", opacity: 1, paddingLeft: "0.5rem", paddingRight: "0.5rem" }}
+    exit={{ width: 0, opacity: 0, paddingLeft: 0, paddingRight: 0 }}
+    transition={{
+      duration: 0.53,
+      ease: "easeOut",
+    }}
+  />
+);
+
+const ADTSearch = () => {
   const [openSearch, setOpenSearch] = useState(false);
   const dispatch = useDispatch();
   const toggleSearch = () => {
     setOpenSearch(!openSearch);
   };
-  const { data } = useSelector((state: ADTState) => state.ADTPropsReducer);
+  const data = useSelector((state: ADTState) => state.ADTPropsReducer.data);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (openSearch) {
+      inputRef.current?.focus();
+    }
+  }, [openSearch]);
+
   return (
-    <div className="flex gap-1 text-gray-400 select-none flex-1 justify-end">
-      <IconWrapper>
-        <MdTune className="text-2xl" />
-      </IconWrapper>
-      <input
-        onChange={(event) =>
-          dispatch(
-            filterBySearch({
-              data,
-              searchFilter: event.target.value,
-            })
-          )
-        }
-        className={`rounded-md outline-none transition-all duration-500 w-0 p-0 h-9 opacity-0
-        ${
-          openSearch
-            ? `w-2/5 max-w-[300px] px-2 focus:bg-gray-100 
-        bg-gray-50 border
-         border-gray-200 opacity-100`
-            : ""
-        }`}
-      />
-      <IconWrapper onClick={toggleSearch}>
+    <>
+      <AnimatePresence>
+        {openSearch && (
+          <SInput
+            wRef={inputRef}
+            onChange={(event) =>
+              dispatch(
+                filterBySearch({
+                  data,
+                  searchFilter: event.target.value,
+                })
+              )
+            }
+          />
+        )}
+      </AnimatePresence>
+      <IconWrapper open={openSearch} onClick={toggleSearch}>
         <FaSearch className="text-lg" />
       </IconWrapper>
-    </div>
+    </>
   );
 };
 
-export default memo(Search);
+export default memo(ADTSearch);

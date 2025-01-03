@@ -1,42 +1,19 @@
 import { ATHOSColors } from "../colors/colors";
 import useResizableDiv from "./hooks";
 import { ResizableDivProps } from "./interfaces";
-import {
-  RDContainer,
-  RDDot,
-  RDPreWrapper,
-  RDResizeIcon,
-  RDWrapper,
-} from "./styled";
+import { RDContainer, RDDot, RDPreWrapper, RDResizeIcon, RDWrapper } from "./styled";
 
 export const ATHOSResizableDiv = (props: ResizableDivProps) => {
-  const { Height, Width, divName, borderName, setToogle, toogle } =
-    useResizableDiv(props);
+  const { Height, Width, divName, borderName, setToogle, toogle } = useResizableDiv(props);
   return props.disabled ? (
-    <RDWrapper
-      matchChildSize={props.matchChildSize || props.disabled}
-      style={props.style}
-      className={props.className}
-    >
+    <RDWrapper matchChildSize={props.matchChildSize || props.disabled} style={props.style} className={props.className}>
       {props.children}
     </RDWrapper>
   ) : (
     <RDPreWrapper withToogle={props.withToogle}>
-      {props.withToogle && (
-        <RDResizeIcon toogle={toogle} onClick={() => setToogle(!toogle)} />
-      )}
-      <RDContainer
-        width={Width}
-        height={Height}
-        id={divName}
-        className={props.outerClassName}
-        style={props.OuterContainerStyle}
-      >
-        <RDWrapper
-          matchChildSize={props.matchChildSize}
-          className={props.className}
-          style={props.style}
-        >
+      {props.withToogle && <RDResizeIcon toogle={toogle} onClick={() => setToogle(!toogle)} />}
+      <RDContainer width={Width} height={Height} id={divName} className={props.outerClassName} style={props.OuterContainerStyle}>
+        <RDWrapper matchChildSize={props.matchChildSize} className={props.className} style={props.style}>
           {props.children}
         </RDWrapper>
 

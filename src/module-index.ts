@@ -12,17 +12,9 @@ export { ATHOSToast } from "./Module/ATHOSToast";
 export { ATHOSTooltip } from "./Module/ATHOSTooltip";
 /* Utils */
 
-export {
-  generateColorShades,
-  getContrastColor,
-} from "./Module/utils/color-utils";
+export { generateColorShades, getContrastColor } from "./Module/utils/color-utils";
 
-export {
-  adaptSize,
-  convertRemToPixels,
-  getUnitWithoutValue,
-  getValueWithoutUnit,
-} from "./Module/utils/measure-utils";
+export { adaptSize, convertRemToPixels, getUnitWithoutValue, getValueWithoutUnit } from "./Module/utils/measure-utils";
 
 export { ATHOSColors } from "./Module/colors/colors";
 

@@ -20,6 +20,4 @@ interface DisabledATHOSButtonProps {
   textColor?: string;
 }
 
-export type ATHOSButtonProps =
-  | DisabledATHOSButtonProps
-  | EnabledATHOSButtonProps;
+export type ATHOSButtonProps = DisabledATHOSButtonProps | EnabledATHOSButtonProps;

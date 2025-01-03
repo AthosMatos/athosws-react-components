@@ -24,8 +24,7 @@ const Slice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { setCheckState, setSelectedRows, setSelectedRowsToastOpen } =
-  Slice.actions;
+export const { setCheckState, setSelectedRows, setSelectedRowsToastOpen } = Slice.actions;
 
 const ADTSelectReducer = Slice.reducer;
 

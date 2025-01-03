@@ -22,6 +22,7 @@ export const ATHOSColors = {
   },
   white: {
     eggshell: "#F3F3F3",
+    eggshell_faded: "#f3f3f3be",
   },
   black: {
     coal: "#242424",

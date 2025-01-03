@@ -1,22 +1,14 @@
 import { useDispatch, useSelector } from "react-redux";
 import { ADTState } from "../store";
-import {
-  setCheckState,
-  setSelectedRows,
-  setSelectedRowsToastOpen,
-} from "./provider";
+import { setCheckState, setSelectedRows, setSelectedRowsToastOpen } from "./provider";
 
 export const useADTSelect = () => {
   const dispatch = useDispatch();
-  const { totalItems } = useSelector(
-    (state: ADTState) => state.ADTCustomStatesReducer
-  );
-  const { pageSize, page } = useSelector(
-    (state: ADTState) => state.ADTPagingReducer
-  );
-  const { selectedRows, checkState } = useSelector(
-    (state: ADTState) => state.ADTSelectReducer
-  );
+  const totalItems = useSelector((state: ADTState) => state.ADTCustomStatesReducer.totalItems);
+  const page = useSelector((state: ADTState) => state.ADTPagingReducer.page);
+  const pageSize = useSelector((state: ADTState) => state.ADTPagingReducer.pageSize);
+  const selectedRows = useSelector((state: ADTState) => state.ADTSelectReducer.selectedRows);
+  const checkState = useSelector((state: ADTState) => state.ADTSelectReducer.checkState);
 
   const checkAll = (dataAmount: number) => {
     dispatch(setSelectedRows(Array.from({ length: dataAmount }, (_, i) => i)));
@@ -30,9 +22,9 @@ export const useADTSelect = () => {
 
   const pageCheck = () => {
     const currPageA = Math.abs((page - 1) * pageSize - totalItems);
-    console.log("currPageA", currPageA);
+
     const currPageAmount = currPageA < pageSize ? currPageA : pageSize;
-    console.log("currPageAmount", currPageAmount);
+
     /*  const divAmount = currPageAmount % pageSize;
     console.log("pageCheck", divAmount); */
     dispatch(
@@ -67,9 +59,7 @@ export const useADTSelect = () => {
   const checkCellClick = (rr: number) => {
     const row = rr + (page - 1) * pageSize;
     // console.log("row", row);
-    const newSelectedRows = selectedRows.includes(row)
-      ? selectedRows.filter((r) => r !== row)
-      : [...selectedRows, row];
+    const newSelectedRows = selectedRows.includes(row) ? selectedRows.filter((r) => r !== row) : [...selectedRows, row];
     dispatch(setSelectedRows(newSelectedRows));
   };
 

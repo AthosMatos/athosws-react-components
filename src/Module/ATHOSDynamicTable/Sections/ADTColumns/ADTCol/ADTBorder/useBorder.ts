@@ -3,32 +3,43 @@ import { useSelector } from "react-redux";
 import { v4 } from "uuid";
 import { ADTState } from "../../../../redux/store";
 
+type TableType = {
+  [key: string]: {
+    colWidths: { [key: string]: number };
+  };
+};
+const ComponentName = "AthosDynamicTable";
+
 export const useADTBorder = (colID: string) => {
+  const paddingBetweenColumns = useSelector((state: ADTState) => state.ADTPropsReducer.spacingBetweenColumns);
+  const tableName = useSelector((state: ADTState) => state.ADTPropsReducer.tableName);
+
   const wrapperid = v4();
-  const id = v4();
 
   //const [doubleClicked, setDoubleClicked] = useState(false);
 
-  const { paddingBetweenColumns } = useSelector(
-    (state: ADTState) => state.ADTPropsReducer
-  );
+  const getSavedWidths = () => {
+    const ComponentData = localStorage.getItem(ComponentName);
+    if (ComponentData) {
+      const parsedTD = JSON.parse(ComponentData) as TableType;
+      return parsedTD[tableName].colWidths;
+    }
+    return null;
+  };
+
+  const saveWidths = () => {};
 
   useEffect(() => {
     const BRDWrapperDiv = document.getElementById(wrapperid);
-    const BRD = document.getElementById(id);
     const ColDivs = document.querySelectorAll(`[id="${colID}"]`);
 
-    if (!BRDWrapperDiv || !ColDivs.length || !BRD) return;
+    if (!BRDWrapperDiv || !ColDivs.length) return;
 
     const handleMove = (pageX: number) => {
       const BRDWrapperDivRect = BRDWrapperDiv.getBoundingClientRect();
       const ColDivRect = ColDivs[0].getBoundingClientRect();
       const ColDivWidth = ColDivRect.width;
-      const Plus = Math.round(
-        pageX -
-          (BRDWrapperDivRect.right +
-            (paddingBetweenColumns ? paddingBetweenColumns * 2 - 5 : 8))
-      ); //+20 to centralize in the cursor
+      const Plus = Math.round(pageX - (BRDWrapperDivRect.right + (paddingBetweenColumns ? paddingBetweenColumns * 2 - 5 : 8))); //+20 to centralize in the cursor
       const newWidth = ColDivWidth + Plus;
       ColDivs.forEach((col) => {
         (col as HTMLElement).style.width = `${newWidth}px`;
@@ -76,5 +87,5 @@ export const useADTBorder = (colID: string) => {
   }, []);
   //}, [wrapperid, id, colID, paddingBetweenColumns]);
 
-  return { wrapperid, id };
+  return { wrapperid };
 };

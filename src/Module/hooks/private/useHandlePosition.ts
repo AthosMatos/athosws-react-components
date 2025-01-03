@@ -23,10 +23,8 @@ export const useHandlePosition_F = ({
 
     const screenHeight = window.innerHeight;
     const topPlusTT = childRect.top - tooltipRect.height - gap;
-    const bottomPlusTT =
-      screenHeight - childRect.bottom - tooltipRect.height - gap;
-    const leftPlusTT =
-      childRect.left - tooltipRect.width / 2 + childRect.width / 2;
+    const bottomPlusTT = screenHeight - childRect.bottom - tooltipRect.height - gap;
+    const leftPlusTT = childRect.left - tooltipRect.width / 2 + childRect.width / 2;
 
     const compensateX = mousePageX - tooltipRect.width / 2;
     const compensateY = mousePageY - tooltipRect.height + gap;
@@ -70,10 +68,8 @@ export const useHandlePosition_F = ({
 
     const screenHeight = window.innerHeight;
     const topPlusTT = childRect.top - tooltipRect.height - gap;
-    const bottomPlusTT =
-      screenHeight - childRect.bottom - tooltipRect.height - gap;
-    const leftPlusTT =
-      childRect.left - tooltipRect.width / 2 + childRect.width / 2;
+    const bottomPlusTT = screenHeight - childRect.bottom - tooltipRect.height - gap;
+    const leftPlusTT = childRect.left - tooltipRect.width / 2 + childRect.width / 2;
 
     if (position) {
       switch (position) {
@@ -149,10 +145,8 @@ export const useHandlePosition_NF = ({
 
     const screenHeight = window.innerHeight;
     const topPlusTT = childRect.top - tooltipRect.height - gap;
-    const bottomPlusTT =
-      screenHeight - childRect.bottom - tooltipRect.height - gap;
-    const leftPlusTT =
-      childRect.left - tooltipRect.width / 2 + childRect.width / 2;
+    const bottomPlusTT = screenHeight - childRect.bottom - tooltipRect.height - gap;
+    const leftPlusTT = childRect.left - tooltipRect.width / 2 + childRect.width / 2;
 
     if (position) {
       switch (position) {

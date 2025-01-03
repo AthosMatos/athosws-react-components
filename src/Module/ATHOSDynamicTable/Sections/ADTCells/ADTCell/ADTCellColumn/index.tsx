@@ -1,116 +1,75 @@
-import { memo, useMemo } from "react";
-import { useSelector } from "react-redux";
+import { memo } from "react";
 import { ATHOSTooltip } from "../../../../../ATHOSTooltip";
-import { ATHOSColors } from "../../../../../colors/colors";
-import { ADTState } from "../../../../redux/store";
-import { ADTCellWrapper, borderStyle, bWidth } from "../../../../styled";
-import CellExitWrapper, { cellWrapperAnim } from "../ADTCellExitWrapper";
+import { ADTCellWrapper } from "../../../../styled";
+import { getCellWrapperStyle, tdClassName } from "../../../consts";
+import CellExitWrapper from "../ADTCellExitWrapper";
 import { ADTCellColumnProps } from "./interfaces";
 import useADTCellCol from "./useADTCellCol";
+import useSelectors_ADTCellColumn from "./useSelectors";
 
-const ADTCellColumn = ({
-  row,
-  column,
-  rowIndex,
-  index,
-  isLast,
-}: ADTCellColumnProps) => {
+const ADTCellColumn = ({ row, column, rowIndex, index, isLast }: ADTCellColumnProps) => {
   const {
     columns,
     colConfig,
-    globalConfig,
-    startShort,
-    tableStyle,
+
     paddingBetweenColumns,
     paddingBetweenCells,
     persistPrimaryColumn,
-  } = useSelector((state: ADTState) => state.ADTPropsReducer);
+  } = useSelectors_ADTCellColumn();
 
-  const { columnsIDs } = useSelector(
-    (state: ADTState) => state.ADTCustomStatesReducer
-  );
-
-  const { rowValue, textColor, touch, showTooltip } = useADTCellCol({
-    colConfig,
-    columns,
-    globalConfig,
+  const { rowValue, textColor, touch, showTooltip, persistStyle } = useADTCellCol({
     column,
-    columnsIDs,
-    index,
     row,
     rowIndex,
-    startShort,
-    tableStyle,
+    index,
+    isLast,
   });
 
-  const persistStyle = useMemo(() => {
-    if (persistPrimaryColumn && index === 0) {
-      const obj = {} as any;
-      if (typeof persistPrimaryColumn == "boolean") {
-        obj["backgroundColor"] = ATHOSColors.white.eggshell;
-      } else {
-        if (persistPrimaryColumn.backgroundColor) {
-          obj["backgroundColor"] = persistPrimaryColumn.backgroundColor;
-        }
-        if (persistPrimaryColumn.borderColor) {
-          obj["borderRightColor"] = persistPrimaryColumn.borderColor;
-          obj["borderRightWidth"] = bWidth;
-          obj["borderRightStyle"] = borderStyle;
+  const cellWrapperProps = {
+    id: `${columns[index]} - ${rowIndex} -${index}`,
+    className: `${tdClassName(index, persistPrimaryColumn)} ${isLast ? "rounded-ee-md" : ""}`,
+    style: {
+      color: textColor,
+      ...persistStyle,
+      ...getCellWrapperStyle({
+        //bRightLeft: true,
 
-          if (isLast) {
-            obj["borderBottomColor"] = persistPrimaryColumn.borderColor;
-            obj["borderBottomWidth"] = bWidth;
-            obj["borderBottomStyle"] = borderStyle;
-          }
-        }
-      }
-      return obj;
-    }
-  }, [persistPrimaryColumn]);
-  const tdClassName = `${
-    persistPrimaryColumn && index === 0
-      ? `
-        sticky left-[${
-          (persistPrimaryColumn as any)?.borderColor ? "2rem" : "1.8rem"
-        }]`
-      : ""
-  } ${isLast ? "rounded-ee-md" : ""}`;
+        paddingHorizontal: index !== 0 ? paddingBetweenColumns : undefined,
+        vertPad: paddingBetweenCells && paddingBetweenCells / 2,
+        bRight: true,
+      }),
+    },
+  };
 
   return (
     <ADTCellWrapper
-      id={`${columns[index]} - ${rowIndex} -${index}`}
-      className={tdClassName}
-      paddingHorizontal={paddingBetweenColumns}
-      vertPad={paddingBetweenCells && paddingBetweenCells / 2}
-      bRightLeft
-      style={{
-        color: textColor,
-        ...persistStyle,
-      }}
-      {...cellWrapperAnim}
+      persistent={!!persistPrimaryColumn}
+      {...cellWrapperProps}
+      /* variants={movingPage ? undefined : DefaultVariants}
+      exit={"unPad"} */
     >
-      {showTooltip ? (
-        <ATHOSTooltip
-          style={{
-            maxWidth: "200px",
-          }}
-          followCursor
-          content={row[column]}
-          forceOpen={touch}
-        >
-          {(ref) => (
-            <CellExitWrapper wref={ref}>
-              {colConfig && colConfig[column]?.cellComponent
-                ? colConfig[column]?.cellComponent!(row[column])
-                : rowValue}
-            </CellExitWrapper>
-          )}
-        </ATHOSTooltip>
-      ) : colConfig && colConfig[column]?.cellComponent ? (
-        colConfig[column]?.cellComponent!(row[column])
-      ) : (
-        <CellExitWrapper>{rowValue}</CellExitWrapper>
-      )}
+      <CellExitWrapper>
+        {showTooltip ? (
+          <ATHOSTooltip
+            style={{
+              maxWidth: "200px",
+            }}
+            followCursor
+            content={row[column]}
+            forceOpen={touch}
+          >
+            {(ref) => (
+              <div ref={ref}>
+                {colConfig && colConfig[column]?.cellComponent ? colConfig[column]?.cellComponent!(row[column]) : rowValue}
+              </div>
+            )}
+          </ATHOSTooltip>
+        ) : colConfig && colConfig[column]?.cellComponent ? (
+          colConfig[column]?.cellComponent!(row[column])
+        ) : (
+          rowValue
+        )}
+      </CellExitWrapper>
     </ADTCellWrapper>
   );
 };

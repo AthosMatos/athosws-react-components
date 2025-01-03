@@ -3,13 +3,7 @@ import { CheckState } from "../../redux/Select/interfaces";
 import { ADTCheckBoxProps } from "./interfaces";
 import { ADTCheckBoxWrapper, ADTCheckIcon, ADTDoubleCheckIcon } from "./styled";
 
-const ADTCheckBox = ({
-  checked,
-  check,
-  big,
-  clicable,
-  highlightColor,
-}: ADTCheckBoxProps) => {
+const ADTCheckBox = ({ checked, check, big, clicable, highlightColor }: ADTCheckBoxProps) => {
   const Check = useMemo(() => {
     switch (checked) {
       case CheckState.ALL:
@@ -26,13 +20,7 @@ const ADTCheckBox = ({
   }, [checked]);
 
   return (
-    <ADTCheckBoxWrapper
-      clicable={clicable}
-      big={big}
-      highlightColor={highlightColor!}
-      checkedState={checked}
-      onClick={check}
-    >
+    <ADTCheckBoxWrapper clicable={clicable} big={big} highlightColor={highlightColor!} checkedState={checked} onClick={check}>
       {Check}
     </ADTCheckBoxWrapper>
   );

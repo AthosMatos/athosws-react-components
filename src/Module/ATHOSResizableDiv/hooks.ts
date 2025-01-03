@@ -3,11 +3,7 @@ import { v4 } from "uuid";
 import { ResizableDivProps } from "./interfaces";
 import { defaultBorder, highlightBorder } from "./styled";
 
-const useResizableDiv = ({
-  resizableConers: res,
-  saveInLocalStorage,
-  withToogle,
-}: ResizableDivProps) => {
+const useResizableDiv = ({ resizableConers: res, saveInLocalStorage, withToogle }: ResizableDivProps) => {
   const resizableConers = res ?? {
     top: false,
     right: true,

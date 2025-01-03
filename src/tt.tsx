@@ -77,17 +77,10 @@ const Categorias_Modal = () => {
   };
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <div
-        ref={scrollDivRef}
-        className="w-[calc(100vw/3)] overflow-x-hidden h-screen"
-      >
+      <div ref={scrollDivRef} className="w-[calc(100vw/3)] overflow-x-hidden h-screen">
         <Droppable droppableId="droppable">
           {(provided, snapshot) => (
-            <div
-              {...provided.droppableProps}
-              ref={provided.innerRef}
-              style={getListStyle(snapshot.isDraggingOver)}
-            >
+            <div {...provided.droppableProps} ref={provided.innerRef} style={getListStyle(snapshot.isDraggingOver)}>
               {items.map((item, index) => (
                 <Draggable key={item.id} draggableId={item.id} index={index}>
                   {(provided, snapshot) => (
@@ -95,10 +88,7 @@ const Categorias_Modal = () => {
                       ref={provided.innerRef}
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}
-                      style={getItemStyle(
-                        snapshot.isDragging,
-                        provided.draggableProps.style,
-                      )}
+                      style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}
                     >
                       {item.content}
                     </div>

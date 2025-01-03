@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, Variants } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 
 const variants: Variants = {
   deleted: {
@@ -166,10 +166,7 @@ const TestComponent = () => {
 
   return (
     <div className="m-10">
-      <div
-        style={{ height: rowHeight }}
-        className={`border border-black overflow-hidden`}
-      >
+      <div style={{ height: rowHeight }} className={`border border-black overflow-hidden`}>
         <div ref={tableRef}>
           <table>
             <thead>

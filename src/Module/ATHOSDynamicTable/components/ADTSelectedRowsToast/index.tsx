@@ -1,30 +1,18 @@
 import { useEffect, useState } from "react";
 import { IoClose, IoMenu } from "react-icons/io5";
-import { useSelector } from "react-redux";
 import { ATHOSDropDown } from "../../../ATHOSDropDown";
 import { ATHOSToast } from "../../../ATHOSToast";
 import { useADTSelect } from "../../redux/Select/hook";
-import { ADTState } from "../../redux/store";
 import ADTCheckBox from "../ADTCheckBox";
-import {
-  ADTATWrapper,
-  ADTBRDSimple,
-  ADTSRTFSWrapper,
-  ADTSRTIconWrapper,
-  ADTSRTLabel,
-  ADTSRTMainFunc,
-} from "./styled";
+import { ADTATWrapper, ADTBRDSimple, ADTSRTFSWrapper, ADTSRTIconWrapper, ADTSRTLabel, ADTSRTMainFunc } from "./styled";
+import useSelectors_ADTSelectedRowsToast from "./useSelectors";
 
 const ADTSelectedRowsToast = () => {
   const [openDropDown, setOpenDropDown] = useState(false);
-  const { selectedRows, selectedRowsToastOpen, checkState } = useSelector(
-    (state: ADTState) => state.ADTSelectReducer
-  );
-  const { tableStyle, tableName, selectedRowsTooltip, data } = useSelector(
-    (state: ADTState) => state.ADTPropsReducer
-  );
-  const { uncheckAll, openSelectedRowsToast, closeSelectedRowsToast } =
-    useADTSelect();
+  const { selectedRows, selectedRowsToastOpen, checkState, tableStyle, selectedRowsTooltip, data, tableName } =
+    useSelectors_ADTSelectedRowsToast();
+
+  const { uncheckAll, openSelectedRowsToast, closeSelectedRowsToast } = useADTSelect();
 
   const onDismiss = () => {
     setOpenDropDown(false);
@@ -62,22 +50,17 @@ const ADTSelectedRowsToast = () => {
         <ADTSRTLabel>{tableName}</ADTSRTLabel>
         <ADTBRDSimple w={1} h={20} />
 
-        {(selectedRowsTooltip?.mainFunc ||
-          selectedRowsTooltip?.secondaryFunc ||
-          selectedRowsTooltip?.othersFunc) && (
+        {(selectedRowsTooltip?.mainFunc || selectedRowsTooltip?.secondaryFunc || selectedRowsTooltip?.othersFunc) && (
           <ADTSRTFSWrapper>
             {selectedRowsTooltip?.mainFunc && (
               <ADTSRTMainFunc
                 onClick={() => {
                   onDismiss();
-                  selectedRowsTooltip.mainFunc!.onClick(
-                    selectedRows.map((index) => data[index])
-                  );
+                  selectedRowsTooltip.mainFunc!.onClick(selectedRows.map((index) => data[index]));
                 }}
                 highlightColor={tableStyle?.highlightColor!}
               >
-                {selectedRowsTooltip.mainFunc.icon ??
-                  selectedRowsTooltip.mainFunc.label}
+                {selectedRowsTooltip.mainFunc.icon ?? selectedRowsTooltip.mainFunc.label}
               </ADTSRTMainFunc>
             )}
             {selectedRowsTooltip?.secondaryFunc && (
@@ -86,13 +69,10 @@ const ADTSelectedRowsToast = () => {
                 backColor="#f3f3f3"
                 onClick={() => {
                   onDismiss();
-                  selectedRowsTooltip.secondaryFunc!.onClick(
-                    selectedRows.map((index) => data[index])
-                  );
+                  selectedRowsTooltip.secondaryFunc!.onClick(selectedRows.map((index) => data[index]));
                 }}
               >
-                {selectedRowsTooltip.secondaryFunc.label ??
-                  selectedRowsTooltip.secondaryFunc.icon}
+                {selectedRowsTooltip.secondaryFunc.label ?? selectedRowsTooltip.secondaryFunc.icon}
               </ADTSRTIconWrapper>
             )}
 
