@@ -117,7 +117,7 @@ const TestPage = () => {
       overlayStyle={{
         display: "flex",
         flexDirection: "row",
-        margin: "20px",
+        //margin: "20px",
         //backgroundColor: ATHOSColors.black.coal,
       }}
     >
@@ -128,16 +128,25 @@ const TestPage = () => {
         wrapperClassName="h-4/5"
         tableWrapperClassName="h-[50vh]"
         boldHeader
-        //persistPrimaryColumn={false}
-        persistPrimaryColumn={{
+        persistPrimaryColumn={false}
+        /* persistPrimaryColumn={{
           backgroundColor: ATHOSColors.white.eggshell_faded,
           borderColor: ATHOSColors.aqua.default,
-        }}
+        }} */
         extraColumns={[
           {
             showCondition: (data) => parseFloat(data.currency.replace("$", "")) > 3000,
             component: (data) => (
-              <ATHOSButton small type="alt" color="#cf1e94">
+              <ATHOSButton
+                onClick={() => {
+                  setTableData((prev) => {
+                    return prev.filter((d) => d.id !== data.id);
+                  });
+                }}
+                small
+                type="alt"
+                color="#cf1e94"
+              >
                 Fazer Peça
               </ATHOSButton>
             ),
@@ -162,7 +171,7 @@ const TestPage = () => {
             specific: {
               address: {
                 global: "green",
-                specificIndex: { indexes: [5, 6, 7], color: "red" },
+                specificIndex: { indexes: [0, 2, 4], color: "red" },
               },
               name: {
                 condional: {

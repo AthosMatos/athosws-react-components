@@ -5,8 +5,8 @@ import { setCheckState, setSelectedRows, setSelectedRowsToastOpen } from "./prov
 export const useADTSelect = () => {
   const dispatch = useDispatch();
   const totalItems = useSelector((state: ADTState) => state.ADTCustomStatesReducer.totalItems);
-  const page = useSelector((state: ADTState) => state.ADTPagingReducer.page);
-  const pageSize = useSelector((state: ADTState) => state.ADTPagingReducer.pageSize);
+  const page = useSelector((state: ADTState) => state.ADTFilteringReducer.page);
+  const pageSize = useSelector((state: ADTState) => state.ADTFilteringReducer.pageSize);
   const selectedRows = useSelector((state: ADTState) => state.ADTSelectReducer.selectedRows);
   const checkState = useSelector((state: ADTState) => state.ADTSelectReducer.checkState);
 

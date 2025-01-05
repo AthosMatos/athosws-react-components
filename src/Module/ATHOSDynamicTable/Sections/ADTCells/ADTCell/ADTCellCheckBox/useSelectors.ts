@@ -9,8 +9,8 @@ const useSelectors_ADTCellCheckBox = () => {
 
   const checkState = useSelector((state: ADTState) => state.ADTSelectReducer.checkState);
   const selectedRows = useSelector((state: ADTState) => state.ADTSelectReducer.selectedRows);
-  const pageSize = useSelector((state: ADTState) => state.ADTPagingReducer).pageSize;
-  const page = useSelector((state: ADTState) => state.ADTPagingReducer).page;
+  const pageSize = useSelector((state: ADTState) => state.ADTFilteringReducer).pageSize;
+  const page = useSelector((state: ADTState) => state.ADTFilteringReducer).page;
 
   return {
     paddingBetweenCells,

@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import ADTCustomStatesReducer from "./CustomStates/provider";
-import ADTPagingReducer from "./Paging/provider";
+import ADTFilteringReducer from "./Paging/provider";
 import ADTPropsReducer from "./props/provider";
 import ADTSelectReducer from "./Select/provider";
 
@@ -9,7 +9,7 @@ export const ADTStore = configureStore({
     ADTPropsReducer,
     ADTCustomStatesReducer: ADTCustomStatesReducer,
     ADTSelectReducer: ADTSelectReducer,
-    ADTPagingReducer: ADTPagingReducer,
+    ADTFilteringReducer: ADTFilteringReducer,
   },
 });
 

@@ -47,7 +47,7 @@ const ADTCellCheckBox = ({ rowIndex, isLast }: { rowIndex: number; isLast: boole
       style={{
         ...persistStyle,
         ...getCellWrapperStyle({
-          bLeft: true,
+          bLeft: !!persistPrimaryColumn,
           //paddingHorizontal: paddingBetweenColumns,
           vertPad: paddingBetweenCells && paddingBetweenCells / 2,
         }),

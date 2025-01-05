@@ -27,7 +27,7 @@ const SInput = ({ onChange, wRef }: SInputProps) => (
     className={`rounded-md outline-none h-9 bg-transparent max-w-[300px] focus:bg-gray-100 bg-gray-50 border
    border-gray-200`}
     initial={{ width: 0, opacity: 0, paddingLeft: 0, paddingRight: 0 }}
-    animate={{ width: "66%", opacity: 1, paddingLeft: "0.5rem", paddingRight: "0.5rem" }}
+    animate={{ width: "clamp(100px,66%,300px)", opacity: 1, paddingLeft: "0.5rem", paddingRight: "0.5rem" }}
     exit={{ width: 0, opacity: 0, paddingLeft: 0, paddingRight: 0 }}
     transition={{
       duration: 0.53,

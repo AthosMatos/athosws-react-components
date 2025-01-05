@@ -51,6 +51,12 @@ export const getContrastColor = (color: string) => {
   const chromaColor = chroma(color);
   return chromaColor.luminance() > 0.5 ? "black" : "white";
 };
+
+export const getContrastColorful = (color: string) => {
+  const chromaColor = chroma(color);
+  const shades = generateColorShades(color);
+  return chromaColor.luminance() > 0.5 ? shades.darker : shades.lighter;
+};
 export const getContrastColor_Multiple = (colors: string[]) => {
   const luminanceSum = colors.reduce((sum, color) => sum + chroma(color).luminance(), 0);
   const averageLuminance = luminanceSum / colors.length;

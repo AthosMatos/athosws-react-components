@@ -2,7 +2,7 @@ import { useSelector } from "react-redux";
 import { ADTState } from "../../../redux/store";
 
 const useSelectors_Info = () => {
-  const pageSize = useSelector((state: ADTState) => state.ADTPagingReducer.pageSize);
+  const pageSize = useSelector((state: ADTState) => state.ADTFilteringReducer.pageSize);
   const tableName = useSelector((state: ADTState) => state.ADTPropsReducer.tableName);
   const totalItems = useSelector((state: ADTState) => state.ADTCustomStatesReducer.totalItems);
 

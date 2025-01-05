@@ -1,9 +1,9 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo } from "react";
 import { useDispatch } from "react-redux";
 import { v4 } from "uuid";
 import { DynamicTableProps } from "../interfaces";
 import { setColH, setColsTRId, setTotalItems } from "../redux/CustomStates/provider";
-import { setBeingMoved, setFilteredData, setFirstOpen } from "../redux/Paging/provider";
+import { setFilteredColumns, setFilteredData } from "../redux/Paging/provider";
 import { ADTPropsState } from "../redux/props/interfaces";
 import { fillADTProps } from "../redux/props/provider";
 
@@ -49,10 +49,6 @@ export function ADTStatesController<T>({ props, tableWrapperId }: { props: Dynam
     if (data.length) {
       dispatch(setTotalItems(data.length));
       dispatch(setFilteredData(data));
-      dispatch(setBeingMoved(data.map((d: any) => d.id)));
-      setTimeout(() => {
-        dispatch(setFirstOpen(false));
-      }, 100);
     }
   }, [data]);
 
@@ -77,9 +73,15 @@ export function ADTStatesController<T>({ props, tableWrapperId }: { props: Dynam
       };
       dispatch(fillADTProps(pr));
     }
+  }, [columns, props]);
+
+  useEffect(() => {
+    if (columns?.length) {
+      dispatch(setFilteredColumns(columns));
+    }
   }, [columns]);
 
-  const [hasXScroll, setHasXScroll] = useState(false);
+  /* const [hasXScroll, setHasXScroll] = useState(false);
 
   useEffect(() => {
     if (!props.persistPrimaryColumn) return;
@@ -109,5 +111,5 @@ export function ADTStatesController<T>({ props, tableWrapperId }: { props: Dynam
     return () => {
       resizeObserver.disconnect();
     };
-  }, [tableWrapperId]);
+  }, [tableWrapperId]); */
 }

@@ -39,7 +39,7 @@ export const useADTBorder = (colID: string) => {
       const BRDWrapperDivRect = BRDWrapperDiv.getBoundingClientRect();
       const ColDivRect = ColDivs[0].getBoundingClientRect();
       const ColDivWidth = ColDivRect.width;
-      const Plus = Math.round(pageX - (BRDWrapperDivRect.right + (paddingBetweenColumns ? paddingBetweenColumns * 2 - 5 : 8))); //+20 to centralize in the cursor
+      const Plus = Math.round(pageX - (BRDWrapperDivRect.right - 4)); //-4 to centralize in the cursor
       const newWidth = ColDivWidth + Plus;
       ColDivs.forEach((col) => {
         (col as HTMLElement).style.width = `${newWidth}px`;

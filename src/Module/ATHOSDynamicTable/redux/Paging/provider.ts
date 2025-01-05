@@ -1,8 +1,9 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { PageSizesType, PagingState } from "./interfaces";
+import { PagingState as FilteringState, PageSizesType } from "./interfaces";
 
-const initialState: PagingState = {
+const initialState: FilteringState = {
   filteredData: [],
+  filteredColumns: [],
   searchFilter: "",
   page: 1,
   pageSize: 5,
@@ -10,6 +11,7 @@ const initialState: PagingState = {
   beingMoved: [],
   goingForward: false,
   firstOpen: true,
+  columnOrder: [],
 };
 
 const Slice = createSlice({
@@ -89,11 +91,14 @@ const Slice = createSlice({
     changePageSize: (state, action: PayloadAction<PageSizesType>) => {
       state.pageSize = action.payload;
     },
-
     setFilteredData: (state, action: PayloadAction<any[]>) => {
       const start = (state.page - 1) * state.pageSize;
       const end = start + state.pageSize;
       state.filteredData = action.payload.slice(start, end);
+    },
+    setFilteredColumns: (state, action: PayloadAction<any[]>) => {
+      state.filteredColumns = action.payload;
+      state.columnOrder = action.payload;
     },
     setMovingPage: (state, action: PayloadAction<boolean>) => {
       state.movingPage = action.payload;
@@ -104,12 +109,31 @@ const Slice = createSlice({
     setBeingMoved: (state, action: PayloadAction<string[]>) => {
       state.beingMoved = action.payload;
     },
+    filterColumn: (state, action: PayloadAction<string>) => {
+      if (state.filteredColumns.includes(action.payload)) {
+        state.filteredColumns = state.filteredColumns.filter((column) => column !== action.payload);
+      } else {
+        //based on the order of the columns
+        const index = state.columnOrder.indexOf(action.payload);
+        state.filteredColumns = [...state.filteredColumns.slice(0, index), action.payload, ...state.filteredColumns.slice(index)];
+      }
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { filterBySearch, setFilteredData, movePage, setBeingMoved, changePageSize, setFirstOpen, setMovingPage } = Slice.actions;
+export const {
+  filterBySearch,
+  setFilteredData,
+  movePage,
+  filterColumn,
+  setFilteredColumns,
+  setBeingMoved,
+  changePageSize,
+  setFirstOpen,
+  setMovingPage,
+} = Slice.actions;
 
-const ADTPagingReducer = Slice.reducer;
+const ADTFilteringReducer = Slice.reducer;
 
-export default ADTPagingReducer;
+export default ADTFilteringReducer;
