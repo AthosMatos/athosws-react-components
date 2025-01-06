@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { ADTState } from "../../../redux/store";
+import { ADTState } from "../../redux/store";
 
 const useSelectors_Info = () => {
   const pageSize = useSelector((state: ADTState) => state.ADTFilteringReducer.pageSize);

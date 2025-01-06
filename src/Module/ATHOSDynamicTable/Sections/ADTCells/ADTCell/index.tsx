@@ -1,5 +1,5 @@
 import { memo, useMemo } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { ADTState } from "../../../redux/store";
 import { ADTTR } from "../../../styled";
 import ADTCellCheckBox from "./ADTCellCheckBox";
@@ -27,7 +27,6 @@ const ADTCell = (props: ADTCellProps) => {
 
   const isLast = useMemo(() => rowIndex === pageSize - 1, [rowIndex, pageSize]);
 
-  const dispatch = useDispatch();
   return (
     <ADTTR layout="preserve-aspect" initial="initial" animate="animate" exit="exit" variants={variants} transition={{ duration: 0.1 }}>
       <ADTCellCheckBox isLast={isLast} rowIndex={rowIndex} />

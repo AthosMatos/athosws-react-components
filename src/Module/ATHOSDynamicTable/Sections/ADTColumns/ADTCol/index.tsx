@@ -5,10 +5,20 @@ import { ADTState } from "../../../redux/store";
 import { ADTColBorderWrapper, ADTColumnWrapper, borderStyle, bWidth } from "../../../styled";
 import { tdClassName } from "../../consts";
 import ADTBorder from "./ADTBorder";
-import useSelector_ADTCol from "./useSelector";
+import ColOrderFilter from "./ColOrderFilter";
 
 const ADTCol = ({ column, index }: { column: string; index: number }) => {
-  const { paddingBetweenColumns, persistPrimaryColumn, tableStyle, colConfig } = useSelector_ADTCol();
+  const { colConfig, persistPrimaryColumn, spacingBetweenColumns, tableStyle, boldHeader, paddingHeader, tableName } = useSelector(
+    (state: ADTState) => ({
+      spacingBetweenColumns: state.ADTPropsReducer.spacingBetweenColumns,
+      persistPrimaryColumn: state.ADTPropsReducer.persistPrimaryColumn,
+      tableStyle: state.ADTPropsReducer.tableStyle,
+      colConfig: state.ADTPropsReducer.colConfig,
+      tableName: state.ADTPropsReducer.tableName,
+      paddingHeader: state.ADTPropsReducer.spacingHeader,
+      boldHeader: state.ADTPropsReducer.boldHeader,
+    })
+  );
 
   const textColor = useMemo(() => {
     const globalColor = tableStyle?.columnTextColor?.global;
@@ -52,11 +62,7 @@ const ADTCol = ({ column, index }: { column: string; index: number }) => {
     }
   }, [persistPrimaryColumn]);
 
-  const tableName = useSelector((state: ADTState) => state.ADTPropsReducer.tableName);
-
   const id = `${tableName}-${column}-th`;
-  const paddingHeader = useSelector((state: ADTState) => state.ADTPropsReducer.spacingHeader);
-  const boldHeader = useSelector((state: ADTState) => state.ADTPropsReducer.boldHeader);
 
   return (
     <ADTColumnWrapper
@@ -67,13 +73,15 @@ const ADTCol = ({ column, index }: { column: string; index: number }) => {
        rounded-se-md`}
       style={persistStyle}
       id={id}
-      /*  pLeft={index === 0 && !!persistPrimaryColumn}
-      pRight={!!persistPrimaryColumn} */
-      paddingHorizontal={index > 0 ? paddingBetweenColumns : undefined}
+      paddingHorizontal={index > 0 ? spacingBetweenColumns : undefined}
       textColor={textColor}
     >
       <ADTColBorderWrapper bold={boldHeader}>
-        {value}
+        <div className="flex flex-1 justify-between items-center cursor-">
+          {value}
+
+          <ColOrderFilter />
+        </div>
         <ADTBorder colID={id} />
       </ADTColBorderWrapper>
     </ADTColumnWrapper>

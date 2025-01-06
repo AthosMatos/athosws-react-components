@@ -2,7 +2,6 @@ import { memo } from "react";
 import styled from "styled-components";
 import { ATHOSColors } from "../../../../../colors/colors";
 import { useADTBorder } from "./useBorder";
-
 export const BRD = styled.div`
   width: 1px;
   height: 100%;

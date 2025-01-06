@@ -9,12 +9,6 @@ const Slice = createSlice({
   name: "ADTableProps",
   initialState,
   reducers: {
-    setColH: (state, action: PayloadAction<number>) => {
-      state.colH = action.payload;
-    },
-    setColsTRId: (state, action: PayloadAction<string>) => {
-      state.colsTRId = action.payload;
-    },
     setTotalItems: (state, action: PayloadAction<number>) => {
       state.totalItems = action.payload;
     },
@@ -22,7 +16,7 @@ const Slice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { setColH, setColsTRId, setTotalItems } = Slice.actions;
+export const { setTotalItems } = Slice.actions;
 
 const ADTCustomStatesReducer = Slice.reducer;
 

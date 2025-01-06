@@ -11,4 +11,5 @@ export interface PagingState {
   goingForward: boolean;
   firstOpen: boolean;
   columnOrder: string[];
+  showColOrderFilter: boolean;
 }

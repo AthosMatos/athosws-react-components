@@ -12,22 +12,27 @@ const transition = {
 };
 
 const ListItem = ({ option, onClick, open }: { option: LabelI; onClick?: () => void; open: boolean }) => {
-  if (option.label instanceof Function) {
-    return option.label(open);
-  } else if (isLabelWithIconType(option.label)) {
-    return (
-      <div className="flex items-center gap-2 p-2 cursor-pointer hover:bg-gray-200 rounded-md" onClick={onClick}>
-        {option.label.icon}
-        <p>{option.label.text}</p>
-      </div>
-    );
-  } else if (typeof option.label === "string") {
-    return (
-      <div onClick={onClick} className={`p-2 cursor-pointer hover:bg-gray-200 flex flex-row`}>
+  const className = isLabelWithIconType(option.label)
+    ? "flex items-center gap-2 p-2 cursor-pointer hover:bg-gray-200 rounded-md"
+    : typeof option.label === "string"
+    ? "p-2 cursor-pointer hover:bg-gray-200 flex flex-row"
+    : undefined;
+  return (
+    <div onClick={onClick} className={className}>
+      {option.label instanceof Function ? (
+        option.label(open)
+      ) : isLabelWithIconType(option.label) ? (
+        <>
+          {option.label.icon}
+          <p>{option.label.text}</p>
+        </>
+      ) : typeof option.label === "string" ? (
         <p>{option.label}</p>
-      </div>
-    );
-  } else return option.label;
+      ) : (
+        option.label
+      )}
+    </div>
+  );
 };
 
 const ATHOSDropDown2 = ({ children, forceOpen, onClose, position = "top", id = v4(), labels, style }: ATHOSDropDownProps) => {

@@ -2,7 +2,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { memo, useEffect, useRef, useState } from "react";
 import { FaSearch } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import { filterBySearch } from "../../../redux/Paging/provider";
+import { filterBySearch } from "../../../redux/Filtering/provider";
 import { ADTState } from "../../../redux/store";
 import { IconWrapper } from "../IconWrapper";
 

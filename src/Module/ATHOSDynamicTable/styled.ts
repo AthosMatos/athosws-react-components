@@ -95,14 +95,8 @@ export const ADTCellWrapper = styled(motion.td)<{
   `}
 `;
 
-export const ADTTR = styled(motion.tr)<{ height?: number }>`
+export const ADTTR = styled(motion.tr)`
   text-align: left;
-
-  ${(props) =>
-    props.height &&
-    `
-    height: ${props.height}px
-    `}
 `;
 
 export const bWidth = "1px";

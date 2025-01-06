@@ -1,16 +1,19 @@
+import { useSelector } from "react-redux";
+import { ADTState } from "../../redux/store";
 import { ADTTR } from "../../styled";
 import ADTCol from "./ADTCol";
 import ADTColCheckBox from "./ADTColCheckBox";
-import useSelecetor_ADTColumns from "./useSelector";
 
 const ADTColumns = () => {
-  const { filteredColumns, colsTRId, colH } = useSelecetor_ADTColumns();
+  const { filteredColumns } = useSelector((state: ADTState) => ({
+    filteredColumns: state.ADTFilteringReducer.filteredColumns,
+  }));
 
   return (
-    <ADTTR id={colsTRId} height={colH}>
+    <ADTTR>
       <ADTColCheckBox />
       {filteredColumns?.map((column: any, index) => (
-        <ADTCol index={index} key={`${column}-${index}`} column={column} />
+        <ADTCol index={index} key={column} column={column} />
       ))}
     </ADTTR>
   );

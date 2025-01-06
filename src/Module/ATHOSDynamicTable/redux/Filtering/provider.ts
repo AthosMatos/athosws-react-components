@@ -12,12 +12,16 @@ const initialState: FilteringState = {
   goingForward: false,
   firstOpen: true,
   columnOrder: [],
+  showColOrderFilter: true,
 };
 
 const Slice = createSlice({
   name: "ADTFilteredProps",
   initialState,
   reducers: {
+    toggleColOrderFilter: (state) => {
+      state.showColOrderFilter = !state.showColOrderFilter;
+    },
     filterBySearch: (
       state,
       action: PayloadAction<{
@@ -132,6 +136,7 @@ export const {
   changePageSize,
   setFirstOpen,
   setMovingPage,
+  toggleColOrderFilter,
 } = Slice.actions;
 
 const ADTFilteringReducer = Slice.reducer;

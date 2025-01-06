@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { useDispatch } from "react-redux";
-import { movePage } from "../../redux/Paging/provider";
+import { movePage } from "../../redux/Filtering/provider";
 import useSelectors_ADTNav from "./useSelectors";
 
 interface NavButtonProps {

@@ -2,8 +2,8 @@ import { useEffect, useMemo } from "react";
 import { useDispatch } from "react-redux";
 import { v4 } from "uuid";
 import { DynamicTableProps } from "../interfaces";
-import { setColH, setColsTRId, setTotalItems } from "../redux/CustomStates/provider";
-import { setFilteredColumns, setFilteredData } from "../redux/Paging/provider";
+import { setTotalItems } from "../redux/CustomStates/provider";
+import { setFilteredColumns, setFilteredData } from "../redux/Filtering/provider";
 import { ADTPropsState } from "../redux/props/interfaces";
 import { fillADTProps } from "../redux/props/provider";
 
@@ -37,27 +37,12 @@ export function ADTStatesController<T>({ props, tableWrapperId }: { props: Dynam
     dispatch(setColumnsIDs(columnsIDs));
   }, [columns]); */
 
-  const [colsTRId] = useMemo(() => [v4()], []);
-
-  useEffect(() => {
-    if (colsTRId) {
-      dispatch(setColsTRId(colsTRId));
-    }
-  }, [colsTRId]);
-
   useEffect(() => {
     if (data.length) {
       dispatch(setTotalItems(data.length));
       dispatch(setFilteredData(data));
     }
   }, [data]);
-
-  useEffect(() => {
-    const DTColumnWrapperDiv = document.getElementById(colsTRId);
-    if (!DTColumnWrapperDiv || !paddingHeader) return;
-    const h = DTColumnWrapperDiv.getBoundingClientRect().height + paddingHeader;
-    dispatch(setColH(h));
-  }, [colsTRId]);
 
   useEffect(() => {
     if (columns?.length) {
