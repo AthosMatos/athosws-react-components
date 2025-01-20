@@ -1,6 +1,6 @@
 {
   "name": "@athosws/react-components",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "description": "This is a set of useful ReactJS components developed by Athos.\\n Email:ladiesman217.as@gmail.com",
   "main": "dist/module-index.js",
   "module": "dist/module-index.mjs",
