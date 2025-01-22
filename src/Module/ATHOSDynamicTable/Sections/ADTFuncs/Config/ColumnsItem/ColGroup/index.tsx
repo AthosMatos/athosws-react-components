@@ -1,8 +1,8 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { FaCheck } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import { getContrastColor } from "../../../../../../utils/color-utils";
-import { filterColumn } from "../../../../../redux/Filtering/provider";
+import { generateColorShades, getContrastColor } from "../../../../../../utils/color-utils";
+import { filterColumns } from "../../../../../redux/Filtering/provider";
 import { ADTState } from "../../../../../redux/store";
 
 interface ColGroupProps {
@@ -13,11 +13,17 @@ const ColGroup = ({ cols, isOn }: ColGroupProps) => {
   const dispatch = useDispatch();
 
   const filterOutCol = (col: string) => {
-    dispatch(filterColumn(col));
+    dispatch(filterColumns(col));
   };
   const highlightColor = useSelector((state: ADTState) => state.ADTPropsReducer.tableStyle?.highlightColor)!;
+  const accentColor = useSelector((state: ADTState) => state.ADTPropsReducer.tableStyle?.accentColor)!;
   return (
-    <div className="flex flex-col gap-2 flex-1 border border-gray-200 p-2 rounded-md h-fit">
+    <div
+      style={{
+        borderColor: accentColor && generateColorShades(accentColor).light,
+      }}
+      className="flex flex-col gap-2 flex-1 border border-gray-200 p-2 rounded-md h-fit"
+    >
       <AnimatePresence mode="popLayout">
         {cols.map((col, index) => (
           <motion.div

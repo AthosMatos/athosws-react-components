@@ -13,6 +13,8 @@ const initialState: FilteringState = {
   firstOpen: true,
   columnOrder: [],
   showColOrderFilter: true,
+  orderSorted: { column: null, state: -1 },
+  defaultDataOrder: [],
 };
 
 const Slice = createSlice({
@@ -113,7 +115,7 @@ const Slice = createSlice({
     setBeingMoved: (state, action: PayloadAction<string[]>) => {
       state.beingMoved = action.payload;
     },
-    filterColumn: (state, action: PayloadAction<string>) => {
+    filterColumns: (state, action: PayloadAction<string>) => {
       if (state.filteredColumns.includes(action.payload)) {
         state.filteredColumns = state.filteredColumns.filter((column) => column !== action.payload);
       } else {
@@ -121,6 +123,47 @@ const Slice = createSlice({
         const index = state.columnOrder.indexOf(action.payload);
         state.filteredColumns = [...state.filteredColumns.slice(0, index), action.payload, ...state.filteredColumns.slice(index)];
       }
+    },
+    sortDataByColumn: (
+      state,
+      action: PayloadAction<{
+        column: string;
+        data: any[];
+      }>
+    ) => {
+      const filter = () => {
+        const start = (state.page - 1) * state.pageSize;
+        const end = start + state.pageSize;
+        const sorted = [...data].sort((a, b) => {
+          const A = a[column];
+          const B = b[column];
+          if (A < B) return -1;
+          if (A > B) return 1;
+          return 0;
+        });
+        return { sorted, start, end };
+      };
+      //order states, -1 = not sorted, 0 = ascending, 1 = descending
+      const { column, data } = action.payload;
+      if (state.orderSorted.column === column) {
+        if (state.orderSorted.state === 0) {
+          const { end, sorted, start } = filter();
+          state.filteredData = sorted.reverse().slice(start, end);
+          state.orderSorted.state = 1;
+        } else if (state.orderSorted.state === 1) {
+          //reset the order
+          state.orderSorted.column = null;
+          state.orderSorted.state = -1;
+          state.filteredData = state.defaultDataOrder;
+          state.defaultDataOrder = [];
+        }
+        return;
+      }
+      state.defaultDataOrder = state.filteredData;
+      const { end, sorted, start } = filter();
+      state.filteredData = sorted.slice(start, end);
+      state.orderSorted.column = column;
+      state.orderSorted.state = 0;
     },
   },
 });
@@ -130,13 +173,14 @@ export const {
   filterBySearch,
   setFilteredData,
   movePage,
-  filterColumn,
+  filterColumns,
   setFilteredColumns,
   setBeingMoved,
   changePageSize,
   setFirstOpen,
   setMovingPage,
   toggleColOrderFilter,
+  sortDataByColumn,
 } = Slice.actions;
 
 const ADTFilteringReducer = Slice.reducer;

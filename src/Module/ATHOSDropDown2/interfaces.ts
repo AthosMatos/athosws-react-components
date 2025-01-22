@@ -11,16 +11,28 @@ type LabelType = ((open: boolean) => ReactNode) | ReactNode | string | LabelWith
 export interface LabelI {
   label: LabelType;
   onClick?: () => void;
+  hoverColors?: {
+    backColor?: string;
+    textColor?: string;
+  };
+}
+export interface HoverColorsI {
+  backColor?: string;
+  textColor?: string;
 }
 
 export interface ATHOSDropDownProps {
   children: React.ReactNode;
   forceOpen?: boolean;
   onClose?: () => void;
-  position?: "top" | "bottom";
+  position?: "top-left" | "top-right" | "bottom-left" | "bottom-right" | "left" | "right";
   id?: string;
   labels: LabelI[];
+  wrapperBackColor?: string;
+  borderColor?: string;
+  labelColor?: string;
   style?: React.CSSProperties;
+  hoverColors?: HoverColorsI;
 }
 
 export type ADDContainerProps = {

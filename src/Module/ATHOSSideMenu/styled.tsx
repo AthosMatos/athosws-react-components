@@ -1,102 +1,37 @@
+import { motion } from "framer-motion";
 import { PiCaretDownBold, PiCaretLeftBold } from "react-icons/pi";
 import styled from "styled-components";
-
 import { generateColorShades } from "../utils/color-utils";
-import { optionIconSize, optionPad } from "./ASM/Options/Option/styled";
 
 export const sideMenuWidth = "15rem";
-export const hiddenMenuWidth = `calc(${optionPad} + ${optionIconSize})`;
 
-export const ASMMenuHiderWrapper = styled.div<{
-  height: number;
-  width: string;
-}>`
-  position: absolute;
-  width: ${({ width }) => width};
-  height: ${({ height }) => `${height}px`};
-`;
 export const ASMContainer = styled.div`
+  display: flex;
+  flex-direction: column;
   flex: 1;
-  overflow: auto;
 `;
-
-export const ASMOverlayWrapper = styled.div`
-  display: flex;
-  height: 100vh;
-  width: 100vw;
-  flex-direction: row;
-`;
-export const ASMMH = styled.div<{ accentColor: string }>`
-  position: absolute;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  right: -0.5rem;
-  top: calc(50% - 0.7rem);
-  width: 1rem;
-  height: 1.4rem;
-  border-radius: 2rem;
-  background-color: ${({ accentColor }) => accentColor};
-  cursor: pointer;
-  z-index: 3;
-
-  transition: all 0.14s;
-
-  &:hover {
-    transform: scale(1.2);
-  }
-
-  &:active {
-    transform: scale(1);
-  }
-`;
-
 export const ASMExtraContainer = styled.div<{ accentColor: string }>`
   display: flex;
   height: 100%;
+  min-width: fit-content;
   overflow-y: auto;
   overflow-x: hidden;
-  outline: 1px solid ${({ accentColor }) => generateColorShades(accentColor).light};
+  border-right: 1px solid ${({ accentColor }) => generateColorShades(accentColor).light};
 `;
-
-export const ASMC = styled.div<{ width: string }>`
+export const ASMOverlayWrapper = styled.div<{ overlayFitScreen?: boolean }>`
   display: flex;
-  flex-direction: column;
-  width: ${({ width }) => width};
-  padding: 0.6rem;
-  max-width: 50vw;
-  justify-content: space-between;
-  transition: width 0.34s;
-`;
-
-export const ASMWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  /* gap: 0.4rem; */
+  flex-direction: row;
+  ${({ overlayFitScreen }) =>
+    overlayFitScreen
+      ? `
+  height: 100vh;
+  width: 100vw;
+  `
+      : `
+  height: 100%;
   width: 100%;
-`;
 
-export const IconlessLabel = styled.label`
-  font-size: 1.4rem;
-  font-weight: 800;
-  margin: 0;
-  padding: 0;
-  color: inherit;
-
-  //fade in when created
-  opacity: 0;
-  transition: opacity 0.14s;
-
-  animation: fadeIn 0.14s forwards;
-
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
+`}
 `;
 
 export const ASMLabelIconWrapper = styled.div`
@@ -105,8 +40,9 @@ export const ASMLabelIconWrapper = styled.div`
   align-items: center;
   pointer-events: none;
   height: 1.6rem;
+  overflow: hidden;
 `;
-export const ASMIconWrapper = styled.div<{ iconSize: number | string }>`
+export const ASMIconWrapper = styled(motion.div)<{ iconSize: number | string }>`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -152,11 +88,8 @@ export const ASMArrowLeft = styled(PiCaretLeftBold)<{
   transition: transform 0.14s;
 `;
 
-export const BottomIconsWrapper = styled.div<{ hideMenu: boolean }>`
+export const BottomIconsWrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  padding: ${({ hideMenu }) => (hideMenu ? "0.8rem 0rem;" : "0.8rem 1.2rem;")};
-
-  transition: padding 0.14s;
 `;

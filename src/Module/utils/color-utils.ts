@@ -1,11 +1,15 @@
 import chroma from "chroma-js";
+const hexToRgbaString = (hex: string) => {
+  const rgba = chroma(hex).rgba();
+  return `rgba(${rgba[0]}, ${rgba[1]}, ${rgba[2]}, ${rgba[3]})`;
+};
 
 /**
  * Generates a set of color shades based on the provided base color.
  *
  * Uses the `chroma-js` library to create a lighter and darker set of shades for the given color.
  *
- * @param {string} color - The base color in any valid CSS color format (e.g., hex, rgb, etc.).
+ * @param {string} colorr - The base color in any valid CSS color format (e.g., hex, rgb, etc.).
  * @returns {Object} An object containing the following shades of the color:
  * - `lighter`: A lighter shade of the color.
  * - `light`: A light shade of the color.
@@ -13,28 +17,22 @@ import chroma from "chroma-js";
  * - `dark`: A dark shade of the color.
  * - `darker`: A darker shade of the color.
  */
-export const generateColorShades = (
-  color: string
-): {
-  lighter: string;
-  light: string;
-  default: string;
-  dark: string;
-  darker: string;
-} => {
+export const generateColorShades = (colorr: string) => {
+  let color = colorr === "transparent" ? "rgba(0,0,0,0)" : colorr;
   const chromaColor = chroma(color);
   // Use chroma-js to create different shades by adjusting the luminance
-  const lighter = chromaColor.brighten(1.5).hex(); // Lighter shade
-  const light = chromaColor.brighten(0.75).hex(); // Light shade
-  const dark = chromaColor.darken(0.75).hex(); // Dark shade
-  const darker = chromaColor.darken(1.5).hex(); // Darker shade
-
+  const lighter = hexToRgbaString(chromaColor.brighten(1.5).hex()); // Lighter shade
+  const light = hexToRgbaString(chromaColor.brighten(0.75).hex()); // Light shade
+  const dark = hexToRgbaString(chromaColor.darken(0.75).hex()); // Dark shade
+  const darker = hexToRgbaString(chromaColor.darken(1.5).hex()); // Darker shade
+  const darker2 = hexToRgbaString(chromaColor.darken(2).hex()); // Darker shade
   return {
     lighter,
     light,
     default: color,
     dark,
     darker,
+    darker2,
   };
 };
 

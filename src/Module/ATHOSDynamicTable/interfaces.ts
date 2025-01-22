@@ -58,6 +58,9 @@ export type CellColumnTextTableStyle<T> = {
 };
 export type TableStyle<T> = {
   highlightColor?: string;
+  textColor?: string;
+  accentColor?: string;
+  accentColor2?: string;
   cellTextColor?: {
     global?: string;
     specific?: CellColumnTextTableStyle<T>;

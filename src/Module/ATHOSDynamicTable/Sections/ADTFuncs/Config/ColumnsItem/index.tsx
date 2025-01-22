@@ -3,12 +3,14 @@ import { useMemo, useState } from "react";
 import { FaMinus } from "react-icons/fa";
 import { FaPlus, FaTableList } from "react-icons/fa6";
 import { useSelector } from "react-redux";
-import ATHOSCollapse from "../../../../../ATHOSCollapse";
+import { ATHOSCollapse } from "../../../../../ATHOSCollapse";
 import { ADTState } from "../../../../redux/store";
 import ItemWrapper from "../../ItemWrapper";
 import ColGroup from "./ColGroup";
 
 const PlusMinus = ({ isSelected }: { isSelected: boolean }) => {
+  const textColor = useSelector((state: ADTState) => state.ADTPropsReducer.tableStyle?.textColor);
+
   const props = {
     initial: { opacity: 0 },
     animate: { opacity: 1 },
@@ -18,6 +20,7 @@ const PlusMinus = ({ isSelected }: { isSelected: boolean }) => {
   const iconProps = {
     size: 10,
     className: "text-gray-500",
+    style: { color: textColor },
   };
   return (
     <AnimatePresence>
@@ -35,7 +38,7 @@ const PlusMinus = ({ isSelected }: { isSelected: boolean }) => {
 };
 
 const ColumnsItem = () => {
-  const [isSelected, setIsSelected] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   const { columns, filteredColumns } = useSelector((state: ADTState) => ({
     columns: state.ADTPropsReducer.columns,
@@ -48,15 +51,10 @@ const ColumnsItem = () => {
   return (
     <ATHOSCollapse
       containerClassName="flex flex-col gap-2 "
-      onChanges={(isOpen) => setIsSelected(isOpen)}
+      onChanges={(isOpen) => setIsOpen(isOpen)}
       collpasedComponent={<ColGroup cols={cols} isOn={(col) => filteredColumns.includes(col)} />}
     >
-      <ItemWrapper
-        isSelected={isSelected}
-        label="Colunas"
-        extraComponent={<PlusMinus isSelected={isSelected} />}
-        icon={<FaTableList size={18} />}
-      />
+      <ItemWrapper isOpen={isOpen} label="Colunas" extraComponent={<PlusMinus isSelected={isOpen} />} icon={<FaTableList size={18} />} />
     </ATHOSCollapse>
   );
 };

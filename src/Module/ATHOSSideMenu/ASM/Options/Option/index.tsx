@@ -1,12 +1,12 @@
-import { useMemo } from "react";
+import { AnimatePresence } from "framer-motion";
 import { Draggable } from "react-beautiful-dnd";
 import { ATHOSColors } from "../../../../colors/colors";
 import { getContrastColor } from "../../../../utils/color-utils";
 import { useATHOSSideMenu } from "../../../context/context";
-import { ASMArrowDown, ASMIconWrapper, ASMLabelIconWrapper, defaulIconSize, IconlessLabel } from "../../../styled";
-import { ASMSubOptionsWrapper, suboptheight } from "../SubOption/styled";
+import { ASMArrowDown, ASMIconWrapper, ASMLabelIconWrapper, defaulIconSize } from "../../../styled";
+import { ASMSubOptionsWrapper } from "../SubOption/styled";
 import { ASMOptionProps } from "./interfaces";
-import { ASMOptionContainer, ASMOptionLabel, ASMOptionWrapper } from "./styled";
+import { ASMOptionContainer, ASMOptionLabel, ASMOptionWrapper, IconlessLabel } from "./styled";
 
 const ASMOption = ({ option, children, index }: ASMOptionProps) => {
   const {
@@ -21,28 +21,29 @@ const ASMOption = ({ option, children, index }: ASMOptionProps) => {
 
   const hasChildren = !(children == undefined || children == null);
   const isOpen = option.selected;
-  const hasSelectedChildren = option.subOptions?.some((sub) => sub.selected);
+  const hasSelectedChildren = option.subOptions?.some((sub) => sub.subSubOptions?.some((subsub) => subsub.selected));
+  const backColor = background
+    ? getContrastColor(background) == "black"
+      ? ATHOSColors.grey.light
+      : ATHOSColors.grey.darker
+    : ATHOSColors.grey.default;
 
-  const childrenHeight = useMemo(() => {
-    const childrenAmount = (children as any)?.length;
-    const halfGap = "0.2rem";
-    if (isOpen) return `calc((${suboptheight} * ${childrenAmount}) + ${halfGap})`;
-    return "0px";
-  }, [isOpen]);
+  const labelAnimProps = {
+    initial: {
+      translateY: "-100%",
+    },
+    animate: {
+      translateY: 0,
+    },
+    exit: {
+      translateY: "-100%",
+    },
+  };
 
   return (
     <Draggable isDragDisabled={!editing} draggableId={option.id} index={index}>
       {(provided) => (
-        <ASMOptionContainer
-          backColor={
-            background
-              ? getContrastColor(background) == "black"
-                ? ATHOSColors.grey.light
-                : ATHOSColors.grey.darker
-              : ATHOSColors.grey.default
-          }
-          provided={provided}
-        >
+        <ASMOptionContainer backColor={backColor} provided={provided}>
           <ASMOptionWrapper
             colorConfig={colorConfig}
             label={label}
@@ -54,8 +55,8 @@ const ASMOption = ({ option, children, index }: ASMOptionProps) => {
             }}
           >
             <ASMLabelIconWrapper>
-              {Icon ? (
-                <ASMIconWrapper iconSize={defaulIconSize}>
+              {Icon && (
+                <ASMIconWrapper {...labelAnimProps} iconSize={defaulIconSize}>
                   {typeof Icon === "function" ? (
                     <Icon
                       style={{
@@ -68,26 +69,46 @@ const ASMOption = ({ option, children, index }: ASMOptionProps) => {
                     Icon
                   )}
                 </ASMIconWrapper>
-              ) : (
-                hideMenu && (
-                  <ASMIconWrapper iconSize={defaulIconSize}>
+              )}
+              <AnimatePresence>
+                {hideMenu && !Icon && (
+                  <ASMIconWrapper {...labelAnimProps} iconSize={defaulIconSize}>
                     <IconlessLabel>{label[0]}</IconlessLabel>
                   </ASMIconWrapper>
-                )
-              )}
-
-              <ASMOptionLabel hasIcon={Icon != undefined} hide={hideMenu}>
-                {label}
-              </ASMOptionLabel>
+                )}
+                {!hideMenu && (
+                  <ASMOptionLabel {...labelAnimProps} hasIcon={Icon != undefined} hide={hideMenu}>
+                    {label}
+                  </ASMOptionLabel>
+                )}
+              </AnimatePresence>
             </ASMLabelIconWrapper>
 
             {children && !hideMenu && <ASMArrowDown clicked={isOpen} />}
           </ASMOptionWrapper>
-          {children && !hideMenu && (
-            <ASMSubOptionsWrapper ChildrenHeight={childrenHeight} isOpen={isOpen}>
-              {children}
-            </ASMSubOptionsWrapper>
-          )}
+          <AnimatePresence>
+            {children && !hideMenu && isOpen && (
+              <ASMSubOptionsWrapper
+                style={{
+                  gap: "0.4rem",
+                }}
+                initial={{
+                  height: 0,
+                  padding: 0,
+                }}
+                animate={{
+                  height: "auto",
+                  padding: "0.3rem",
+                }}
+                exit={{
+                  height: 0,
+                  padding: 0,
+                }}
+              >
+                {children}
+              </ASMSubOptionsWrapper>
+            )}
+          </AnimatePresence>
         </ASMOptionContainer>
       )}
     </Draggable>

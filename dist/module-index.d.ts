@@ -1,7 +1,7 @@
 import * as react_jsx_runtime from 'react/jsx-runtime';
-import { IconType } from 'react-icons';
-import * as react from 'react';
 import { ReactNode, RefObject } from 'react';
+import { IconType } from 'react-icons';
+import { NavigateFunction, Location } from 'react-router';
 
 interface EnabledATHOSButtonProps {
     disabled?: false;
@@ -48,24 +48,46 @@ type ATHOSButtonProps = DisabledATHOSButtonProps | EnabledATHOSButtonProps;
  */
 declare const ATHOSButton: (props: ATHOSButtonProps) => react_jsx_runtime.JSX.Element;
 
+interface ATHOSCollapseProps {
+    children: React.ReactNode;
+    collpasedComponent: React.ReactNode;
+    onChanges?: (isOpen: boolean) => void;
+    containerClassName?: string;
+}
+declare const ATHOSCollapse: ({ children, collpasedComponent, onChanges, containerClassName: className }: ATHOSCollapseProps) => react_jsx_runtime.JSX.Element;
+
+type LabelWithIconType = {
+    icon: ReactNode;
+    text: string;
+};
+type LabelType = ((open: boolean) => ReactNode) | ReactNode | string | LabelWithIconType;
 interface LabelI {
-    label: string;
-    onClick: () => void;
+    label: LabelType;
+    onClick?: () => void;
+    hoverColors?: {
+        backColor?: string;
+        textColor?: string;
+    };
+}
+interface HoverColorsI {
+    backColor?: string;
+    textColor?: string;
 }
 interface ATHOSDropDownProps {
-    children: (ref: any) => React.ReactNode;
-    isOpen: boolean;
-    onClose: () => void;
-    position?: "top" | "bottom";
+    children: React.ReactNode;
+    forceOpen?: boolean;
+    onClose?: () => void;
+    position?: "top-left" | "top-right" | "bottom-left" | "bottom-right" | "left" | "right";
     id?: string;
     labels: LabelI[];
+    wrapperBackColor?: string;
+    borderColor?: string;
+    labelColor?: string;
     style?: React.CSSProperties;
+    hoverColors?: HoverColorsI;
 }
 
-/**
- *
- */
-declare const ATHOSDropDown: ({ children, isOpen, onClose, position, id, labels, style, }: ATHOSDropDownProps) => react_jsx_runtime.JSX.Element;
+declare const ATHOSDropDown2: ({ children, forceOpen, labelColor, wrapperBackColor, onClose, position, id, labels, style, borderColor, hoverColors, }: ATHOSDropDownProps) => react_jsx_runtime.JSX.Element;
 
 type GlobalConfig = {
     maxCharToCut?: number;
@@ -122,6 +144,9 @@ type CellColumnTextTableStyle<T> = {
 };
 type TableStyle<T> = {
     highlightColor?: string;
+    textColor?: string;
+    accentColor?: string;
+    accentColor2?: string;
     cellTextColor?: {
         global?: string;
         specific?: CellColumnTextTableStyle<T>;
@@ -131,32 +156,38 @@ type TableStyle<T> = {
         specific?: ColumnTextTableStyle<T>;
     };
 };
+type ResizableConfig = {
+    autoBorder?: boolean;
+};
 type DynamicTableProps<T> = {
+    boldHeader?: boolean;
+    wrapperClassName?: string;
+    tableWrapperClassName?: string;
+    tableClassName?: string;
     tableName: string;
     data: T[];
-    resizeable?: boolean;
+    resizeable?: boolean | ResizableConfig;
     tableStyle?: TableStyle<T>;
     colConfig?: ColConfig<T>;
     globalConfig?: GlobalConfig;
     columnsToHide?: (keyof T)[];
     columnsToShow?: (keyof T)[];
     style?: React.CSSProperties;
-    paddingBetweenCells?: number;
-    paddingHeader?: number;
-    paddingBetweenColumns?: number;
-    paddingBetweenExtraColumns?: number;
+    spacingBetweenCells?: number;
+    spacingHeader?: number;
+    spacingBetweenColumns?: number;
+    spacingBetweenExtraColumns?: number;
     selectedRowsTooltip?: SelectedRowsTooltipI<T>;
     extraColumns?: ExtraColumnsI<T>[];
     startShort?: StartShortI<T> | boolean;
     persistPrimaryColumn?: {
         backgroundColor?: string;
+        borderColor?: string;
     } | boolean;
+    movePageTransitionDuration?: number;
+    autoLockHeight?: boolean;
 };
 
-/**
- * `columns` is optional, if not provided, it will use the keys of the first object in `data`,
- * but if provided, it will use the keys in the order of the array.
- */
 declare function ATHOSDynamicTable<T>(props: DynamicTableProps<T>): react_jsx_runtime.JSX.Element;
 
 interface ATHOSInputProps {
@@ -185,6 +216,8 @@ interface ResizableDivProps {
     withToogle?: boolean;
     matchChildSize?: boolean;
     disabled?: boolean;
+    className?: string;
+    outerClassName?: string;
 }
 
 declare const ATHOSResizableDiv: (props: ResizableDivProps) => react_jsx_runtime.JSX.Element;
@@ -221,34 +254,39 @@ interface ASMOptionColorConfig {
         };
     };
 }
-interface ASMSubOptionColorConfig {
-    backColor?: string;
-    textColor?: string;
-    hover?: {
+interface DefaultOptI {
+    id?: string;
+    label: string;
+    path?: string;
+    pageText?: {
         backColor?: string;
-        textColor?: string;
-        clicked?: {
-            backColor?: string;
-            textColor?: string;
+        title: {
+            color?: string;
+            value: string;
+        };
+        subTitle?: {
+            color?: string;
+            value: string;
         };
     };
-    clicked?: {
-        backColor?: string;
-        textColor?: string;
-    };
 }
-interface ASMOptionI {
-    label: string;
+interface ASMOptionI extends DefaultOptI {
     Icon?: IconType | React.ReactNode;
     iconSize?: string | number;
     subOptions?: ASMSubOptionI[];
     colorConfig?: ASMOptionColorConfig;
     onClick?: () => void;
 }
-interface ASMSubOptionI {
-    label: string;
+interface ASMSubSubOptionI extends DefaultOptI {
     onClick?: () => void;
-    colorConfig?: ASMSubOptionColorConfig;
+    colorConfig?: ASMOptionColorConfig;
+}
+interface ASMSubOptionI extends DefaultOptI {
+    Icon?: IconType | React.ReactNode;
+    iconSize?: string | number;
+    onClick?: () => void;
+    colorConfig?: ASMOptionColorConfig;
+    subsubOptions?: ASMSubSubOptionI[];
 }
 interface ASMColorsProps {
     background?: string;
@@ -275,6 +313,12 @@ type ATHOSSideMenuBaseProps = {
     colors: ASMColorsProps;
     onReorder?: (result: ASMOptionI[]) => void;
     asOverlay?: boolean;
+    overlayFitScreen?: boolean;
+    usesRouter?: {
+        navigate: NavigateFunction;
+        location: Location<any>;
+    };
+    extraHeader?: React.ReactNode;
 };
 interface ATHOSSideMenuNoOverlayProps extends ATHOSSideMenuBaseProps {
     asOverlay?: false | undefined;
@@ -293,15 +337,29 @@ declare function ATHOSSideMenu(props: ATHOSSideMenuProps): react_jsx_runtime.JSX
 
 interface ATHOSToastProps {
     id?: string;
-    updateState: any;
+    updateState?: any;
     removeCondition?: boolean;
-    renderCondition: boolean;
+    renderCondition?: boolean;
     children: React.ReactNode;
     position?: "top-right" | "top-left" | "bottom-right" | "bottom-left";
     gap?: number;
+    renderAndFade?: boolean;
+}
+interface ATHOSToastProps2 {
+    id?: string;
+    updateState?: any;
+    removeCondition?: boolean;
+    renderCondition?: boolean;
+    position?: "top-right" | "top-left" | "bottom-right" | "bottom-left";
+    gap?: number;
+    renderAndFade?: boolean;
 }
 
-declare const ATHOSToast: react.MemoExoticComponent<({ id, updateState, children, renderCondition, removeCondition: removeOnUpdateCondition, position, gap, }: ATHOSToastProps) => react.ReactPortal | null>;
+declare const ATHOSToast: (props: ATHOSToastProps) => react_jsx_runtime.JSX.Element;
+
+declare const useATHOSToast: () => {
+    toast: (t: React.ReactNode | JSX.Element, props?: ATHOSToastProps2) => void;
+};
 
 interface ATHOSTooltipProps {
     children: (ref: any) => ReactNode;
@@ -320,7 +378,7 @@ declare const ATHOSTooltip: (props: ATHOSTooltipProps) => react_jsx_runtime.JSX.
  *
  * Uses the `chroma-js` library to create a lighter and darker set of shades for the given color.
  *
- * @param {string} color - The base color in any valid CSS color format (e.g., hex, rgb, etc.).
+ * @param {string} colorr - The base color in any valid CSS color format (e.g., hex, rgb, etc.).
  * @returns {Object} An object containing the following shades of the color:
  * - `lighter`: A lighter shade of the color.
  * - `light`: A light shade of the color.
@@ -328,12 +386,13 @@ declare const ATHOSTooltip: (props: ATHOSTooltipProps) => react_jsx_runtime.JSX.
  * - `dark`: A dark shade of the color.
  * - `darker`: A darker shade of the color.
  */
-declare const generateColorShades: (color: string) => {
+declare const generateColorShades: (colorr: string) => {
     lighter: string;
     light: string;
     default: string;
     dark: string;
     darker: string;
+    darker2: string;
 };
 /**
  * Determines the appropriate contrast color (black or white) based on the luminance of the given color.
@@ -359,6 +418,7 @@ declare const ATHOSColors: {
         darker: string;
     };
     grey: {
+        darker_2: string;
         darker: string;
         dark: string;
         dark_05: string;
@@ -368,6 +428,7 @@ declare const ATHOSColors: {
         lighter: string;
     };
     red: {
+        darker_2: string;
         darker: string;
         dark: string;
         default: string;
@@ -375,9 +436,11 @@ declare const ATHOSColors: {
     };
     white: {
         eggshell: string;
+        eggshell_faded: string;
     };
     black: {
         coal: string;
+        coal_faded: string;
     };
     background: string;
 };
@@ -401,4 +464,4 @@ interface ClickOutsideIdProps extends ClickOutsideBaseProps {
 type ClickOutsideProps = ClickOutsideRefProps | ClickOutsideIdProps;
 declare const useClickOutside: (props: ClickOutsideProps) => void;
 
-export { ATHOSButton, ATHOSColors, ATHOSDropDown, ATHOSDynamicTable, ATHOSInput, ATHOSResizableDiv, ATHOSSideMenu, ATHOSToast, ATHOSTooltip, adaptSize, convertRemToPixels, generateColorShades, getContrastColor, getUnitWithoutValue, getValueWithoutUnit, useClickOutside };
+export { ATHOSButton, type ATHOSButtonProps, ATHOSCollapse, ATHOSColors, ATHOSDropDown2, ATHOSDynamicTable, ATHOSInput, ATHOSResizableDiv, ATHOSSideMenu, ATHOSToast, ATHOSTooltip, adaptSize, convertRemToPixels, generateColorShades, getContrastColor, getUnitWithoutValue, getValueWithoutUnit, useATHOSToast, useClickOutside };

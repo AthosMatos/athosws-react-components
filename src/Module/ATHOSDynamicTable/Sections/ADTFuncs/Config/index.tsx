@@ -1,22 +1,20 @@
 import { FaFilter } from "react-icons/fa";
 import { MdTune } from "react-icons/md";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ATHOSDropDown2 } from "../../../../ATHOSDropDown2";
 import { LabelI } from "../../../../ATHOSDropDown2/interfaces";
+import { generateColorShades } from "../../../../utils/color-utils";
 import { toggleColOrderFilter } from "../../../redux/Filtering/provider";
+import { ADTState } from "../../../redux/store";
 import { IconWrapper } from "../IconWrapper";
 import ItemWrapper from "../ItemWrapper";
 import ColumnsItem from "./ColumnsItem";
 
 const FilterItem = () => {
-  return (
-    <ItemWrapper
-      label="Filtros"
-      /*  onClick={onClick}
-    extraComponent={<PlusMinus isSelected={isSelected} />} */
-      icon={<FaFilter size={18} />}
-    />
-  );
+  const { showColFilter } = useSelector((state: ADTState) => ({
+    showColFilter: state.ADTFilteringReducer.showColOrderFilter,
+  }));
+  return <ItemWrapper label="Filtros" isSelected={showColFilter} icon={<FaFilter size={18} />} />;
 };
 
 const ADTConfig = () => {
@@ -29,14 +27,19 @@ const ADTConfig = () => {
     {
       label: <FilterItem />,
       onClick: () => {
-        console.log("filter");
         dispatch(toggleColOrderFilter());
       },
     },
   ];
+  const accentColor = useSelector((state: ADTState) => state.ADTPropsReducer.tableStyle?.accentColor);
 
   return (
-    <ATHOSDropDown2 labels={options}>
+    <ATHOSDropDown2
+      position="left"
+      borderColor={accentColor && generateColorShades(accentColor).light}
+      wrapperBackColor={accentColor}
+      labels={options}
+    >
       <IconWrapper>
         <MdTune className="text-2xl" />
       </IconWrapper>

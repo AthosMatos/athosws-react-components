@@ -33,6 +33,7 @@ export const ADTColumnWrapper = styled.th<ADTColWrapperProps>`
   font-weight: 400;
   color: ${(props) => props.textColor ?? ATHOSColors.grey.dark_05};
   white-space: nowrap;
+  user-select: none;
 
   ${(props) =>
     props.height &&

@@ -11,12 +11,9 @@ type TableType = {
 const ComponentName = "AthosDynamicTable";
 
 export const useADTBorder = (colID: string) => {
-  const paddingBetweenColumns = useSelector((state: ADTState) => state.ADTPropsReducer.spacingBetweenColumns);
   const tableName = useSelector((state: ADTState) => state.ADTPropsReducer.tableName);
 
   const wrapperid = v4();
-
-  //const [doubleClicked, setDoubleClicked] = useState(false);
 
   const getSavedWidths = () => {
     const ComponentData = localStorage.getItem(ComponentName);

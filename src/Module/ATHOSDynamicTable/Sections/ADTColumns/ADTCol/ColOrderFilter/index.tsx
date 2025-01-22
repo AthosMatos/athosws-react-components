@@ -1,19 +1,26 @@
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
 import { FaCaretDown } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { ADTState } from "../../../../redux/store";
 
-const ColOrderFilter = () => {
-  const { showColFilter } = useSelector((state: ADTState) => ({
+const ColOrderFilter = ({ column }: { column: string }) => {
+  const { showColFilter, orderSorted, tableStyle } = useSelector((state: ADTState) => ({
     showColFilter: state.ADTFilteringReducer.showColOrderFilter,
+    orderSorted: state.ADTFilteringReducer.orderSorted,
+    tableStyle: state.ADTPropsReducer.tableStyle,
   }));
-
+  const isAsc = orderSorted.state === 0 && orderSorted.column === column;
+  const isSorting = orderSorted.state !== -1 && orderSorted.column === column;
   return (
     <AnimatePresence>
       {showColFilter && (
-        <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }}>
-          <FaCaretDown className="text-gray-400" />
-        </motion.div>
+        <FaCaretDown
+          size={12}
+          className={`text-gray-400 ${!isSorting ? "opacity-25" : ""} transition-transform duration-300 ease-in-out
+       ${!isAsc ? "transform rotate-180" : ""}
+         `}
+          color={isSorting ? tableStyle?.highlightColor : undefined}
+        />
       )}
     </AnimatePresence>
   );

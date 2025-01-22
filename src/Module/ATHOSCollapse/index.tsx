@@ -9,7 +9,7 @@ interface ATHOSCollapseProps {
   containerClassName?: string;
 }
 
-const ATHOSCollapse = ({ children, collpasedComponent, onChanges, containerClassName: className }: ATHOSCollapseProps) => {
+export const ATHOSCollapse = ({ children, collpasedComponent, onChanges, containerClassName: className }: ATHOSCollapseProps) => {
   const [isSelected, setIsSelected] = useState(false);
   const onClick = () => {
     setIsSelected(!isSelected);
@@ -43,7 +43,7 @@ const ATHOSCollapse = ({ children, collpasedComponent, onChanges, containerClass
             exit={{
               height: 0,
             }}
-            className="bg-gray-100 flex max-h-[40vh] overflow-auto hide-scrollbar rounded-md p-1"
+            className="flex max-h-[40vh] overflow-auto hide-scrollbar rounded-md p-1"
             transition={{
               duration: 0.35,
               ease: "easeInOut",
@@ -56,5 +56,3 @@ const ATHOSCollapse = ({ children, collpasedComponent, onChanges, containerClass
     </div>
   );
 };
-
-export default ATHOSCollapse;

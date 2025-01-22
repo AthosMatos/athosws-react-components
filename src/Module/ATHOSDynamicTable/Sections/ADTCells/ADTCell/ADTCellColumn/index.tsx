@@ -42,12 +42,7 @@ const ADTCellColumn = ({ row, column, rowIndex, index, isLast }: ADTCellColumnPr
   };
 
   return (
-    <ADTCellWrapper
-      persistent={!!persistPrimaryColumn}
-      {...cellWrapperProps}
-      /* variants={movingPage ? undefined : DefaultVariants}
-      exit={"unPad"} */
-    >
+    <ADTCellWrapper persistent={!!persistPrimaryColumn} {...cellWrapperProps}>
       <CellExitWrapper>
         {showTooltip ? (
           <ATHOSTooltip

@@ -1,6 +1,7 @@
 import { ReactNode, useMemo } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ATHOSColors } from "../../../../colors/colors";
+import { sortDataByColumn } from "../../../redux/Filtering/provider";
 import { ADTState } from "../../../redux/store";
 import { ADTColBorderWrapper, ADTColumnWrapper, borderStyle, bWidth } from "../../../styled";
 import { tdClassName } from "../../consts";
@@ -8,8 +9,8 @@ import ADTBorder from "./ADTBorder";
 import ColOrderFilter from "./ColOrderFilter";
 
 const ADTCol = ({ column, index }: { column: string; index: number }) => {
-  const { colConfig, persistPrimaryColumn, spacingBetweenColumns, tableStyle, boldHeader, paddingHeader, tableName } = useSelector(
-    (state: ADTState) => ({
+  const { colConfig, persistPrimaryColumn, spacingBetweenColumns, showColFilter, tableStyle, boldHeader, paddingHeader, tableName, data } =
+    useSelector((state: ADTState) => ({
       spacingBetweenColumns: state.ADTPropsReducer.spacingBetweenColumns,
       persistPrimaryColumn: state.ADTPropsReducer.persistPrimaryColumn,
       tableStyle: state.ADTPropsReducer.tableStyle,
@@ -17,8 +18,9 @@ const ADTCol = ({ column, index }: { column: string; index: number }) => {
       tableName: state.ADTPropsReducer.tableName,
       paddingHeader: state.ADTPropsReducer.spacingHeader,
       boldHeader: state.ADTPropsReducer.boldHeader,
-    })
-  );
+      data: state.ADTPropsReducer.data,
+      showColFilter: state.ADTFilteringReducer.showColOrderFilter,
+    }));
 
   const textColor = useMemo(() => {
     const globalColor = tableStyle?.columnTextColor?.global;
@@ -64,6 +66,12 @@ const ADTCol = ({ column, index }: { column: string; index: number }) => {
 
   const id = `${tableName}-${column}-th`;
 
+  const dispatch = useDispatch();
+
+  const sort = () => {
+    showColFilter && dispatch(sortDataByColumn({ column, data }));
+  };
+
   return (
     <ADTColumnWrapper
       paddingBottom={paddingHeader}
@@ -77,10 +85,10 @@ const ADTCol = ({ column, index }: { column: string; index: number }) => {
       textColor={textColor}
     >
       <ADTColBorderWrapper bold={boldHeader}>
-        <div className="flex flex-1 justify-between items-center cursor-">
+        <div className={`flex flex-1 justify-between items-center ${showColFilter ? "cursor-pointer" : ""}`} onClick={sort}>
           {value}
 
-          <ColOrderFilter />
+          <ColOrderFilter column={column} />
         </div>
         <ADTBorder colID={id} />
       </ADTColBorderWrapper>

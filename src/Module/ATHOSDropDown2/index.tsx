@@ -2,7 +2,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useRef, useState } from "react";
 import { v4 } from "uuid";
 import { useClickOutside } from "../hooks/useClickOutside";
-import { ATHOSDropDownProps, isLabelWithIconType, LabelI } from "./interfaces";
+import { ATHOSDropDownProps, HoverColorsI, isLabelWithIconType, LabelI } from "./interfaces";
 /**
  *
  */
@@ -11,14 +11,33 @@ const transition = {
   ease: "easeInOut",
 };
 
-const ListItem = ({ option, onClick, open }: { option: LabelI; onClick?: () => void; open: boolean }) => {
+const ListItem = ({
+  option,
+  onClick,
+  open,
+  hoverColors,
+}: {
+  option: LabelI;
+  onClick?: () => void;
+  open: boolean;
+  hoverColors?: HoverColorsI;
+}) => {
+  const backColor = option.hoverColors?.backColor || hoverColors?.backColor || "rgb(212, 212, 212)";
+  const defaultClassName = `p-2 flex cursor-pointer rounded-md`;
   const className = isLabelWithIconType(option.label)
-    ? "flex items-center gap-2 p-2 cursor-pointer hover:bg-gray-200 rounded-md"
+    ? `flex items-center gap-2 ${defaultClassName}`
     : typeof option.label === "string"
-    ? "p-2 cursor-pointer hover:bg-gray-200 flex flex-row"
+    ? `${defaultClassName}`
     : undefined;
+  console.log("className", className);
   return (
-    <div onClick={onClick} className={className}>
+    <motion.div
+      onClick={onClick}
+      className={className}
+      whileHover={{
+        backgroundColor: backColor,
+      }}
+    >
       {option.label instanceof Function ? (
         option.label(open)
       ) : isLabelWithIconType(option.label) ? (
@@ -27,15 +46,27 @@ const ListItem = ({ option, onClick, open }: { option: LabelI; onClick?: () => v
           <p>{option.label.text}</p>
         </>
       ) : typeof option.label === "string" ? (
-        <p>{option.label}</p>
+        <p className="w-max">{option.label}</p>
       ) : (
         option.label
       )}
-    </div>
+    </motion.div>
   );
 };
 
-const ATHOSDropDown2 = ({ children, forceOpen, onClose, position = "top", id = v4(), labels, style }: ATHOSDropDownProps) => {
+const ATHOSDropDown2 = ({
+  children,
+  forceOpen,
+  labelColor,
+  wrapperBackColor,
+  onClose,
+  position = "top-left",
+  id = v4(),
+  labels,
+  style,
+  borderColor,
+  hoverColors,
+}: ATHOSDropDownProps) => {
   const [open, setOpen] = useState(false);
   const BRef = useRef<HTMLDivElement>(null);
   const ARef = useRef<HTMLDivElement>(null);
@@ -45,9 +76,20 @@ const ATHOSDropDown2 = ({ children, forceOpen, onClose, position = "top", id = v
     },
     refs: [ARef, BRef],
   });
-
+  const pos =
+    position === "top-left"
+      ? "dropdown-top dropdown-end"
+      : position === "top-right"
+      ? "dropdown-top"
+      : position === "bottom-left"
+      ? "dropdown-bottom dropdown-end"
+      : position === "bottom-right"
+      ? "dropdown-bottom"
+      : position === "left"
+      ? "dropdown-left"
+      : "dropdown-right";
   return (
-    <div className="dropdown dropdown-left dropdown-open ">
+    <div className={`dropdown dropdown-open  ${pos}`}>
       <div ref={ARef} onClick={() => setOpen(!open)}>
         {children}
       </div>
@@ -59,11 +101,16 @@ const ATHOSDropDown2 = ({ children, forceOpen, onClose, position = "top", id = v
             animate={{ width: "auto", height: "auto" }}
             exit={{ width: 0, height: 0 }}
             transition={transition}
-            className={`dropdown-content menu !p-0 mr-2 overflow-hidden bg-white rounded-md border border-gray-300 text-gray-500 gap-1 flex`}
+            style={{
+              backgroundColor: wrapperBackColor,
+              color: labelColor,
+              borderColor: borderColor,
+            }}
+            className={`z-50 dropdown-content menu !p-0 m-2 overflow-hidden bg-white rounded-md border border-gray-300 text-gray-500 gap-1 flex`}
           >
             <div className="p-1">
               {labels.map((option, index) => (
-                <ListItem key={index} onClick={option.onClick} option={option} open={open} />
+                <ListItem hoverColors={hoverColors} key={index} onClick={option.onClick} option={option} open={open} />
               ))}
             </div>
           </motion.div>

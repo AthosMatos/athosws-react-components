@@ -12,4 +12,9 @@ export interface PagingState {
   firstOpen: boolean;
   columnOrder: string[];
   showColOrderFilter: boolean;
+  orderSorted: {
+    state: number;
+    column: string | null;
+  };
+  defaultDataOrder: any[];
 }

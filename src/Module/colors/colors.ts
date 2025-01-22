@@ -6,6 +6,7 @@ export const ATHOSColors = {
     darker: "#0F4D4A",
   },
   grey: {
+    darker_2: "#333333",
     darker: "#4D4D4D",
     dark: "#888888",
     dark_05: "#969696",
@@ -15,6 +16,7 @@ export const ATHOSColors = {
     lighter: "#fafafa",
   },
   red: {
+    darker_2: "#500101",
     darker: "#7A0000",
     dark: "#9E1C1C",
     default: "#DA2222",
@@ -26,6 +28,7 @@ export const ATHOSColors = {
   },
   black: {
     coal: "#242424",
+    coal_faded: "#2424249d",
   },
   background: "#ffffff",
 };

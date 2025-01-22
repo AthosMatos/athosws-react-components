@@ -13,7 +13,7 @@ const BottomIcons = () => {
     hideMenu,
   } = useATHOSSideMenu();
   return (
-    <BottomIconsWrapper hideMenu={hideMenu}>
+    <BottomIconsWrapper>
       {onExit && !hideMenu && <ASMExitOption onClick={onExit.onClick} Icon={onExit.Icon ?? GoSignOut} label={onExit.label} />}
       {editable && !hideMenu && <ASMEditOption Icon={editable.Icon ?? BiSolidPencil} label={editable.label ?? ""} />}
       {collapsable && (

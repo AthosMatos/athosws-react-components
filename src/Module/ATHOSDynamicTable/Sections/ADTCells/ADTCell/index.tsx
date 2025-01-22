@@ -11,24 +11,18 @@ interface ADTCellProps {
   row: any;
 }
 
-const variants = {
-  initial: {
-    opacity: 0,
-  },
-  animate: { opacity: 1, transition: { duration: 0.43 } },
-};
 const ADTCell = (props: ADTCellProps) => {
   const { rowIndex, row } = props;
   const { filteredColumns, extraColumns, pageSize } = useSelector((state: ADTState) => ({
     filteredColumns: state.ADTFilteringReducer.filteredColumns,
     extraColumns: state.ADTPropsReducer.extraColumns,
-    pageSize: state.ADTFilteringReducer.pageSize,
+    pageSize: state.ADTFilteringReducer.filteredData.length,
   }));
 
   const isLast = useMemo(() => rowIndex === pageSize - 1, [rowIndex, pageSize]);
 
   return (
-    <ADTTR layout="preserve-aspect" initial="initial" animate="animate" exit="exit" variants={variants} transition={{ duration: 0.1 }}>
+    <ADTTR layout="preserve-aspect" transition={{ duration: 0.1 }}>
       <ADTCellCheckBox isLast={isLast} rowIndex={rowIndex} />
       {filteredColumns.map((column, index) => (
         <ADTCellColumn key={row[column]} isLast={isLast} column={column} index={index} row={row} rowIndex={rowIndex} />

@@ -1,4 +1,5 @@
 import { IconType } from "react-icons";
+import { Location, NavigateFunction } from "react-router";
 
 export interface ASMOptionColorConfig {
   backColor?: string;
@@ -32,34 +33,39 @@ export interface ASMOptionColorConfig {
     };
   };
 }
-export interface ASMSubOptionColorConfig {
-  backColor?: string;
-  textColor?: string;
-  hover?: {
+export interface DefaultOptI {
+  id?: string;
+  label: string;
+  path?: string;
+  pageText?: {
     backColor?: string;
-    textColor?: string;
-    clicked?: {
-      backColor?: string;
-      textColor?: string;
+    title: {
+      color?: string;
+      value: string;
+    };
+    subTitle?: {
+      color?: string;
+      value: string;
     };
   };
-  clicked?: {
-    backColor?: string;
-    textColor?: string;
-  };
 }
-export interface ASMOptionI {
-  label: string;
+export interface ASMOptionI extends DefaultOptI {
   Icon?: IconType | React.ReactNode;
   iconSize?: string | number;
   subOptions?: ASMSubOptionI[];
   colorConfig?: ASMOptionColorConfig;
   onClick?: () => void;
 }
-export interface ASMSubOptionI {
-  label: string;
+export interface ASMSubSubOptionI extends DefaultOptI {
   onClick?: () => void;
-  colorConfig?: ASMSubOptionColorConfig;
+  colorConfig?: ASMOptionColorConfig;
+}
+export interface ASMSubOptionI extends DefaultOptI {
+  Icon?: IconType | React.ReactNode;
+  iconSize?: string | number;
+  onClick?: () => void;
+  colorConfig?: ASMOptionColorConfig;
+  subsubOptions?: ASMSubSubOptionI[];
 }
 
 export interface ASMColorsProps {
@@ -68,25 +74,6 @@ export interface ASMColorsProps {
   primary?: string;
   accent?: string;
 }
-
-/*
-  const colors = {
-      backColor: "transparent",
-      textColor: "white",
-      hover: {
-        backColor: "#5c5c5c",
-        textColor: "white",
-        clicked: {
-          backColor: "#2c7919",
-          textColor: "white",
-        },
-      },
-      clicked: {
-        backColor: "#38a01e",
-        textColor: "white",
-      },
-  }; 
-*/
 
 export type ATHOSSideMenuBaseProps = {
   onExitIcon?: {
@@ -107,6 +94,12 @@ export type ATHOSSideMenuBaseProps = {
   colors: ASMColorsProps;
   onReorder?: (result: ASMOptionI[]) => void;
   asOverlay?: boolean;
+  overlayFitScreen?: boolean;
+  usesRouter?: {
+    navigate: NavigateFunction;
+    location: Location<any>;
+  };
+  extraHeader?: React.ReactNode;
 };
 
 export interface ATHOSSideMenuNoOverlayProps extends ATHOSSideMenuBaseProps {

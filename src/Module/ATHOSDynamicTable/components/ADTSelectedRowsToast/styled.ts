@@ -35,8 +35,6 @@ export const ADTATWrapper = styled.div`
   border-radius: 8px;
 
   box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.4);
-
-  background-color: white;
 `;
 
 export const ADTSRTFSWrapper = styled.div`

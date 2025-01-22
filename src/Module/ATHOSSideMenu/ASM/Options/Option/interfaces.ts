@@ -6,11 +6,7 @@ export interface SelectedDataTrackOptI extends ASMOptionI {
   subOptions?: SelectedDataTrackSubOptI[];
 }
 export interface ASMOWProps {
-  background: string;
-  textColor: string;
-  width?: string;
   editing?: boolean;
-  scale?: number;
   hideMenu?: boolean;
 }
 

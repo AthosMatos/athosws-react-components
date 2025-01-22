@@ -1,31 +1,27 @@
-import { ASMSubOptionColorConfig, ASMSubOptionI } from "../../../interfaces";
+import { ASMOptionColorConfig, ASMSubOptionI } from "../../../interfaces";
+import { SelectedDataTrackSubSubOptI } from "../SubSubOption/interfaces";
 
 export interface SelectedDataTrackSubOptI extends ASMSubOptionI {
   id: string;
   selected: boolean;
+  subSubOptions?: SelectedDataTrackSubSubOptI[];
 }
 
 export interface ASMSubOptionProps {
   subopt: SelectedDataTrackSubOptI;
   parentId: string;
+  children?: React.ReactNode;
 }
 
 export interface ASMSOWProps {
   editing: boolean;
-  background: string;
-  textColor: string;
-  width?: string;
-  scale?: number;
 }
 export interface ASMSubOptionWrapperProps {
   label: string;
   clicked: boolean;
   children?: React.ReactNode;
   onClick?: () => void;
-  colorConfig?: ASMSubOptionColorConfig;
-}
-
-export interface ASMSubOptionsWrapperProps {
-  isOpen: boolean;
-  ChildrenHeight: string;
+  hasSelectedChildren?: boolean;
+  colorConfig?: ASMOptionColorConfig;
+  hasChildren?: boolean;
 }

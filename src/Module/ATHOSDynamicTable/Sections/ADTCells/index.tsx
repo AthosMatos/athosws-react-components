@@ -4,9 +4,6 @@ import ADTCell from "./ADTCell";
 
 const ADTCells = () => {
   const filteredData = useSelector((state: ADTState) => state.ADTFilteringReducer.filteredData);
-  // const movingPage = useSelector((state: ADTState) => state.ADTPagingReducer.movingPage);
-
-  /* <AnimatePresence mode={movingPage ? "wait" : "sync"}> */
   return filteredData?.map((row, rowIndex) => <ADTCell key={row.id} rowIndex={rowIndex} row={row} />);
 };
 

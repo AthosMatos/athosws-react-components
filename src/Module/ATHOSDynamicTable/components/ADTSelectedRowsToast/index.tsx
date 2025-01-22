@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { IoClose, IoMenu } from "react-icons/io5";
-import { ATHOSDropDown } from "../../../ATHOSDropDown";
+import { ATHOSDropDown2 } from "../../../ATHOSDropDown2";
 import { ATHOSToast } from "../../../ATHOSToast";
+import { forceOpacity, generateColorShades } from "../../../utils/color-utils";
 import { useADTSelect } from "../../redux/Select/hook";
 import ADTCheckBox from "../ADTCheckBox";
 import { ADTATWrapper, ADTBRDSimple, ADTSRTFSWrapper, ADTSRTIconWrapper, ADTSRTLabel, ADTSRTMainFunc } from "./styled";
@@ -35,7 +36,12 @@ const ADTSelectedRowsToast = () => {
       removeCondition={selectedRows.length == 0}
       id={tableName}
     >
-      <ADTATWrapper>
+      <ADTATWrapper
+        style={{
+          color: tableStyle?.textColor,
+          backgroundColor: tableStyle?.accentColor2,
+        }}
+      >
         <ADTSRTFSWrapper>
           <ADTCheckBox
             highlightColor={tableStyle?.highlightColor!}
@@ -66,7 +72,7 @@ const ADTSelectedRowsToast = () => {
             {selectedRowsTooltip?.secondaryFunc && (
               <ADTSRTIconWrapper
                 pad={8}
-                backColor="#f3f3f3"
+                backColor={tableStyle?.textColor || "#f3f3f3"}
                 onClick={() => {
                   onDismiss();
                   selectedRowsTooltip.secondaryFunc!.onClick(selectedRows.map((index) => data[index]));
@@ -77,7 +83,13 @@ const ADTSelectedRowsToast = () => {
             )}
 
             {selectedRowsTooltip?.othersFunc && (
-              <ATHOSDropDown
+              <ATHOSDropDown2
+                hoverColors={{
+                  backColor: generateColorShades(tableStyle?.accentColor || "#f3f3f3").dark,
+                }}
+                wrapperBackColor={tableStyle?.accentColor || "#f3f3f3"}
+                borderColor={forceOpacity(tableStyle?.textColor || "#f3f3f3", 0.3)}
+                labelColor={tableStyle?.textColor}
                 onClose={() => {
                   setOpenDropDown(false);
                 }}
@@ -91,22 +103,22 @@ const ADTSelectedRowsToast = () => {
                   };
                 })}
                 id={tableName}
-                position="top"
-                isOpen={openDropDown}
+                position="top-left"
+                style={{
+                  backgroundColor: tableStyle?.accentColor || "#f3f3f3",
+                  color: tableStyle?.textColor,
+                }}
               >
-                {(ref) => (
-                  <ADTSRTIconWrapper
-                    pad={8}
-                    backColor="#f3f3f3"
-                    ref={ref}
-                    onClick={() => {
-                      setOpenDropDown(!openDropDown);
-                    }}
-                  >
-                    <IoMenu />
-                  </ADTSRTIconWrapper>
-                )}
-              </ATHOSDropDown>
+                <ADTSRTIconWrapper
+                  pad={8}
+                  backColor={tableStyle?.accentColor || "#f3f3f3"}
+                  onClick={() => {
+                    setOpenDropDown(!openDropDown);
+                  }}
+                >
+                  <IoMenu />
+                </ADTSRTIconWrapper>
+              </ATHOSDropDown2>
             )}
           </ADTSRTFSWrapper>
         )}

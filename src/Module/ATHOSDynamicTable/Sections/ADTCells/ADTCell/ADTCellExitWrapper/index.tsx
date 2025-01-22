@@ -73,7 +73,12 @@ export const DefaultVariants: Variants = {
     },
   },
 };
-
+const variants = {
+  initial: {
+    opacity: 0,
+  },
+  animate: { opacity: 1, transition: { duration: 0.43 } },
+};
 const CellExitWrapper = ({ children }: CellExitWrapperProps) => {
   /* const movingPage = useSelector((state: ADTState) => state.ADTPagingReducer.movingPage);
   const searchFilter = useSelector((state: ADTState) => state.ADTPagingReducer.searchFilter);
@@ -94,7 +99,9 @@ const CellExitWrapper = ({ children }: CellExitWrapperProps) => {
     : undefined; */
 
   return (
-    <motion.div /* custom={!hasSearchFilter && !movingPage}  */ /* className="overflow-hidden" */ /* {...props} */>{children}</motion.div>
+    <motion.div initial="initial" animate="animate" variants={variants}>
+      {children}
+    </motion.div>
   );
 };
 
