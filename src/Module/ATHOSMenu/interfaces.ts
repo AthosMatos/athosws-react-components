@@ -1,20 +1,26 @@
-type AMOptSelectedColorsProps = {
+export type AMOptColorsProps = {
   background?: string;
-  border?: {
-    color?: string;
-    width?: string;
-  };
+  border?:
+    | {
+        color?: string;
+        width?: string;
+      }
+    | "none";
   text?: string;
   icon?: string;
 };
-interface AMMenuColorsProps extends AMOptSelectedColorsProps {
-  optionSelected?: AMOptSelectedColorsProps;
-  subOptionSelected?: AMOptSelectedColorsProps;
-  subSubOptionSelected?: AMOptSelectedColorsProps;
+type OptType = {
+  selected?: AMOptColorsProps;
+  normal?: AMOptColorsProps;
+};
+interface AMMenuColorsProps extends AMOptColorsProps {
+  option: OptType;
+  subOptionSelected?: OptType;
+  subSubOptionSelected?: OptType;
 }
 
 interface AMColorsProps {
-  selected?: AMOptSelectedColorsProps;
+  selected?: AMOptColorsProps;
   menu?: AMMenuColorsProps;
   arrows?: string;
 }

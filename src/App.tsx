@@ -25,6 +25,23 @@ const TestPage = () => {
             background: "rgba(0, 0, 0, 0.349)",
             text: "rgb(255, 255, 255)",
           },
+          menu: {
+            option: {
+              selected: {
+                border: {
+                  color: "rgb(194, 194, 194)",
+                  width: "1px",
+                },
+                background: "rgba(0, 0, 0, 0.349)",
+                text: "rgb(255, 255, 255)",
+              },
+              normal: {
+                border: "none",
+                background: "rgba(0, 0, 0, 0.349)",
+                text: "rgb(255, 255, 255)",
+              },
+            },
+          },
         }}
       />
     </div>
