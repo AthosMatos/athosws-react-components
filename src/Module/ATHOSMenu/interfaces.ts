@@ -9,14 +9,14 @@ export type AMOptColorsProps = {
   text?: string;
   icon?: string;
 };
-type OptType = {
-  selected?: AMOptColorsProps;
+export type ColorOptType = {
+  clicked?: AMOptColorsProps;
   normal?: AMOptColorsProps;
 };
 interface AMMenuColorsProps extends AMOptColorsProps {
-  option: OptType;
-  subOptionSelected?: OptType;
-  subSubOptionSelected?: OptType;
+  option: ColorOptType;
+  subOption?: ColorOptType;
+  subSubOption?: ColorOptType;
 }
 
 interface AMColorsProps {
@@ -25,6 +25,22 @@ interface AMColorsProps {
   arrows?: string;
 }
 
+export interface DefaultOptProps {
+  label: string;
+  icon?: string;
+}
+
+export interface SubSubOptionProps extends DefaultOptProps {}
+
+export interface SubOptionProps extends DefaultOptProps {
+  subSubOpt?: SubSubOptionProps[];
+}
+
+export interface OptionProps extends DefaultOptProps {
+  subOpt?: SubOptionProps[];
+}
+
 export interface ATHOSMenuProps {
   colors?: AMColorsProps;
+  options: OptionProps[];
 }

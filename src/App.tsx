@@ -16,6 +16,45 @@ const TestPage = () => {
   return (
     <div className="p-2">
       <ATHOSMenu
+        options={[
+          {
+            label: "Option 1",
+            subOpt: [
+              {
+                label: "Sub Option 1",
+                subSubOpt: [
+                  {
+                    label: "Sub Sub Option 1",
+                  },
+                  {
+                    label: "Sub Sub Option 2",
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            label: "Option 2",
+            subOpt: [
+              {
+                label: "Sub Option 2",
+                subSubOpt: [
+                  {
+                    label: "Sub Sub Option 2",
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            label: "Option 3",
+            subOpt: [
+              {
+                label: "Sub Option 3",
+              },
+            ],
+          },
+        ]}
         colors={{
           selected: {
             border: {
@@ -27,17 +66,17 @@ const TestPage = () => {
           },
           menu: {
             option: {
-              selected: {
+              clicked: {
                 border: {
-                  color: "rgb(194, 194, 194)",
+                  color: "rgba(255, 255, 255, 0.075)",
                   width: "1px",
                 },
-                background: "rgba(0, 0, 0, 0.349)",
+                background: "rgba(255, 255, 255, 0.075)",
                 text: "rgb(255, 255, 255)",
               },
               normal: {
                 border: "none",
-                background: "rgba(0, 0, 0, 0.349)",
+                background: "transparent",
                 text: "rgb(255, 255, 255)",
               },
             },

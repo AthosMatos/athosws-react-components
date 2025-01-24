@@ -1,13 +1,14 @@
 import { useMemo } from "react";
 import { AMOptColorsProps } from "../../interfaces";
 
-import { AnimatePresence, ForwardRefComponent, HTMLMotionProps, motion } from "framer-motion";
+import { HTMLMotionProps, motion } from "framer-motion";
 interface ColoredDivProps extends HTMLMotionProps<"div"> {
   colors?: AMOptColorsProps;
+  scaleAnim?: boolean;
 }
 
 const ColoredDiv = (props: ColoredDivProps) => {
-  const { colors, children, className } = props;
+  const { colors, children, className, scaleAnim = true } = props;
   const borderprops = useMemo(() => {
     if (colors?.border === "none") {
       return {
@@ -20,14 +21,25 @@ const ColoredDiv = (props: ColoredDivProps) => {
       borderColor: colors?.border?.color,
     };
   }, [colors]);
+
+  const scaleProps = scaleAnim && {
+    whileHover: {
+      // scale: 1.01,
+    },
+    whileTap: {
+      scale: 1.02,
+    },
+  };
+
   return (
     <motion.div
+      {...scaleProps}
       {...props}
-      className={`h-fit text-black bg-[rgba(0,0,0,0.35)] p-2 flex items-center border-[rgba(0,0,0,0.55)] gap-2 border flex-row ${className}`}
+      className={`h-fit transition-colors text-black bg-[rgba(0,0,0,0.35)] p-2 flex items-center border-[rgba(0,0,0,0.55)] gap-2 border flex-row ${className}`}
       style={{
-        ...borderprops,
         color: colors?.text,
         backgroundColor: colors?.background,
+        ...borderprops,
         ...props.style,
       }}
     >

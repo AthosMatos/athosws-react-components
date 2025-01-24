@@ -1,14 +1,38 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ATHOSMenuProps } from "../../interfaces";
+import { ATHOSMenuProps, OptionProps, SubOptionProps, SubSubOptionProps } from "../../interfaces";
 
-const initialState: ATHOSMenuProps = {};
+type WithId<T> = T & { id: string };
+type OptWithId = WithId<OptionProps & { subOpt: WithId<SubOptionProps & { subSubOpt: WithId<SubSubOptionProps>[] }>[] }>;
+
+export interface ATHOSMenuPropsWId extends ATHOSMenuProps {
+  //options: OptWithId[];
+  //filledIds: boolean;
+}
+
+const initialState: ATHOSMenuPropsWId = {
+  options: [],
+  //filledIds: false,
+};
 
 const Slice = createSlice({
-  name: "ADTProps",
+  name: "AMProps",
   initialState,
   reducers: {
     fillProps: (state, action: PayloadAction<ATHOSMenuProps>) => {
-      return { ...state, ...action.payload };
+      const payload = action.payload;
+      /* if (payload.options.length && state.filledIds === false) {
+        const optWIds = payload.options.map((opt) => {
+          const subOpt = opt.subOpt?.map((sub) => {
+            const subSubOpt = sub.subSubOpt?.map((subsub) => {
+              return { ...subsub, id: v4() };
+            });
+            return { ...sub, id: v4(), subSubOpt };
+          });
+          return { ...opt, id: v4(), subOpt };
+        }) as OptWithId[];
+        return { ...state, ...payload, options: optWIds };
+      } */
+      return { ...state, ...payload };
     },
   },
 });
