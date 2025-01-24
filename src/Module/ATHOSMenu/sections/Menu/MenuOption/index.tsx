@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { BsFillGrid1X2Fill } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import ColoredDiv from "../../../components/ColoredDiv";
+import { DftOptWrapper } from "../../../components/DftOptWrapper";
 import { SubOptionProps } from "../../../interfaces";
 import { selectData, selectOption } from "../../../redux/Selected";
 import { AMState } from "../../../redux/store";
@@ -16,7 +17,6 @@ interface MenuOptionProps {
 }
 const MenuOption = ({ label, subOpts, isSelected, id }: MenuOptionProps) => {
   const optsColors = useSelector((state: AMState) => state.AMPropsReducer.colors?.menu?.option);
-  const colors = isSelected ? optsColors?.clicked : optsColors?.normal;
 
   useEffect(() => {
     const menuopt = document.getElementById(id);
@@ -42,13 +42,13 @@ const MenuOption = ({ label, subOpts, isSelected, id }: MenuOptionProps) => {
   };
 
   return (
-    <div className="w-full flex flex-col items-end">
-      <ColoredDiv id={id} onClick={selectedOpt} colors={colors} className="w-full rounded-md cursor-pointer">
+    <DftOptWrapper>
+      <ColoredDiv id={id} selected={isSelected} onClick={selectedOpt} colors={optsColors} className="w-full rounded-md cursor-pointer">
         <BsFillGrid1X2Fill />
         {label}
       </ColoredDiv>
       <SubOptions subOpts={subOpts} show={isSelected} />
-    </div>
+    </DftOptWrapper>
   );
 };
 

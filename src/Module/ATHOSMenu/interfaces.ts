@@ -10,6 +10,7 @@ export type AMOptColorsProps = {
   icon?: string;
 };
 export type ColorOptType = {
+  hover?: AMOptColorsProps;
   clicked?: AMOptColorsProps;
   normal?: AMOptColorsProps;
 };

@@ -18,7 +18,7 @@ const AM = (props: ATHOSMenuProps) => {
   return (
     <div className="flex flex-col gap-2 select-none">
       <Selected click={() => setOpen(!open)} />
-      <HeightAnimDiv className="pl-0" show={open}>
+      <HeightAnimDiv show={open}>
         <Menu />
       </HeightAnimDiv>
     </div>

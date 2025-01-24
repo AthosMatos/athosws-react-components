@@ -8,7 +8,7 @@ const HeightAnimDiv = ({ show, children, className }: { show: boolean; children:
           initial={{ height: 0 }}
           animate={{ height: "auto" }}
           exit={{ height: 0 }}
-          className={`overflow-hidden flex flex-col px-2 ${className}`}
+          className={`overflow-hidden flex flex-col  ${className}`}
         >
           {children}
         </motion.div>

@@ -74,6 +74,14 @@ const TestPage = () => {
                 background: "rgba(255, 255, 255, 0.075)",
                 text: "rgb(255, 255, 255)",
               },
+              hover: {
+                border: {
+                  color: "rgba(255, 255, 255, 0.075)",
+                  width: "1px",
+                },
+                background: "rgba(255, 255, 255, 0.075)",
+                text: "rgb(255, 255, 255)",
+              },
               normal: {
                 border: "none",
                 background: "transparent",
