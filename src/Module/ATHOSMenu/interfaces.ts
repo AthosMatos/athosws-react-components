@@ -1,3 +1,8 @@
+///COLOR////
+
+import { ReactNode } from "react";
+import { IconType } from "react-icons";
+
 export type AMOptColorsProps = {
   background?: string;
   border?:
@@ -26,20 +31,26 @@ interface AMColorsProps {
   arrows?: string;
 }
 
+///COLOR////
+
+///OPTIONS///
+
 export interface DefaultOptProps {
   label: string;
-  icon?: string;
+  icon?: ReactNode;
 }
 
 export interface SubSubOptionProps extends DefaultOptProps {}
 
 export interface SubOptionProps extends DefaultOptProps {
-  subSubOpt?: SubSubOptionProps[];
+  subSubOpts?: SubSubOptionProps[];
 }
 
 export interface OptionProps extends DefaultOptProps {
-  subOpt?: SubOptionProps[];
+  subOpts?: SubOptionProps[];
 }
+
+///OPTIONS///
 
 export interface ATHOSMenuProps {
   colors?: AMColorsProps;

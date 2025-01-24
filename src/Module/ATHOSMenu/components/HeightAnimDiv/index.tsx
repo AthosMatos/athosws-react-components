@@ -1,14 +1,30 @@
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, Variants } from "framer-motion";
 import { ReactNode } from "react";
-const HeightAnimDiv = ({ show, children, className }: { show: boolean; children: ReactNode; className?: string }) => {
+const variants: Variants = {
+  hidden: {
+    height: 0,
+    opacity: 0,
+  },
+  visible: {
+    height: "auto",
+    opacity: 1,
+  },
+};
+const HeightAnimDiv = ({ show, children, className, Bref }: { Bref?: any; show: boolean; children: ReactNode; className?: string }) => {
   return (
     <AnimatePresence>
       {show && (
         <motion.div
-          initial={{ height: 0 }}
-          animate={{ height: "auto" }}
-          exit={{ height: 0 }}
-          className={`overflow-hidden flex flex-col  ${className}`}
+          ref={Bref}
+          transition={{
+            duration: 0.15,
+            ease: "easeInOut",
+          }}
+          initial="hidden"
+          animate="visible"
+          exit="hidden"
+          variants={variants}
+          className={`overflow-hidden flex flex-col gap-1 w-[96%] ${className}`}
         >
           {children}
         </motion.div>

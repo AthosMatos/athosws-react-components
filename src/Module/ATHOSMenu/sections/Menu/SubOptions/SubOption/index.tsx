@@ -16,18 +16,9 @@ interface MenuSubOptionProps {
 }
 
 const SubOption = ({ subopt, id, isSelected }: MenuSubOptionProps) => {
-  useEffect(() => {
-    const menuopt = document.getElementById(id);
-    if (!menuopt || !subopt.subSubOpt || subopt.subSubOpt?.length == 0) return;
-
-    animate(menuopt, {
-      marginBottom: isSelected ? 4 : 0,
-    });
-  }, [isSelected]);
-
   const dispatch = useDispatch();
   const selectedOpt = () => {
-    const hasSubOpts = subopt.subSubOpt?.length;
+    const hasSubOpts = subopt.subSubOpts?.length;
     if (!hasSubOpts) {
       dispatch(
         selectData({
@@ -50,11 +41,11 @@ const SubOption = ({ subopt, id, isSelected }: MenuSubOptionProps) => {
 
   return (
     <DftOptWrapper>
-      <ColoredDiv selected={isSelected} id={id} onClick={selectedOpt} colors={colors} className="w-full rounded-md cursor-pointer">
-        <BsFillGrid1X2Fill />
+      <ColoredDiv selected={isSelected} onClick={selectedOpt} colors={colors} className="w-full rounded-md cursor-pointer">
+        {subopt.icon}
         {subopt.label}
       </ColoredDiv>
-      <SubSubOptions show={isSelected} subSubOpts={subopt.subSubOpt} />
+      <SubSubOptions show={isSelected} subSubOpts={subopt.subSubOpts} />
     </DftOptWrapper>
   );
 };

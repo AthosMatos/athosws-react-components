@@ -7,6 +7,7 @@ interface ColoredDivProps extends HTMLMotionProps<"div"> {
   selected?: boolean;
   specificColors?: AMOptColorsProps;
   colors?: ColorOptType;
+  aRef?: any;
 }
 
 const ColoredDiv = (props: ColoredDivProps) => {
@@ -15,26 +16,13 @@ const ColoredDiv = (props: ColoredDivProps) => {
 
   const color = specificColors || (selected ? colors?.clicked : isOver ? colors?.hover : colors?.normal);
 
-  const borderWidth = useMemo(() => {
-    if (color?.border === "none") {
-      return "1px";
-    }
-    return color?.border?.width;
-  }, [color]);
-
-  const borderColor = useMemo(() => {
-    if (color?.border === "none") {
-      return "rgba(0,0,0,0.0)";
-    }
-    return color?.border?.color;
-  }, [color]);
-
-  const textColor = useMemo(() => {
-    return color?.text;
-  }, [color]);
-
-  const backgroundColor = useMemo(() => {
-    return color?.background;
+  const animProps = useMemo(() => {
+    return {
+      borderWidth: color?.border === "none" ? "1px" : color?.border?.width,
+      borderColor: color?.border === "none" ? "rgba(0,0,0,0.0)" : color?.border?.color,
+      color: color?.text,
+      backgroundColor: color?.background,
+    };
   }, [color]);
 
   const scaleProps = scaleAnim && {
@@ -42,11 +30,7 @@ const ColoredDiv = (props: ColoredDivProps) => {
       // scale: 1.01,
     },
     whileTap: {
-      scale: 1.03,
-      transition: {
-        duration: 0.15,
-        ease: "easeInOut",
-      },
+      scale: 1.02,
     },
   };
 
@@ -56,20 +40,17 @@ const ColoredDiv = (props: ColoredDivProps) => {
       onMouseLeave={() => setIsOver(false)}
       {...scaleProps}
       {...props}
-      transition={{
-        duration: 1,
-        ease: "easeInOut",
-      }}
-      className={`h-fit text-black bg-[rgba(0,0,0,0.35)] p-2 flex items-center border-[rgba(0,0,0,0.55)] gap-2 border flex-row ${className}`}
+      ref={props.aRef}
+      className={`h-fit transition-colors duration-100 ease-in-out text-black bg-[rgba(0,0,0,0.35)] p-2 flex items-center border-[rgba(0,0,0,0.55)] gap-2 border flex-row ${className}`}
       style={{
         ...props.style,
+        ...animProps,
       }}
-      animate={{
-        backgroundColor,
-        borderColor,
-        borderWidth,
-        color: textColor,
+      transition={{
+        duration: 0.15,
+        ease: "easeInOut",
       }}
+      //animate={}
     >
       {children}
     </motion.div>

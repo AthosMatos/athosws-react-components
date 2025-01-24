@@ -14,15 +14,15 @@ const TestPage = () => {
   const { toast } = useATHOSToast();
 
   return (
-    <div className="p-2">
+    <div className="p-2 w-60">
       <ATHOSMenu
         options={[
           {
             label: "Option 1",
-            subOpt: [
+            subOpts: [
               {
                 label: "Sub Option 1",
-                subSubOpt: [
+                subSubOpts: [
                   {
                     label: "Sub Sub Option 1",
                   },
@@ -35,10 +35,10 @@ const TestPage = () => {
           },
           {
             label: "Option 2",
-            subOpt: [
+            subOpts: [
               {
                 label: "Sub Option 2",
-                subSubOpt: [
+                subSubOpts: [
                   {
                     label: "Sub Sub Option 2",
                   },
@@ -48,7 +48,7 @@ const TestPage = () => {
           },
           {
             label: "Option 3",
-            subOpt: [
+            subOpts: [
               {
                 label: "Sub Option 3",
               },

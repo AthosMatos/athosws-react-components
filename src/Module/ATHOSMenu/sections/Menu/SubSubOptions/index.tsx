@@ -14,7 +14,7 @@ const SubSubOptions = ({ show, subSubOpts }: MenuSubSubOptionsProps) => {
   const selectedSubSubOption = useSelector((state: AMState) => state.AMSelectedReducer.subSubOptionSelected);
 
   return (
-    <HeightAnimDiv show={show && !!subSubOpts && subSubOpts.length > 0} className="w-[96%] gap-1">
+    <HeightAnimDiv show={show && !!subSubOpts && subSubOpts.length > 0}>
       {subSubOpts?.map((subsubopt) => {
         const id = useMemo(() => `${subsubopt.label}-${v4()}`, []);
         return <SubSubOption id={id} isSelected={selectedSubSubOption === id} subsubopt={subsubopt} />;

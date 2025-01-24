@@ -29,7 +29,6 @@ const ListItem = ({
     : typeof option.label === "string"
     ? `${defaultClassName}`
     : undefined;
-  console.log("className", className);
   return (
     <motion.div
       onClick={onClick}

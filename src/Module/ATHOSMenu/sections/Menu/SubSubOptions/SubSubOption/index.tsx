@@ -39,9 +39,9 @@ const SubSubOption = ({ subsubopt, id, isSelected }: MenuSubSsubOptionProps) => 
   };
 
   return (
-    <DftOptWrapper className="p-0 px-1 last:pb-1">
+    <DftOptWrapper className="pb-0 last:pb-1">
       <ColoredDiv selected={isSelected} onClick={selectedOpt} colors={colors} className="w-full rounded-md cursor-pointer">
-        <BsFillGrid1X2Fill />
+        {subsubopt.icon}
         {subsubopt.label}
       </ColoredDiv>
     </DftOptWrapper>
