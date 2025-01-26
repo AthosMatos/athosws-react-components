@@ -1,22 +1,26 @@
-import { useMemo } from "react";
-import { BsFillGrid1X2Fill } from "react-icons/bs";
-import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useMemo } from "react";
+import { useSelector } from "react-redux";
 import ColoredDiv from "../../../../components/ColoredDiv";
 import { DftOptWrapper } from "../../../../components/DftOptWrapper";
 import { SubSubOptionProps } from "../../../../interfaces";
-import { selectData, selectSubSubOption } from "../../../../redux/Selected";
+import { useSelectedData } from "../../../../redux/Selected";
 import { AMState } from "../../../../redux/store";
 
-interface MenuSubSsubOptionProps {
-  subsubopt: SubSubOptionProps;
-  isSelected: boolean;
-  id: string;
+interface MenuSubSsubOptionProps extends SubSubOptionProps {
+  index: number;
+  optIndex: number;
+  subOptIndex: number;
 }
 
-const SubSubOption = ({ subsubopt, id, isSelected }: MenuSubSsubOptionProps) => {
+const SubSubOption = (props: MenuSubSsubOptionProps) => {
+  const { index, label, icon, path, optIndex, subOptIndex } = props;
   const subsubOptsColors = useSelector((state: AMState) => state.AMPropsReducer.colors?.menu?.subSubOption);
   const subOptsColors = useSelector((state: AMState) => state.AMPropsReducer.colors?.menu?.subOption);
   const optColors = useSelector((state: AMState) => state.AMPropsReducer.colors?.menu?.option);
+  const selectedSubSubOption = useSelector((state: AMState) => state.AMSelectedReducer.subSubOptionSelected);
+
+  const id = useMemo(() => `${optIndex}-${subOptIndex}-${index}`, [index, optIndex, subOptIndex]);
+  const isSelected = useMemo(() => selectedSubSubOption === id, [id, selectedSubSubOption]);
   const colors = useMemo(() => {
     if (!subsubOptsColors) {
       if (!subOptsColors) {
@@ -25,24 +29,23 @@ const SubSubOption = ({ subsubopt, id, isSelected }: MenuSubSsubOptionProps) => 
       return subOptsColors;
     }
     return subsubOptsColors;
-  }, [isSelected, subsubOptsColors, subOptsColors, subsubOptsColors]);
+  }, [subsubOptsColors, subOptsColors, subsubOptsColors]);
 
-  const dispatch = useDispatch();
-  const selectedOpt = () => {
-    dispatch(
-      selectData({
-        label: subsubopt.label,
-        //icon
-      })
-    );
-    dispatch(selectSubSubOption(id));
+  const { selectedOpt } = useSelectedData();
+
+  const click = () => {
+    selectedOpt("subsubopt", id, label, undefined, icon, path, true);
   };
 
+  useEffect(() => {
+    console.log("selectedSubSubOption", selectedSubSubOption, "id", id);
+  }, [selectedSubSubOption]);
+
   return (
-    <DftOptWrapper className="pb-0 last:pb-1">
-      <ColoredDiv selected={isSelected} onClick={selectedOpt} colors={colors} className="w-full rounded-md cursor-pointer">
-        {subsubopt.icon}
-        {subsubopt.label}
+    <DftOptWrapper className="pt-0 first:pt-1 pb-0 last:pb-1">
+      <ColoredDiv selected={isSelected} onClick={click} colors={colors} className="w-[92%] rounded-md cursor-pointer">
+        {icon}
+        {label}
       </ColoredDiv>
     </DftOptWrapper>
   );

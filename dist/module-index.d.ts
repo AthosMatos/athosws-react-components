@@ -445,6 +445,54 @@ declare const ATHOSColors: {
     background: string;
 };
 
+type AMOptColorsProps = {
+    background?: string;
+    border?: {
+        color?: string;
+        width?: string;
+    } | "none";
+    text?: string;
+    icon?: string;
+};
+type ColorOptType = {
+    hover?: AMOptColorsProps;
+    clicked?: AMOptColorsProps;
+    normal?: AMOptColorsProps;
+};
+interface AMMenuColorsProps extends AMOptColorsProps {
+    option: ColorOptType;
+    subOption?: ColorOptType;
+    subSubOption?: ColorOptType;
+}
+interface AMColorsProps {
+    selected?: AMOptColorsProps;
+    menu?: AMMenuColorsProps;
+    arrows?: string;
+}
+interface DefaultOptProps {
+    label: string;
+    icon?: ReactNode;
+    path?: string;
+}
+interface SubSubOptionProps extends DefaultOptProps {
+}
+interface SubOptionProps extends DefaultOptProps {
+    subSubOpts?: SubSubOptionProps[];
+}
+interface OptionProps extends DefaultOptProps {
+    subOpts?: SubOptionProps[];
+}
+interface ATHOSMenuProps {
+    colors?: AMColorsProps;
+    options: OptionProps[];
+    navigate?: {
+        useNavigate: any;
+        useLocation: any;
+    };
+}
+
+declare const ATHOSMenu: (props: ATHOSMenuProps) => react_jsx_runtime.JSX.Element;
+
 /**
  * Custom hook that detects clicks outside of a set of specified elements.
  *
@@ -464,4 +512,4 @@ interface ClickOutsideIdProps extends ClickOutsideBaseProps {
 type ClickOutsideProps = ClickOutsideRefProps | ClickOutsideIdProps;
 declare const useClickOutside: (props: ClickOutsideProps) => void;
 
-export { ATHOSButton, type ATHOSButtonProps, ATHOSCollapse, ATHOSColors, ATHOSDropDown2, ATHOSDynamicTable, ATHOSInput, ATHOSResizableDiv, ATHOSSideMenu, ATHOSToast, ATHOSTooltip, adaptSize, convertRemToPixels, generateColorShades, getContrastColor, getUnitWithoutValue, getValueWithoutUnit, useATHOSToast, useClickOutside };
+export { ATHOSButton, type ATHOSButtonProps, ATHOSCollapse, ATHOSColors, ATHOSDropDown2, ATHOSDynamicTable, ATHOSInput, ATHOSMenu, ATHOSResizableDiv, ATHOSSideMenu, ATHOSToast, ATHOSTooltip, adaptSize, convertRemToPixels, generateColorShades, getContrastColor, getUnitWithoutValue, getValueWithoutUnit, useATHOSToast, useClickOutside };

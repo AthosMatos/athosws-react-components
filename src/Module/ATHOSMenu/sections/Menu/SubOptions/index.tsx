@@ -1,25 +1,19 @@
-import { useMemo } from "react";
-import { useSelector } from "react-redux";
-import { v4 } from "uuid";
 import HeightAnimDiv from "../../../components/HeightAnimDiv";
 import { SubOptionProps } from "../../../interfaces";
-import { AMState } from "../../../redux/store";
 import SubOption from "./SubOption";
 
 interface MenuSubOptionProps {
+  optIndex: number;
   subOpts?: SubOptionProps[];
   show: boolean;
 }
 
-const SubOptions = ({ subOpts, show }: MenuSubOptionProps) => {
-  const selectedSubOption = useSelector((state: AMState) => state.AMSelectedReducer.subOptionSelected);
-
+const SubOptions = ({ subOpts, show, optIndex }: MenuSubOptionProps) => {
   return (
     <HeightAnimDiv show={show && !!subOpts && subOpts.length > 0}>
-      {subOpts?.map((subopt) => {
-        const id = useMemo(() => `${subopt.label}-${v4()}`, []);
-        return <SubOption id={id} isSelected={selectedSubOption === id} subopt={subopt} />;
-      })}
+      {subOpts?.map((subopt, index) => (
+        <SubOption key={`${subopt.label}-${index}`} index={index} optIndex={optIndex} {...subopt} />
+      ))}
     </HeightAnimDiv>
   );
 };

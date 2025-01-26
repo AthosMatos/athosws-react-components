@@ -27,6 +27,8 @@ export { adaptSize, convertRemToPixels, getUnitWithoutValue, getValueWithoutUnit
 
 export { ATHOSColors } from "./Module/colors/colors";
 
+export { ATHOSMenu } from "./Module/ATHOSMenu";
+
 /* Hooks */
 
 export { useClickOutside } from "./Module/hooks/useClickOutside";

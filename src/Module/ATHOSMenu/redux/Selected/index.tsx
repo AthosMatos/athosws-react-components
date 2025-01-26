@@ -1,12 +1,14 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { useDispatch, useSelector } from "react-redux";
 import { DefaultOptProps } from "../../interfaces";
+import { AMState } from "../store";
 
-interface SelectedReduxProps {
+type SelectedReduxProps = {
   optionSelected: string | null;
   subOptionSelected: string | null;
   subSubOptionSelected: string | null;
   selectedData: DefaultOptProps | null;
-}
+};
 
 const initialState: SelectedReduxProps = {
   optionSelected: null,
@@ -24,11 +26,13 @@ const Slice = createSlice({
       else state.optionSelected = action.payload;
       state.subOptionSelected = null;
       state.subSubOptionSelected = null;
+      // state.optionSelected = action.payload;
     },
     selectSubOption: (state, action: PayloadAction<string>) => {
       if (state.subOptionSelected === action.payload) state.subOptionSelected = null;
       else state.subOptionSelected = action.payload;
       state.subSubOptionSelected = null;
+      //  state.subOptionSelected = action.payload;
     },
     selectSubSubOption: (state, action: PayloadAction<string>) => {
       if (state.subSubOptionSelected === action.payload) {
@@ -36,6 +40,7 @@ const Slice = createSlice({
         return;
       }
       state.subSubOptionSelected = action.payload;
+      //state.subSubOptionSelected = action.payload;
     },
     selectData: (state, action: PayloadAction<DefaultOptProps>) => {
       state.selectedData = action.payload;
@@ -49,3 +54,38 @@ export const { selectOption, selectSubOption, selectSubSubOption, selectData } =
 const AMSelectedReducer = Slice.reducer;
 
 export default AMSelectedReducer;
+export type OptSTypes = "opt" | "subopt" | "subsubopt";
+export const useSelectedData = () => {
+  const dispatch = useDispatch();
+  const selectedData = useSelector((state: AMState) => state.AMSelectedReducer.selectedData);
+  const navigate = useSelector((state: AMState) => state.AMPropsReducer.navigate?.useNavigate)();
+  const location = useSelector((state: AMState) => state.AMPropsReducer.navigate?.useLocation)();
+
+  const selectedOpt = (type: OptSTypes, id: string, label: string, opts?: any[], icon?: any, path?: string, forceSelect?: boolean) => {
+    const hasSubOpts = opts?.length;
+    if (!hasSubOpts && !path) return;
+    if (forceSelect || (!hasSubOpts && selectedData?.label !== label)) {
+      dispatch(
+        selectData({
+          label,
+          icon,
+        })
+      );
+      navigate && location.pathname !== path && navigate(path);
+    }
+    if (!hasSubOpts && selectedData?.label === label) return;
+    switch (type) {
+      case "opt":
+        dispatch(selectOption(id));
+        break;
+      case "subopt":
+        dispatch(selectSubOption(id));
+        break;
+      case "subsubopt":
+        dispatch(selectSubSubOption(id));
+        break;
+    }
+  };
+
+  return { selectedOpt };
+};

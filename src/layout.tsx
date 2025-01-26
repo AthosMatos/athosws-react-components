@@ -1,6 +1,8 @@
+import { MdDashboard } from "react-icons/md";
 import { TbFolders } from "react-icons/tb";
 import { Outlet, useLocation, useNavigate } from "react-router";
-import { ATHOSColors, ATHOSSideMenu } from "./module-index";
+import { ATHOSColors } from "./module-index";
+import { ATHOSMenu } from "./Module/ATHOSMenu";
 import { ASMOptionI } from "./Module/ATHOSSideMenu/interfaces";
 const opts: ASMOptionI[] = [
   {
@@ -99,42 +101,111 @@ const Layout = () => {
       className="flex items-center justify-center h-screen w-screen"
     >
       <div className={`w-[98vw] h-[98vh] border border-gray-100 rounded-xl overflow-auto`}>
-        <ATHOSSideMenu
-          usesRouter={{
-            location: useLocation(),
-            navigate: useNavigate(),
+        <ATHOSMenu
+          navigate={{
+            useLocation: useLocation,
+            useNavigate: useNavigate,
           }}
-          collapsableIcon={{
-            label: "Hide",
-          }}
-          editableIcon={{
-            label: "Edit",
-          }}
+          options={[
+            {
+              label: "Option 0",
+              path: "/test",
+              icon: <MdDashboard />,
+            },
+            {
+              label: "Option 1",
+              subOpts: [
+                {
+                  label: "Sub Option 1",
+                  subSubOpts: [
+                    {
+                      label: "Sub Sub Option 1",
+                      path: "/test2",
+                    },
+                    {
+                      label: "Sub Sub Option 2",
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              label: "Option 2",
+              subOpts: [
+                {
+                  label: "Sub Option 2",
+                  subSubOpts: [
+                    {
+                      label: "Sub Sub Option 2",
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              label: "Option 3",
+              subOpts: [
+                {
+                  label: "Sub Option 3",
+                },
+              ],
+            },
+          ]}
           colors={{
-            background: ATHOSColors.black.coal,
-            sideBorder: ATHOSColors.white.eggshell,
-            accent: ATHOSColors.grey.darker,
-            primary: ATHOSColors.aqua.default,
-            /*  options: {
-  active: "purple",
-  accent: ATHOSColors.grey.default,
-  specific: { ["Dashboard"]: { default: "red", text: "blue" } },
-}, */
+            selected: {
+              border: {
+                color: "rgb(194, 194, 194)",
+                width: "1px",
+              },
+              background: "rgba(0, 0, 0, 0.349)",
+              text: "rgb(255, 255, 255)",
+            },
+            menu: {
+              subSubOption: {
+                clicked: {
+                  background: "transparent",
+                  text: "rgb(255, 255, 255)",
+                  border: {
+                    color: "rgba(255, 255, 255, 0.486)",
+                    width: "1px",
+                  },
+                },
+                normal: {
+                  text: "rgb(255, 255, 255)",
+                },
+                hover: {
+                  text: "rgb(255, 255, 255)",
+                  //background: "rgba(255, 255, 255, 0.075)",
+                },
+              },
+              option: {
+                clicked: {
+                  border: {
+                    color: "rgb(158, 158, 158)",
+                    width: "1px",
+                  },
+                  background: "rgb(58, 58, 58)",
+
+                  text: "rgb(255, 255, 255)",
+                },
+                hover: {
+                  border: {
+                    color: "rgba(255, 255, 255, 0.192)",
+                    width: "1px",
+                  },
+                  background: "rgba(255, 255, 255, 0.075)",
+                  text: "rgb(255, 255, 255)",
+                },
+                normal: {
+                  border: "none",
+                  background: "transparent",
+                  text: "rgb(255, 255, 255)",
+                },
+              },
+            },
           }}
-          options={opts}
-          onExitIcon={{
-            label: "Sair",
-            onClick: () => console.log("Sair"),
-          }}
-          asOverlay
-          overlayStyle={{
-            display: "flex",
-            flexDirection: "row",
-            backgroundColor: ATHOSColors.black.coal,
-          }}
-        >
-          <Outlet />
-        </ATHOSSideMenu>
+        />
+        <Outlet />
       </div>
     </div>
   );

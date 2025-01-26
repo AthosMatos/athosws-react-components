@@ -1,7 +1,6 @@
 ///COLOR////
 
 import { ReactNode } from "react";
-import { IconType } from "react-icons";
 
 export type AMOptColorsProps = {
   background?: string;
@@ -38,6 +37,7 @@ interface AMColorsProps {
 export interface DefaultOptProps {
   label: string;
   icon?: ReactNode;
+  path?: string;
 }
 
 export interface SubSubOptionProps extends DefaultOptProps {}
@@ -55,4 +55,8 @@ export interface OptionProps extends DefaultOptProps {
 export interface ATHOSMenuProps {
   colors?: AMColorsProps;
   options: OptionProps[];
+  navigate?: {
+    useNavigate: any;
+    useLocation: any;
+  };
 }

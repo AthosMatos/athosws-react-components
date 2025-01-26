@@ -2,7 +2,6 @@ import { useState } from "react";
 import "./App.css";
 import { tdata } from "./data-CC71BNrg8tmzETG2KjpiS";
 import { GroupI } from "./Module/ATHOSCard";
-import { ATHOSMenu } from "./Module/ATHOSMenu";
 import { useATHOSToast } from "./Module/ATHOSToast/useToast";
 
 const TestPage = () => {
@@ -13,86 +12,7 @@ const TestPage = () => {
 
   const { toast } = useATHOSToast();
 
-  return (
-    <div className="p-2 w-60">
-      <ATHOSMenu
-        options={[
-          {
-            label: "Option 1",
-            subOpts: [
-              {
-                label: "Sub Option 1",
-                subSubOpts: [
-                  {
-                    label: "Sub Sub Option 1",
-                  },
-                  {
-                    label: "Sub Sub Option 2",
-                  },
-                ],
-              },
-            ],
-          },
-          {
-            label: "Option 2",
-            subOpts: [
-              {
-                label: "Sub Option 2",
-                subSubOpts: [
-                  {
-                    label: "Sub Sub Option 2",
-                  },
-                ],
-              },
-            ],
-          },
-          {
-            label: "Option 3",
-            subOpts: [
-              {
-                label: "Sub Option 3",
-              },
-            ],
-          },
-        ]}
-        colors={{
-          selected: {
-            border: {
-              color: "rgb(194, 194, 194)",
-              width: "1px",
-            },
-            background: "rgba(0, 0, 0, 0.349)",
-            text: "rgb(255, 255, 255)",
-          },
-          menu: {
-            option: {
-              clicked: {
-                border: {
-                  color: "rgba(255, 255, 255, 0.075)",
-                  width: "1px",
-                },
-                background: "rgba(255, 255, 255, 0.075)",
-                text: "rgb(255, 255, 255)",
-              },
-              hover: {
-                border: {
-                  color: "rgba(255, 255, 255, 0.075)",
-                  width: "1px",
-                },
-                background: "rgba(255, 255, 255, 0.075)",
-                text: "rgb(255, 255, 255)",
-              },
-              normal: {
-                border: "none",
-                background: "transparent",
-                text: "rgb(255, 255, 255)",
-              },
-            },
-          },
-        }}
-      />
-    </div>
-  );
+  return <div className="p-2 w-60">TEST </div>;
 };
 
 export default TestPage;
