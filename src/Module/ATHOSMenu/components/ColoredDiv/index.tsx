@@ -41,7 +41,7 @@ const ColoredDiv = (props: ColoredDivProps) => {
       {...scaleProps}
       {...props}
       ref={props.aRef}
-      className={`h-fit transition-colors duration-100 ease-in-out text-black bg-[rgba(0,0,0,0.35)] p-2 flex items-center border-[rgba(0,0,0,0.55)] gap-2 border flex-row ${className}`}
+      className={`h-fit transition-colors duration-100 ease-in-out text-black  bg-[rgba(0,0,0,0.35)] flex items-center border-[rgba(0,0,0,0.55)] border flex-row ${className}`}
       style={{
         ...props.style,
         ...animProps,

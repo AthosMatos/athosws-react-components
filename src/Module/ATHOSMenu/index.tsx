@@ -123,10 +123,10 @@ const AM = (props: ATHOSMenuProps) => {
   }
 
   return (
-    <div className="flex flex-col gap-2 select-none leading-tight z-[999]">
+    <div className="flex flex-col gap-2 select-none leading-tight ">
       <div className="relative">
         <Selected aRef={ARef} click={() => setOpen(!open)} />
-        <HeightAnimDiv Bref={BRef} className="w-full absolute mt-2" show={open}>
+        <HeightAnimDiv Bref={BRef} className="w-full absolute mt-2 z-[999] " show={open}>
           <Menu />
         </HeightAnimDiv>
       </div>

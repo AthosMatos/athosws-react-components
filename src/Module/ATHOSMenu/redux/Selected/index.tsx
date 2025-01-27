@@ -61,17 +61,40 @@ export const useSelectedData = () => {
   const navigate = useSelector((state: AMState) => state.AMPropsReducer.navigate?.useNavigate)();
   const location = useSelector((state: AMState) => state.AMPropsReducer.navigate?.useLocation)();
 
-  const selectedOpt = (type: OptSTypes, id: string, label: string, opts?: any[], icon?: any, path?: string, forceSelect?: boolean) => {
+  const selectedOpt = (
+    type: OptSTypes,
+    id: string,
+    label: string,
+    opts?: any[],
+    icon?: any,
+    path?: string,
+    forceSelect?: boolean,
+    click?: () => void
+  ) => {
     const hasSubOpts = opts?.length;
-    if (!hasSubOpts && !path) return;
-    if (forceSelect || (!hasSubOpts && selectedData?.label !== label)) {
+    console.log(
+      "path",
+      path,
+      "forceSelect",
+      forceSelect,
+      "hasSubOpts",
+      hasSubOpts,
+      "selectedData?.label",
+      selectedData?.label,
+      "label",
+      label
+    );
+    if (!hasSubOpts && !path && !click) return;
+
+    if (path || forceSelect || (!hasSubOpts && selectedData?.label !== label)) {
       dispatch(
         selectData({
           label,
           icon,
         })
       );
-      navigate && location.pathname !== path && navigate(path);
+      click && click();
+      navigate && location.pathname !== path && path && navigate(path);
     }
     if (!hasSubOpts && selectedData?.label === label) return;
     switch (type) {

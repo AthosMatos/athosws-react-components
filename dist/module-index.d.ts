@@ -473,6 +473,7 @@ interface DefaultOptProps {
     label: string;
     icon?: ReactNode;
     path?: string;
+    onClick?: () => void;
 }
 interface SubSubOptionProps extends DefaultOptProps {
 }

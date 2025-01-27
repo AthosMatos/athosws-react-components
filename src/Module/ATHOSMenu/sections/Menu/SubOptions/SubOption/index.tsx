@@ -13,7 +13,7 @@ interface MenuSubOptionProps extends SubOptionProps {
 }
 
 const SubOption = (props: MenuSubOptionProps) => {
-  const { index, label, icon, path, subSubOpts, optIndex } = props;
+  const { index, label, icon, path, subSubOpts, optIndex, onClick } = props;
   const optColors = useSelector((state: AMState) => state.AMPropsReducer.colors?.menu?.option);
   const subOptsColors = useSelector((state: AMState) => state.AMPropsReducer.colors?.menu?.subOption);
   const selectedSubOption = useSelector((state: AMState) => state.AMSelectedReducer.subOptionSelected);
@@ -29,12 +29,12 @@ const SubOption = (props: MenuSubOptionProps) => {
 
   const { selectedOpt } = useSelectedData();
   const click = () => {
-    selectedOpt("subopt", id, label, subSubOpts, icon, path);
+    selectedOpt("subopt", id, label, subSubOpts, icon, path, !!onClick, onClick);
   };
 
   return (
     <DftOptWrapper>
-      <ColoredDiv selected={isSelected} onClick={click} colors={colors} className="w-[96%] rounded-md cursor-pointer">
+      <ColoredDiv selected={isSelected} onClick={click} colors={colors} className="w-[96%] rounded-md cursor-pointer p-2 gap-2">
         {icon}
         {label}
       </ColoredDiv>

@@ -12,7 +12,7 @@ const Selected = ({ click, aRef }: SelectedProps) => {
   const colors = useSelector((state: AMState) => state.AMPropsReducer.colors?.selected);
 
   return (
-    <ColoredDiv aRef={aRef} onClick={click} specificColors={colors} className="w-full px-5 rounded-full cursor-pointer">
+    <ColoredDiv aRef={aRef} onClick={click} specificColors={colors} className="w-full px-5 py-2 rounded-full cursor-pointer">
       <AnimatePresence mode="wait">
         <motion.div
           key={selected?.label}

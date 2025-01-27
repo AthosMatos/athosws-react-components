@@ -8,7 +8,7 @@ const Menu = () => {
   const options = useSelector((state: AMState) => state.AMPropsReducer.options);
 
   return (
-    <ColoredDiv scaleAnim={false} specificColors={colors} className="w-full !p-0 !px-[0.13rem] !gap-0 rounded-lg flex-col !py-[0.12rem]">
+    <ColoredDiv scaleAnim={false} specificColors={colors} className="w-full rounded-lg flex-col p-2 gap-1">
       {options.map((opt, index) => {
         return <MenuOption key={`${opt.label}-${index}`} {...opt} index={index} />;
       })}
