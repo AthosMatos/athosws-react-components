@@ -1,17 +1,10 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
-const useSetPortal = ({
-  portalId,
-  setRoot,
-  onUnmount,
-}: {
-  portalId: string;
-  setRoot: (root: HTMLElement | null) => void;
-  onUnmount?: () => void;
-}) => {
+const useSetPortal = ({ portalId, onUnmount }: { portalId?: string; onUnmount?: () => void }) => {
+  const [Root, setRoot] = useState<HTMLElement | null>(null);
   useEffect(() => {
     const dropDownRoot = document.createElement("div");
-    dropDownRoot.id = portalId; // Set the id to ATHOSDropDown
+    if (portalId) dropDownRoot.id = portalId; // Set the id to ATHOSDropDown
 
     // Append the div to the root of the document
     document.body.appendChild(dropDownRoot);
@@ -25,6 +18,8 @@ const useSetPortal = ({
       onUnmount && onUnmount();
     };
   }, []);
+
+  return { Root };
 };
 
 export default useSetPortal;

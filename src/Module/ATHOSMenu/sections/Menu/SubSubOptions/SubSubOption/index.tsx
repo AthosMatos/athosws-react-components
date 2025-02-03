@@ -22,13 +22,11 @@ const SubSubOption = (props: MenuSubSsubOptionProps) => {
   const id = useMemo(() => `${optIndex}-${subOptIndex}-${index}`, [index, optIndex, subOptIndex]);
   const isSelected = useMemo(() => selectedSubSubOption === id, [id, selectedSubSubOption]);
   const colors = useMemo(() => {
-    if (!subsubOptsColors) {
-      if (!subOptsColors) {
-        return optColors;
-      }
-      return subOptsColors;
-    }
-    return subsubOptsColors;
+    return {
+      clicked: subsubOptsColors?.clicked || subOptsColors?.clicked || optColors?.clicked,
+      hover: subsubOptsColors?.hover || subOptsColors?.hover || optColors?.hover,
+      normal: subsubOptsColors?.normal || subOptsColors?.normal || optColors?.normal,
+    };
   }, [subsubOptsColors, subOptsColors, subsubOptsColors]);
 
   const { selectedOpt } = useSelectedData();

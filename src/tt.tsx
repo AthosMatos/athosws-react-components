@@ -1,7 +1,6 @@
-import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
-
 import { useAnimation } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
+import { ATHOSModal } from "./Module/ATHOSModal";
 
 const Categorias_Modal = () => {
   const [selectedOption, setSelectedOption] = useState(0);
@@ -75,32 +74,51 @@ const Categorias_Modal = () => {
 
     setItens(ite);
   };
+
+  const [open, setOpen] = useState(false);
   return (
-    <DragDropContext onDragEnd={onDragEnd}>
-      <div ref={scrollDivRef} className="w-[calc(100vw/3)] overflow-x-hidden h-screen">
-        <Droppable droppableId="droppable">
-          {(provided, snapshot) => (
-            <div {...provided.droppableProps} ref={provided.innerRef} style={getListStyle(snapshot.isDraggingOver)}>
-              {items.map((item, index) => (
-                <Draggable key={item.id} draggableId={item.id} index={index}>
-                  {(provided, snapshot) => (
-                    <div
-                      ref={provided.innerRef}
-                      {...provided.draggableProps}
-                      {...provided.dragHandleProps}
-                      style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}
-                    >
-                      {item.content}
-                    </div>
-                  )}
-                </Draggable>
-              ))}
-              {provided.placeholder}
-            </div>
-          )}
-        </Droppable>
-      </div>
-    </DragDropContext>
+    <div>
+      {/*  <DragDropContext onDragEnd={onDragEnd}>
+        <div ref={scrollDivRef} className="w-[calc(100vw/3)] overflow-x-hidden h-screen">
+          <Droppable droppableId="droppable">
+            {(provided, snapshot) => (
+              <div {...provided.droppableProps} ref={provided.innerRef} style={getListStyle(snapshot.isDraggingOver)}>
+                {items.map((item, index) => (
+                  <Draggable key={item.id} draggableId={item.id} index={index}>
+                    {(provided, snapshot) => (
+                      <div
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                        style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}
+                      >
+                        {item.content}
+                      </div>
+                    )}
+                  </Draggable>
+                ))}
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
+        </div>
+      </DragDropContext> */}
+      <ATHOSModal show={open} hide={() => setOpen(false)}>
+        <div className="w-[calc(100vw/3)] overflow-x-hidden h-[calc(100vh/3)] p-4 bg-white rounded-md">
+          <div className=" ">
+            <h1>Modal</h1>
+            <p>Conteudo do modal</p>
+          </div>
+        </div>
+      </ATHOSModal>
+      <button
+        onClick={() => {
+          setOpen(!open);
+        }}
+      >
+        Open Modal
+      </button>
+    </div>
   );
 };
 

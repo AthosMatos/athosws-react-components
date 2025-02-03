@@ -14,8 +14,12 @@ const ColoredDiv = (props: ColoredDivProps) => {
   const { colors, children, className, scaleAnim = true, selected, specificColors } = props;
   const [isOver, setIsOver] = useState(false);
 
-  const color = specificColors || (selected ? colors?.clicked : isOver ? colors?.hover : colors?.normal);
-
+  const cs = specificColors || (selected ? colors?.clicked : isOver ? colors?.hover : colors?.normal);
+  const color = {
+    text: cs?.text || colors?.defaults?.text,
+    background: cs?.background || colors?.defaults?.background,
+    border: cs?.border || colors?.defaults?.border,
+  };
   const animProps = useMemo(() => {
     return {
       borderWidth: color?.border === "none" ? "1px" : color?.border?.width,

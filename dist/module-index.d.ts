@@ -340,25 +340,30 @@ interface ATHOSToastProps {
     updateState?: any;
     removeCondition?: boolean;
     renderCondition?: boolean;
-    children: React.ReactNode;
     position?: "top-right" | "top-left" | "bottom-right" | "bottom-left";
     gap?: number;
     renderAndFade?: boolean;
-}
-interface ATHOSToastProps2 {
-    id?: string;
-    updateState?: any;
-    removeCondition?: boolean;
-    renderCondition?: boolean;
-    position?: "top-right" | "top-left" | "bottom-right" | "bottom-left";
-    gap?: number;
-    renderAndFade?: boolean;
+    children?: React.ReactNode;
 }
 
 declare const ATHOSToast: (props: ATHOSToastProps) => react_jsx_runtime.JSX.Element;
 
 declare const useATHOSToast: () => {
-    toast: (t: React.ReactNode | JSX.Element, props?: ATHOSToastProps2) => void;
+    toast: (t: React.ReactNode | JSX.Element, props?: ATHOSToastProps) => void;
+};
+
+interface ATHOSModalProps {
+    show?: boolean;
+    children?: React.ReactNode;
+    hide?: () => void;
+    blur?: "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "none";
+    backdrop?: string;
+}
+
+declare const ATHOSModal: React.FC<ATHOSModalProps>;
+
+declare const useATHOSModal: () => {
+    modal: (t: React.ReactNode | JSX.Element, props?: ATHOSModalProps) => void;
 };
 
 interface ATHOSTooltipProps {
@@ -513,4 +518,4 @@ interface ClickOutsideIdProps extends ClickOutsideBaseProps {
 type ClickOutsideProps = ClickOutsideRefProps | ClickOutsideIdProps;
 declare const useClickOutside: (props: ClickOutsideProps) => void;
 
-export { ATHOSButton, type ATHOSButtonProps, ATHOSCollapse, ATHOSColors, ATHOSDropDown2, ATHOSDynamicTable, ATHOSInput, ATHOSMenu, ATHOSResizableDiv, ATHOSSideMenu, ATHOSToast, ATHOSTooltip, adaptSize, convertRemToPixels, generateColorShades, getContrastColor, getUnitWithoutValue, getValueWithoutUnit, useATHOSToast, useClickOutside };
+export { ATHOSButton, type ATHOSButtonProps, ATHOSCollapse, ATHOSColors, ATHOSDropDown2, ATHOSDynamicTable, ATHOSInput, ATHOSMenu, ATHOSModal, ATHOSResizableDiv, ATHOSSideMenu, ATHOSToast, ATHOSTooltip, adaptSize, convertRemToPixels, generateColorShades, getContrastColor, getUnitWithoutValue, getValueWithoutUnit, useATHOSModal, useATHOSToast, useClickOutside };

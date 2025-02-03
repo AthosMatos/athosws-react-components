@@ -13,11 +13,12 @@ export type AMOptColorsProps = {
   text?: string;
   icon?: string;
 };
-export type ColorOptType = {
+export interface ColorOptType {
   hover?: AMOptColorsProps;
   clicked?: AMOptColorsProps;
   normal?: AMOptColorsProps;
-};
+  defaults?: AMOptColorsProps;
+}
 interface AMMenuColorsProps extends AMOptColorsProps {
   option: ColorOptType;
   subOption?: ColorOptType;

@@ -26,12 +26,6 @@ const AM = (props: ATHOSMenuProps) => {
     refs: [ARef, BRef],
   });
 
-  /*   useEffect(() => {
-    if (!open) {
-      setInit(false);
-    }
-  }, [open]); */
-
   if (props.navigate) {
     const options = useSelector((state: AMState) => state.AMPropsReducer.options);
     const location = props.navigate.useLocation();

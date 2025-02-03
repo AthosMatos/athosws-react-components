@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { IoClose, IoMenu } from "react-icons/io5";
-import { ATHOSDropDown2 } from "../../../ATHOSDropDown2";
+import { ATHOSDropDown2 } from "../../../ATHOSDropDown";
 import { ATHOSToast } from "../../../ATHOSToast";
 import { forceOpacity, generateColorShades } from "../../../utils/color-utils";
 import { useADTSelect } from "../../redux/Select/hook";

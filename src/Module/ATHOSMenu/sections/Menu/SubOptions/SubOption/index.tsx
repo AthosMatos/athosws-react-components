@@ -21,10 +21,11 @@ const SubOption = (props: MenuSubOptionProps) => {
   const id = useMemo(() => `${optIndex}-${index}`, [index, optIndex]);
   const isSelected = useMemo(() => selectedSubOption === id, [id, selectedSubOption]);
   const colors = useMemo(() => {
-    if (!subOptsColors) {
-      return optColors;
-    }
-    return subOptsColors;
+    return {
+      clicked: subOptsColors?.clicked || subOptsColors?.defaults || optColors?.clicked || optColors?.defaults,
+      hover: subOptsColors?.hover || subOptsColors?.defaults || optColors?.hover || optColors?.defaults,
+      normal: subOptsColors?.normal || subOptsColors?.defaults || optColors?.normal || optColors?.defaults,
+    };
   }, [subOptsColors, optColors]);
 
   const { selectedOpt } = useSelectedData();

@@ -1,8 +1,8 @@
 import { FaFilter } from "react-icons/fa";
 import { MdTune } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
-import { ATHOSDropDown2 } from "../../../../ATHOSDropDown2";
-import { LabelI } from "../../../../ATHOSDropDown2/interfaces";
+import { ATHOSDropDown2 } from "../../../../ATHOSDropDown";
+import { LabelI } from "../../../../ATHOSDropDown/interfaces";
 import { generateColorShades } from "../../../../utils/color-utils";
 import { toggleColOrderFilter } from "../../../redux/Filtering/provider";
 import { ADTState } from "../../../redux/store";

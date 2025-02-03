@@ -6,7 +6,7 @@ export { ATHOSButton } from "./Module/ATHOSButton";
 export type { ATHOSButtonProps } from "./Module/ATHOSButton/interfaces";
 
 export { ATHOSCollapse } from "./Module/ATHOSCollapse";
-export { ATHOSDropDown2 } from "./Module/ATHOSDropDown2";
+export { ATHOSDropDown2 } from "./Module/ATHOSDropDown";
 export { ATHOSDynamicTable } from "./Module/ATHOSDynamicTable";
 export { ATHOSInput } from "./Module/ATHOSInput";
 export { ATHOSResizableDiv } from "./Module/ATHOSResizableDiv";
@@ -16,6 +16,11 @@ export { ATHOSSideMenu } from "./Module/ATHOSSideMenu";
 export { ATHOSToast } from "./Module/ATHOSToast";
 export { useATHOSToast } from "./Module/ATHOSToast/useToast";
 /* TOAST */
+
+/* MODAL */
+export { ATHOSModal } from "./Module/ATHOSModal";
+export { useATHOSModal } from "./Module/ATHOSModal/useModal";
+/* MODAL */
 
 export { ATHOSTooltip } from "./Module/ATHOSTooltip";
 

@@ -11,15 +11,13 @@ export const ATHOSTooltip = (props: ATHOSTooltipProps) => {
   const { children, id = v4(), forceOpen, position = "top", followCursor, content } = props;
   const [open, setOpen] = useState(false);
   const [firstopen, setfirstOpen] = useState(true);
-  const [Root, setRoot] = useState<HTMLElement | null>(null);
   const childRef = useRef<HTMLDivElement>(null);
   const tooltipRef = useRef<HTMLDivElement>(null);
   const DftID = `athos-tooltip`;
   const ID = `${DftID} - ${id}`;
   const gap = 10;
-  useSetPortal({
+  const { Root } = useSetPortal({
     portalId: ID,
-    setRoot,
   });
   useHandlePosition_F({
     childRef,
