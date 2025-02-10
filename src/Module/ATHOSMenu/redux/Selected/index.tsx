@@ -1,13 +1,14 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { useDispatch, useSelector } from "react-redux";
 import { DefaultOptProps } from "../../interfaces";
+import { WithId } from "../Props";
 import { AMState } from "../store";
 
 type SelectedReduxProps = {
   optionSelected: string | null;
   subOptionSelected: string | null;
   subSubOptionSelected: string | null;
-  selectedData: DefaultOptProps | null;
+  selectedData: WithId<DefaultOptProps> | null;
 };
 
 const initialState: SelectedReduxProps = {
@@ -42,7 +43,7 @@ const Slice = createSlice({
       state.subSubOptionSelected = action.payload;
       //state.subSubOptionSelected = action.payload;
     },
-    selectData: (state, action: PayloadAction<DefaultOptProps>) => {
+    selectData: (state, action: PayloadAction<WithId<DefaultOptProps>>) => {
       state.selectedData = action.payload;
     },
   },
@@ -72,18 +73,7 @@ export const useSelectedData = () => {
     click?: () => void
   ) => {
     const hasSubOpts = opts?.length;
-    console.log(
-      "path",
-      path,
-      "forceSelect",
-      forceSelect,
-      "hasSubOpts",
-      hasSubOpts,
-      "selectedData?.label",
-      selectedData?.label,
-      "label",
-      label
-    );
+
     if (!hasSubOpts && !path && !click) return;
 
     if (path || forceSelect || (!hasSubOpts && selectedData?.label !== label)) {
@@ -91,11 +81,13 @@ export const useSelectedData = () => {
         selectData({
           label,
           icon,
+          id,
         })
       );
       click && click();
       navigate && location.pathname !== path && path && navigate(path);
     }
+    /* if (hasSubOpts && path && !(selectedData?.label === label)) return; */
     if (!hasSubOpts && selectedData?.label === label) return;
     switch (type) {
       case "opt":

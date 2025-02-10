@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import { useSelector } from "react-redux";
 import ColoredDiv from "../../../../components/ColoredDiv";
 import { DftOptWrapper } from "../../../../components/DftOptWrapper";
+import { getColorsWDefault } from "../../../../funcs";
 import { SubSubOptionProps } from "../../../../interfaces";
 import { useSelectedData } from "../../../../redux/Selected";
 import { AMState } from "../../../../redux/store";
@@ -13,21 +14,18 @@ interface MenuSubSsubOptionProps extends SubSubOptionProps {
 }
 
 const SubSubOption = (props: MenuSubSsubOptionProps) => {
-  const { index, label, icon, path, optIndex, subOptIndex, onClick } = props;
-  const subsubOptsColors = useSelector((state: AMState) => state.AMPropsReducer.colors?.menu?.subSubOption);
-  const subOptsColors = useSelector((state: AMState) => state.AMPropsReducer.colors?.menu?.subOption);
-  const optColors = useSelector((state: AMState) => state.AMPropsReducer.colors?.menu?.option);
+  const { index, label, icon, path, optIndex, subOptIndex, specificColors, onClick } = props;
+  const subsubOptsColors = useSelector((state: AMState) => state.AMPropsReducer.generalColors?.menu?.subSubOption);
+  const subOptsColors = useSelector((state: AMState) => state.AMPropsReducer.generalColors?.menu?.subOption);
+  const optColors = useSelector((state: AMState) => state.AMPropsReducer.generalColors?.menu?.option);
   const selectedSubSubOption = useSelector((state: AMState) => state.AMSelectedReducer.subSubOptionSelected);
 
   const id = useMemo(() => `${optIndex}-${subOptIndex}-${index}`, [index, optIndex, subOptIndex]);
-  const isSelected = useMemo(() => selectedSubSubOption === id, [id, selectedSubSubOption]);
-  const colors = useMemo(() => {
-    return {
-      clicked: subsubOptsColors?.clicked || subOptsColors?.clicked || optColors?.clicked,
-      hover: subsubOptsColors?.hover || subOptsColors?.hover || optColors?.hover,
-      normal: subsubOptsColors?.normal || subOptsColors?.normal || optColors?.normal,
-    };
-  }, [subsubOptsColors, subOptsColors, subsubOptsColors]);
+  const selected = useSelector((state: AMState) => state.AMSelectedReducer.selectedData);
+
+  const isSelected = useMemo(() => selectedSubSubOption === id, [selected, id, selectedSubSubOption]);
+
+  const colors = useMemo(() => getColorsWDefault(optColors, subOptsColors, subsubOptsColors), [subOptsColors, optColors, subsubOptsColors]);
 
   const { selectedOpt } = useSelectedData();
 
@@ -37,7 +35,12 @@ const SubSubOption = (props: MenuSubSsubOptionProps) => {
 
   return (
     <DftOptWrapper className="pt-0 first:pt-1 pb-0 last:pb-1">
-      <ColoredDiv selected={isSelected} onClick={click} colors={colors} className="w-[92%] rounded-md cursor-pointer p-2 gap-2">
+      <ColoredDiv
+        selected={isSelected}
+        onClick={click}
+        colors={specificColors || colors}
+        className="w-[92%] rounded-md cursor-pointer p-2 gap-2"
+      >
         {icon}
         {label}
       </ColoredDiv>

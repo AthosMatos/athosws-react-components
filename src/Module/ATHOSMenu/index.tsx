@@ -32,12 +32,7 @@ const AM = (props: ATHOSMenuProps) => {
 
     const SetSelected = (opt: any, id: string, type: OptSTypes) => {
       setInit(true);
-      dispatch(
-        selectData({
-          label: opt.label,
-          icon: opt.icon,
-        })
-      );
+      dispatch(selectData(opt));
       switch (type) {
         case "opt":
           dispatch(selectOption(id));
@@ -54,73 +49,54 @@ const AM = (props: ATHOSMenuProps) => {
     useEffect(() => {
       if (!options.length || init) return;
       const path = location.pathname;
-      let optindex = -1;
-      let subindex = -1;
-      let subsubindex = -1;
-      let option;
-      let subOption;
-      let subSubOption;
-      option = options.find((opt, index) => {
-        if (opt.path === path) {
-          optindex = index;
-          return true;
+      let stop = false;
+      options.forEach((opt, index) => {
+        if (opt.path === path && !stop) {
+          //stop here
+          SetSelected(opt, index.toString(), "opt");
+          stop = true;
+          return;
         }
-        return false;
       });
-      for (let i = 0; i < options.length; i++) {
-        const opt = options[i];
-        subOption = opt.subOpts?.find((subopt, index) => {
-          if (opt.path === path) {
-            option = opt;
-            subOption = subopt;
-            subindex = index;
-            optindex = i;
-            return true;
+      if (stop) return;
+
+      options.forEach((opt, index) => {
+        if (!opt.subOpts || stop) return;
+        return opt.subOpts.forEach((subopt, subindex) => {
+          if (subopt.path === path && !stop) {
+            SetSelected(opt, index.toString(), "opt");
+            SetSelected(subopt, `${index}-${subindex}`, "subopt");
+            stop = true;
+            return;
           }
-          return false;
         });
-        if (subOption) break;
-      }
+      });
 
-      for (let i = 0; i < options.length; i++) {
-        const opt = options[i];
-        if (!opt.subOpts) continue;
-        for (let j = 0; j < opt.subOpts.length; j++) {
-          const subOpt = opt.subOpts[j];
-          subSubOption = subOpt.subSubOpts?.find((subsubopt, index) => {
-            if (subsubopt.path === path) {
-              option = opt;
-              subOption = subOpt;
-              subSubOption = subsubopt;
+      if (stop) return;
 
-              subindex = j;
-              subsubindex = index;
-              optindex = i;
-              return true;
+      options.forEach((opt, index) => {
+        if (!opt.subOpts || stop) return;
+        opt.subOpts.forEach((subopt, subindex) => {
+          if (!subopt.subSubOpts || stop) return;
+          subopt.subSubOpts.forEach((subsubopt, subsubindex) => {
+            if (subsubopt.path === path && !stop) {
+              SetSelected(opt, index.toString(), "opt");
+              SetSelected(subopt, `${index}-${subindex}`, "subopt");
+              SetSelected(subsubopt, `${index}-${subindex}-${subsubindex}`, "subsubopt");
+              stop = true;
+              return;
             }
-            return false;
           });
-          if (subSubOption) break;
-        }
-        if (subSubOption) break;
-      }
-      if (option) {
-        SetSelected(option, optindex.toString(), "opt");
-      }
-      if (subOption) {
-        SetSelected(subOption, `${optindex}-${subindex}`, "subopt");
-      }
-      if (subSubOption) {
-        SetSelected(subSubOption, `${optindex}-${subindex}-${subsubindex}`, "subsubopt");
-      }
-    }, [location, options, open]);
+        });
+      });
+    }, [location, options]);
   }
 
   return (
     <div className="flex flex-col gap-2 select-none leading-tight ">
       <div className="relative">
         <Selected aRef={ARef} click={() => setOpen(!open)} />
-        <HeightAnimDiv Bref={BRef} className="w-full absolute mt-2 z-[999] " show={open}>
+        <HeightAnimDiv Bref={BRef} className="w-full absolute mt-2 z-[999]" show={open}>
           <Menu />
         </HeightAnimDiv>
       </div>

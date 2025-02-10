@@ -14,11 +14,14 @@ const ColoredDiv = (props: ColoredDivProps) => {
   const { colors, children, className, scaleAnim = true, selected, specificColors } = props;
   const [isOver, setIsOver] = useState(false);
 
-  const cs = specificColors || (selected ? colors?.clicked : isOver ? colors?.hover : colors?.normal);
-  const color = {
+  const cs = specificColors || (selected ? colors?.clicked : isOver ? colors?.hover : colors?.normal) || colors?.defaults;
+
+  const color: AMOptColorsProps = {
     text: cs?.text || colors?.defaults?.text,
     background: cs?.background || colors?.defaults?.background,
     border: cs?.border || colors?.defaults?.border,
+    className: cs?.className || colors?.defaults?.className,
+    icon: cs?.icon || colors?.defaults?.icon,
   };
   const animProps = useMemo(() => {
     return {
@@ -45,16 +48,11 @@ const ColoredDiv = (props: ColoredDivProps) => {
       {...scaleProps}
       {...props}
       ref={props.aRef}
-      className={`h-fit transition-colors duration-100 ease-in-out text-black  bg-[rgba(0,0,0,0.35)] flex items-center border-[rgba(0,0,0,0.55)] border flex-row ${className}`}
+      className={`h-fit transition-colors duration-150 flex items-center  flex-row ${className} ${color?.className}`}
       style={{
         ...props.style,
         ...animProps,
       }}
-      transition={{
-        duration: 0.15,
-        ease: "easeInOut",
-      }}
-      //animate={}
     >
       {children}
     </motion.div>

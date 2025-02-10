@@ -9,10 +9,16 @@ interface SelectedProps {
 
 const Selected = ({ click, aRef }: SelectedProps) => {
   const selected = useSelector((state: AMState) => state.AMSelectedReducer.selectedData);
-  const colors = useSelector((state: AMState) => state.AMPropsReducer.colors?.selected);
+  const colors = useSelector((state: AMState) => state.AMPropsReducer.generalColors?.selected);
+  const blur = !!useSelector((state: AMState) => state.AMPropsReducer.blur?.selected);
 
   return (
-    <ColoredDiv aRef={aRef} onClick={click} specificColors={colors} className="w-full px-5 py-2 rounded-full cursor-pointer">
+    <ColoredDiv
+      aRef={aRef}
+      onClick={click}
+      specificColors={colors}
+      className={`w-full px-5 py-2 rounded-full cursor-pointer ${blur ? "backdrop-blur-[2px]" : ""} ${colors?.className}`}
+    >
       <AnimatePresence mode="wait">
         <motion.div
           key={selected?.label}

@@ -12,6 +12,7 @@ export type AMOptColorsProps = {
     | "none";
   text?: string;
   icon?: string;
+  className?: string;
 };
 export interface ColorOptType {
   hover?: AMOptColorsProps;
@@ -28,7 +29,6 @@ interface AMMenuColorsProps extends AMOptColorsProps {
 interface AMColorsProps {
   selected?: AMOptColorsProps;
   menu?: AMMenuColorsProps;
-  arrows?: string;
 }
 
 ///COLOR////
@@ -40,6 +40,7 @@ export interface DefaultOptProps {
   icon?: ReactNode;
   path?: string;
   onClick?: () => void;
+  specificColors?: ColorOptType;
 }
 
 export interface SubSubOptionProps extends DefaultOptProps {}
@@ -52,13 +53,17 @@ export interface OptionProps extends DefaultOptProps {
   subOpts?: SubOptionProps[];
 }
 
-///OPTIONS///
-
 export interface ATHOSMenuProps {
-  colors?: AMColorsProps;
+  generalColors?: AMColorsProps;
   options: OptionProps[];
+
   navigate?: {
     useNavigate: any;
     useLocation: any;
+  };
+  maxMenuHeight?: number;
+  blur?: {
+    menu?: boolean;
+    selected?: boolean;
   };
 }

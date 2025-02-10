@@ -1,16 +1,16 @@
 import "./index.css";
-import "./styles.css";
 /* Components */
 
-export { ATHOSButton } from "./Module/ATHOSButton";
-export type { ATHOSButtonProps } from "./Module/ATHOSButton/interfaces";
+export { ATHOSButton } from "./Module/ATHOSButton/component";
+export type { ATHOSButtonProps } from "./Module/ATHOSButton/component/interfaces";
 
 export { ATHOSCollapse } from "./Module/ATHOSCollapse";
-export { ATHOSDropDown2 } from "./Module/ATHOSDropDown";
-export { ATHOSDynamicTable } from "./Module/ATHOSDynamicTable";
+export { ATHOSDropDown } from "./Module/ATHOSDropDown/component";
+export { ATHOSDynamicTable } from "./Module/ATHOSDynamicTable/component";
 export { ATHOSInput } from "./Module/ATHOSInput";
 export { ATHOSResizableDiv } from "./Module/ATHOSResizableDiv";
 export { ATHOSSideMenu } from "./Module/ATHOSSideMenu";
+export { ATHOSTabs } from "./Module/ATHOSTabs";
 
 /* TOAST */
 export { ATHOSToast } from "./Module/ATHOSToast";

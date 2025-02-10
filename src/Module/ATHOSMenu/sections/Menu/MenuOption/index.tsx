@@ -11,13 +11,13 @@ interface MenuOptionProps extends OptionProps {
   index: number;
 }
 const MenuOption = (props: MenuOptionProps) => {
-  const { index, label, subOpts, icon, path, onClick } = props;
-  const optsColors = useSelector((state: AMState) => state.AMPropsReducer.colors?.menu?.option);
+  const { index, label, subOpts, icon, path, onClick, specificColors } = props;
+  const optsColors = useSelector((state: AMState) => state.AMPropsReducer.generalColors?.menu?.option);
   const selectedOption = useSelector((state: AMState) => state.AMSelectedReducer.optionSelected);
+  const selected = useSelector((state: AMState) => state.AMSelectedReducer.selectedData);
 
   const id = useMemo(() => index.toString(), [index]);
-  const isSelected = useMemo(() => selectedOption === id, [id, selectedOption]);
-
+  const isSelected = useMemo(() => selectedOption === id, [id, selectedOption, selected]);
   const { selectedOpt } = useSelectedData();
 
   const click = () => {
@@ -26,7 +26,12 @@ const MenuOption = (props: MenuOptionProps) => {
 
   return (
     <DftOptWrapper className="gap-1">
-      <ColoredDiv selected={isSelected} onClick={click} colors={optsColors} className="w-full rounded-md cursor-pointer p-2 gap-2">
+      <ColoredDiv
+        selected={isSelected}
+        onClick={click}
+        colors={specificColors || optsColors}
+        className={`w-full rounded-md cursor-pointer p-2 gap-2`}
+      >
         {icon}
         {label}
       </ColoredDiv>

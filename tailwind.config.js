@@ -5,6 +5,7 @@ module.exports = {
   theme: {
     extend: {},
   },
+  darkMode: "class", // or 'media' or 'class'
   plugins: [
     require("daisyui"),
     plugin(({ addBase, theme }) => {
