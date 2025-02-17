@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/athosws-react-components/static/css/main.e6aa166c.css",
-    "main.js": "/athosws-react-components/static/js/main.f880f11b.js",
+    "main.js": "/athosws-react-components/static/js/main.b17c3d4d.js",
     "static/media/Flag_of_Brazil.svg.png": "/athosws-react-components/static/media/Flag_of_Brazil.svg.1a8b50bf511a55dd3c2d.png",
     "static/media/US-UK-blend.png": "/athosws-react-components/static/media/US-UK-blend.51088d579fd384b659ad.png",
     "index.html": "/athosws-react-components/index.html",
     "main.e6aa166c.css.map": "/athosws-react-components/static/css/main.e6aa166c.css.map",
-    "main.f880f11b.js.map": "/athosws-react-components/static/js/main.f880f11b.js.map"
+    "main.b17c3d4d.js.map": "/athosws-react-components/static/js/main.b17c3d4d.js.map"
   },
   "entrypoints": [
     "static/css/main.e6aa166c.css",
-    "static/js/main.f880f11b.js"
+    "static/js/main.b17c3d4d.js"
   ]
 }
