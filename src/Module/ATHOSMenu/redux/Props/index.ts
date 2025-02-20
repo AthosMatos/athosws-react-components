@@ -14,15 +14,6 @@ const Slice = createSlice({
     fillProps: (state, action: PayloadAction<ATHOSMenuProps>) => {
       const payload = action.payload;
 
-      /*  const optWIds = payload.options.map((opt) => {
-        const subOpt = opt.subOpts?.map((sub) => {
-          const subSubOpt = sub.subSubOpts?.map((subsub) => {
-            return { ...subsub, id: v4() };
-          });
-          return { ...sub, id: v4(), subSubOpt };
-        });
-        return { ...opt, id: v4(), subOpt };
-      }) as OptWithId[]; */
       return { ...state, ...payload };
     },
   },

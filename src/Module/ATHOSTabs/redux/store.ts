@@ -3,7 +3,7 @@ import BodyDirReducer from "./BodyDir";
 import ATHOSTabsPropsReducer from "./Props";
 import ActiveTabDimReducer from "./TabDim";
 
-export const ATStore = configureStore({
+const ATStore = configureStore({
   reducer: {
     ActiveTabDimReducer,
     ATHOSTabsPropsReducer,

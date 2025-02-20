@@ -15,4 +15,5 @@ export interface ResizableDivProps {
   disabled?: boolean;
   className?: string;
   outerClassName?: string;
+  highlightColor?: string;
 }

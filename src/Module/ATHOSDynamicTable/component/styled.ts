@@ -100,8 +100,8 @@ export const ADTTR = styled(motion.tr)`
   text-align: left;
 `;
 
-export const bWidth = "1px";
-export const borderStyle = "solid";
+export const persitentBorderWidth = "1px";
+export const persistentBorderStyle = "solid";
 
 export const ADTTable = styled(motion.table)`
   border-collapse: separate;

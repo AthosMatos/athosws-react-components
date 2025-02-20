@@ -11,7 +11,6 @@ const useSelectors_ADTCellColumn = () => {
   return {
     columns,
     colConfig,
-
     paddingBetweenColumns,
     paddingBetweenCells,
     persistPrimaryColumn,

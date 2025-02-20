@@ -1,36 +1,34 @@
 import { useEffect } from "react";
+import { useSelector } from "react-redux";
 import { Outlet } from "react-router";
-import { useTheme } from "../hooks/useTheme";
+import { AppState } from "..";
+import PageTitle from "../components/PageTitle";
+import { PageWrapper } from "../components/styled";
+import { setupTheme } from "../themeContext/redux";
+import LangSwitcher from "./LanguageSwitcher";
 import Menu from "./Menu";
 import ThemeSwitcher from "./ThemeSwitcher";
 
-/* const PageContainer = styled.div`
-  height: 100vh;
-  width: 100vw;
-  padding: 1rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  background-color: ${ATHOSColors.white.eggshell};
-
-  &:is(.dark *) {
-    background-color: ${ATHOSColors.black.coal};
-  }
-`; */
 const Layout = () => {
-  const { setupTheme, toogleTheme, getTheme } = useTheme();
   useEffect(() => {
     setupTheme();
   }, []);
+  const { subtitle, title } = useSelector((state: AppState) => state.PageReducer);
 
   return (
-    <div className={`h-screen w-screen p-4 flex flex-col gap-4 bg-neutral-100 dark:bg-neutral-900`}>
+    <div className={`h-full min-h-screen flex-1 p-4 flex flex-col gap-4 bg-neutral-100 dark:bg-neutral-900`}>
       <div className="flex justify-between">
         <Menu />
-        <ThemeSwitcher />
+        <div className="flex gap-2">
+          <ThemeSwitcher />
+          <LangSwitcher />
+        </div>
       </div>
-      <div>
-        <Outlet />
+      <div className="h-full w-full">
+        <PageWrapper>
+          <PageTitle title={title} subtitle={subtitle} />
+          <Outlet />
+        </PageWrapper>
       </div>
     </div>
   );

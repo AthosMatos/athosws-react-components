@@ -3,12 +3,17 @@ import { ATHOSResizableDiv } from "../../ATHOSResizableDiv";
 import ADTSelectedRowsToast from "./components/ADTSelectedRowsToast";
 
 import { DynamicTableProps } from "./interfaces";
-import { ADTStore } from "./redux/store";
 import ADTFuncs from "./Sections/ADTFuncs";
 import ADTNav from "./Sections/ADTNav";
 import { ADTStatesController } from "./StatesController";
 import { ADTTableWrapper } from "./styled";
 
+import { configureStore } from "@reduxjs/toolkit";
+import { useMemo } from "react";
+import ADTCustomStatesReducer from "./redux/CustomStates/provider";
+import ADTFilteringReducer from "./redux/Filtering/provider";
+import ADTPropsReducer from "./redux/props/provider";
+import ADTSelectReducer from "./redux/Select/provider";
 import Table from "./Table";
 
 /**
@@ -27,9 +32,7 @@ const Comp = ({ props, stly }: { stly?: boolean; props: DynamicTableProps<any> }
       <ADTTableWrapper
         resizable={!!props.resizeable}
         style={stly ? props.style : undefined}
-        className={`flex flex-col rounded-md w-full border ${!props.resizeable ? "border-gray-300" : ""}  ${
-          !props.resizeable ? props.wrapperClassName : ""
-        } m-0`}
+        className={`${props.wrapperClassName} flex flex-col rounded-md w-full border border-gray-300 m-0`}
       >
         <ADTFuncs />
         <Table tableWrapperId={tableWrapperId} />
@@ -42,9 +45,20 @@ const Comp = ({ props, stly }: { stly?: boolean; props: DynamicTableProps<any> }
 
 export function ATHOSDynamicTable<T>(props: DynamicTableProps<T>) {
   const tableId = `${props.tableName}-athos-dynamic-table`;
-
+  const store = useMemo(
+    () =>
+      configureStore({
+        reducer: {
+          ADTPropsReducer,
+          ADTCustomStatesReducer,
+          ADTSelectReducer,
+          ADTFilteringReducer,
+        },
+      }),
+    []
+  );
   return (
-    <Provider store={ADTStore}>
+    <Provider store={store}>
       {props.resizeable ? (
         <ATHOSResizableDiv saveInLocalStorage={tableId} withToogle>
           <Comp props={props} />

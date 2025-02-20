@@ -7,4 +7,5 @@ export interface ATHOSToastProps {
   gap?: number;
   renderAndFade?: boolean;
   children?: React.ReactNode;
+  className?: string;
 }

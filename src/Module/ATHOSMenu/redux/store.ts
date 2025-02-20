@@ -2,7 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import AMPropsReducer from "./Props";
 import AMSelectedReducer from "./Selected";
 
-export const AMStore = configureStore({
+const AMStore = configureStore({
   reducer: {
     AMPropsReducer,
     AMSelectedReducer,

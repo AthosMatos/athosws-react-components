@@ -103,8 +103,8 @@ export const useHandlePosition_F = ({
     let mousePageY = 0;
 
     const mmove = (e: MouseEvent) => {
-      mousePageX = e.pageX;
-      mousePageY = e.pageY;
+      mousePageX = e.clientX;
+      mousePageY = e.clientY;
     };
 
     if (followCursor) {

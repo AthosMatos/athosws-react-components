@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { ATHOSColors } from "../../../../../colors/colors";
 import { sortDataByColumn } from "../../../redux/Filtering/provider";
 import { ADTState } from "../../../redux/store";
-import { ADTColBorderWrapper, ADTColumnWrapper, borderStyle, bWidth } from "../../../styled";
+import { ADTColBorderWrapper, ADTColumnWrapper, persistentBorderStyle, persitentBorderWidth } from "../../../styled";
 import { tdClassName } from "../../consts";
 import ADTBorder from "./ADTBorder";
 import ColOrderFilter from "./ColOrderFilter";
@@ -56,10 +56,10 @@ const ADTCol = ({ column, index }: { column: string; index: number }) => {
       obj["borderTopColor"] = bColor;
       obj["borderRightColor"] = bColor;
 
-      obj["borderTopWidth"] = bWidth;
-      obj["borderRightWidth"] = bWidth;
-      obj["borderTopStyle"] = borderStyle;
-      obj["borderRightStyle"] = borderStyle;
+      obj["borderTopWidth"] = persitentBorderWidth;
+      obj["borderRightWidth"] = persitentBorderWidth;
+      obj["borderTopStyle"] = persistentBorderStyle;
+      obj["borderRightStyle"] = persistentBorderStyle;
       return obj;
     }
   }, [persistPrimaryColumn]);

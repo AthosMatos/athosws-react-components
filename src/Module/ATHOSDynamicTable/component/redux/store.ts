@@ -4,7 +4,7 @@ import ADTFilteringReducer from "./Filtering/provider";
 import ADTPropsReducer from "./props/provider";
 import ADTSelectReducer from "./Select/provider";
 
-export const ADTStore = configureStore({
+const ADTStore = configureStore({
   reducer: {
     ADTPropsReducer,
     ADTCustomStatesReducer,

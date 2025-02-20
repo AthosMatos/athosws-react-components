@@ -84,6 +84,7 @@ export const useSelectedData = () => {
           id,
         })
       );
+      //console.log("path", path, click);
       click && click();
       navigate && location.pathname !== path && path && navigate(path);
     }

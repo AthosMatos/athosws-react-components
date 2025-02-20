@@ -3,6 +3,7 @@ import { CustomStatesState } from "./interfaces";
 
 const initialState: CustomStatesState = {
   totalItems: 0,
+  columnsIDs: [],
 };
 
 const Slice = createSlice({

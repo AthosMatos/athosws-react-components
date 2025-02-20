@@ -98,11 +98,7 @@ const CellExitWrapper = ({ children }: CellExitWrapperProps) => {
       }
     : undefined; */
 
-  return (
-    <motion.div initial="initial" animate="animate" variants={variants}>
-      {children}
-    </motion.div>
-  );
+  return <motion.div /* initial="initial" animate="animate" variants={variants} */>{children}</motion.div>;
 };
 
 export default memo(CellExitWrapper);

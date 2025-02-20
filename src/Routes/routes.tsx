@@ -1,14 +1,23 @@
-import { BsFillMenuButtonWideFill } from "react-icons/bs";
+import { createContext, useContext, useEffect, useState } from "react";
+import { BiCard, BiCollapseVertical } from "react-icons/bi";
+import { BsFillMenuButtonWideFill, BsInputCursorText, BsMenuButtonWide } from "react-icons/bs";
 import { FaTable } from "react-icons/fa6";
 import { GrInstallOption } from "react-icons/gr";
 import { RxButton, RxComponent1 } from "react-icons/rx";
+import { SlSizeFullscreen } from "react-icons/sl";
+import { VscScreenFull } from "react-icons/vsc";
+import { useSelector } from "react-redux";
+import { AppState } from "..";
+import { AppText } from "../langContext/lang";
 import ATHOSButtonPage from "../Module/ATHOSButton/page";
+import ATHOSCardPage from "../Module/ATHOSCard/page";
 import ATHOSDropDownPage from "../Module/ATHOSDropDown/page";
 import ATHOSDynamicTablePage from "../Module/ATHOSDynamicTable/page";
 import { OptKeyed } from "../Module/ATHOSMenu/helpers";
+import { usePage } from "../pageContext/redux";
 import InstallPage from "../pages/Install";
 
-type WithComponent<T> = {
+export type WithComponent<T> = {
   [key in keyof T]: T[key] & {
     component?: React.FC;
     subOpts?: {
@@ -24,37 +33,119 @@ type WithComponent<T> = {
   };
 };
 
-export const routes: WithComponent<OptKeyed> = {
-  install: {
-    path: "/install",
-    component: InstallPage,
-    label: "Install",
-    icon: <GrInstallOption />,
-  },
-  components: {
-    /* path: "/components",
-    component: InstallPage, */
-    label: "Components",
-    icon: <RxComponent1 />,
-    subOpts: {
-      dynamicTable: {
-        path: "/components/adt",
-        component: ATHOSDynamicTablePage,
-        label: "Dynamic Table",
-        icon: <FaTable />,
-      },
-      dropDown: {
-        path: "/components/add",
-        component: ATHOSDropDownPage,
-        label: "Drop Down",
-        icon: <BsFillMenuButtonWideFill />,
-      },
-      button: {
-        path: "/components/button",
-        component: ATHOSButtonPage,
-        label: "Button",
-        icon: <RxButton />,
+const RoutesContext = createContext<WithComponent<OptKeyed>>({} as WithComponent<OptKeyed>);
+
+export const RoutesProvider = ({ children }: { children: React.ReactNode }) => {
+  const lang = useSelector((state: AppState) => state.LangReducer.lang);
+  const pageTitle = useSelector((state: AppState) => state.PageReducer);
+  const [pageLang, setPageLang] = useState<any>();
+  const { setTitle } = usePage();
+
+  const setPageTitle = (pageLang: any) => {
+    setPageLang(pageLang);
+    setTitle(pageLang.title[lang], pageLang.subtitle[lang]);
+  };
+
+  useEffect(() => {
+    if (!pageTitle.title && !pageTitle.subtitle) {
+      setPageTitle(AppText.pages.install);
+    }
+  }, [pageTitle]);
+
+  useEffect(() => {
+    if (pageLang) {
+      console.log("pageLang", pageLang);
+      setTitle(pageLang.title[lang], pageLang.subtitle[lang]);
+    }
+  }, [lang]);
+
+  const routes: WithComponent<OptKeyed> = {
+    install: {
+      path: "install",
+      component: InstallPage,
+      label: AppText.pages.install.title[lang],
+      icon: <GrInstallOption />,
+      onClick: () => setPageTitle(AppText.pages.install),
+    },
+    components: {
+      /* path: "/components",
+      component: InstallPage, */
+      label: AppText.pages.components.title[lang],
+      icon: <RxComponent1 />,
+      subOpts: {
+        button: {
+          path: "components/button",
+          component: ATHOSButtonPage,
+          label: "Button",
+          icon: <RxButton />,
+          onClick: () => setPageTitle(AppText.pages.components.button),
+        },
+        cards: {
+          path: "components/cards",
+          component: ATHOSCardPage,
+          label: "Cards",
+          icon: <BiCard />,
+          onClick: () => setPageTitle(AppText.pages.components.cards),
+        },
+        collapse: {
+          path: "components/collapse",
+          component: ATHOSCardPage,
+          label: "Collapse",
+          icon: <BiCollapseVertical />,
+          onClick: () => setPageTitle(AppText.pages.components.collapse),
+        },
+        dropDown: {
+          path: "components/add",
+          component: ATHOSDropDownPage,
+          label: "Drop Down",
+          icon: <BsFillMenuButtonWideFill />,
+          onClick: () => setPageTitle(AppText.pages.components.dropdown),
+        },
+        dynamicTable: {
+          path: "components/adt",
+          component: ATHOSDynamicTablePage,
+          label: AppText.pages.components.dynamicTable.title[lang],
+          icon: <FaTable />,
+          onClick: () => setPageTitle(AppText.pages.components.dynamicTable),
+        },
+        input: {
+          path: "components/input",
+          component: ATHOSCardPage,
+          label: "Input",
+          icon: <BsInputCursorText />,
+          onClick: () => setPageTitle(AppText.pages.components.input),
+        },
+        menu: {
+          path: "components/menu",
+          component: ATHOSCardPage,
+          label: "Menu",
+          icon: <BsMenuButtonWide />,
+          onClick: () => setPageTitle(AppText.pages.components.menu),
+        },
+        modal: {
+          path: "components/modal",
+          component: ATHOSCardPage,
+          label: "Modal",
+          icon: <VscScreenFull />,
+          onClick: () => setPageTitle(AppText.pages.components.modal),
+        },
+        resizableDiv: {
+          path: "components/resizableDiv",
+          component: ATHOSCardPage,
+          label: "Resizable Div",
+          icon: <SlSizeFullscreen />,
+          onClick: () => setPageTitle(AppText.pages.components.resizableDiv),
+        },
       },
     },
-  },
+  };
+
+  return <RoutesContext.Provider value={routes}>{children}</RoutesContext.Provider>;
+};
+export const useRoutes = () => {
+  const context = useContext(RoutesContext);
+  if (!context) {
+    throw new Error("useRoutes must be used within a RoutesProvider");
+  }
+  return context;
 };

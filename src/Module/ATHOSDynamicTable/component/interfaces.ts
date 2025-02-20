@@ -79,7 +79,7 @@ export type DynamicTableProps<T> = {
   boldHeader?: boolean;
   wrapperClassName?: string;
   tableWrapperClassName?: string;
-  tableClassName?: string;
+  className?: string;
   tableName: string;
   data: T[];
   resizeable?: boolean | ResizableConfig;

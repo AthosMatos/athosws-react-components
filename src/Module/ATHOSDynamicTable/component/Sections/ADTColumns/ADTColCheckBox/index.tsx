@@ -4,7 +4,7 @@ import { ATHOSColors } from "../../../../../colors/colors";
 import ADTCheckBox from "../../../components/ADTCheckBox";
 import { useADTSelect } from "../../../redux/Select/hook";
 import { ADTState } from "../../../redux/store";
-import { ADTColumnWrapper, borderStyle, bWidth } from "../../../styled";
+import { ADTColumnWrapper, persistentBorderStyle, persitentBorderWidth } from "../../../styled";
 
 const ADTColCheckBox = () => {
   const checkState = useSelector((state: ADTState) => state.ADTSelectReducer.checkState);
@@ -28,10 +28,10 @@ const ADTColCheckBox = () => {
       obj["borderTopColor"] = bColor;
       obj["borderLeftColor"] = bColor;
 
-      obj["borderTopWidth"] = bWidth;
-      obj["borderLeftWidth"] = bWidth;
-      obj["borderTopStyle"] = borderStyle;
-      obj["borderLeftStyle"] = borderStyle;
+      obj["borderTopWidth"] = persitentBorderWidth;
+      obj["borderLeftWidth"] = persitentBorderWidth;
+      obj["borderTopStyle"] = persistentBorderStyle;
+      obj["borderLeftStyle"] = persistentBorderStyle;
       return obj;
     }
   }, [persistPrimaryColumn]);

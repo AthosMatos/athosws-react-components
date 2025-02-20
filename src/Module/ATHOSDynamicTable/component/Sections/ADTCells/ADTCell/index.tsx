@@ -6,6 +6,11 @@ import ADTCellCheckBox from "./ADTCellCheckBox";
 import ADTCellColumn from "./ADTCellColumn";
 import ADTCellExtraCols from "./ADTCellExtraCols";
 
+const variants = {
+  hidden: { opacity: 0, transition: { duration: 0.4 } },
+  visible: { opacity: 1, transition: { duration: 0.4 } },
+};
+
 interface ADTCellProps {
   rowIndex: number;
   row: any;
@@ -22,7 +27,7 @@ const ADTCell = (props: ADTCellProps) => {
   const isLast = useMemo(() => rowIndex === pageSize - 1, [rowIndex, pageSize]);
 
   return (
-    <ADTTR layout="preserve-aspect" transition={{ duration: 0.1 }}>
+    <ADTTR initial="hidden" animate="visible" exit="hidden" variants={variants} layout="preserve-aspect" transition={{ duration: 0.1 }}>
       <ADTCellCheckBox isLast={isLast} rowIndex={rowIndex} />
       {filteredColumns.map((column, index) => (
         <ADTCellColumn key={row[column]} isLast={isLast} column={column} index={index} row={row} rowIndex={rowIndex} />

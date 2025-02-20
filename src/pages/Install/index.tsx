@@ -1,65 +1,81 @@
 import { ReactNode } from "react";
-import PageTitle from "../../components/PageTitle";
-import { ATHOSTabs } from "../../module-index";
+import { BiLogoTailwindCss } from "react-icons/bi";
+import { FaCopy, FaReact } from "react-icons/fa6";
+import { useSelector } from "react-redux";
+import { AppState } from "../..";
+import PageText from "../../components/PageText";
+import { AppText } from "../../langContext/lang";
+import { ATHOSTabs, useATHOSToast } from "../../module-index";
 
 const Code = ({ children }: { children: ReactNode }) => {
+  const { toast } = useATHOSToast();
+  const copy = () => {
+    navigator.clipboard.writeText(children as string);
+    toast("Copied to clipboard", { position: "top-right" });
+  };
+
   return (
-    <div>
+    <div className="flex gap-2 items-center justify-between">
       <code>{children}</code>
+      <FaCopy onClick={copy} className="text-lg text-neutral-400 dark:text-neutral-500 cursor-pointer" />
     </div>
   );
 };
 
 const InstallPage = () => {
-  return (
-    <div className="flex flex-col gap-6">
-      <PageTitle title="Install" subtitle="How to install ATHOSComponents?" />
+  const lang = useSelector((state: AppState) => state.LangReducer.lang);
 
+  return (
+    <>
       <ATHOSTabs
-        //gap={6}
+        className={{
+          tab: {
+            default: "text-neutral-400 dark:text-neutral-500 ",
+            active: "bg-zinc-200 dark:bg-zinc-700 text-black dark:text-white",
+          },
+          body: "text-black dark:text-white bg-zinc-200 dark:bg-zinc-700",
+        }}
         tabs={[
           {
             title: {
               value: "yarn",
-              className: {
-                default: "text-black dark:text-white",
-              },
             },
             content: {
               value: <Code>yarn add @athosws/react-components</Code>,
-              className: "text-white dark:text-black",
             },
           },
 
           {
             title: {
               value: "npm",
-              className: {
-                active: "text-black dark:text-white",
-                default: "text-black dark:text-white",
-              },
             },
             content: {
               value: <Code>npm install @athosws/react-components</Code>,
-              className: "text-white dark:text-black",
             },
           },
           {
             title: {
               value: "pnpm",
-              className: {
-                active: "text-black dark:text-white",
-                default: "text-black dark:text-white",
-              },
             },
             content: {
               value: <Code>pnpm install @athosws/react-components</Code>,
-              className: "text-white dark:text-black",
             },
           },
         ]}
       />
-    </div>
+
+      <PageText>{AppText.pages.install.compatible[lang]}</PageText>
+      <div className="flex gap-4 items-center">
+        <div className="border border-sky-600 w-40 h-40 text-sky-600 rounded-2xl flex items-center justify-center flex-col gap-2">
+          <FaReact className="text-7xl" />
+          <p>React JS</p>
+        </div>
+        <div className="border border-blue-800 w-40 h-40 text-blue-800 rounded-2xl flex items-center justify-center flex-col gap-2">
+          <BiLogoTailwindCss className="text-7xl text-blue-500" />
+          <p>Tailwind CSS</p>
+        </div>
+      </div>
+    </>
   );
 };
 

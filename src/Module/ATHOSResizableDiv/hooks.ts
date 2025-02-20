@@ -1,16 +1,16 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { v4 } from "uuid";
 import { ResizableDivProps } from "./interfaces";
 import { defaultBorder, highlightBorder } from "./styled";
 
-const useResizableDiv = ({ resizableConers: res, saveInLocalStorage, withToogle }: ResizableDivProps) => {
-  const resizableConers = res ?? {
+const useResizableDiv = ({ resizableConers: res, saveInLocalStorage, withToogle, highlightColor }: ResizableDivProps) => {
+  const resizableConers = res || {
     top: false,
     right: true,
     bottom: true,
     left: false,
   };
-  const name = saveInLocalStorage ?? v4();
+  const name = useRef(saveInLocalStorage ?? v4()).current;
   const localStorage = window.localStorage;
   const wName = `width-${name}`;
   const hName = `height-${name}`;
@@ -48,22 +48,45 @@ const useResizableDiv = ({ resizableConers: res, saveInLocalStorage, withToogle 
     const borderIndicator = document.getElementById(borderName);
     if (!div || !borderIndicator) return;
     if (withToogle && !toogle) {
-      div.style.border = defaultBorder;
+      div.style.borderRadius = "0px";
+      div.style.border = "none";
       div.style.cursor = "auto";
+
       borderIndicator.style.display = "none";
       return;
     } else if (withToogle) {
+      if (resizableConers.top && resizableConers.right) {
+        div.style.borderTopRightRadius = "10px";
+        div.style.borderTopLeftRadius = "10px";
+        div.style.borderBottomRightRadius = "10px";
+      }
+      if (resizableConers.bottom && resizableConers.right) {
+        div.style.borderBottomRightRadius = "10px";
+        div.style.borderTopRightRadius = "10px";
+        div.style.borderBottomLeftRadius = "10px";
+      }
+      if (resizableConers.bottom && resizableConers.left) {
+        div.style.borderBottomLeftRadius = "10px";
+        div.style.borderTopLeftRadius = "10px";
+        div.style.borderBottomRightRadius = "10px";
+      }
+      if (resizableConers.top && resizableConers.left) {
+        div.style.borderTopLeftRadius = "10px";
+        div.style.borderBottomLeftRadius = "10px";
+        div.style.borderTopRightRadius = "10px";
+      }
+
       if (resizableConers.right) {
-        div.style.borderRight = highlightBorder;
+        div.style.borderRight = highlightBorder(highlightColor);
       }
       if (resizableConers.bottom) {
-        div.style.borderBottom = highlightBorder;
+        div.style.borderBottom = highlightBorder(highlightColor);
       }
       if (resizableConers.left) {
-        div.style.borderLeft = highlightBorder;
+        div.style.borderLeft = highlightBorder(highlightColor);
       }
       if (resizableConers.top) {
-        div.style.borderTop = highlightBorder;
+        div.style.borderTop = highlightBorder(highlightColor);
       }
     }
 
@@ -100,56 +123,56 @@ const useResizableDiv = ({ resizableConers: res, saveInLocalStorage, withToogle 
       let sizeStyle = 0; //corner (round) = 0, horizontal = 1, vertical = 2
       let indicatorPosition = null;
 
-      if (onEdge.bottom && onEdge.right) {
+      if (onEdge.bottom && onEdge.right && resizableConers.bottom && resizableConers.right) {
         indicatorPosition = {
           left: divRect.right - 5,
           top: divRect.bottom - 5,
           cursor: "nwse-resize",
         };
         sizeStyle = 0;
-      } else if (onEdge.bottom && onEdge.left) {
+      } else if (onEdge.bottom && onEdge.left && resizableConers.left && resizableConers.bottom) {
         indicatorPosition = {
           left: divRect.left - 5,
           top: divRect.bottom - 5,
           cursor: "nesw-resize",
         };
         sizeStyle = 0;
-      } else if (onEdge.top && onEdge.right) {
+      } else if (onEdge.top && onEdge.right && resizableConers.top && resizableConers.right) {
         indicatorPosition = {
           left: divRect.right - 5,
           top: divRect.top - 5,
           cursor: "nesw-resize",
         };
         sizeStyle = 0;
-      } else if (onEdge.top && onEdge.left) {
+      } else if (onEdge.top && onEdge.left && resizableConers.top && resizableConers.left) {
         indicatorPosition = {
           left: divRect.left - 5,
           top: divRect.top - 5,
           cursor: "nwse-resize",
         };
         sizeStyle = 0;
-      } else if (onEdge.bottom) {
+      } else if (onEdge.bottom && resizableConers.bottom) {
         indicatorPosition = {
           left: e.pageX - 10,
           top: divRect.bottom - 5,
           cursor: "ns-resize",
         };
         sizeStyle = 1;
-      } else if (onEdge.right) {
+      } else if (onEdge.right && resizableConers.right) {
         indicatorPosition = {
           left: divRect.right - 5,
           top: e.pageY - 10,
           cursor: "ew-resize",
         };
         sizeStyle = 2;
-      } else if (onEdge.top) {
+      } else if (onEdge.top && resizableConers.top) {
         indicatorPosition = {
           left: e.pageX - 10,
           top: divRect.top - 5,
           cursor: "ns-resize",
         };
         sizeStyle = 1;
-      } else if (onEdge.left) {
+      } else if (onEdge.left && resizableConers.left) {
         indicatorPosition = {
           left: divRect.left - 5,
           top: e.pageY - 10,
@@ -216,26 +239,26 @@ const useResizableDiv = ({ resizableConers: res, saveInLocalStorage, withToogle 
         const dRect = getElementPositionWithScroll(div);
         const value = e.pageX - dRect.x;
         div.style.width = `${value}px`;
-        div.style.borderRight = highlightBorder;
+        div.style.borderRight = highlightBorder(highlightColor);
       };
       const resizeHBottom = (e: MouseEvent) => {
         const divRect = getElementPositionWithScroll(div);
         const value = e.pageY - divRect.y;
         div.style.height = `${value}px`;
-        div.style.borderBottom = highlightBorder;
+        div.style.borderBottom = highlightBorder(highlightColor);
       };
       const resizeWLeft = (e: MouseEvent) => {
         const divRect = getElementPositionWithScroll(div);
         const value = e.pageX - divRect.x;
         div.style.width = `${divRect.width - value}px`;
-        div.style.borderLeft = highlightBorder;
+        div.style.borderLeft = highlightBorder(highlightColor);
         div.style.left = `${divRect.x + value}px`;
       };
       const resizeHTop = (e: MouseEvent) => {
         const divRect = getElementPositionWithScroll(div);
         const value = e.pageY - divRect.y;
         div.style.height = `${divRect.height - value}px`;
-        div.style.borderTop = highlightBorder;
+        div.style.borderTop = highlightBorder(highlightColor);
         div.style.top = `${divRect.y + value}px`;
       };
 

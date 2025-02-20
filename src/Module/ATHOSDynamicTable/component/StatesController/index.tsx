@@ -1,7 +1,7 @@
 import { useEffect, useMemo } from "react";
 import { useDispatch } from "react-redux";
 import { v4 } from "uuid";
-import { DynamicTableProps } from "../interfaces";
+import { ColumnsIds, DynamicTableProps } from "../interfaces";
 import { setTotalItems } from "../redux/CustomStates/provider";
 import { setFilteredColumns, setFilteredData } from "../redux/Filtering/provider";
 import { ADTPropsState } from "../redux/props/interfaces";
@@ -29,13 +29,12 @@ export function ADTStatesController<T>({ props, tableWrapperId }: { props: Dynam
     } else return Object.keys(data[0] as object) as (keyof T)[];
   }, [columnsToHide, columnsToShow, data]);
 
-  /* useEffect(() => {
-    const columnsIDs = columns.reduce((acc, column) => {
-      acc[column] = `${column as string}-${v4().toString()}`;
-      return acc;
-    }, {} as ColumnsIds<T>);
-    dispatch(setColumnsIDs(columnsIDs));
-  }, [columns]); */
+  const columnsIDs = useMemo(()=>columns.reduce((acc, column) => {
+    acc[column] = `${column as string}-${v4()}`;
+    return acc;
+  }, {} as ColumnsIds<T>),[columns]);
+
+  
 
   useEffect(() => {
     if (data.length) {
@@ -65,6 +64,12 @@ export function ADTStatesController<T>({ props, tableWrapperId }: { props: Dynam
       dispatch(setFilteredColumns(columns));
     }
   }, [columns]);
+
+  useEffect(() => {
+    if (data.length) {
+      dispatch(setFilteredData(fillIds(data)));
+    }
+  }, [columnsIDs]);
 
   /* const [hasXScroll, setHasXScroll] = useState(false);
 

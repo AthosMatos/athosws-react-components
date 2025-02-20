@@ -37,3 +37,8 @@ export { ATHOSMenu } from "./Module/ATHOSMenu";
 /* Hooks */
 
 export { useClickOutside } from "./Module/hooks/useClickOutside";
+export { useWindowDimensions } from "./Module/hooks/useWindowSize";
+
+/* Funcs */
+
+export { isBiggerThan } from "./Module/hooks/useWindowSize";

@@ -1,20 +1,15 @@
 import { motion } from "framer-motion";
-import { useState } from "react";
 import { FaMoon, FaSun } from "react-icons/fa6";
-import { useTheme } from "../../hooks/useTheme";
+import { useDispatch, useSelector } from "react-redux";
+import { AppState } from "../..";
+import { tooogleTheme } from "../../themeContext/redux";
 
 const ThemeSwitcher = () => {
-  const { toogleTheme, getTheme } = useTheme();
-  const [theme, setTheme] = useState<"light" | "dark">(getTheme());
-
-  const changeTheme = () => {
-    setTheme(theme === "light" ? "dark" : "light");
-    toogleTheme();
-  };
-
+  const theme = useSelector((state: AppState) => state.ThemeReducer.theme);
+  const dispatch = useDispatch();
   return (
     <div
-      onClick={changeTheme}
+      onClick={() => dispatch(tooogleTheme())}
       className={`w-16 h-10 flex rounded-full p-1 
 cursor-pointer text-black dark:text-white 
 bg-yellow-200 dark:bg-slate-800 transition-colors

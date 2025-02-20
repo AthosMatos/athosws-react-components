@@ -1,14 +1,15 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router";
 import Layout from "../Layout";
-import { routes } from "./routes";
-
+import { useRoutes } from "./routes";
+const defaultPath = "athosws-react-components";
 const AppRoutes = () => {
+  const routesObj = useRoutes();
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<Navigate to={routes.install.path || ""} replace={true} />} />
-          {Object.values(routes).map((route) => (
+        <Route path={defaultPath} element={<Layout />}>
+          <Route index element={<Navigate to={routesObj.install.path || ""} replace={true} />} />
+          {Object.values(routesObj).map((route) => (
             <>
               <Route key={route.path} path={route.path} element={route.component && <route.component />} />
               {route.subOpts &&

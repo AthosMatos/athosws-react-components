@@ -5,7 +5,7 @@ import ADTColumns from "../Sections/ADTColumns";
 import { ADTBody, ADTHeader, ADTTable } from "../styled";
 
 const Table = ({ tableWrapperId }: { tableWrapperId: string }) => {
-  const tableClassName = useSelector((state: ADTState) => state.ADTPropsReducer.tableClassName);
+  const tableClassName = useSelector((state: ADTState) => state.ADTPropsReducer.className);
   const tableWrapperClassName = useSelector((state: ADTState) => state.ADTPropsReducer.tableWrapperClassName);
 
   return (

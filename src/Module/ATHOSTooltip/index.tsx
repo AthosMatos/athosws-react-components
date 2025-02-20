@@ -15,9 +15,10 @@ export const ATHOSTooltip = (props: ATHOSTooltipProps) => {
   const tooltipRef = useRef<HTMLDivElement>(null);
   const DftID = `athos-tooltip`;
   const ID = `${DftID} - ${id}`;
-  const gap = 10;
+  const gap = -15;
   const { Root } = useSetPortal({
-    portalId: ID,
+    rootId: DftID,
+    id: ID,
   });
   useHandlePosition_F({
     childRef,

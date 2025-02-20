@@ -1,12 +1,14 @@
+import { configureStore } from "@reduxjs/toolkit";
 import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Provider, useDispatch } from "react-redux";
 import ATBody from "./components/Body";
 import { ATTab, ATTabOverlay } from "./components/Tab";
 import { transition } from "./consts";
 import { ATHOSTabsProps } from "./interfaces";
-import { setProps } from "./redux/Props";
-import { ATStore } from "./redux/store";
+import BodyDirReducer from "./redux/BodyDir";
+import ATHOSTabsPropsReducer, { setProps } from "./redux/Props";
+import ActiveTabDimReducer from "./redux/TabDim";
 
 const AT = (props: ATHOSTabsProps) => {
   const [activeTab, setActiveTab] = useState(0);
@@ -37,6 +39,7 @@ const AT = (props: ATHOSTabsProps) => {
             active={() => setActiveTab(index)}
             isActive={activeTab === index}
             className={tab.title.className}
+            style={tab.title.style}
           />
         ))}
         <ATTabOverlay />
@@ -47,8 +50,19 @@ const AT = (props: ATHOSTabsProps) => {
 };
 
 export const ATHOSTabs = (props: ATHOSTabsProps) => {
+  const store = useMemo(
+    () =>
+      configureStore({
+        reducer: {
+          ActiveTabDimReducer,
+          ATHOSTabsPropsReducer,
+          BodyDirReducer,
+        },
+      }),
+    []
+  );
   return (
-    <Provider store={ATStore}>
+    <Provider store={store}>
       <AT {...props} />
     </Provider>
   );

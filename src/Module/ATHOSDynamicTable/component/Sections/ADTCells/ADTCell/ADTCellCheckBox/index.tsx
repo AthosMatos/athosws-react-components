@@ -3,7 +3,7 @@ import { ATHOSColors } from "../../../../../../colors/colors";
 import ADTCheckBox from "../../../../components/ADTCheckBox";
 import { useADTSelect } from "../../../../redux/Select/hook";
 import { CheckState } from "../../../../redux/Select/interfaces";
-import { ADTCellWrapper, borderStyle, bWidth } from "../../../../styled";
+import { ADTCellWrapper, persistentBorderStyle, persitentBorderWidth } from "../../../../styled";
 import { getCellWrapperStyle } from "../../../consts";
 import CellExitWrapper from "../ADTCellExitWrapper";
 import useSelectors_ADTCellCheckBox from "./useSelectors";
@@ -26,13 +26,13 @@ const ADTCellCheckBox = ({ rowIndex, isLast }: { rowIndex: number; isLast: boole
       }
       const bColor = (persistPrimaryColumn as any).borderColor ?? "rgba(0, 0, 0, 0.13)";
       obj["borderLeftColor"] = bColor;
-      obj["borderLeftWidth"] = bWidth;
-      obj["borderLeftStyle"] = borderStyle;
+      obj["borderLeftWidth"] = persitentBorderWidth;
+      obj["borderLeftStyle"] = persistentBorderStyle;
 
       if (isLast) {
         obj["borderBottomColor"] = bColor;
-        obj["borderBottomWidth"] = bWidth;
-        obj["borderBottomStyle"] = borderStyle;
+        obj["borderBottomWidth"] = persitentBorderWidth;
+        obj["borderBottomStyle"] = persistentBorderStyle;
       }
       return obj;
     }
