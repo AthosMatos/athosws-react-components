@@ -136,6 +136,13 @@ export const RoutesProvider = ({ children }: { children: React.ReactNode }) => {
           icon: <SlSizeFullscreen />,
           onClick: () => setPageTitle(AppText.pages.components.resizableDiv),
         },
+        switcher: {
+          path: "components/switcher",
+          component: ATHOSCardPage,
+          label: "Switcher",
+          icon: <VscScreenFull />,
+          onClick: () => setPageTitle(AppText.pages.components.switcher),
+        }
       },
     },
   };
