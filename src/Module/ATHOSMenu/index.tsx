@@ -3,7 +3,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { Provider, useDispatch, useSelector } from "react-redux";
 import { useClickOutside } from "../hooks/useClickOutside";
 import HeightAnimDiv from "./components/HeightAnimDiv";
-import { ATHOSMenuProps } from "./interfaces";
+import { ATHOSMenuProps, OptionProps } from "./interfaces";
 import AMPropsReducer, { fillProps } from "./redux/Props";
 import AMSelectedReducer, { OptSTypes, selectData, selectOption, selectSubOption, selectSubSubOption } from "./redux/Selected";
 import { AMState } from "./redux/store";
@@ -32,9 +32,10 @@ const AM = (props: ATHOSMenuProps) => {
     const reduxoptions = useSelector((state: AMState) => state.AMPropsReducer.options);
     const location = props.navigate.useLocation();
 
-    const SetSelected = (opt: any, id: string, type: OptSTypes) => {
+    const SetSelected = (opt: OptionProps, id: string, type: OptSTypes) => {
       setInit(true);
       dispatch(selectData(opt));
+      opt.onInit && opt.onInit();
       switch (type) {
         case "opt":
           dispatch(selectOption(id));

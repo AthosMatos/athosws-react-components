@@ -153,6 +153,16 @@ export const AppText = {
           "en-US": "See the Tooltip in action",
         },
       },
+      virtualDIV: {
+        title: {
+          "pt-BR": "Div Virtual",
+          "en-US": "Virtual Div",
+        },
+        subtitle: {
+          "pt-BR": "Veja a Div Virtual em ação",
+          "en-US": "See the Virtual Div in action",
+        },
+      },
     },
   },
 };

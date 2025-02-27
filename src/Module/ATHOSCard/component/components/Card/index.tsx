@@ -14,14 +14,18 @@ const ATHOSCard = ({
   Gstyle,
   OuterWrapperClass,
   OuterWrapperStyle,
-}: ATHOSCardProps & { index: number } & IGlobalStyle) => {
+  setIsDragging,
+}: ATHOSCardProps & {
+  index: number;
+  setIsDragging: React.Dispatch<React.SetStateAction<string>>;
+} & IGlobalStyle) => {
   const id = useMemo(() => v4(), []);
 
   return (
     <Draggable draggableId={id} index={index}>
       {(provided) => (
         <div
-          className={`p-1 ${OuterWrapperClass} ${GclassName?.cardOuterWrapperClassName}`}
+          className={`p-1 h-fit ${OuterWrapperClass} ${GclassName?.cardOuterWrapperClassName}`}
           ref={provided.innerRef}
           {...provided.draggableProps}
           style={{ ...OuterWrapperStyle, ...Gstyle?.cardOuterWrapperStyle, ...provided.draggableProps.style }}
@@ -35,7 +39,12 @@ const ATHOSCard = ({
                 {header.icon}
                 {header.title}
               </div>
-              <div {...provided.dragHandleProps}>
+              <div
+                onMouseDown={() => {
+                  setIsDragging(id);
+                }}
+                {...provided.dragHandleProps}
+              >
                 <TbGripVertical className="text-lg" />
               </div>
             </div>

@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-interface BodyDirI {
+export interface BodyDirI {
   direction: "left" | "right";
 }
 

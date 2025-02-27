@@ -15,7 +15,8 @@ export interface ATHOSCardProps {
 }
 
 export interface BoardI {
-  cards: ATHOSCardProps[];
+  isTrash?: boolean;
+  cards?: ATHOSCardProps[];
   direction?: "horizontal" | "vertical";
   className?: string;
   style?: React.CSSProperties;

@@ -16,8 +16,7 @@ const Menu = () => {
     //watch div height, if it is bigger than maxMenuHeight or 50% of the screen height, set overflow-y to scroll
     const div = document.getElementById(id);
     if (!div) return;
-    const sizeLimit = maxMenuHeight || window.innerHeight / 2;
-
+    const sizeLimit = maxMenuHeight || window.innerHeight / 2.2;
     const handle = (entries: ResizeObserverEntry[]) => {
       for (let entry of entries) {
         if (entry.contentRect.height > sizeLimit) {

@@ -40,6 +40,7 @@ export interface DefaultOptProps {
   icon?: ReactNode;
   path?: string;
   onClick?: () => void;
+  onInit?: () => void;
   specificColors?: ColorOptType;
 }
 

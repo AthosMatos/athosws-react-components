@@ -6,7 +6,7 @@ interface TabDimI {
   height?: number;
   top?: number;
 }
-interface ActiveTabDimI extends TabDimI {
+export interface ActiveTabDimI extends TabDimI {
   init: boolean;
 }
 

@@ -1,10 +1,12 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { BiCard, BiCollapseVertical } from "react-icons/bi";
-import { BsFillMenuButtonWideFill, BsInputCursorText, BsMenuButtonWide } from "react-icons/bs";
+import { BsFillMenuButtonWideFill, BsInputCursorText } from "react-icons/bs";
 import { FaTable } from "react-icons/fa6";
+import { GiHamburgerMenu } from "react-icons/gi";
 import { GrInstallOption } from "react-icons/gr";
 import { RxButton, RxComponent1 } from "react-icons/rx";
 import { SlSizeFullscreen } from "react-icons/sl";
+import { TfiViewList } from "react-icons/tfi";
 import { VscScreenFull } from "react-icons/vsc";
 import { useSelector } from "react-redux";
 import { AppState } from "..";
@@ -14,6 +16,7 @@ import ATHOSCardPage from "../Module/ATHOSCard/page";
 import ATHOSDropDownPage from "../Module/ATHOSDropDown/page";
 import ATHOSDynamicTablePage from "../Module/ATHOSDynamicTable/page";
 import { OptKeyed } from "../Module/ATHOSMenu/helpers";
+import AthosVirtualDivPage from "../Module/ATHOSVirtualDiv/page";
 import { usePage } from "../pageContext/redux";
 import InstallPage from "../pages/Install";
 
@@ -32,9 +35,7 @@ export type WithComponent<T> = {
     };
   };
 };
-
 const RoutesContext = createContext<WithComponent<OptKeyed>>({} as WithComponent<OptKeyed>);
-
 export const RoutesProvider = ({ children }: { children: React.ReactNode }) => {
   const lang = useSelector((state: AppState) => state.LangReducer.lang);
   const pageTitle = useSelector((state: AppState) => state.PageReducer);
@@ -46,15 +47,14 @@ export const RoutesProvider = ({ children }: { children: React.ReactNode }) => {
     setTitle(pageLang.title[lang], pageLang.subtitle[lang]);
   };
 
-  useEffect(() => {
+  /* useEffect(() => {
     if (!pageTitle.title && !pageTitle.subtitle) {
       setPageTitle(AppText.pages.install);
     }
-  }, [pageTitle]);
+  }, [pageTitle]); */
 
   useEffect(() => {
     if (pageLang) {
-      console.log("pageLang", pageLang);
       setTitle(pageLang.title[lang], pageLang.subtitle[lang]);
     }
   }, [lang]);
@@ -66,6 +66,7 @@ export const RoutesProvider = ({ children }: { children: React.ReactNode }) => {
       label: AppText.pages.install.title[lang],
       icon: <GrInstallOption />,
       onClick: () => setPageTitle(AppText.pages.install),
+      onInit: () => setPageTitle(AppText.pages.install),
     },
     components: {
       /* path: "/components",
@@ -79,6 +80,7 @@ export const RoutesProvider = ({ children }: { children: React.ReactNode }) => {
           label: "Button",
           icon: <RxButton />,
           onClick: () => setPageTitle(AppText.pages.components.button),
+          onInit: () => setPageTitle(AppText.pages.components.button),
         },
         cards: {
           path: "components/cards",
@@ -86,6 +88,7 @@ export const RoutesProvider = ({ children }: { children: React.ReactNode }) => {
           label: "Cards",
           icon: <BiCard />,
           onClick: () => setPageTitle(AppText.pages.components.cards),
+          onInit: () => setPageTitle(AppText.pages.components.cards),
         },
         collapse: {
           path: "components/collapse",
@@ -93,6 +96,7 @@ export const RoutesProvider = ({ children }: { children: React.ReactNode }) => {
           label: "Collapse",
           icon: <BiCollapseVertical />,
           onClick: () => setPageTitle(AppText.pages.components.collapse),
+          onInit: () => setPageTitle(AppText.pages.components.collapse),
         },
         dropDown: {
           path: "components/add",
@@ -100,6 +104,7 @@ export const RoutesProvider = ({ children }: { children: React.ReactNode }) => {
           label: "Drop Down",
           icon: <BsFillMenuButtonWideFill />,
           onClick: () => setPageTitle(AppText.pages.components.dropdown),
+          onInit: () => setPageTitle(AppText.pages.components.dropdown),
         },
         dynamicTable: {
           path: "components/adt",
@@ -107,6 +112,7 @@ export const RoutesProvider = ({ children }: { children: React.ReactNode }) => {
           label: AppText.pages.components.dynamicTable.title[lang],
           icon: <FaTable />,
           onClick: () => setPageTitle(AppText.pages.components.dynamicTable),
+          onInit: () => setPageTitle(AppText.pages.components.dynamicTable),
         },
         input: {
           path: "components/input",
@@ -114,13 +120,15 @@ export const RoutesProvider = ({ children }: { children: React.ReactNode }) => {
           label: "Input",
           icon: <BsInputCursorText />,
           onClick: () => setPageTitle(AppText.pages.components.input),
+          onInit: () => setPageTitle(AppText.pages.components.input),
         },
         menu: {
           path: "components/menu",
           component: ATHOSCardPage,
           label: "Menu",
-          icon: <BsMenuButtonWide />,
+          icon: <GiHamburgerMenu />,
           onClick: () => setPageTitle(AppText.pages.components.menu),
+          onInit: () => setPageTitle(AppText.pages.components.menu),
         },
         modal: {
           path: "components/modal",
@@ -128,6 +136,7 @@ export const RoutesProvider = ({ children }: { children: React.ReactNode }) => {
           label: "Modal",
           icon: <VscScreenFull />,
           onClick: () => setPageTitle(AppText.pages.components.modal),
+          onInit: () => setPageTitle(AppText.pages.components.modal),
         },
         resizableDiv: {
           path: "components/resizableDiv",
@@ -135,6 +144,7 @@ export const RoutesProvider = ({ children }: { children: React.ReactNode }) => {
           label: "Resizable Div",
           icon: <SlSizeFullscreen />,
           onClick: () => setPageTitle(AppText.pages.components.resizableDiv),
+          onInit: () => setPageTitle(AppText.pages.components.resizableDiv),
         },
         switcher: {
           path: "components/switcher",
@@ -142,7 +152,16 @@ export const RoutesProvider = ({ children }: { children: React.ReactNode }) => {
           label: "Switcher",
           icon: <VscScreenFull />,
           onClick: () => setPageTitle(AppText.pages.components.switcher),
-        }
+          onInit: () => setPageTitle(AppText.pages.components.switcher),
+        },
+        virtualList: {
+          path: "components/virtualDiv",
+          component: AthosVirtualDivPage,
+          label: "Virtual Div",
+          icon: <TfiViewList />,
+          onClick: () => setPageTitle(AppText.pages.components.virtualDIV),
+          onInit: () => setPageTitle(AppText.pages.components.virtualDIV),
+        },
       },
     },
   };
