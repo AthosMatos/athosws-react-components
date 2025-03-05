@@ -9,7 +9,9 @@ import { ADTStatesController } from "./StatesController";
 import { ADTTableWrapper } from "./styled";
 
 import { configureStore } from "@reduxjs/toolkit";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
+import useSelectors_ADTSelectedRowsToast from "./components/ADTSelectedRowsToast/useSelectors";
+import { useATHOSDynamicTableContext } from "./context";
 import ADTCustomStatesReducer from "./redux/CustomStates/provider";
 import ADTFilteringReducer from "./redux/Filtering/provider";
 import ADTPropsReducer from "./redux/props/provider";
@@ -25,7 +27,14 @@ const Comp = ({ props, stly }: { stly?: boolean; props: DynamicTableProps<any> }
   const tableWrapperId = `${props.tableName}-athos-dynamic-table-wrapper`;
 
   ADTStatesController({ props, tableWrapperId });
+  const { selectedRows, data, tableName } = useSelectors_ADTSelectedRowsToast();
 
+  const tableContext = useATHOSDynamicTableContext();
+  if (tableContext) {
+    useEffect(() => {
+      tableContext.setSelectedData({ ...tableContext.selectedData, [tableName]: selectedRows?.map((row) => data[row]) });
+    }, [selectedRows, data]);
+  }
   return (
     <>
       <ADTSelectedRowsToast />

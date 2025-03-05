@@ -102,11 +102,28 @@ const AM = (props: ATHOSMenuProps) => {
     }, [options]);
   }
 
+  const selectedHeight = useMemo(() => {
+    return ARef.current?.clientHeight + 10;
+  }, [ARef.current]);
+
   return (
     <div className="flex flex-col gap-2 select-none leading-tight ">
       <div className="relative">
         <Selected aRef={ARef} click={() => setOpen(!open)} />
-        <HeightAnimDiv Bref={BRef} className="w-full absolute mt-2 z-[999]" show={open}>
+        <HeightAnimDiv
+          style={
+            props.menuDirection == "top"
+              ? {
+                  bottom: selectedHeight ? selectedHeight + "px" : "0px",
+                }
+              : {
+                  top: selectedHeight ? selectedHeight + "px" : "0px",
+                }
+          }
+          Bref={BRef}
+          className="w-full absolute z-[999]"
+          show={open}
+        >
           <Menu />
         </HeightAnimDiv>
       </div>

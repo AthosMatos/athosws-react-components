@@ -4,14 +4,21 @@ import "./index.css";
 export { ATHOSButton } from "./Module/ATHOSButton/component";
 export type { ATHOSButtonProps } from "./Module/ATHOSButton/component/interfaces";
 
+export { ATHOSCards } from "./Module/ATHOSCard/component/v2";
 export { ATHOSCollapse } from "./Module/ATHOSCollapse";
 export { ATHOSDropDown } from "./Module/ATHOSDropDown/component";
+/* Table */
+
 export { ATHOSDynamicTable } from "./Module/ATHOSDynamicTable/component";
+export { ATHOSDynamicTableProvider, useATHOSDynamicTableContext } from "./Module/ATHOSDynamicTable/component/context";
+
+/* Table */
 export { ATHOSInput } from "./Module/ATHOSInput";
 export { ATHOSResizableDiv } from "./Module/ATHOSResizableDiv";
 export { ATHOSSideMenu } from "./Module/ATHOSSideMenu";
+export { ATHOSSwitcher } from "./Module/ATHOSSwitcher";
 export { ATHOSTabs } from "./Module/ATHOSTabs";
-
+export { ATHOSVirtualDiv } from "./Module/ATHOSVirtualDiv/component";
 /* TOAST */
 export { ATHOSToast } from "./Module/ATHOSToast";
 export { useATHOSToast } from "./Module/ATHOSToast/useToast";

@@ -2,12 +2,15 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { AppState } from "../../..";
 import { ATHOSDynamicTable } from "../component";
+import { useATHOSDynamicTableContext } from "../component/context";
 import { tdata } from "./data-CC71BNrg8tmzETG2KjpiS";
 
 const ATHOSDynamicTablePage = () => {
   const [tableData, setTableData] = useState(tdata);
   const theme = useSelector((state: AppState) => state.ThemeReducer.theme);
   const isDark = theme === "dark";
+  const { selectedData } = useATHOSDynamicTableContext();
+  console.log("selectedData", selectedData);
   return (
     <>
       <ATHOSDynamicTable

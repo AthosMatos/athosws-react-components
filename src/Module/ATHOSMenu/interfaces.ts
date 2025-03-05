@@ -67,4 +67,5 @@ export interface ATHOSMenuProps {
     menu?: boolean;
     selected?: boolean;
   };
+  menuDirection?: "top" | "bottom";
 }

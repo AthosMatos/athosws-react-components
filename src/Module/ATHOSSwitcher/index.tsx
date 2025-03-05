@@ -8,7 +8,7 @@ import ASSelectedPropsReducer, { select } from "./redux/Selected";
 import { ASState } from "./redux/store";
 import { Floating, Switch } from "./Switch";
 
-const AS = (props: ATHOSSwitcherProps) => {
+const AS: React.FC<ATHOSSwitcherProps> = (props: ATHOSSwitcherProps) => {
   const { switchs, style, className } = props;
   const dispatch = useDispatch();
 

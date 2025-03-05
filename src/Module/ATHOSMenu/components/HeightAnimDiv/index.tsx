@@ -10,11 +10,24 @@ const variants: Variants = {
     //opacity: 1,
   },
 };
-const HeightAnimDiv = ({ show, children, className, Bref }: { Bref?: any; show: boolean; children: ReactNode; className?: string }) => {
+const HeightAnimDiv = ({
+  show,
+  children,
+  className,
+  Bref,
+  style,
+}: {
+  Bref?: any;
+  style?: any;
+  show: boolean;
+  children: ReactNode;
+  className?: string;
+}) => {
   return (
     <AnimatePresence>
       {show && (
         <motion.div
+          style={style}
           ref={Bref}
           transition={{
             duration: 0.15,

@@ -1,7 +1,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import React, { ReactElement, useEffect, useRef, useState } from "react";
 
-export const VirtualItem = ({
+export const ATHOSVirtualDiv = ({
   children,
   className,
   style,

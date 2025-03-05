@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { VirtualItem } from "../component";
+import { ATHOSVirtualDiv } from "../component";
 
 const CachedImg = ({ src, index }: { src: string; index?: number }) => {
   const [loaded, setLoaded] = useState(false);
@@ -13,13 +13,13 @@ const CachedImg = ({ src, index }: { src: string; index?: number }) => {
   }, [src]);
 
   return (
-    <VirtualItem viewportId="viewport" offset={210} className="w-[300px] h-[300px]">
+    <ATHOSVirtualDiv viewportId="viewport" offset={210} className="w-[300px] h-[300px]">
       {loaded ? (
         <img className="w-full h-full object-cover" src={cachedImg.src} />
       ) : (
         <div className="w-full h-full bg-gray-300 animate-pulse" />
       )}
-    </VirtualItem>
+    </ATHOSVirtualDiv>
   );
 };
 

@@ -1,10 +1,10 @@
 import * as react_jsx_runtime from 'react/jsx-runtime';
-import { ReactNode, RefObject } from 'react';
+import React$1, { ReactNode, ReactElement, RefObject } from 'react';
 import { IconType } from 'react-icons';
 import { NavigateFunction, Location } from 'react-router';
 
-interface EnabledATHOSButtonProps {
-    disabled?: false;
+type ATHOSButtonProps = {
+    disabled?: boolean;
     type: "default" | "alt" | "action";
     onClick?: () => void;
     children: React.ReactNode;
@@ -13,17 +13,7 @@ interface EnabledATHOSButtonProps {
     style?: React.CSSProperties;
     color?: string;
     textColor?: string;
-}
-interface DisabledATHOSButtonProps {
-    disabled: true;
-    children: React.ReactNode;
-    small?: boolean;
-    tooltip?: React.ReactNode;
-    style?: React.CSSProperties;
-    color?: string;
-    textColor?: string;
-}
-type ATHOSButtonProps = DisabledATHOSButtonProps | EnabledATHOSButtonProps;
+};
 
 /**
  * A versatile button component with multiple styles (`default`, `alt`, `action`, `disabled`), customizable colors, and optional tooltip support.
@@ -47,6 +37,16 @@ type ATHOSButtonProps = DisabledATHOSButtonProps | EnabledATHOSButtonProps;
  * ```
  */
 declare const ATHOSButton: (props: ATHOSButtonProps) => react_jsx_runtime.JSX.Element;
+
+interface BaseItem {
+    id: string;
+}
+interface Props<T extends BaseItem> {
+    items: T[];
+    update(changeItems: T[]): void;
+    render(item: T): ReactNode;
+}
+declare function ATHOSCards<T extends BaseItem>(props: React$1.HTMLAttributes<HTMLDivElement> & Props<T>): react_jsx_runtime.JSX.Element;
 
 interface ATHOSCollapseProps {
     children: React.ReactNode;
@@ -189,6 +189,15 @@ type DynamicTableProps<T> = {
 };
 
 declare function ATHOSDynamicTable<T>(props: DynamicTableProps<T>): react_jsx_runtime.JSX.Element;
+
+interface ATHOSDynamicTableContextType {
+    selectedData: any;
+    setSelectedData: (data: any) => void;
+}
+declare const ATHOSDynamicTableProvider: ({ children }: {
+    children: any;
+}) => react_jsx_runtime.JSX.Element;
+declare const useATHOSDynamicTableContext: () => ATHOSDynamicTableContextType;
 
 interface ATHOSInputProps {
     type?: "user" | "password";
@@ -336,6 +345,43 @@ type ATHOSSideMenuProps = ATHOSSideMenuNoOverlayProps | ATHOSSideMenuOverlayProp
  */
 declare function ATHOSSideMenu(props: ATHOSSideMenuProps): react_jsx_runtime.JSX.Element;
 
+interface SwitchI {
+    id?: string;
+    onSelected?: () => void;
+    label?: ReactNode;
+    icon?: ReactNode;
+    className?: {
+        default?: string;
+        active?: string;
+    };
+    style?: {
+        default?: React.CSSProperties;
+        active?: React.CSSProperties;
+    };
+}
+
+interface ATHOSSwitcherProps {
+    selectedId?: string;
+    onChange?: (id: string) => void;
+    switchs: SwitchI[];
+    style?: {
+        container?: React.CSSProperties;
+        switches?: {
+            default?: React.CSSProperties;
+            active?: React.CSSProperties;
+        };
+    };
+    className?: {
+        container?: string;
+        switches?: {
+            default?: string;
+            active?: string;
+        };
+    };
+}
+
+declare const ATHOSSwitcher: (props: ATHOSSwitcherProps) => react_jsx_runtime.JSX.Element;
+
 interface TabClassNameProps {
     default?: string;
     active?: string;
@@ -370,6 +416,14 @@ interface ATHOSTabsProps {
 }
 
 declare const ATHOSTabs: (props: ATHOSTabsProps) => react_jsx_runtime.JSX.Element;
+
+declare const ATHOSVirtualDiv: ({ children, className, style, offset, viewportId, }: {
+    children: ReactElement;
+    className?: string;
+    style?: React$1.CSSProperties;
+    offset?: number;
+    viewportId?: string;
+}) => react_jsx_runtime.JSX.Element;
 
 interface ATHOSToastProps {
     id?: string;
@@ -517,6 +571,7 @@ interface DefaultOptProps {
     icon?: ReactNode;
     path?: string;
     onClick?: () => void;
+    onInit?: () => void;
     specificColors?: ColorOptType;
 }
 interface SubSubOptionProps extends DefaultOptProps {
@@ -539,6 +594,7 @@ interface ATHOSMenuProps {
         menu?: boolean;
         selected?: boolean;
     };
+    menuDirection?: "top" | "bottom";
 }
 
 declare const ATHOSMenu: (props: ATHOSMenuProps) => react_jsx_runtime.JSX.Element;
@@ -565,11 +621,11 @@ declare const useClickOutside: (props: ClickOutsideProps) => void;
 type Sizes = "sm" | "md" | "lg" | "xl" | "2xl";
 declare const isBiggerThan: (size: Sizes) => boolean;
 declare function useWindowDimensions(): {
-    size: Sizes | undefined;
+    size: Sizes;
     dimensions: {
         width: number;
         height: number;
     };
 };
 
-export { ATHOSButton, type ATHOSButtonProps, ATHOSCollapse, ATHOSColors, ATHOSDropDown, ATHOSDynamicTable, ATHOSInput, ATHOSMenu, ATHOSModal, ATHOSResizableDiv, ATHOSSideMenu, ATHOSTabs, ATHOSToast, ATHOSTooltip, adaptSize, convertRemToPixels, generateColorShades, getContrastColor, getUnitWithoutValue, getValueWithoutUnit, isBiggerThan, useATHOSModal, useATHOSToast, useClickOutside, useWindowDimensions };
+export { ATHOSButton, type ATHOSButtonProps, ATHOSCards, ATHOSCollapse, ATHOSColors, ATHOSDropDown, ATHOSDynamicTable, ATHOSDynamicTableProvider, ATHOSInput, ATHOSMenu, ATHOSModal, ATHOSResizableDiv, ATHOSSideMenu, ATHOSSwitcher, ATHOSTabs, ATHOSToast, ATHOSTooltip, ATHOSVirtualDiv, adaptSize, convertRemToPixels, generateColorShades, getContrastColor, getUnitWithoutValue, getValueWithoutUnit, isBiggerThan, useATHOSDynamicTableContext, useATHOSModal, useATHOSToast, useClickOutside, useWindowDimensions };

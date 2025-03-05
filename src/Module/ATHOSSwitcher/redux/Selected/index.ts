@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-interface ASSelectedProps {
+export interface ASSelectedProps {
   selected: number;
 }
 const initialState: ASSelectedProps = {
