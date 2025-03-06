@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import { IoClose, IoMenu } from "react-icons/io5";
+import { useSelector } from "react-redux";
 import { ATHOSDropDown } from "../../../../ATHOSDropDown/component";
 import { ATHOSToast } from "../../../../ATHOSToast";
 import { forceOpacity, generateColorShades } from "../../../../utils/color-utils";
 import { useADTSelect } from "../../redux/Select/hook";
+import { ADTState } from "../../redux/store";
 import ADTCheckBox from "../ADTCheckBox";
 import { ADTATWrapper, ADTBRDSimple, ADTSRTFSWrapper, ADTSRTIconWrapper, ADTSRTLabel, ADTSRTMainFunc } from "./styled";
 import useSelectors_ADTSelectedRowsToast from "./useSelectors";
@@ -19,6 +21,7 @@ const ADTSelectedRowsToast = () => {
     setOpenDropDown(false);
     uncheckAll();
   };
+  const containerColor = useSelector((state: ADTState) => state.ADTPropsReducer.selectedRowsTooltip?.containerColor);
 
   useEffect(() => {
     if (selectedRows.length > 0) {
@@ -37,9 +40,11 @@ const ADTSelectedRowsToast = () => {
       id={tableName}
     >
       <ADTATWrapper
+        className={containerColor?.className}
         style={{
           color: tableStyle?.textColor,
           backgroundColor: tableStyle?.accentColor2,
+          ...containerColor?.style,
         }}
       >
         <ADTSRTFSWrapper>

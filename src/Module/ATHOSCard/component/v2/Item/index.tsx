@@ -1,6 +1,7 @@
 import type { DraggableSyntheticListeners, UniqueIdentifier } from "@dnd-kit/core";
 import { defaultAnimateLayoutChanges, useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import { motion } from "framer-motion";
 import type { CSSProperties, PropsWithChildren } from "react";
 import { createContext, useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
@@ -69,7 +70,6 @@ function SortableItem<T extends BaseItem>({ children, id, update, items }: Props
     transform: CSS.Translate.toString(transform),
     transition,
   };
-
   useEffect(() => {
     if (isDeleting) {
       setTimeout(() => {
@@ -81,9 +81,19 @@ function SortableItem<T extends BaseItem>({ children, id, update, items }: Props
 
   return (
     <SortableItemContext.Provider value={context}>
-      <OpacityDiv isDeleting={isDeleting} style={style} ref={setNodeRef}>
-        {children}
-      </OpacityDiv>
+      <motion.div
+        animate={
+          isDeleting && {
+            opacity: 0,
+            scale: 0,
+          }
+        }
+        transition={{ ease: "anticipate" }}
+      >
+        <motion.div style={style} ref={setNodeRef}>
+          {children}
+        </motion.div>
+      </motion.div>
     </SortableItemContext.Provider>
   );
 }

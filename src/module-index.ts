@@ -3,8 +3,12 @@ import "./index.css";
 
 export { ATHOSButton } from "./Module/ATHOSButton/component";
 export type { ATHOSButtonProps } from "./Module/ATHOSButton/component/interfaces";
+/* Cards */
+export { ATHOSCards, GripIcon, GripIconVertical } from "./Module/ATHOSCard/component/v2";
+export { DeleteHandle } from "./Module/ATHOSCard/component/v2/DeleteHandle";
+export { DragHandle } from "./Module/ATHOSCard/component/v2/DragHandle";
+/* Cards */
 
-export { ATHOSCards } from "./Module/ATHOSCard/component/v2";
 export { ATHOSCollapse } from "./Module/ATHOSCollapse";
 export { ATHOSDropDown } from "./Module/ATHOSDropDown/component";
 /* Table */

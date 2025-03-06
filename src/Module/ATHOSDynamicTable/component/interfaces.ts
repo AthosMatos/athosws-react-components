@@ -26,6 +26,10 @@ export type SelectedRowsTooltipI<T> = {
     onClick: (selectedData: T[]) => void;
   };
   othersFunc?: ADTLabelI<T>[];
+  containerColor?: {
+    style?: React.CSSProperties;
+    className?: string;
+  };
 };
 
 export type ExtraColumnsI<T> = {
@@ -76,6 +80,7 @@ type ResizableConfig = {
 };
 
 export type DynamicTableProps<T> = {
+  loading?: boolean;
   boldHeader?: boolean;
   wrapperClassName?: string;
   tableWrapperClassName?: string;
@@ -88,6 +93,15 @@ export type DynamicTableProps<T> = {
   globalConfig?: GlobalConfig;
   columnsToHide?: (keyof T)[];
   columnsToShow?: (keyof T)[];
+  customColumns?: {
+    newLabel: string;
+    colsToGet: (keyof T)[];
+    index?: number;
+    render?: (data: T) => React.ReactNode;
+  }[];
+
+  columnOrder?: (keyof T)[];
+
   style?: React.CSSProperties;
   spacingBetweenCells?: number;
   spacingHeader?: number;

@@ -14,10 +14,22 @@ const ATHOSDynamicTablePage = () => {
   return (
     <>
       <ATHOSDynamicTable
+        customColumns={[
+          {
+            newLabel: "New Label",
+            colsToGet: ["address", "currency", "email"],
+            index: 1,
+            render: (data) => {
+              //console.log("data", data);
+              return <div>Custom Column dssa</div>;
+            },
+          },
+        ]}
         persistPrimaryColumn={{
           backgroundColor: isDark ? "rgba(41, 41, 41, 0.726)" : "rgba(0, 0, 0, 0.055)",
           borderColor: isDark ? "rgba(255, 255, 255, 0.13)" : "rgba(0, 0, 0, 0.13)",
         }}
+        columnOrder={["id"]}
         /* colConfig={{
           country: {
             minColWidthToShort: 10,

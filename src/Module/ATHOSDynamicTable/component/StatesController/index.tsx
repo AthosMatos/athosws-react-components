@@ -18,26 +18,49 @@ const fillIds = (data: any[]) => {
 };
 
 export function ADTStatesController<T>({ props, tableWrapperId }: { props: DynamicTableProps<T>; tableWrapperId: string }) {
-  const { data, columnsToHide, columnsToShow, spacingHeader: paddingHeader, tableStyle } = props;
+  const { data, columnsToHide, columnsToShow, customColumns, tableStyle, columnOrder } = props;
   const dispatch = useDispatch();
 
   const columns = useMemo(() => {
+    if (!data || !data.length) return [];
+    let cols: (keyof T)[] = [];
     if (columnsToHide) {
-      return Object.keys(data[0] as object).filter((column) => !columnsToHide.includes(column as keyof T)) as (keyof T)[];
+      cols = Object.keys(data[0] as object).filter((column) => !columnsToHide.includes(column as keyof T)) as (keyof T)[];
     } else if (columnsToShow) {
-      return columnsToShow;
-    } else return Object.keys(data[0] as object) as (keyof T)[];
+      cols = columnsToShow;
+    } else cols = Object.keys(data[0] as object) as (keyof T)[];
+
+    if (columnOrder) {
+      console.log("columnOrder", columnOrder);
+      cols = cols.filter((col) => !columnOrder.includes(col));
+      cols = [...columnOrder, ...cols];
+      console.log("cols", cols);
+    }
+
+    if (customColumns) {
+      customColumns.forEach((customColumn) => {
+        cols = cols.filter((col) => !customColumn.colsToGet.includes(col));
+        if (customColumn.index != undefined) {
+          cols.splice(customColumn.index, 0, customColumn.newLabel as keyof T);
+        } else {
+          cols.push(customColumn.newLabel as keyof T);
+        }
+      });
+    }
+    return cols;
   }, [columnsToHide, columnsToShow, data]);
 
-  const columnsIDs = useMemo(()=>columns.reduce((acc, column) => {
-    acc[column] = `${column as string}-${v4()}`;
-    return acc;
-  }, {} as ColumnsIds<T>),[columns]);
-
-  
+  const columnsIDs = useMemo(
+    () =>
+      columns.reduce((acc, column) => {
+        acc[column] = `${column as string}-${v4()}`;
+        return acc;
+      }, {} as ColumnsIds<T>),
+    [columns]
+  );
 
   useEffect(() => {
-    if (data.length) {
+    if (data?.length) {
       dispatch(setTotalItems(data.length));
       dispatch(setFilteredData(data));
     }
@@ -66,7 +89,7 @@ export function ADTStatesController<T>({ props, tableWrapperId }: { props: Dynam
   }, [columns]);
 
   useEffect(() => {
-    if (data.length) {
+    if (data?.length) {
       dispatch(setFilteredData(fillIds(data)));
     }
   }, [columnsIDs]);

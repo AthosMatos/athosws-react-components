@@ -46,7 +46,13 @@ interface Props<T extends BaseItem> {
     update(changeItems: T[]): void;
     render(item: T): ReactNode;
 }
+declare const GripIcon: (props: React$1.SVGProps<SVGSVGElement>) => react_jsx_runtime.JSX.Element;
+declare const GripIconVertical: (props: React$1.SVGProps<SVGSVGElement>) => react_jsx_runtime.JSX.Element;
 declare function ATHOSCards<T extends BaseItem>(props: React$1.HTMLAttributes<HTMLDivElement> & Props<T>): react_jsx_runtime.JSX.Element;
+
+declare function DeleteHandle(props: React.HTMLAttributes<HTMLButtonElement>): react_jsx_runtime.JSX.Element;
+
+declare function DragHandle(props: React.HTMLAttributes<HTMLButtonElement>): react_jsx_runtime.JSX.Element;
 
 interface ATHOSCollapseProps {
     children: React.ReactNode;
@@ -115,6 +121,10 @@ type SelectedRowsTooltipI<T> = {
         onClick: (selectedData: T[]) => void;
     };
     othersFunc?: ADTLabelI<T>[];
+    containerColor?: {
+        style?: React.CSSProperties;
+        className?: string;
+    };
 };
 type ExtraColumnsI<T> = {
     showCondition?: (data: T) => boolean;
@@ -160,6 +170,7 @@ type ResizableConfig = {
     autoBorder?: boolean;
 };
 type DynamicTableProps<T> = {
+    loading?: boolean;
     boldHeader?: boolean;
     wrapperClassName?: string;
     tableWrapperClassName?: string;
@@ -172,6 +183,13 @@ type DynamicTableProps<T> = {
     globalConfig?: GlobalConfig;
     columnsToHide?: (keyof T)[];
     columnsToShow?: (keyof T)[];
+    customColumns?: {
+        newLabel: string;
+        colsToGet: (keyof T)[];
+        index?: number;
+        render?: (data: T) => React.ReactNode;
+    }[];
+    columnOrder?: (keyof T)[];
     style?: React.CSSProperties;
     spacingBetweenCells?: number;
     spacingHeader?: number;
@@ -628,4 +646,4 @@ declare function useWindowDimensions(): {
     };
 };
 
-export { ATHOSButton, type ATHOSButtonProps, ATHOSCards, ATHOSCollapse, ATHOSColors, ATHOSDropDown, ATHOSDynamicTable, ATHOSDynamicTableProvider, ATHOSInput, ATHOSMenu, ATHOSModal, ATHOSResizableDiv, ATHOSSideMenu, ATHOSSwitcher, ATHOSTabs, ATHOSToast, ATHOSTooltip, ATHOSVirtualDiv, adaptSize, convertRemToPixels, generateColorShades, getContrastColor, getUnitWithoutValue, getValueWithoutUnit, isBiggerThan, useATHOSDynamicTableContext, useATHOSModal, useATHOSToast, useClickOutside, useWindowDimensions };
+export { ATHOSButton, type ATHOSButtonProps, ATHOSCards, ATHOSCollapse, ATHOSColors, ATHOSDropDown, ATHOSDynamicTable, ATHOSDynamicTableProvider, ATHOSInput, ATHOSMenu, ATHOSModal, ATHOSResizableDiv, ATHOSSideMenu, ATHOSSwitcher, ATHOSTabs, ATHOSToast, ATHOSTooltip, ATHOSVirtualDiv, DeleteHandle, DragHandle, GripIcon, GripIconVertical, adaptSize, convertRemToPixels, generateColorShades, getContrastColor, getUnitWithoutValue, getValueWithoutUnit, isBiggerThan, useATHOSDynamicTableContext, useATHOSModal, useATHOSToast, useClickOutside, useWindowDimensions };

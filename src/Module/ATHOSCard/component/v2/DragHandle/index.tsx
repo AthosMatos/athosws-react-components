@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { SortableItemContext } from "../Item";
 
-function DragHandle(props: React.HTMLAttributes<HTMLButtonElement>) {
+export function DragHandle(props: React.HTMLAttributes<HTMLButtonElement>) {
   const { attributes, listeners, ref } = useContext(SortableItemContext);
   const { children } = props;
   return (
@@ -10,5 +10,3 @@ function DragHandle(props: React.HTMLAttributes<HTMLButtonElement>) {
     </button>
   );
 }
-
-export default DragHandle;

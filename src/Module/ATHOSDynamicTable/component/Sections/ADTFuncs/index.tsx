@@ -5,7 +5,7 @@ import ADTInfo from "../ADTInfo";
 import ADTConfig from "./Config";
 import ADTSearch from "./Search";
 
-const ADTFuncs = () => {
+const ADTHeader = () => {
   const textColor = useSelector((state: ADTState) => state.ADTPropsReducer.tableStyle?.textColor);
 
   return (
@@ -24,4 +24,4 @@ const ADTFuncs = () => {
   );
 };
 
-export default memo(ADTFuncs);
+export default memo(ADTHeader);

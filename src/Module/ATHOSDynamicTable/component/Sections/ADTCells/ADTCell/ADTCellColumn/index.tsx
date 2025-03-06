@@ -1,5 +1,7 @@
 import { memo } from "react";
+import { useSelector } from "react-redux";
 import { ATHOSTooltip } from "../../../../../../ATHOSTooltip";
+import { ADTState } from "../../../../redux/store";
 import { ADTCellWrapper } from "../../../../styled";
 import { getCellWrapperStyle, tdClassName } from "../../../consts";
 import useADTCellCol from "./hooks/main";
@@ -16,6 +18,9 @@ const ADTCellColumn = ({ row, column, rowIndex, index, isLast }: ADTCellColumnPr
     index,
     isLast,
   });
+  const customColumns = useSelector((state: ADTState) => state.ADTPropsReducer.customColumns)
+    ?.find((col) => col.newLabel === column)
+    ?.render(row);
 
   const cellWrapperProps = {
     id: `${columns[index]} - ${rowIndex} -${index}`,
@@ -40,7 +45,7 @@ const ADTCellColumn = ({ row, column, rowIndex, index, isLast }: ADTCellColumnPr
       {/*  <CellExitWrapper>
        
       </CellExitWrapper> */}
-      {showTooltip ? (
+      {showTooltip && !customColumns ? (
         <ATHOSTooltip
           style={
             {
@@ -54,7 +59,7 @@ const ADTCellColumn = ({ row, column, rowIndex, index, isLast }: ADTCellColumnPr
           {(ref) => <div ref={ref}>{Cell}</div>}
         </ATHOSTooltip>
       ) : (
-        Cell
+        customColumns || Cell
       )}
     </ADTCellWrapper>
   );

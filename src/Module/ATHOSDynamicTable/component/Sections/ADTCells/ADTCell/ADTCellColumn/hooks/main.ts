@@ -29,6 +29,9 @@ const useADTCellCol = ({
   const maxCharToCut = (colConfig && colConfig[column]?.maxCharToCut) || globalConfig?.maxCharToCut || 20;
 
   const rowValue = useMemo(() => {
+    if (typeof row[column] !== "string") {
+      return row[column];
+    }
     if (short) {
       setShowTooltip(true);
       return row[column].slice(0, maxCharToCut) + "...";
