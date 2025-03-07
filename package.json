@@ -1,7 +1,7 @@
 {
   "name": "@athosws/react-components",
   "homepage": "https://AthosMatos.github.io/athosws-react-components",
-  "version": "1.4.4",
+  "version": "1.4.5",
   "description": "This is a set of useful ReactJS components developed by Athos.\\n Email:ladiesman217.as@gmail.com",
   "main": "dist/module-index.js",
   "module": "dist/module-index.mjs",
