@@ -1,11 +1,13 @@
 import { useSelector } from "react-redux";
 import { ADTState } from "../../redux/store";
-import useSelectors_Info from "./useSelectors";
 
 const ADTInfo = () => {
-  const { pageSize, tableName, totalItems } = useSelectors_Info();
+  const pageSize = useSelector((state: ADTState) => state.ADTFilteringReducer.pageSize);
+  const tableName = useSelector((state: ADTState) => state.ADTPropsReducer.tableName);
+  const totalItems = useSelector((state: ADTState) => state.ADTCustomStatesReducer.totalItems);
   const textColor = useSelector((state: ADTState) => state.ADTPropsReducer.tableStyle?.textColor);
-
+  const loading = useSelector((state: ADTState) => state.ADTPropsReducer.loading);
+  const dataLen = useSelector((state: ADTState) => state.ADTPropsReducer.data)?.length;
   return (
     <div className="flex flex-col gap-0">
       <h1
@@ -16,14 +18,16 @@ const ADTInfo = () => {
       >
         {tableName}
       </h1>
-      <p
-        style={{
-          color: textColor,
-        }}
-        className="text-md text-gray-500 font-light"
-      >
-        {pageSize} items / {totalItems} total
-      </p>
+      {dataLen != 0 && !loading && (
+        <p
+          style={{
+            color: textColor,
+          }}
+          className="text-md text-gray-500 font-light"
+        >
+          {pageSize} items / {totalItems} total
+        </p>
+      )}
     </div>
   );
 };

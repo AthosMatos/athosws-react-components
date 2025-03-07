@@ -1,7 +1,6 @@
 import type { Active, Over } from "@dnd-kit/core";
 import { DndContext, KeyboardSensor, MeasuringStrategy, PointerSensor, useSensor, useSensors } from "@dnd-kit/core";
 import { SortableContext, sortableKeyboardCoordinates } from "@dnd-kit/sortable";
-import type { ReactNode } from "react";
 import React, { useMemo, useState } from "react";
 import SortableItem from "./Item";
 import Overlay from "./Overlay";
@@ -21,7 +20,7 @@ export interface BaseItem {
 interface Props<T extends BaseItem> {
   items: T[];
   update(changeItems: T[]): void;
-  render(item: T): ReactNode;
+  render(item: T): JSX.Element;
 }
 
 const measuringConfig = {
@@ -74,6 +73,7 @@ export function ATHOSCards<T extends BaseItem>(props: React.HTMLAttributes<HTMLD
   const onDragCancel = () => {
     setActive(null);
   };
+
   return (
     <DndContext measuring={measuringConfig} sensors={sensors} onDragStart={onDragStart} onDragEnd={onDragEnd} onDragCancel={onDragCancel}>
       <SortableContext items={items}>

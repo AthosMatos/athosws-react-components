@@ -3,14 +3,15 @@ import { ATHOSResizableDiv } from "../../ATHOSResizableDiv";
 import ADTSelectedRowsToast from "./components/ADTSelectedRowsToast";
 
 import { DynamicTableProps } from "./interfaces";
-import ADTHeader from "./Sections/ADTFuncs";
+import ADTHeader from "./Sections/ADTHeader";
 import ADTNav from "./Sections/ADTNav";
 import { ADTStatesController } from "./StatesController";
 import { ADTTableWrapper } from "./styled";
 
 import { configureStore } from "@reduxjs/toolkit";
-import { AnimatePresence, motion, useAnimate } from "framer-motion";
-import { useEffect, useMemo, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { useEffect, useMemo } from "react";
+import ADTLoadingBar from "./components/ADTloadingBar";
 import useSelectors_ADTSelectedRowsToast from "./components/ADTSelectedRowsToast/useSelectors";
 import { useATHOSDynamicTableContext } from "./context";
 import ADTCustomStatesReducer from "./redux/CustomStates/provider";
@@ -23,12 +24,8 @@ import Table from "./Table";
  * but if provided, it will use the keys in the order of the array.
  */
 
-const duration = 1;
-
 const Comp = ({ props, stly }: { stly?: boolean; props: DynamicTableProps<any> }) => {
-  const tableWrapperId = `${props.tableName}-athos-dynamic-table-wrapper`;
-
-  ADTStatesController({ props, tableWrapperId });
+  ADTStatesController({ props });
   const { selectedRows, data, tableName } = useSelectors_ADTSelectedRowsToast();
 
   const tableContext = useATHOSDynamicTableContext();
@@ -38,20 +35,6 @@ const Comp = ({ props, stly }: { stly?: boolean; props: DynamicTableProps<any> }
     }, [selectedRows, data]);
   }
 
-  const [showTable, setShowTable] = useState(false);
-  useEffect(() => {
-    if (!props.loading) {
-      setTimeout(() => {
-        setShowTable(true);
-      }, duration * 1000);
-    }
-  }, [props.loading]);
-
-  const [scope, animate] = useAnimate();
-
-  useEffect(() => {
-    scope.current && animate(scope.current, { width: "100%" }, { duration: 1, repeat: Infinity, repeatType: "reverse" });
-  }, [scope.current]);
   return (
     <>
       <ADTSelectedRowsToast />
@@ -62,32 +45,28 @@ const Comp = ({ props, stly }: { stly?: boolean; props: DynamicTableProps<any> }
       >
         <ADTHeader />
         <AnimatePresence mode="wait">
-          {!props.loading && (
-            <>
-              <Table tableWrapperId={tableWrapperId} />
-              <ADTNav />
-            </>
-          )}
-        </AnimatePresence>
-        <AnimatePresence mode="wait">
-          {props.loading && (
-            <motion.div
-              transition={{
-                duration,
-              }}
-              exit={{
-                opacity: 0,
-              }}
-              className="w-full bg-white bg-opacity-15 h-5 flex justify-center p-[0.05rem] rounded-full"
-            >
+          {props.data.length !== 0 ? (
+            !props.loading ? (
               <motion.div
-                ref={scope}
-                style={{
-                  backgroundColor: props.tableStyle.highlightColor || "white",
+                transition={{
+                  duration: 1,
                 }}
-                className=" w-0 h-full rounded-full"
-              />
-            </motion.div>
+                key={`${props.tableName}-table`}
+                initial={{ height: 0 }}
+                animate={{ height: "auto" }}
+                className="overflow-hidden !min-h-5"
+                style={{
+                  overflowY: "overlay" as any,
+                }}
+              >
+                <Table />
+                <ADTNav />
+              </motion.div>
+            ) : (
+              <ADTLoadingBar loading={props.loading} tableName={props.tableName} tableStyle={props.tableStyle} />
+            )
+          ) : (
+            props.noDataPlaceholder
           )}
         </AnimatePresence>
       </ADTTableWrapper>

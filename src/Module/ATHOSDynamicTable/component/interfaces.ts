@@ -80,7 +80,7 @@ type ResizableConfig = {
 };
 
 export type DynamicTableProps<T> = {
-  loading?: boolean;
+  loading?: boolean | string;
   boldHeader?: boolean;
   wrapperClassName?: string;
   tableWrapperClassName?: string;
@@ -101,7 +101,7 @@ export type DynamicTableProps<T> = {
   }[];
 
   columnOrder?: (keyof T)[];
-
+  noDataPlaceholder?: React.ReactNode;
   style?: React.CSSProperties;
   spacingBetweenCells?: number;
   spacingHeader?: number;

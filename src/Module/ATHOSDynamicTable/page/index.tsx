@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { AppState } from "../../..";
 import { ATHOSDynamicTable } from "../component";
@@ -10,10 +10,19 @@ const ATHOSDynamicTablePage = () => {
   const theme = useSelector((state: AppState) => state.ThemeReducer.theme);
   const isDark = theme === "dark";
   const { selectedData } = useATHOSDynamicTableContext();
-  console.log("selectedData", selectedData);
+
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+  }, []);
+
   return (
     <>
       <ATHOSDynamicTable
+        loading={loading ? "Carregando..." : loading}
         customColumns={[
           {
             newLabel: "New Label",
@@ -30,21 +39,8 @@ const ATHOSDynamicTablePage = () => {
           borderColor: isDark ? "rgba(255, 255, 255, 0.13)" : "rgba(0, 0, 0, 0.13)",
         }}
         columnOrder={["id"]}
-        /* colConfig={{
-          country: {
-            minColWidthToShort: 10,
-            maxCharToCut: 10,
-          },
-        }} */
-        //startShort
         globalConfig={{
-          //maxCharToCut: 10,
           shortOnlyifCut: true,
-          /*  minColWidthToShort: 10, */
-          //shortOnlyifCut: true,
-          //minColWidthToShort: 10,
-          /*  maxWidth: 100,
-          minWidth: 500, */
         }}
         tableStyle={{
           textColor: isDark ? "white" : "black",
@@ -58,9 +54,6 @@ const ATHOSDynamicTablePage = () => {
           // highlightColor: isDark ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.1)",
           //accentColor2: isDark ? "rgba(255, 255, 255, 0.05)" : "rgba(0, 0, 0, 0.05)",
         }}
-        /*  wrapperClassName="h-full"
-        className="h-full"
-        tableWrapperClassName="h-full" */
         data={tableData}
         tableName="Test Table"
       />
@@ -89,6 +82,23 @@ const ATHOSDynamicTablePage = () => {
         }}
         data={tableData}
         tableName="Test Table 2"
+      />
+
+      <ATHOSDynamicTable
+        tableStyle={{
+          textColor: isDark ? "white" : "black",
+          accentColor: isDark ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.1)",
+          cellTextColor: {
+            global: isDark ? "white" : "black",
+          },
+          columnTextColor: {
+            global: isDark ? "rgba(255, 255, 255, 0.7)" : "rgba(0, 0, 0, 0.7)",
+          },
+        }}
+        wrapperClassName="h-[600px]"
+        data={[]}
+        noDataPlaceholder={<div className="w-full h-full flex items-center justify-center">No Data</div>}
+        tableName="Test Table 3"
       />
     </>
   );

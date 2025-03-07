@@ -17,7 +17,7 @@ const fillIds = (data: any[]) => {
   });
 };
 
-export function ADTStatesController<T>({ props, tableWrapperId }: { props: DynamicTableProps<T>; tableWrapperId: string }) {
+export function ADTStatesController<T>({ props }: { props: DynamicTableProps<T> }) {
   const { data, columnsToHide, columnsToShow, customColumns, tableStyle, columnOrder } = props;
   const dispatch = useDispatch();
 
@@ -31,10 +31,8 @@ export function ADTStatesController<T>({ props, tableWrapperId }: { props: Dynam
     } else cols = Object.keys(data[0] as object) as (keyof T)[];
 
     if (columnOrder) {
-      console.log("columnOrder", columnOrder);
       cols = cols.filter((col) => !columnOrder.includes(col));
       cols = [...columnOrder, ...cols];
-      console.log("cols", cols);
     }
 
     if (customColumns) {
@@ -67,19 +65,17 @@ export function ADTStatesController<T>({ props, tableWrapperId }: { props: Dynam
   }, [data]);
 
   useEffect(() => {
-    if (columns?.length) {
-      const pr: ADTPropsState<any> = {
-        ...props,
-        persistPrimaryColumn: props.persistPrimaryColumn ?? true,
-        autoLockHeight: props.autoLockHeight != undefined ? props.autoLockHeight : true,
-        columns,
-        tableStyle: {
-          ...tableStyle,
-          highlightColor: tableStyle?.highlightColor ?? "#ff6262",
-        },
-      };
-      dispatch(fillADTProps(pr));
-    }
+    const pr: ADTPropsState<any> = {
+      ...props,
+      persistPrimaryColumn: props.persistPrimaryColumn ?? true,
+      autoLockHeight: props.autoLockHeight != undefined ? props.autoLockHeight : true,
+      columns: columns,
+      tableStyle: {
+        ...tableStyle,
+        highlightColor: tableStyle?.highlightColor ?? "#ff6262",
+      },
+    };
+    dispatch(fillADTProps(pr));
   }, [columns, props]);
 
   useEffect(() => {
@@ -93,36 +89,4 @@ export function ADTStatesController<T>({ props, tableWrapperId }: { props: Dynam
       dispatch(setFilteredData(fillIds(data)));
     }
   }, [columnsIDs]);
-
-  /* const [hasXScroll, setHasXScroll] = useState(false);
-
-  useEffect(() => {
-    if (!props.persistPrimaryColumn) return;
-    const tableWrapper = document.getElementById(tableWrapperId);
-
-    if (!tableWrapper) return;
-
-    function hasScroll(element: HTMLElement) {
-      return element.scrollWidth > element.clientWidth;
-    }
-
-    const observerCallback: ResizeObserverCallback = (entries: ResizeObserverEntry[]) => {
-      window.requestAnimationFrame((): void | undefined => {
-        if (!Array.isArray(entries) || !entries.length) {
-          return;
-        }
-        if (tableWrapper && hasScroll(tableWrapper)) {
-          setHasXScroll(true);
-        } else {
-          setHasXScroll(false);
-        }
-      });
-    };
-    const resizeObserver = new ResizeObserver(observerCallback);
-
-    resizeObserver.observe(tableWrapper);
-    return () => {
-      resizeObserver.disconnect();
-    };
-  }, [tableWrapperId]); */
 }

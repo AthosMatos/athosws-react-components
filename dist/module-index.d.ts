@@ -44,7 +44,7 @@ interface BaseItem {
 interface Props<T extends BaseItem> {
     items: T[];
     update(changeItems: T[]): void;
-    render(item: T): ReactNode;
+    render(item: T): JSX.Element;
 }
 declare const GripIcon: (props: React$1.SVGProps<SVGSVGElement>) => react_jsx_runtime.JSX.Element;
 declare const GripIconVertical: (props: React$1.SVGProps<SVGSVGElement>) => react_jsx_runtime.JSX.Element;
