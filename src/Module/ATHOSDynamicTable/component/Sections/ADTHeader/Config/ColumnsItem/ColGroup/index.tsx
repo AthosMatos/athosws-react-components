@@ -30,9 +30,6 @@ const ColGroup = ({ cols, isOn }: ColGroupProps) => {
             key={col}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 1 }}
-            /*  initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              exit={{ scale: 0 }} */
             layout="position"
             onClick={() => filterOutCol(col)}
             className={`flex transition-opacity font-medium duration-150 ease-in-out 

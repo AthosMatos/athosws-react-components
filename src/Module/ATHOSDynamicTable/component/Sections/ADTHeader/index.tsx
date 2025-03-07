@@ -12,7 +12,7 @@ const ADTHeader = () => {
   return (
     <div className="flex mb-4 justify-between gap-2">
       <ADTInfo />
-      {dataLen != 0 && !loading && (
+      {dataLen > 0 && !loading && (
         <div
           style={{
             color: textColor,

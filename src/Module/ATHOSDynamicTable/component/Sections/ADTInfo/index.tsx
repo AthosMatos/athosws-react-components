@@ -18,7 +18,7 @@ const ADTInfo = () => {
       >
         {tableName}
       </h1>
-      {dataLen != 0 && !loading && (
+      {dataLen > 0 && !loading && (
         <p
           style={{
             color: textColor,

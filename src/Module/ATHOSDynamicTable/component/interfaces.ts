@@ -116,8 +116,7 @@ export type DynamicTableProps<T> = {
         borderColor?: string;
       }
     | boolean;
-  movePageTransitionDuration?: number;
-  autoLockHeight?: boolean;
+  /*  autoLockHeight?: boolean; */
 };
 
 export interface ColumnsProps<T> {

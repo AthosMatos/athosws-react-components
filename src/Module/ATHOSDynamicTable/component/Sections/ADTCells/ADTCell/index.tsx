@@ -30,7 +30,7 @@ const ADTCell = (props: ADTCellProps) => {
     <ADTTR initial="hidden" animate="visible" exit="hidden" variants={variants} layout="preserve-aspect" transition={{ duration: 0.1 }}>
       <ADTCellCheckBox isLast={isLast} rowIndex={rowIndex} />
       {filteredColumns.map((column, index) => (
-        <ADTCellColumn key={row[column]} isLast={isLast} column={column} index={index} row={row} rowIndex={rowIndex} />
+        <ADTCellColumn key={index} isLast={isLast} column={column} index={index} row={row} rowIndex={rowIndex} />
       ))}
 
       {extraColumns && <ADTCellExtraCols row={row} />}

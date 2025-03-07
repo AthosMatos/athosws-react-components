@@ -4,6 +4,7 @@ import ADTCell from "./ADTCell";
 
 const ADTCells = () => {
   const filteredData = useSelector((state: ADTState) => state.ADTFilteringReducer.filteredData);
+
   return filteredData?.map((row, rowIndex) => <ADTCell key={row.id} rowIndex={rowIndex} row={row} />);
 };
 

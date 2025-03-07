@@ -120,8 +120,9 @@ const Slice = createSlice({
         state.filteredColumns = state.filteredColumns.filter((column) => column !== action.payload);
       } else {
         //based on the order of the columns
-        const index = state.columnOrder.indexOf(action.payload);
-        state.filteredColumns = [...state.filteredColumns.slice(0, index), action.payload, ...state.filteredColumns.slice(index)];
+        const newCols = [...state.filteredColumns, action.payload];
+        //reorder the columns
+        state.filteredColumns = state.columnOrder.filter((col) => newCols.includes(col));
       }
     },
     sortDataByColumn: (

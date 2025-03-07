@@ -3,10 +3,10 @@ import { useSelector } from "react-redux";
 import { AppState } from "../../..";
 import { ATHOSDynamicTable } from "../component";
 import { useATHOSDynamicTableContext } from "../component/context";
+import { realData } from "./data";
 import { tdata } from "./data-CC71BNrg8tmzETG2KjpiS";
 
 const ATHOSDynamicTablePage = () => {
-  const [tableData, setTableData] = useState(tdata);
   const theme = useSelector((state: AppState) => state.ThemeReducer.theme);
   const isDark = theme === "dark";
   const { selectedData } = useATHOSDynamicTableContext();
@@ -54,8 +54,32 @@ const ATHOSDynamicTablePage = () => {
           // highlightColor: isDark ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.1)",
           //accentColor2: isDark ? "rgba(255, 255, 255, 0.05)" : "rgba(0, 0, 0, 0.05)",
         }}
-        data={tableData}
-        tableName="Test Table"
+        data={tdata}
+        tableName="Fake Data"
+      />
+
+      <ATHOSDynamicTable
+        loading={loading ? "Carregando..." : loading}
+        persistPrimaryColumn={{
+          backgroundColor: isDark ? "rgba(41, 41, 41, 0.726)" : "rgba(0, 0, 0, 0.055)",
+          borderColor: isDark ? "rgba(255, 255, 255, 0.13)" : "rgba(0, 0, 0, 0.13)",
+        }}
+        columnOrder={["id"]}
+        globalConfig={{
+          shortOnlyifCut: true,
+        }}
+        tableStyle={{
+          textColor: isDark ? "white" : "black",
+          accentColor: isDark ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.1)",
+          cellTextColor: {
+            global: isDark ? "white" : "black",
+          },
+          columnTextColor: {
+            global: isDark ? "rgba(255, 255, 255, 0.7)" : "rgba(0, 0, 0, 0.7)",
+          },
+        }}
+        data={realData}
+        tableName="Real Data"
       />
 
       <ATHOSDynamicTable
@@ -80,7 +104,7 @@ const ATHOSDynamicTablePage = () => {
             global: isDark ? "rgba(255, 255, 255, 0.7)" : "rgba(0, 0, 0, 0.7)",
           },
         }}
-        data={tableData}
+        data={undefined}
         tableName="Test Table 2"
       />
 

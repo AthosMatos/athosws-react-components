@@ -170,7 +170,7 @@ type ResizableConfig = {
     autoBorder?: boolean;
 };
 type DynamicTableProps<T> = {
-    loading?: boolean;
+    loading?: boolean | string;
     boldHeader?: boolean;
     wrapperClassName?: string;
     tableWrapperClassName?: string;
@@ -190,6 +190,7 @@ type DynamicTableProps<T> = {
         render?: (data: T) => React.ReactNode;
     }[];
     columnOrder?: (keyof T)[];
+    noDataPlaceholder?: React.ReactNode;
     style?: React.CSSProperties;
     spacingBetweenCells?: number;
     spacingHeader?: number;

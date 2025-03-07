@@ -68,7 +68,6 @@ export function ADTStatesController<T>({ props }: { props: DynamicTableProps<T> 
     const pr: ADTPropsState<any> = {
       ...props,
       persistPrimaryColumn: props.persistPrimaryColumn ?? true,
-      autoLockHeight: props.autoLockHeight != undefined ? props.autoLockHeight : true,
       columns: columns,
       tableStyle: {
         ...tableStyle,
