@@ -203,8 +203,6 @@ type DynamicTableProps<T> = {
         backgroundColor?: string;
         borderColor?: string;
     } | boolean;
-    movePageTransitionDuration?: number;
-    autoLockHeight?: boolean;
 };
 
 declare function ATHOSDynamicTable<T>(props: DynamicTableProps<T>): react_jsx_runtime.JSX.Element;
