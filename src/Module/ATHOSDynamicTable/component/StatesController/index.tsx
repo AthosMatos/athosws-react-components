@@ -1,19 +1,19 @@
 import { useEffect, useMemo } from "react";
 import { useDispatch } from "react-redux";
 import { v4 } from "uuid";
-import { ColumnsIds, DynamicTableProps } from "../interfaces";
+import { DynamicTableProps } from "../interfaces";
 import { setTotalItems } from "../redux/CustomStates/provider";
 import { setFilteredColumns, setFilteredData } from "../redux/Filtering/provider";
 import { ADTPropsState } from "../redux/props/interfaces";
-import { fillADTProps } from "../redux/props/provider";
+import { fillADTProps, setColumns } from "../redux/props/provider";
 
 //check if data values have id
 const fillIds = (data: any[]) => {
-  return data.map((row, index) => {
-    if (!row.id) {
-      row.id = v4();
-    }
-    return row;
+  return data.map((row) => {
+    return {
+      ...row,
+      uniqueId: v4(),
+    };
   });
 };
 
@@ -48,44 +48,24 @@ export function ADTStatesController<T>({ props }: { props: DynamicTableProps<T> 
     return cols;
   }, [columnsToHide, columnsToShow, data]);
 
-  const columnsIDs = useMemo(
-    () =>
-      columns.reduce((acc, column) => {
-        acc[column] = `${column as string}-${v4()}`;
-        return acc;
-      }, {} as ColumnsIds<T>),
-    [columns]
-  );
-
-  useEffect(() => {
-    if (data?.length) {
-      dispatch(setTotalItems(data.length));
-      dispatch(setFilteredData(data));
-    }
-  }, [data]);
-
   useEffect(() => {
     const pr: ADTPropsState<any> = {
       ...props,
       persistPrimaryColumn: props.persistPrimaryColumn ?? true,
-      columns: columns,
       tableStyle: {
         ...tableStyle,
         highlightColor: tableStyle?.highlightColor ?? "#ff6262",
       },
     };
     dispatch(fillADTProps(pr));
-  }, [columns, props]);
+  }, [props]);
 
   useEffect(() => {
-    if (columns?.length) {
+    if (columns?.length && data?.length) {
       dispatch(setFilteredColumns(columns));
-    }
-  }, [columns]);
-
-  useEffect(() => {
-    if (data?.length) {
+      dispatch(setColumns(columns));
+      dispatch(setTotalItems(data.length));
       dispatch(setFilteredData(fillIds(data)));
     }
-  }, [columnsIDs]);
+  }, [columns]);
 }

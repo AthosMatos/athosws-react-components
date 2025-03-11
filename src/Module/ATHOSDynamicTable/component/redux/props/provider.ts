@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { DynamicTableProps } from "../../interfaces";
 import { ADTPropsState } from "./interfaces";
 
 const initialState: ADTPropsState<any> = {} as any;
@@ -8,14 +7,7 @@ const Slice = createSlice({
   name: "ADTProps",
   initialState,
   reducers: {
-    fillProps: (
-      state,
-      action: PayloadAction<
-        DynamicTableProps<any> & {
-          columns: any[];
-        }
-      >
-    ) => {
+    fillProps: (state, action: PayloadAction<ADTPropsState<any>>) => {
       return { ...state, ...action.payload };
     },
     setColumns: (state, action: PayloadAction<any[]>) => {

@@ -40,7 +40,7 @@ const ADTNav = () => {
   const canGoForward = useMemo(() => page * pageSize < totalItems, [totalItems, page, pageSize]);
   const canGoBack = useMemo(() => page > 1, [page]);
   const totalPages = useMemo(() => Math.ceil(totalItems / pageSize), [totalItems, pageSize]);
-
+  const dataLen = useSelector((state: ADTState) => state.ADTPropsReducer.data)?.length;
   const move = (to: number | "prev" | "next") => {
     dispatch(
       movePage({
@@ -57,7 +57,8 @@ const ADTNav = () => {
   const textColor = useSelector((state: ADTState) => state.ADTPropsReducer.tableStyle?.textColor);
   const loading = useSelector((state: ADTState) => state.ADTPropsReducer.loading);
   return (
-    !loading && (
+    !loading &&
+    dataLen > 0 && (
       <div className="flex-1 items-end select-none flex mt-4 w-full justify-end  self-end">
         <div className="flex flex-col items-center gap-2">
           <div className="flex gap-2 text-lg items-center">

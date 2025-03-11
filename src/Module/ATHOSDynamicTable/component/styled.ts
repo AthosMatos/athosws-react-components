@@ -81,7 +81,7 @@ export const ADTColumnWrapper = styled.th<ADTColWrapperProps>`
   `}
 `;
 
-export const ADTCellWrapper = styled(motion.td)<{
+export const ADTCellWrapper = styled.td<{
   persistent?: boolean;
 }>`
   font-size: 1rem;

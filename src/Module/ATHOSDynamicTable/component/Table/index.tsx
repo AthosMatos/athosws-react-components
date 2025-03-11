@@ -27,26 +27,19 @@ const Table = () => {
             key={`${tableName}-table`}
             initial={{ height: 0 }}
             animate={{ height: "auto" }}
-            className="overflow-hidden !min-h-5"
+            className={`!min-h-5 rounded-md border p-2 border-gray-300 ${tableWrapperClassName}`}
             style={{
               overflowY: "overlay" as any,
             }}
           >
-            <div
-              className={`rounded-md border p-2  border-gray-300 ${tableWrapperClassName}`}
-              style={{
-                overflowY: "overlay" as any,
-              }}
-            >
-              <ADTTable className={tableClassName}>
-                <ADTHeader>
-                  <ADTColumns />
-                </ADTHeader>
-                <ADTBody>
-                  <ADTCells />
-                </ADTBody>
-              </ADTTable>
-            </div>
+            <ADTTable className={tableClassName}>
+              <ADTHeader>
+                <ADTColumns />
+              </ADTHeader>
+              <ADTBody>
+                <ADTCells />
+              </ADTBody>
+            </ADTTable>
           </motion.div>
         ) : (
           <ADTLoadingBar loading={loading} tableName={tableName} tableStyle={tableStyle} />

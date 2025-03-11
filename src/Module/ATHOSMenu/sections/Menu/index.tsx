@@ -46,7 +46,7 @@ const Menu = () => {
       }}
       scaleAnim={false}
       specificColors={colors}
-      className={`w-full ${blur ? "backdrop-blur-[2px]" : ""} rounded-lg flex-col p-2 gap-1 max-h-[50vh] border-[rgba(0,0,0,0.55)] border`}
+      className={`w-full ${blur ? "backdrop-blur-[2px]" : ""} rounded-lg !flex-col p-2 gap-1 max-h-[50vh] border-[rgba(0,0,0,0.55)] border`}
     >
       {options.map((opt, index) => {
         return <MenuOption key={`${opt.label}-${index}`} {...opt} index={index} />;

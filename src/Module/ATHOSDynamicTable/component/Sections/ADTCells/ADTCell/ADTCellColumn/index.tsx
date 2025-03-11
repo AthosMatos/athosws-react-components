@@ -8,9 +8,8 @@ import useADTCellCol from "./hooks/main";
 import { ADTCellColumnProps } from "./interfaces";
 import useSelectors_ADTCellColumn from "./useSelectors";
 
-const ADTCellColumn = ({ row, column, rowIndex, index, isLast }: ADTCellColumnProps) => {
-  const { columns, colConfig, paddingBetweenColumns, paddingBetweenCells, persistPrimaryColumn } = useSelectors_ADTCellColumn();
-
+const ADTCellColumn = ({ row, column, rowIndex, index, isLast, id }: ADTCellColumnProps) => {
+  const { colConfig, paddingBetweenColumns, paddingBetweenCells, persistPrimaryColumn } = useSelectors_ADTCellColumn();
   const { rowValue, textColor, touch, showTooltip, persistStyle } = useADTCellCol({
     column,
     row,
@@ -23,7 +22,7 @@ const ADTCellColumn = ({ row, column, rowIndex, index, isLast }: ADTCellColumnPr
     ?.render(row);
 
   const cellWrapperProps = {
-    id: `${columns[index]} - ${rowIndex} -${index}`,
+    id,
     className: `${tdClassName(index, persistPrimaryColumn)} ${isLast ? "rounded-ee-md" : ""}`,
     style: {
       color: textColor,
@@ -42,9 +41,6 @@ const ADTCellColumn = ({ row, column, rowIndex, index, isLast }: ADTCellColumnPr
 
   return (
     <ADTCellWrapper persistent={!!persistPrimaryColumn} {...cellWrapperProps}>
-      {/*  <CellExitWrapper>
-       
-      </CellExitWrapper> */}
       {showTooltip && !customColumns ? (
         <ATHOSTooltip
           style={

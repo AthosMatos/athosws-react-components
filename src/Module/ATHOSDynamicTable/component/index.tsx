@@ -38,18 +38,15 @@ const Comp = ({ props, stly }: { stly?: boolean; props: DynamicTableProps<any> }
   }
 
   return (
-    <>
-      <ADTSelectedRowsToast />
-      <ADTTableWrapper
-        resizable={!!props.resizeable}
-        style={stly ? props.style : undefined}
-        className={`${props.wrapperClassName} flex flex-col rounded-md w-full border border-gray-300 m-0`}
-      >
-        <ADTHeader />
-        <Table />
-        <ADTNav />
-      </ADTTableWrapper>
-    </>
+    <ADTTableWrapper
+      resizable={!!props.resizeable}
+      style={stly ? props.style : undefined}
+      className={`${props.wrapperClassName} flex flex-col rounded-md w-full border border-gray-300 m-0`}
+    >
+      <ADTHeader />
+      <Table />
+      <ADTNav />
+    </ADTTableWrapper>
   );
 };
 
@@ -69,6 +66,7 @@ export function ATHOSDynamicTable<T>(props: DynamicTableProps<T>) {
   );
   return (
     <Provider store={store}>
+      <ADTSelectedRowsToast />
       {props.resizeable ? (
         <ATHOSResizableDiv saveInLocalStorage={tableId} withToogle>
           <Comp props={props} />

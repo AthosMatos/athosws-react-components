@@ -4,4 +4,5 @@ export interface ADTCellColumnProps {
   rowIndex: number;
   index: number;
   isLast?: boolean;
+  id?: string;
 }

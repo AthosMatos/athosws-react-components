@@ -6,14 +6,15 @@ export const defaultBorder = " 1px solid rgba(0, 0, 0, 0.2)";
 export const highlightBorder = (color?: string) => `3px solid ${color || ATHOSColors.aqua.default}`;
 
 interface RDWrapperProps {
-  width: string;
-  height: string;
+  width?: string;
+  height?: string;
 }
 
 export const RDContainer = styled.div<RDWrapperProps>`
   overflow: auto;
   width: ${(props) => props.width};
   height: ${(props) => props.height};
+  // max-width: 94vw;
 
   transition: border 0.08s, border-radius 0.08s;
 `;
@@ -32,7 +33,6 @@ export const RDPreWrapper = styled.div<{ withToogle?: boolean }>`
     width: fit-content;
     height: fit-content;
     gap: 0.5rem;
-    border: none;
     `}
 `;
 export const RDDot = styled.div`
