@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 
 import { ADTState } from "../../../../redux/store";
-import { ADTCellWrapper } from "../../../../styled";
+import { ADTCellColWrapper } from "../../../../styled";
 import { getCellWrapperStyle } from "../../../consts";
 import CellExitWrapper from "../ADTCellExitWrapper";
 
@@ -19,7 +19,7 @@ const ADTCellExtraCols = ({ row }: ExtraColsProps) => {
     ?.filter((extraColumn) => !(extraColumn.showCondition && !extraColumn.showCondition(row)))
     .map((extraColumn, index) => {
       return (
-        <ADTCellWrapper
+        <ADTCellColWrapper
           /*  variants={movingPage ? undefined : DefaultVariants}
             exit={"unPad"} */
           style={{
@@ -34,7 +34,7 @@ const ADTCellExtraCols = ({ row }: ExtraColsProps) => {
           key={extraColumn.component.toString()}
         >
           <CellExitWrapper>{extraColumn.component(row)}</CellExitWrapper>
-        </ADTCellWrapper>
+        </ADTCellColWrapper>
       );
     });
 };

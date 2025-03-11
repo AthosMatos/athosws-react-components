@@ -81,7 +81,7 @@ export const ADTColumnWrapper = styled.th<ADTColWrapperProps>`
   `}
 `;
 
-export const ADTCellWrapper = styled.td<{
+export const ADTCellColWrapper = styled.td<{
   persistent?: boolean;
 }>`
   font-size: 1rem;

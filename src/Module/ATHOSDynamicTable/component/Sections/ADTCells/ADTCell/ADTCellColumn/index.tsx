@@ -2,7 +2,7 @@ import { memo } from "react";
 import { useSelector } from "react-redux";
 import { ATHOSTooltip } from "../../../../../../ATHOSTooltip";
 import { ADTState } from "../../../../redux/store";
-import { ADTCellWrapper } from "../../../../styled";
+import { ADTCellColWrapper } from "../../../../styled";
 import { getCellWrapperStyle, tdClassName } from "../../../consts";
 import useADTCellCol from "./hooks/main";
 import { ADTCellColumnProps } from "./interfaces";
@@ -40,7 +40,7 @@ const ADTCellColumn = ({ row, column, rowIndex, index, isLast, id }: ADTCellColu
   const Cell = colConfig && colConfig[column]?.cellComponent ? colConfig[column]?.cellComponent!(row[column]) : rowValue;
 
   return (
-    <ADTCellWrapper persistent={!!persistPrimaryColumn} {...cellWrapperProps}>
+    <ADTCellColWrapper persistent={!!persistPrimaryColumn} {...cellWrapperProps}>
       {showTooltip && !customColumns ? (
         <ATHOSTooltip
           style={
@@ -57,7 +57,7 @@ const ADTCellColumn = ({ row, column, rowIndex, index, isLast, id }: ADTCellColu
       ) : (
         customColumns || Cell
       )}
-    </ADTCellWrapper>
+    </ADTCellColWrapper>
   );
 };
 

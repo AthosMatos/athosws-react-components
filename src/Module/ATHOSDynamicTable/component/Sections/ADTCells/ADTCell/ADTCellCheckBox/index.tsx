@@ -3,7 +3,7 @@ import { ATHOSColors } from "../../../../../../colors/colors";
 import ADTCheckBox from "../../../../components/ADTCheckBox";
 import { useADTSelect } from "../../../../redux/Select/hook";
 import { CheckState } from "../../../../redux/Select/interfaces";
-import { ADTCellWrapper, persistentBorderStyle, persitentBorderWidth } from "../../../../styled";
+import { ADTCellColWrapper, persistentBorderStyle, persitentBorderWidth } from "../../../../styled";
 import { getCellWrapperStyle } from "../../../consts";
 import CellExitWrapper from "../ADTCellExitWrapper";
 import useSelectors_ADTCellCheckBox from "./useSelectors";
@@ -39,7 +39,7 @@ const ADTCellCheckBox = ({ rowIndex, isLast }: { rowIndex: number; isLast: boole
   }, [persistPrimaryColumn, isLast]);
 
   return (
-    <ADTCellWrapper
+    <ADTCellColWrapper
       persistent={!!persistPrimaryColumn}
       /*  variants={movingPage ? undefined : DefaultVariants}
       exit={"unPad"} */
@@ -60,7 +60,7 @@ const ADTCellCheckBox = ({ rowIndex, isLast }: { rowIndex: number; isLast: boole
           check={() => checkCellClick(rowIndex)}
         />
       </CellExitWrapper>
-    </ADTCellWrapper>
+    </ADTCellColWrapper>
   );
 };
 
