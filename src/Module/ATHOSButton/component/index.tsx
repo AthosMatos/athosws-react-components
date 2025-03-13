@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { ATHOSTooltip } from "../../ATHOSTooltip";
 import { ATHOSButtonProps } from "./interfaces";
 import { ATHOSButton_action, ATHOSButton_alt, ATHOSButton_default, ATHOSButton_disabled } from "./styled/styled";
@@ -25,8 +26,8 @@ import { ATHOSButton_action, ATHOSButton_alt, ATHOSButton_default, ATHOSButton_d
  */
 
 export const ATHOSButton = (props: ATHOSButtonProps) => {
-  const { children, disabled, tooltip, color, textColor, style, small } = props;
-  const Bttn = (ref?: any) => {
+  const { children, disabled, tooltip, color, textColor, style, small, type, onClick } = props;
+  const Bttn = useMemo(() => {
     if (disabled) {
       return (
         <ATHOSButton_disabled color={color} textColor={textColor} style={style}>
@@ -34,29 +35,28 @@ export const ATHOSButton = (props: ATHOSButtonProps) => {
         </ATHOSButton_disabled>
       );
     } else {
-      const { type, onClick } = props;
       switch (type) {
         case "default":
           return (
-            <ATHOSButton_default ref={ref} small={small} color={color} textColor={textColor} style={style} onClick={onClick}>
+            <ATHOSButton_default small={small} color={color} textColor={textColor} style={style} onClick={onClick}>
               {children}
             </ATHOSButton_default>
           );
         case "alt":
           return (
-            <ATHOSButton_alt ref={ref} small={small} color={color} textColor={textColor} style={style} onClick={onClick}>
+            <ATHOSButton_alt small={small} color={color} textColor={textColor} style={style} onClick={onClick}>
               {children}
             </ATHOSButton_alt>
           );
         case "action":
           return (
-            <ATHOSButton_action ref={ref} small={small} color={color} textColor={textColor} style={style} onClick={onClick}>
+            <ATHOSButton_action small={small} color={color} textColor={textColor} style={style} onClick={onClick}>
               {children}
             </ATHOSButton_action>
           );
       }
     }
-  };
+  }, [children, disabled, color, textColor, style, small, type, onClick]);
 
-  return tooltip ? <ATHOSTooltip content={tooltip}>{(ref) => Bttn(ref)}</ATHOSTooltip> : Bttn();
+  return tooltip ? <ATHOSTooltip tooltipContent={tooltip}>{Bttn}</ATHOSTooltip> : Bttn;
 };

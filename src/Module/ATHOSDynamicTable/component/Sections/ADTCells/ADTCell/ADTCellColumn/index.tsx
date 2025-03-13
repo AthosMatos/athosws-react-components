@@ -17,9 +17,7 @@ const ADTCellColumn = ({ row, column, rowIndex, index, isLast, id }: ADTCellColu
     index,
     isLast,
   });
-  const customColumns = useSelector((state: ADTState) => state.ADTPropsReducer.customColumns)
-    ?.find((col) => col.newLabel === column)
-    ?.render(row);
+  const customCols = useSelector((state: ADTState) => state.ADTPropsReducer.customColumns);
 
   const cellWrapperProps = {
     id,
@@ -36,26 +34,17 @@ const ADTCellColumn = ({ row, column, rowIndex, index, isLast, id }: ADTCellColu
       }),
     },
   };
-
-  const Cell = colConfig && colConfig[column]?.cellComponent ? colConfig[column]?.cellComponent!(row[column]) : rowValue;
-
+  const customColumns = customCols?.find((col) => col.newLabel === column)?.render(row);
+  const Cell = colConfig && colConfig[column]?.cellComponent ? colConfig[column]?.cellComponent(row[column]) : customColumns || rowValue;
+  const tooltipContent = row[column];
   return (
     <ADTCellColWrapper persistent={!!persistPrimaryColumn} {...cellWrapperProps}>
-      {showTooltip && !customColumns ? (
-        <ATHOSTooltip
-          style={
-            {
-              //maxWidth: "200px",
-            }
-          }
-          followCursor
-          content={row[column]}
-          forceOpen={touch}
-        >
-          {(ref) => <div ref={ref}>{Cell}</div>}
+      {showTooltip ? (
+        <ATHOSTooltip className="max-w-80" followCursor tooltipContent={tooltipContent} forceOpen={touch}>
+          {Cell}
         </ATHOSTooltip>
       ) : (
-        customColumns || Cell
+        Cell
       )}
     </ADTCellColWrapper>
   );

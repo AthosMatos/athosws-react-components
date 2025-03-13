@@ -2,8 +2,8 @@ import { useSelector } from "react-redux";
 import { ADTState } from "../../redux/store";
 import { ADTTR } from "../../styled";
 import ADTCellCheckBox from "./ADTCell/ADTCellCheckBox";
+import ADTCellColumn from "./ADTCell/ADTCellColumn";
 import ADTCellExtraCols from "./ADTCell/ADTCellExtraCols";
-import ADTCellColumnV2 from "./ADTCellV2";
 
 const variants = {
   hidden: {
@@ -37,15 +37,20 @@ const ADTCells = () => {
     >
       <ADTCellCheckBox isLast={rowIndex === pageSize - 1} rowIndex={rowIndex} />
       {filteredColumns.map((column, index) => (
-        <ADTCellColumnV2
-          value={row[column]}
-          /* id={`${column.toString()} - ${row.uniqueId}`}
+        <ADTCellColumn
+          /*  key={`${column.toString()} - ${row.uniqueId}`}
+          row={row}
+          column={column}
+          index={index}
+          isLast={rowIndex === pageSize - 1} */
+
+          id={`${column.toString()} - ${row.uniqueId}`}
           key={`${column.toString()} - ${row.uniqueId}`}
           isLast={rowIndex === pageSize - 1}
           column={column}
           index={index}
           row={row}
-          rowIndex={rowIndex} */
+          rowIndex={rowIndex}
         />
       ))}
       {/*  <ADTCellColumn

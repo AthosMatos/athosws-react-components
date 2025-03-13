@@ -3,7 +3,6 @@ import { useSelector } from "react-redux";
 import { AppState } from "../../..";
 import { ATHOSDynamicTable } from "../component";
 import { useATHOSDynamicTableContext } from "../component/context";
-import { realData } from "./data";
 
 const ATHOSDynamicTablePage = () => {
   const theme = useSelector((state: AppState) => state.ThemeReducer.theme);
@@ -57,7 +56,7 @@ const ATHOSDynamicTablePage = () => {
         tableName="Fake Data"
       /> */}
 
-      <ATHOSDynamicTable
+      {/* <ATHOSDynamicTable
         loading={loading ? "Carregando..." : loading}
         persistPrimaryColumn={{
           backgroundColor: isDark ? "rgba(41, 41, 41, 0.726)" : "rgba(0, 0, 0, 0.055)",
@@ -79,9 +78,9 @@ const ATHOSDynamicTablePage = () => {
         }}
         data={realData}
         tableName="Real Data"
-      />
+      /> */}
 
-      {/*   <ATHOSDynamicTable
+      <ATHOSDynamicTable
         tableWrapperClassName="h-full"
         className="h-full"
         resizeable
@@ -122,7 +121,7 @@ const ATHOSDynamicTablePage = () => {
         data={[]}
         noDataPlaceholder={<div className="w-full h-full flex items-center justify-center">No Data</div>}
         tableName="Test Table 3"
-      /> */}
+      />
     </>
   );
 };

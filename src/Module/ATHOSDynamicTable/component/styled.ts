@@ -90,8 +90,8 @@ export const ADTCellColWrapper = styled.td<{
   ${(props) =>
     props.persistent &&
     `
-    backdrop-filter: blur(5.6px);
-    -webkit-backdrop-filter: blur(5.6px);
+   /*  backdrop-filter: blur(2.6px);
+    -webkit-backdrop-filter: blur(2.6px); */
     z-index: 1;
   `}
 `;

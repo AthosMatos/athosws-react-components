@@ -1,10 +1,11 @@
 import { ReactNode } from "react";
 export interface ATHOSTooltipProps {
-  children: (ref: any) => ReactNode;
-  id?: string;
+  children: ReactNode;
   forceOpen?: boolean;
   position?: "top" | "bottom";
   followCursor?: boolean;
-  content: ReactNode;
+  tooltipContent: ReactNode;
+  gap?: number;
   style?: React.CSSProperties;
+  className?: string;
 }

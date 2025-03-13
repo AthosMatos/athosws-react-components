@@ -11,7 +11,7 @@ interface RDWrapperProps {
 }
 
 export const RDContainer = styled.div<RDWrapperProps>`
-  overflow: auto;
+  //overflow: auto;
   width: ${(props) => props.width};
   height: ${(props) => props.height};
   // max-width: 94vw;
