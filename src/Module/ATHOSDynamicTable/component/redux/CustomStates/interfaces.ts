@@ -1,4 +1,8 @@
+export type IcolumnsShort<T> = {
+  [key in keyof T]: boolean;
+};
+
 export interface CustomStatesState {
   totalItems: number;
-  columnsIDs: string[];
+  columnsShort?: IcolumnsShort<any>;
 }

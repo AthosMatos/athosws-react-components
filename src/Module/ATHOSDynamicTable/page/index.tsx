@@ -4,6 +4,7 @@ import { AppState } from "../../..";
 import { ATHOSDynamicTable } from "../component";
 import { useATHOSDynamicTableContext } from "../component/context";
 import { realData } from "./data";
+import { tdata } from "./data-CC71BNrg8tmzETG2KjpiS";
 
 const ATHOSDynamicTablePage = () => {
   const theme = useSelector((state: AppState) => state.ThemeReducer.theme);
@@ -20,7 +21,7 @@ const ATHOSDynamicTablePage = () => {
 
   return (
     <>
-      {/*  <ATHOSDynamicTable
+      <ATHOSDynamicTable
         loading={loading ? "Carregando..." : loading}
         customColumns={[
           {
@@ -29,7 +30,12 @@ const ATHOSDynamicTablePage = () => {
             index: 1,
             render: (data) => {
               //console.log("data", data);
-              return <div>Custom Column dssa</div>;
+              return (
+                <div>
+                  {/* {data.address}-{data.currency}-{data.email} */}
+                  Custom Col
+                </div>
+              );
             },
           },
         ]}
@@ -39,7 +45,7 @@ const ATHOSDynamicTablePage = () => {
         }}
         columnOrder={["id"]}
         globalConfig={{
-          shortOnlyifCut: true,
+          minColWidthToShort: 100, // when the column width is less than this value, the column will be short
         }}
         tableStyle={{
           textColor: isDark ? "white" : "black",
@@ -55,7 +61,7 @@ const ATHOSDynamicTablePage = () => {
         }}
         data={tdata}
         tableName="Fake Data"
-      /> */}
+      />
 
       <ATHOSDynamicTable
         resizeable
@@ -66,7 +72,7 @@ const ATHOSDynamicTablePage = () => {
         }}
         columnOrder={["id"]}
         globalConfig={{
-          shortOnlyifCut: true,
+          maxCharToCut: 30,
         }}
         tableStyle={{
           textColor: isDark ? "white" : "black",
@@ -89,10 +95,6 @@ const ATHOSDynamicTablePage = () => {
         persistPrimaryColumn={{
           backgroundColor: isDark ? "rgba(41, 41, 41, 0.726)" : "rgba(0, 0, 0, 0.055)",
           borderColor: isDark ? "rgba(255, 255, 255, 0.13)" : "rgba(0, 0, 0, 0.13)",
-        }}
-        globalConfig={{
-          maxCharToCut: 10,
-          shortOnlyifCut: true,
         }}
         tableStyle={{
           textColor: isDark ? "white" : "black",

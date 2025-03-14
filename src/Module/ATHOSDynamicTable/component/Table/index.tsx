@@ -3,9 +3,9 @@ import { memo } from "react";
 import { useSelector } from "react-redux";
 import ADTLoadingBar from "../components/ADTloadingBar";
 import { ADTState } from "../redux/store";
-import ADTCells from "../Sections/ADTCells";
-import ADTColumns from "../Sections/ADTColumns";
 import { ADTBody, ADTHeader, ADTTable } from "../styled";
+import ADTCells from "./Sections/ADTCells";
+import ADTColumns from "./Sections/ADTColumns";
 
 const Table = () => {
   const tableClassName = useSelector((state: ADTState) => state.ADTPropsReducer.className);

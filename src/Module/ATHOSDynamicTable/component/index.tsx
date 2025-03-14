@@ -14,9 +14,9 @@ import ADTCustomStatesReducer from "./redux/CustomStates/provider";
 import ADTFilteringReducer from "./redux/Filtering/provider";
 import ADTPropsReducer from "./redux/props/provider";
 import ADTSelectReducer from "./redux/Select/provider";
-import ADTHeader from "./Sections/ADTHeader";
-import ADTNav from "./Sections/ADTNav";
 import Table from "./Table";
+import ADTHeader from "./Table/Sections/ADTHeader";
+import ADTNav from "./Table/Sections/ADTNav";
 
 /**
  *
@@ -69,7 +69,7 @@ export function ATHOSDynamicTable<T>(props: DynamicTableProps<T>) {
       {props.resizeable ? (
         <ATHOSResizableDiv
           OuterContainerStyle={{
-            maxWidth: "97vw",
+            maxWidth: "95vw",
           }}
           localSaveName={tableId}
           withToogle

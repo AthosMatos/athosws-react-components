@@ -229,18 +229,11 @@ interface ATHOSInputProps {
 declare const ATHOSInput: (props: ATHOSInputProps) => react_jsx_runtime.JSX.Element;
 
 interface ResizableDivProps {
-    resizableConers?: {
-        top?: boolean;
-        right?: boolean;
-        bottom?: boolean;
-        left?: boolean;
-    };
-    saveInLocalStorage?: string;
+    localSaveName?: string;
     style?: React.CSSProperties;
     OuterContainerStyle?: React.CSSProperties;
     children?: React.ReactNode;
     withToogle?: boolean;
-    matchChildSize?: boolean;
     disabled?: boolean;
     className?: string;
     outerClassName?: string;
@@ -475,13 +468,14 @@ declare const useATHOSModal: () => {
 };
 
 interface ATHOSTooltipProps {
-    children: (ref: any) => ReactNode;
-    id?: string;
+    children: ReactNode;
     forceOpen?: boolean;
     position?: "top" | "bottom";
     followCursor?: boolean;
-    content: ReactNode;
+    tooltipContent: ReactNode;
+    gap?: number;
     style?: React.CSSProperties;
+    className?: string;
 }
 
 declare const ATHOSTooltip: (props: ATHOSTooltipProps) => react_jsx_runtime.JSX.Element;
