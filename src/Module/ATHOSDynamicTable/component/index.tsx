@@ -34,7 +34,6 @@ const Comp = ({ props, stly }: { stly?: boolean; props: DynamicTableProps<any> }
       //console.log("selectedRows", selectedRows);
       tableContext.setSelectedData({ ...tableContext.selectedData, [tableName]: selectedRows?.map((row) => data[row]) });
     }, [selectedRows]);
-    console.log("selectedRows", selectedRows);
   }
 
   return (
@@ -68,7 +67,13 @@ export function ATHOSDynamicTable<T>(props: DynamicTableProps<T>) {
     <Provider store={store}>
       <ADTSelectedRowsToast />
       {props.resizeable ? (
-        <ATHOSResizableDiv saveInLocalStorage={tableId} withToogle>
+        <ATHOSResizableDiv
+          OuterContainerStyle={{
+            maxWidth: "97vw",
+          }}
+          localSaveName={tableId}
+          withToogle
+        >
           <Comp props={props} />
         </ATHOSResizableDiv>
       ) : (

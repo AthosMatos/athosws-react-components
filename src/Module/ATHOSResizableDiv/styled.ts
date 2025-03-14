@@ -2,12 +2,12 @@ import { TbResize } from "react-icons/tb";
 import styled from "styled-components";
 import { ATHOSColors } from "../colors/colors";
 
-export const defaultBorder = " 1px solid rgba(0, 0, 0, 0.2)";
 export const highlightBorder = (color?: string) => `3px solid ${color || ATHOSColors.aqua.default}`;
 
 interface RDWrapperProps {
-  width?: string;
-  height?: string;
+  width?: string | number;
+  height?: string | number;
+  showBorder?: boolean;
 }
 
 export const RDContainer = styled.div<RDWrapperProps>`
@@ -16,12 +16,20 @@ export const RDContainer = styled.div<RDWrapperProps>`
   height: ${(props) => props.height};
   // max-width: 94vw;
 
+  ${({ showBorder }) =>
+    showBorder &&
+    `
+  border-right: ${highlightBorder()};
+  border-bottom: ${highlightBorder()};
+  border-radius: 0.5rem;
+  `}
+
   transition: border 0.08s, border-radius 0.08s;
 `;
-export const RDWrapper = styled.div<{ matchChildSize?: boolean }>`
+export const RDWrapper = styled.div`
   display: flex;
-  width: ${({ matchChildSize }) => (!matchChildSize ? "100%" : "fit-content")};
-  height: ${({ matchChildSize }) => (!matchChildSize ? "100%" : "fit-content")};
+  width: 100%;
+  height: 100%;
 `;
 export const RDPreWrapper = styled.div<{ withToogle?: boolean }>`
   ${(props) =>

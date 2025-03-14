@@ -98,10 +98,9 @@ const Slice = createSlice({
       state.pageSize = action.payload;
     },
     setFilteredData: (state, action: PayloadAction<any[]>) => {
-      /*  const start = (state.page - 1) * state.pageSize;
+      const start = (state.page - 1) * state.pageSize;
       const end = start + state.pageSize;
-      state.filteredData = action.payload.slice(start, end); */
-      state.filteredData = action.payload;
+      state.filteredData = action.payload.slice(start, end);
     },
     setFilteredColumns: (state, action: PayloadAction<any[]>) => {
       state.filteredColumns = action.payload;

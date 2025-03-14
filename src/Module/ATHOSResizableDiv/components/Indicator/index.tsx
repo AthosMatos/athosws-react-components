@@ -1,20 +1,32 @@
+import { ATHOSColors } from "../../../colors/colors";
+
 interface IndicatorProps {
-  isHover: boolean;
   indicatorRef: React.RefObject<HTMLDivElement>;
-  indicatorSize: number;
+  indicatorWrapperRef: React.RefObject<HTMLDivElement>;
+  indicatorPadding: number;
+  setIsDown: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const Indicator = ({ isHover, indicatorRef, indicatorSize }: IndicatorProps) => {
+const Indicator = ({ indicatorRef, indicatorWrapperRef, indicatorPadding, setIsDown }: IndicatorProps) => {
   return (
     <div
-      ref={indicatorRef}
+      ref={indicatorWrapperRef}
       style={{
-        opacity: isHover ? 1 : 0,
-        width: indicatorSize,
-        height: indicatorSize,
+        padding: `${indicatorPadding}px`,
+        right: 0,
+        bottom: 0,
       }}
-      className="absolute bg-red-500 rounded-full"
-    />
+      className="absolute pointer-events-none"
+    >
+      <div ref={indicatorRef} className="bg-white rounded-md p-[0.3rem]">
+        <div
+          style={{
+            backgroundColor: ATHOSColors.aqua.default,
+          }}
+          className="rounded-full w-full h-full"
+        />
+      </div>
+    </div>
   );
 };
 
