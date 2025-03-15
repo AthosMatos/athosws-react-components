@@ -42,11 +42,11 @@ const Menu = () => {
                 className: "text-black bg-transparent dark:text-white",
               },
               clicked: {
-                className: "bg-neutral-300 border border-neutral-500 dark:bg-neutral-800 text-black dark:text-white",
+                className: "bg-zinc-300 border border-neutral-500 dark:bg-zinc-800 text-black dark:text-white",
               },
             },
 
-            className: `bg-neutral-200 dark:bg-neutral-700 border-neutral-400 
+            className: `bg-zinc-200 dark:bg-zinc-700 border-neutral-400 
             bg-opacity-95 dark:bg-opacity-95 dark:border-neutral-500 border`,
           },
         }}

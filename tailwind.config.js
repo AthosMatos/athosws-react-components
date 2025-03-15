@@ -19,8 +19,8 @@ module.exports = {
         /*  ".scrollbar::-webkit-scrollbar": {
           height: "2px",
           width: "2px",
-        },
-        ".scrollbar::-webkit-scrollbar-thumb": {
+        }, */
+        /*  ".scrollbar::-webkit-scrollbar-thumb": {
           backgroundColor: theme("colors.blue.600"),
         },
         ".scrollbar::-webkit-scrollbar-track-piece": {

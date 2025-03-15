@@ -43,7 +43,7 @@ const ADTSelectedRowsToast = () => {
         className={containerColor?.className}
         style={{
           color: tableStyle?.textColor,
-          backgroundColor: tableStyle?.accentColor2,
+          backgroundColor: tableStyle?.accentColor2 || containerColor?.className || containerColor?.style ? undefined : "#f3f3f3",
           ...containerColor?.style,
         }}
       >

@@ -12,13 +12,17 @@ const fillIds = (data: any[]) => {
   return data.map((row) => {
     return {
       ...row,
-      uniqueId: v4(),
+      uniqueId: row.uniqueId || v4(),
     };
   });
 };
 
 export function ADTStatesController<T>({ props }: { props: DynamicTableProps<T> }) {
   const { data, columnsToHide, columnsToShow, customColumns, tableStyle, columnOrder } = props;
+  const dataWithIds = useMemo(() => {
+    if (data && data.length) return fillIds(data);
+    return data;
+  }, [data]);
   const dispatch = useDispatch();
 
   const columns = useMemo(() => {
@@ -51,10 +55,11 @@ export function ADTStatesController<T>({ props }: { props: DynamicTableProps<T> 
   useEffect(() => {
     const pr: ADTPropsState<any> = {
       ...props,
+      data: dataWithIds,
       persistPrimaryColumn: props.persistPrimaryColumn ?? true,
       tableStyle: {
         ...tableStyle,
-        highlightColor: tableStyle?.highlightColor ?? "#ff6262",
+        highlightColor: tableStyle?.highlightColor ?? "#bcdfff",
       },
     };
     dispatch(fillADTProps(pr));
@@ -65,7 +70,7 @@ export function ADTStatesController<T>({ props }: { props: DynamicTableProps<T> 
       dispatch(setFilteredColumns(columns));
       dispatch(setColumns(columns));
       dispatch(setTotalItems(data.length));
-      dispatch(setFilteredData(fillIds(data)));
+      dispatch(setFilteredData(dataWithIds));
     }
   }, [columns]);
 }

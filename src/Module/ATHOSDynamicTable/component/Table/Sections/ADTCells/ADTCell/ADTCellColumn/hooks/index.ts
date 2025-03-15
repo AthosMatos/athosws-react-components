@@ -12,6 +12,7 @@ const useADTCellCol = ({
   row,
   rowIndex,
   isLast,
+  isCheck,
 }: ADTCellColumnProps & {
   isLast: any;
 }) => {
@@ -23,7 +24,7 @@ const useADTCellCol = ({
 
   const textColor = useTextColor({ column, row, rowIndex });
   const touch = useMobileTouchHandler({ index, rowIndex, showTooltip });
-  const persistStyle = usePrimaryColHandler({ index, isLast });
+  const persistStyle = usePrimaryColHandler({ index, isLast, isCheck });
   const maxCharToCut = (colConfig && colConfig[column]?.maxCharToCut) || globalConfig?.maxCharToCut;
 
   const rowValue = useMemo(() => {
@@ -31,12 +32,9 @@ const useADTCellCol = ({
       typeof row[column] === "string" &&
       ((short && short[column]) ||
         (typeof startShort === "boolean" && startShort) ||
-        (typeof startShort === "object" && startShort[column]))
+        (typeof startShort === "object" && startShort[column])) &&
+      row[column].length > maxCharToCut
     ) {
-      if (maxCharToCut && row[column].length <= maxCharToCut) return row[column];
-      setShowTooltip(true);
-      return row[column].slice(0, maxCharToCut) + "...";
-    } else if (maxCharToCut && typeof row[column] === "string" && row[column].length > maxCharToCut) {
       setShowTooltip(true);
       return row[column].slice(0, maxCharToCut) + "...";
     }

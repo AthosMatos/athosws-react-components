@@ -9,7 +9,6 @@ import { ADTColumnWrapper, persistentBorderStyle, persitentBorderWidth } from ".
 const ADTColCheckBox = () => {
   const checkState = useSelector((state: ADTState) => state.ADTSelectReducer.checkState);
   const tableStyle = useSelector((state: ADTState) => state.ADTPropsReducer.tableStyle);
-  const paddingBetweenColumns = useSelector((state: ADTState) => state.ADTPropsReducer.spacingBetweenColumns);
   const persistPrimaryColumn = useSelector((state: ADTState) => state.ADTPropsReducer.persistPrimaryColumn);
 
   const { checkAllButtonClick } = useADTSelect();

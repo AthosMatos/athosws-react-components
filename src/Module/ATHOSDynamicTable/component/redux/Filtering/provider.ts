@@ -7,9 +7,6 @@ const initialState: FilteringState = {
   searchFilter: "",
   page: 1,
   pageSize: 5,
-  movingPage: false,
-  beingMoved: [],
-  goingForward: false,
   firstOpen: true,
   columnOrder: [],
   showColOrderFilter: true,
@@ -59,20 +56,15 @@ const Slice = createSlice({
       // if (state.movingPage) return;
 
       const { to, totalPages, page, canGoBack, canGoForward, data } = action.payload;
-      if (typeof to === "number" && to > 0 && to <= totalPages && to !== page) {
+      if (to === page) return;
+
+      if (typeof to === "number" && to > 0 && to <= totalPages) {
         state.page = to;
-        state.movingPage = true;
         const start = (to - 1) * state.pageSize;
         const end = start + state.pageSize;
         const filter = data.slice(start, end);
-        state.beingMoved = filter.map((row) => row.id);
         state.filteredData = filter;
-        if (to < page) {
-          state.goingForward = false;
-        }
-        if (to > page) {
-          state.goingForward = true;
-        }
+
         return;
       }
       if ((to === "next" && !canGoForward) || (to === "prev" && !canGoBack)) {
@@ -81,18 +73,14 @@ const Slice = createSlice({
       let start = 0;
       if (to === "next") {
         start = state.page * state.pageSize;
-        state.goingForward = true;
         state.page += 1;
       } else {
         start = (state.page - 2) * state.pageSize;
-        state.goingForward = false;
         state.page -= 1;
       }
       const end = start + state.pageSize;
       const filter = data.slice(start, end);
-      state.beingMoved = filter.map((row) => row.id);
       state.filteredData = filter;
-      state.movingPage = true;
     },
     changePageSize: (state, action: PayloadAction<PageSizesType>) => {
       state.pageSize = action.payload;
@@ -106,15 +94,11 @@ const Slice = createSlice({
       state.filteredColumns = action.payload;
       state.columnOrder = action.payload;
     },
-    setMovingPage: (state, action: PayloadAction<boolean>) => {
-      state.movingPage = action.payload;
-    },
+
     setFirstOpen: (state, action: PayloadAction<boolean>) => {
       state.firstOpen = action.payload;
     },
-    setBeingMoved: (state, action: PayloadAction<string[]>) => {
-      state.beingMoved = action.payload;
-    },
+
     filterColumns: (state, action: PayloadAction<string>) => {
       if (state.filteredColumns.includes(action.payload)) {
         state.filteredColumns = state.filteredColumns.filter((column) => column !== action.payload);
@@ -176,10 +160,9 @@ export const {
   movePage,
   filterColumns,
   setFilteredColumns,
-  setBeingMoved,
   changePageSize,
   setFirstOpen,
-  setMovingPage,
+
   toggleColOrderFilter,
   sortDataByColumn,
 } = Slice.actions;

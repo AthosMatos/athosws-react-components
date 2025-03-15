@@ -44,6 +44,17 @@ export const useADTBorder = (colID: string, minColWidthToShort: number, setcolsh
       });
     };
 
+    const initWidths = () => {
+      const ColDivRect = ColDivs[0].getBoundingClientRect();
+      const ColDivWidth = ColDivRect.width;
+
+      if (ColDivWidth < minColWidthToShort) {
+        setcolshort(true);
+      } else {
+        setcolshort(false);
+      }
+    };
+
     const onMouseMove = (e: MouseEvent) => handleMove(e.pageX);
 
     const onTouchMove = (e: TouchEvent) => {
@@ -71,6 +82,8 @@ export const useADTBorder = (colID: string, minColWidthToShort: number, setcolsh
     document.addEventListener("touchend", () => {
       document.removeEventListener("touchmove", onTouchMove);
     });
+
+    initWidths();
 
     return () => {
       BRDWrapperDiv.removeEventListener("mousedown", onMouseDown);

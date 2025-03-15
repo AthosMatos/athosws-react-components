@@ -1,10 +1,9 @@
 export type GlobalConfig = {
   maxCharToCut?: number;
   label?: string;
-  maxWidth?: number;
-  minWidth?: number;
-  minColWidthToShort?: number;
-  shortOnlyifCut?: boolean;
+  maxWidth?: number; //implement
+  minWidth?: number; //implement
+  minColWidthToShort?: number; //imrpove add stages like short, medium, long
   colComponent?: React.ReactNode;
   cellComponent?: (cell: any) => React.ReactNode;
 };

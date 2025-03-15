@@ -14,6 +14,7 @@ const Slice = createSlice({
     },
     setColShort: (state, action: PayloadAction<{ column: string; short: boolean }>) => {
       const { column, short } = action.payload;
+      if (state.columnsShort && state.columnsShort.hasOwnProperty(column) && state.columnsShort[column] === short) return;
       state.columnsShort = { ...state.columnsShort, [column]: short };
       /*  state.columnsShort[column] = short; */
     },

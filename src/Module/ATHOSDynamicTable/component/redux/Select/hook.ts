@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { ADTState } from "../store";
-import { setCheckState, setSelectedRows, setSelectedRowsToastOpen } from "./provider";
+import { setCheckState, setSelectedPages, setSelectedRows, setSelectedRowsToastOpen } from "./provider";
 
 export const useADTSelect = () => {
   const dispatch = useDispatch();
@@ -9,15 +9,23 @@ export const useADTSelect = () => {
   const pageSize = useSelector((state: ADTState) => state.ADTFilteringReducer.pageSize);
   const selectedRows = useSelector((state: ADTState) => state.ADTSelectReducer.selectedRows);
   const checkState = useSelector((state: ADTState) => state.ADTSelectReducer.checkState);
-
-  const checkAll = (dataAmount: number) => {
-    dispatch(setSelectedRows(Array.from({ length: dataAmount }, (_, i) => i)));
+  const data = useSelector((state: ADTState) => state.ADTPropsReducer.data);
+  const selectedPages = useSelector((state: ADTState) => state.ADTSelectReducer.selectedPages);
+  const checkAll = () => {
+    dispatch(setSelectedRows(data.map((row, i) => row.uniqueId)));
     dispatch(setCheckState(1));
   };
 
   const uncheckAll = () => {
-    dispatch(setSelectedRows([]));
+    const newSelPages = selectedPages.filter((p) => p !== page);
+    if (selectedPages.length <= 1) {
+      dispatch(setSelectedRows([]));
+    } else {
+      const newSelectedRows = newSelPages.map((p) => data.slice((p - 1) * pageSize, p * pageSize).map((row, i) => row.uniqueId)).flat();
+      dispatch(setSelectedRows(newSelectedRows));
+    }
     dispatch(setCheckState(0));
+    dispatch(setSelectedPages(newSelPages));
   };
 
   const pageCheck = () => {
@@ -27,39 +35,30 @@ export const useADTSelect = () => {
 
     /*  const divAmount = currPageAmount % pageSize;
     console.log("pageCheck", divAmount); */
-    dispatch(
-      setSelectedRows(
-        Array.from(
-          {
-            length: currPageAmount,
-          },
-          (_, i) => i + (page - 1) * pageSize
-        )
-      )
-    );
-    dispatch(setCheckState(2));
+    const selPages = [...selectedPages, page];
+    dispatch(setSelectedPages(selPages));
+
+    const newSelRows = selPages
+      .map((p) => data.slice((p - 1) * pageSize, (p - 1) * pageSize + currPageAmount).map((row, i) => row.uniqueId))
+      .flat();
+
+    dispatch(setSelectedRows(newSelRows));
+    dispatch(setCheckState({ pages: [...selectedPages, page] }));
   };
 
   const checkAllButtonClick = () => {
-    switch (checkState) {
-      case 0:
-        checkAll(totalItems);
-        break;
-      case 1:
-        pageCheck();
-        break;
-      case 2:
-        uncheckAll();
-        break;
-      default:
-        break;
+    if (checkState === 0) {
+      checkAll();
+    } else if (checkState === 1) {
+      pageCheck();
+    } else {
+      uncheckAll();
     }
   };
 
-  const checkCellClick = (rr: number) => {
-    const row = rr + (page - 1) * pageSize;
+  const checkCellClick = (id: string) => {
     // console.log("row", row);
-    const newSelectedRows = selectedRows.includes(row) ? selectedRows.filter((r) => r !== row) : [...selectedRows, row];
+    const newSelectedRows = selectedRows.includes(id) ? selectedRows.filter((r) => r !== id) : [...selectedRows, id];
     dispatch(setSelectedRows(newSelectedRows));
   };
 

@@ -75,12 +75,12 @@ export const ADTColumnWrapper = styled.th<ADTColWrapperProps>`
   ${(props) =>
     props.persistent &&
     `
-    backdrop-filter: blur(5.6px);
-    -webkit-backdrop-filter: blur(5.6px);
+   /*  backdrop-filter: blur(5.6px);
+    -webkit-backdrop-filter: blur(5.6px); */
     z-index: 1;
   `}
 `;
-
+export const selectedColor = "#d6f5fe";
 export const ADTCellColWrapper = styled.td<{
   persistent?: boolean;
 }>`

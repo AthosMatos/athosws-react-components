@@ -6,9 +6,6 @@ export interface PagingState {
   searchFilter: string;
   page: number;
   pageSize: PageSizesType;
-  movingPage: boolean;
-  beingMoved: string[];
-  goingForward: boolean;
   firstOpen: boolean;
   columnOrder: string[];
   showColOrderFilter: boolean;

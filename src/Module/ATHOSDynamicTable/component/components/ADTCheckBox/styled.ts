@@ -2,14 +2,14 @@ import { motion } from "framer-motion";
 import { FaCheck, FaCircle } from "react-icons/fa";
 import styled from "styled-components";
 import { ATHOSColors } from "../../../../colors/colors";
-import { generateColorShades } from "../../../../utils/color-utils";
-import { CheckState } from "../../redux/Select/interfaces";
+import { generateColorShades, getContrastColor } from "../../../../utils/color-utils";
+import { CheckState, checkStates } from "../../redux/Select/interfaces";
 
 export const CheckBoxWidth = "1rem";
 
 export const ADTCheckBoxWrapper = styled(motion.div)<{
   highlightColor: string;
-  checkedState: number | boolean;
+  checkedState: checkStates | boolean;
   big?: boolean;
   clicable?: boolean;
 }>`
@@ -36,11 +36,11 @@ export const ADTCheckBoxWrapper = styled(motion.div)<{
   ${({ checkedState, highlightColor }) => {
     if (checkedState === true || checkedState === CheckState.ALL) {
       return `
-          box-shadow: 0px 0px 0.2rem 1px ${highlightColor};
-          color: ${generateColorShades(highlightColor).darker};
-          border-color: ${highlightColor};
+          box-shadow: 0px 0px 0.2rem 1px ${generateColorShades(highlightColor).darker};
+          color: ${getContrastColor(highlightColor)};
+          border-color: ${getContrastColor(highlightColor)};
         `;
-    } else if (checkedState === CheckState.PAGE) {
+    } else if (typeof checkedState === "object") {
       return `
           box-shadow: 0px 0px 0.2rem 1px ${ATHOSColors.grey.default};
           color: ${ATHOSColors.grey.dark};

@@ -1,10 +1,11 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { CheckState, SelectState } from "./interfaces";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { CheckState, checkStates, SelectState } from "./interfaces";
 
 const initialState: SelectState = {
   selectedRows: [],
   checkState: CheckState.NONE,
   selectedRowsToastOpen: false,
+  selectedPages: [],
 };
 
 const Slice = createSlice({
@@ -12,19 +13,24 @@ const Slice = createSlice({
   initialState,
   reducers: {
     setSelectedRows: (state, action) => {
-      state.selectedRows = action.payload;
+      //make sure that the selected rows are unique
+      const uniqueRows = Array.from(new Set(action.payload)) as any[];
+      state.selectedRows = uniqueRows;
     },
-    setCheckState: (state, action) => {
+    setCheckState: (state, action: PayloadAction<checkStates>) => {
       state.checkState = action.payload;
     },
     setSelectedRowsToastOpen: (state, action) => {
       state.selectedRowsToastOpen = action.payload;
     },
+    setSelectedPages: (state, action) => {
+      state.selectedPages = action.payload;
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { setCheckState, setSelectedRows, setSelectedRowsToastOpen } = Slice.actions;
+export const { setCheckState, setSelectedRows, setSelectedRowsToastOpen, setSelectedPages } = Slice.actions;
 
 const ADTSelectReducer = Slice.reducer;
 

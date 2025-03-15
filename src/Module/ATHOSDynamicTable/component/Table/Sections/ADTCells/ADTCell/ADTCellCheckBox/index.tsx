@@ -2,26 +2,26 @@ import { memo, useMemo } from "react";
 import { ATHOSColors } from "../../../../../../../colors/colors";
 import ADTCheckBox from "../../../../../components/ADTCheckBox";
 import { useADTSelect } from "../../../../../redux/Select/hook";
-import { CheckState } from "../../../../../redux/Select/interfaces";
 import { ADTCellColWrapper, persistentBorderStyle, persitentBorderWidth } from "../../../../../styled";
 import { getCellWrapperStyle } from "../../../consts";
 
+import { useSelector } from "react-redux";
+import { ADTState } from "../../../../../redux/store";
 import useSelectors_ADTCellCheckBox from "./useSelectors";
 
-const ADTCellCheckBox = ({ rowIndex, isLast }: { rowIndex: number; isLast: boolean }) => {
+const ADTCellCheckBox = ({ rowId, isLast, isCheck }: { rowId: string; isLast: boolean; isCheck: boolean }) => {
   const { checkCellClick } = useADTSelect();
   const { paddingBetweenCells, paddingBetweenColumns, persistPrimaryColumn, tableStyle, checkState, selectedRows, pageSize, page } =
     useSelectors_ADTCellCheckBox();
-  const isCheck = useMemo(() => selectedRows.includes(rowIndex + (page - 1) * pageSize), [selectedRows, rowIndex, page, pageSize]);
-
+  const highlightColor = useSelector((state: ADTState) => state.ADTPropsReducer.tableStyle).highlightColor;
   const persistStyle = useMemo(() => {
     if (persistPrimaryColumn) {
       const obj = {} as any;
       if (typeof persistPrimaryColumn == "boolean") {
-        obj["backgroundColor"] = ATHOSColors.white.eggshell_faded;
+        obj["backgroundColor"] = isCheck ? highlightColor : ATHOSColors.white.eggshell_faded;
       } else {
         if (persistPrimaryColumn.backgroundColor) {
-          obj["backgroundColor"] = persistPrimaryColumn.backgroundColor;
+          obj["backgroundColor"] = isCheck ? highlightColor : persistPrimaryColumn.backgroundColor;
         }
       }
       const bColor = (persistPrimaryColumn as any).borderColor ?? "rgba(0, 0, 0, 0.13)";
@@ -55,8 +55,8 @@ const ADTCellCheckBox = ({ rowIndex, isLast }: { rowIndex: number; isLast: boole
     >
       <ADTCheckBox
         highlightColor={tableStyle?.highlightColor!}
-        checked={checkState === CheckState.PAGE && isCheck ? checkState : isCheck}
-        check={() => checkCellClick(rowIndex)}
+        checked={isCheck === true ? true : checkState}
+        check={() => checkCellClick(rowId)}
       />
     </ADTCellColWrapper>
   );

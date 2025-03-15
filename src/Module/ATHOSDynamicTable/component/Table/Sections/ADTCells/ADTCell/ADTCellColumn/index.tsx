@@ -8,7 +8,7 @@ import useADTCellCol from "./hooks";
 import { ADTCellColumnProps } from "./interfaces";
 import useSelectors_ADTCellColumn from "./useSelectors";
 
-const ADTCellColumn = ({ row, column, rowIndex, index, isLast, id }: ADTCellColumnProps) => {
+const ADTCellColumn = ({ row, column, rowIndex, index, isLast, id, isCheck }: ADTCellColumnProps) => {
   const { colConfig, paddingBetweenColumns, paddingBetweenCells, persistPrimaryColumn } = useSelectors_ADTCellColumn();
   const { rowValue, textColor, touch, showTooltip, persistStyle } = useADTCellCol({
     column,
@@ -16,6 +16,7 @@ const ADTCellColumn = ({ row, column, rowIndex, index, isLast, id }: ADTCellColu
     rowIndex,
     index,
     isLast,
+    isCheck,
   });
   const customCols = useSelector((state: ADTState) => state.ADTPropsReducer.customColumns);
 

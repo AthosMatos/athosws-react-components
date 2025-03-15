@@ -101,7 +101,6 @@ type GlobalConfig = {
     maxWidth?: number;
     minWidth?: number;
     minColWidthToShort?: number;
-    shortOnlyifCut?: boolean;
     colComponent?: React.ReactNode;
     cellComponent?: (cell: any) => React.ReactNode;
 };
