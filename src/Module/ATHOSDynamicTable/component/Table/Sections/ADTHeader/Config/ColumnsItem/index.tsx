@@ -48,6 +48,7 @@ const ColumnsItem = () => {
   const activeCols = useMemo(() => columns.filter((col) => filteredColumns.includes(col)), [columns, filteredColumns]);
   const inactiveCols = useMemo(() => columns.filter((col) => !filteredColumns.includes(col)), [columns, filteredColumns]);
   const cols = useMemo(() => [...activeCols, ...inactiveCols], [activeCols, inactiveCols]);
+
   return (
     <ATHOSCollapse
       containerClassName="flex flex-col gap-2 "

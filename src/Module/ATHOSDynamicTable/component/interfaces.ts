@@ -1,12 +1,34 @@
+type TdefaultStyles = {
+  style?: React.CSSProperties;
+  className?: string;
+};
+
 export type GlobalConfig = {
   maxCharToCut?: number;
-  label?: string;
   maxWidth?: number; //implement
   minWidth?: number; //implement
   minColWidthToShort?: number; //imrpove add stages like short, medium, long
-  colComponent?: React.ReactNode;
   cellComponent?: (cell: any) => React.ReactNode;
 };
+export type SpecificColConfig = {
+  maxCharToCut?: number;
+  label?: React.ReactNode;
+  maxWidth?: number; //implement
+  minWidth?: number; //implement
+  minColWidthToShort?: number; //imrpove add stages like short, medium, long
+  cellComponent?: (cell: any) => React.ReactNode;
+} & TdefaultStyles;
+
+export type ExtraColConfig<T> = {
+  id?: string;
+  column: keyof T;
+  maxCharToCut?: number;
+  label?: React.ReactNode;
+  maxWidth?: number; //implement
+  minWidth?: number; //implement
+  minColWidthToShort?: number; //imrpove add stages like short, medium, long
+  cellComponent?: (cell: any) => React.ReactNode;
+} & TdefaultStyles;
 
 export type ADTLabelI<T> = {
   label: string;
@@ -25,18 +47,15 @@ export type SelectedRowsTooltipI<T> = {
     onClick: (selectedData: T[]) => void;
   };
   othersFunc?: ADTLabelI<T>[];
-  containerColor?: {
-    style?: React.CSSProperties;
-    className?: string;
-  };
+  containerColor?: TdefaultStyles;
 };
 
-export type ExtraColumnsI<T> = {
+export type ExtraCellColumnsI<T> = {
   showCondition?: (data: T) => boolean;
   component: (data: T) => React.ReactNode;
 };
 export type ColConfig<T> = {
-  [key in keyof T]?: GlobalConfig;
+  [key in keyof T]?: SpecificColConfig;
 };
 export type StartShortI<T> = {
   [key in keyof T]?: boolean;
@@ -60,6 +79,12 @@ export type CellColumnTextTableStyle<T> = {
   };
 };
 export type TableStyle<T> = {
+  selected?: {
+    rowColor?: string;
+    rowTextColor?: string;
+    rowBorderColor?: string;
+    selectedIconColor?: string;
+  };
   highlightColor?: string;
   textColor?: string;
   accentColor?: string;
@@ -74,13 +99,29 @@ export type TableStyle<T> = {
   };
 };
 
+type HeaderStyle = {
+  title: TdefaultStyles;
+  subtitle?: TdefaultStyles;
+  config?: TdefaultStyles & {
+    dropdown?: TdefaultStyles;
+  };
+  search?: {
+    icon: TdefaultStyles;
+    input: TdefaultStyles & {
+      placeholder?: string;
+    };
+  };
+};
+
 type ResizableConfig = {
   autoBorder?: boolean;
 };
 
 export type DynamicTableProps<T> = {
+  headerStyle?: HeaderStyle;
+
   loading?: boolean | string;
-  boldHeader?: boolean;
+  boldColumns?: boolean;
   wrapperClassName?: string;
   tableWrapperClassName?: string;
   className?: string;
@@ -107,7 +148,8 @@ export type DynamicTableProps<T> = {
   spacingBetweenColumns?: number;
   spacingBetweenExtraColumns?: number;
   selectedRowsTooltip?: SelectedRowsTooltipI<T>;
-  extraColumns?: ExtraColumnsI<T>[];
+  extraCellColumns?: ExtraCellColumnsI<T>[];
+  extraColumns?: ExtraColConfig<T>[];
   startShort?: StartShortI<T> | boolean;
   persistPrimaryColumn?:
     | {

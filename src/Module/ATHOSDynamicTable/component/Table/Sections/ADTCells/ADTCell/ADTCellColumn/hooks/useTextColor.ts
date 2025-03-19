@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import { useSelector } from "react-redux";
 import { ADTState } from "../../../../../../redux/store";
 
-export const useTextColor = ({ column, rowIndex, row }: { column: string; rowIndex: number; row: any }) => {
+export const useTextColor = ({ column, rowIndex, row, extraCol }: { column: string; extraCol?: string; rowIndex: number; row: any }) => {
   const tableStyle = useSelector((state: ADTState) => state.ADTPropsReducer.tableStyle);
   const textColor = useMemo(() => {
     const globalColor = tableStyle?.cellTextColor?.global;

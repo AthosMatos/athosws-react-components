@@ -11,7 +11,7 @@ interface ExtraColsProps {
 const ADTCellExtraCols = ({ row }: ExtraColsProps) => {
   const paddingBetweenCells = useSelector((state: ADTState) => state.ADTPropsReducer.spacingBetweenCells);
   const paddingBetweenColumns = useSelector((state: ADTState) => state.ADTPropsReducer.spacingBetweenColumns);
-  const extraColumns = useSelector((state: ADTState) => state.ADTPropsReducer.extraColumns);
+  const extraColumns = useSelector((state: ADTState) => state.ADTPropsReducer.extraCellColumns);
   const paddingBetweenExtraColumns = useSelector((state: ADTState) => state.ADTPropsReducer.spacingBetweenExtraColumns);
 
   return extraColumns

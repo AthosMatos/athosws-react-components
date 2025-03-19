@@ -130,11 +130,26 @@ const ADTNav = () => {
                 ) : (
                   <ATHOSPopUp
                     content={
-                      <div className="max-w-48 overflow-auto dark:bg-black bg-gray-200 p-2 rounded-md border border-gray-300  border-opacity-40">
-                        <div className="flex gap-1 w-fit ">
-                          {pagesInBetween.map((pib, i) => (
-                            <PageButton key={pib} move={move} num={pib} selected={pib === page} />
-                          ))}
+                      <div className="flex flex-col gap-2 dark:bg-black bg-gray-200 p-2 rounded-md border border-gray-300  border-opacity-40">
+                        <div>
+                          <input
+                            type="number"
+                            placeholder="Go to page"
+                            className="w-full dark:bg-black bg-gray-200 dark:text-white text-black rounded-md outline-none transition-colors focus:border-gray-400 p-1 border border-gray-500 "
+                            onChange={(e) => {
+                              const val = parseInt(e.target.value);
+                              if (val > 0 && val <= totalPages) {
+                                move(val);
+                              }
+                            }}
+                          />
+                        </div>
+                        <div className="max-w-48 overflow-auto">
+                          <div className="flex gap-1 w-fit ">
+                            {pagesInBetween.map((pib, i) => (
+                              <PageButton key={pib} move={move} num={pib} selected={pib === page} />
+                            ))}
+                          </div>
                         </div>
                       </div>
                     }

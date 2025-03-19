@@ -33,7 +33,7 @@ const ADTCheckBox = ({ checked, check, big, clicable, highlightColor }: ADTCheck
     <ADTCheckBoxWrapper
       clicable={clicable}
       big={big}
-      highlightColor={highlightColor!}
+      highlightColor={highlightColor}
       checkedState={isPageSelected || checked}
       onClick={check}
     >

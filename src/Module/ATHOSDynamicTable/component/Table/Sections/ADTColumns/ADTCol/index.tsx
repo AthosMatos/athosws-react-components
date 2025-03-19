@@ -10,18 +10,29 @@ import ADTBorder from "./ADTBorder";
 import ColOrderFilter from "./ColOrderFilter";
 
 const ADTCol = ({ column, index }: { column: string; index: number }) => {
-  const { colConfig, persistPrimaryColumn, spacingBetweenColumns, showColFilter, tableStyle, boldHeader, paddingHeader, tableName, data } =
-    useSelector((state: ADTState) => ({
-      spacingBetweenColumns: state.ADTPropsReducer.spacingBetweenColumns,
-      persistPrimaryColumn: state.ADTPropsReducer.persistPrimaryColumn,
-      tableStyle: state.ADTPropsReducer.tableStyle,
-      colConfig: state.ADTPropsReducer.colConfig,
-      tableName: state.ADTPropsReducer.tableName,
-      paddingHeader: state.ADTPropsReducer.spacingHeader,
-      boldHeader: state.ADTPropsReducer.boldHeader,
-      data: state.ADTPropsReducer.data,
-      showColFilter: state.ADTFilteringReducer.showColOrderFilter,
-    }));
+  const {
+    colConfig,
+    persistPrimaryColumn,
+    spacingBetweenColumns,
+    showColFilter,
+    extraColumns,
+    tableStyle,
+    boldHeader,
+    paddingHeader,
+    tableName,
+    data,
+  } = useSelector((state: ADTState) => ({
+    spacingBetweenColumns: state.ADTPropsReducer.spacingBetweenColumns,
+    persistPrimaryColumn: state.ADTPropsReducer.persistPrimaryColumn,
+    tableStyle: state.ADTPropsReducer.tableStyle,
+    colConfig: state.ADTPropsReducer.colConfig,
+    tableName: state.ADTPropsReducer.tableName,
+    paddingHeader: state.ADTPropsReducer.spacingHeader,
+    boldHeader: state.ADTPropsReducer.boldColumns,
+    data: state.ADTPropsReducer.data,
+    showColFilter: state.ADTFilteringReducer.showColOrderFilter,
+    extraColumns: state.ADTPropsReducer.extraColumns,
+  }));
 
   const textColor = useMemo(() => {
     const globalColor = tableStyle?.columnTextColor?.global;
@@ -33,8 +44,9 @@ const ADTCol = ({ column, index }: { column: string; index: number }) => {
   const value = useMemo(() => {
     let v: ReactNode = column;
     if (colConfig) {
-      if (colConfig[column]?.colComponent) {
-        v = colConfig[column]?.colComponent;
+      if (extraColumns?.length && column.includes("-isExtraCol-")) {
+        const normalCol = column.split("-isExtraCol-")[0];
+        v = extraColumns.find((col) => col.column === normalCol)?.label;
       } else if (colConfig[column]?.label) {
         v = colConfig[column]?.label;
       }

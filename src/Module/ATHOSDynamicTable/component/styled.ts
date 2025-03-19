@@ -81,7 +81,11 @@ export const ADTColumnWrapper = styled.th<ADTColWrapperProps>`
   `}
 `;
 export const selectedColor = "#d6f5fe";
-export const ADTCellColWrapper = styled.td<{
+export const ADTCellColWrapper = styled(motion.td).attrs({
+  transition: {
+    duration: 0.2,
+  },
+})<{
   persistent?: boolean;
 }>`
   font-size: 1rem;
@@ -103,9 +107,9 @@ export const ADTTR = styled(motion.tr)`
 export const persitentBorderWidth = "1px";
 export const persistentBorderStyle = "solid";
 
-export const ADTTable = styled(motion.table)`
+export const ADTTable = styled.table`
   border-collapse: separate;
-  border-spacing: 0px;
+  border-spacing: 0;
   width: 100%;
 `;
 
@@ -115,6 +119,7 @@ export const ADTBody = styled.tbody``;
 
 export const ADTTableWrapper = styled.div<{ resizable?: boolean }>`
   padding: 0.8rem;
+
   position: relative;
   overflow: auto;
   ${(props) =>

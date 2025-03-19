@@ -1,21 +1,28 @@
 import { useMemo, useState } from "react";
 import { useSelector } from "react-redux";
 import { ADTState } from "../../../../../../redux/store";
-import { ADTCellColumnProps } from "../interfaces";
 import { useMobileTouchHandler } from "./useMobileTouchHandler";
 import { usePrimaryColHandler } from "./usePrimaryColHandler";
 import { useTextColor } from "./useTextColor";
 
 const useADTCellCol = ({
-  column,
   index,
   row,
   rowIndex,
   isLast,
   isCheck,
-}: ADTCellColumnProps & {
+  extraCol,
+  column,
+}: {
+  row: any;
+  rowIndex: number;
+  index: number;
+  isCheck?: boolean;
+  extraCol?: any;
+  column: any;
   isLast: any;
 }) => {
+  const extraColumns = useSelector((state: ADTState) => state.ADTPropsReducer.extraColumns);
   const colConfig = useSelector((state: ADTState) => state.ADTPropsReducer.colConfig);
   const globalConfig = useSelector((state: ADTState) => state.ADTPropsReducer.globalConfig);
   const startShort = useSelector((state: ADTState) => state.ADTPropsReducer.startShort);
@@ -25,8 +32,16 @@ const useADTCellCol = ({
   const textColor = useTextColor({ column, row, rowIndex });
   const touch = useMobileTouchHandler({ index, rowIndex, showTooltip });
   const persistStyle = usePrimaryColHandler({ index, isLast, isCheck });
-  const maxCharToCut = (colConfig && colConfig[column]?.maxCharToCut) || globalConfig?.maxCharToCut;
-
+  const maxCharToCut =
+    (extraColumns?.length && extraCol && extraColumns.find((xc) => xc.id == extraCol.split("-isExtraCol-")[1]).maxCharToCut) ||
+    (colConfig && colConfig[column]?.maxCharToCut) ||
+    globalConfig?.maxCharToCut;
+  const className =
+    (extraColumns?.length && extraCol && extraColumns.find((xc) => xc.id == extraCol.split("-isExtraCol-")[1]).className) ||
+    (colConfig && colConfig[column]?.className);
+  const style =
+    (extraColumns?.length && extraCol && extraColumns.find((xc) => xc.id == extraCol.split("-isExtraCol-")[1]).style) ||
+    (colConfig && colConfig[column]?.style);
   const rowValue = useMemo(() => {
     if (
       typeof row[column] === "string" &&
@@ -48,6 +63,8 @@ const useADTCellCol = ({
     rowValue,
     touch,
     persistStyle,
+    className,
+    style,
   };
 };
 

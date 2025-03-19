@@ -29,7 +29,7 @@ export const usePrimaryColHandler = ({ index, isLast, isCheck }: { index: number
       }
       return obj;
     }
-  }, [persistPrimaryColumn, isLast, index]);
+  }, [persistPrimaryColumn, isLast, index, highlightColor, isCheck]);
 
   return persistStyle;
 };

@@ -12,7 +12,7 @@ const ADTColumns = () => {
   return (
     <ADTTR>
       <ADTColCheckBox />
-      {filteredColumns?.map((column: any, index) => (
+      {filteredColumns?.map((column, index) => (
         <ADTCol index={index} key={column} column={column} />
       ))}
     </ADTTR>

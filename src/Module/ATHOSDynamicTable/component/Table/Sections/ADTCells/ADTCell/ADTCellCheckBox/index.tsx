@@ -11,8 +11,7 @@ import useSelectors_ADTCellCheckBox from "./useSelectors";
 
 const ADTCellCheckBox = ({ rowId, isLast, isCheck }: { rowId: string; isLast: boolean; isCheck: boolean }) => {
   const { checkCellClick } = useADTSelect();
-  const { paddingBetweenCells, paddingBetweenColumns, persistPrimaryColumn, tableStyle, checkState, selectedRows, pageSize, page } =
-    useSelectors_ADTCellCheckBox();
+  const { paddingBetweenCells, persistPrimaryColumn, tableStyle, checkState } = useSelectors_ADTCellCheckBox();
   const highlightColor = useSelector((state: ADTState) => state.ADTPropsReducer.tableStyle).highlightColor;
   const persistStyle = useMemo(() => {
     if (persistPrimaryColumn) {
@@ -36,20 +35,24 @@ const ADTCellCheckBox = ({ rowId, isLast, isCheck }: { rowId: string; isLast: bo
       }
       return obj;
     }
-  }, [persistPrimaryColumn, isLast]);
+  }, [persistPrimaryColumn, isLast, isCheck, highlightColor]);
 
   return (
     <ADTCellColWrapper
       persistent={!!persistPrimaryColumn}
-      /*  variants={movingPage ? undefined : DefaultVariants}
-      exit={"unPad"} */
       className={`${persistPrimaryColumn ? "sticky left-0" : ""} ${isLast ? "rounded-es-md" : ""}`}
       style={{
-        ...persistStyle,
         ...getCellWrapperStyle({
           bLeft: !!persistPrimaryColumn,
-          //paddingHorizontal: paddingBetweenColumns,
-          vertPad: paddingBetweenCells && paddingBetweenCells / 2,
+          vertPad: paddingBetweenCells,
+        }),
+      }}
+      animate={{
+        ...persistStyle,
+        ...(isCheck && {
+          boxShadow: `1px 0 0 #000 inset, 0 1px 0 #000 inset, 0 -1px 0 #000 inset`,
+          borderTopLeftRadius: "6px",
+          borderBottomLeftRadius: "6px",
         }),
       }}
     >

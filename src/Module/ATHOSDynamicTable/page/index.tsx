@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { AppState } from "../../..";
 import { ATHOSDynamicTable } from "../component";
 import { useATHOSDynamicTableContext } from "../component/context";
-import { tdata } from "./data-CC71BNrg8tmzETG2KjpiS";
+import { realData } from "./data";
 
 const ATHOSDynamicTablePage = () => {
   const theme = useSelector((state: AppState) => state.ThemeReducer.theme);
@@ -20,7 +20,7 @@ const ATHOSDynamicTablePage = () => {
 
   return (
     <>
-      <ATHOSDynamicTable
+      {/*  <ATHOSDynamicTable
         loading={loading ? "Carregando..." : loading}
         customColumns={[
           {
@@ -31,7 +31,6 @@ const ATHOSDynamicTablePage = () => {
               //console.log("data", data);
               return (
                 <div>
-                  {/* {data.address}-{data.currency}-{data.email} */}
                   Custom Col
                 </div>
               );
@@ -67,41 +66,67 @@ const ATHOSDynamicTablePage = () => {
         }}
         data={tdata}
         tableName="Fake Data"
-      />
+      /> */}
 
-      {/* <ATHOSDynamicTable
+      <ATHOSDynamicTable
+        boldColumns
         selectedRowsTooltip={{
           containerColor: {
             className: "bg-white dark:bg-zinc-800",
           },
         }}
+        columnsToShow={["dtDataHoraEnvio", "txNumero", "txAssunto"]}
         resizeable
         loading={loading ? "Carregando..." : loading}
         persistPrimaryColumn={{
           backgroundColor: isDark ? "rgba(41, 41, 41, 0.726)" : "rgba(233, 233, 233, 0.973)",
           borderColor: isDark ? "rgba(255, 255, 255, 0.13)" : "rgba(0, 0, 0, 0.13)",
         }}
-        columnOrder={["id"]}
+        columnOrder={["txNumero"]}
         globalConfig={{
-          maxCharToCut: 30,
+          maxCharToCut: 10,
         }}
+        colConfig={{
+          txNumero: {
+            maxCharToCut: 30,
+            className: "min-w-max",
+          },
+        }}
+        //spacingBetweenCells={10}
         tableStyle={{
           textColor: isDark ? "white" : "black",
-          accentColor: isDark ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.1)",
+          accentColor: isDark ? "rgba(255, 255, 255, 0.1)" : "transparent",
+          accentColor2: isDark ? "rgba(255, 255, 255, 0.05)" : "rgb(226, 226, 226)",
           cellTextColor: {
             global: isDark ? "white" : "black",
           },
-          highlightColor: isDark ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.1)",
+          highlightColor: isDark ? "rgb(68, 68, 68)" : "rgb(206, 206, 206)",
           columnTextColor: {
             global: isDark ? "rgba(255, 255, 255, 0.7)" : "rgba(0, 0, 0, 0.7)",
           },
         }}
         startShort
         data={realData}
+        extraColumns={[
+          {
+            column: "txNumero",
+            label: "Número da Transação",
+            cellComponent: (data) => {
+              return <div className="bg-red-500">{data}</div>;
+            },
+          },
+          {
+            column: "txNumero",
+            label: "Número da Transação",
+            cellComponent: (data) => {
+              return <div className="">{data}</div>;
+            },
+          },
+        ]}
         tableName="Real Data"
       />
 
-      <ATHOSDynamicTable
+      {/* <ATHOSDynamicTable
         tableWrapperClassName="h-full"
         className="h-full"
         resizeable

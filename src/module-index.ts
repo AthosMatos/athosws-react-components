@@ -11,6 +11,7 @@ export { DragHandle } from "./Module/ATHOSCard/component/v2/DragHandle";
 
 export { ATHOSCollapse } from "./Module/ATHOSCollapse";
 export { ATHOSDropDown } from "./Module/ATHOSDropDown/component";
+export { ATHOSPopUp } from "./Module/ATHOSPopUp/component";
 /* Table */
 
 export { ATHOSDynamicTable } from "./Module/ATHOSDynamicTable/component";

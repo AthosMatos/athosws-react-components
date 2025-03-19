@@ -27,12 +27,12 @@ const Table = () => {
             key={`${tableName}-table`}
             initial={{ height: 0 }}
             animate={{ height: "auto" }}
-            className={`!min-h-5 rounded-md border p-2 border-gray-300 ${tableWrapperClassName}`}
+            className={`!min-h-5  ${tableWrapperClassName}`}
             style={{
               overflowY: "overlay" as any,
             }}
           >
-            <ADTTable className={tableClassName}>
+            <ADTTable className={`w-full ${tableClassName}`}>
               <ADTHeader>
                 <ADTColumns />
               </ADTHeader>

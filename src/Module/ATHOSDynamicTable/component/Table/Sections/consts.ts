@@ -1,5 +1,4 @@
-export const tdClassName = (index: number, persistPrimaryColumn: any) =>
-  `${persistPrimaryColumn && index === 0 ? `sticky ` : ""} left-[2.65rem]`;
+export const tdClassName = (index: number, persistPrimaryColumn: any) => `${persistPrimaryColumn && index === 0 ? `sticky ` : ""}`;
 
 export const getCellWrapperStyle = ({
   bLeft,

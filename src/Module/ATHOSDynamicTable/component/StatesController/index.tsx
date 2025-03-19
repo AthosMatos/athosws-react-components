@@ -18,12 +18,23 @@ const fillIds = (data: any[]) => {
 };
 
 export function ADTStatesController<T>({ props }: { props: DynamicTableProps<T> }) {
-  const { data, columnsToHide, columnsToShow, customColumns, tableStyle, columnOrder } = props;
+  const { data, columnsToHide, columnsToShow, customColumns, tableStyle, columnOrder, extraColumns } = props;
   const dataWithIds = useMemo(() => {
     if (data && data.length) return fillIds(data);
     return data;
   }, [data]);
   const dispatch = useDispatch();
+
+  const xtraCols = useMemo(() => {
+    return extraColumns?.length
+      ? extraColumns.map((exc) => {
+          return {
+            ...exc,
+            id: exc.id ?? v4(),
+          };
+        })
+      : undefined;
+  }, [extraColumns]);
 
   const columns = useMemo(() => {
     if (!data || !data.length) return [];
@@ -33,11 +44,6 @@ export function ADTStatesController<T>({ props }: { props: DynamicTableProps<T> 
     } else if (columnsToShow) {
       cols = columnsToShow;
     } else cols = Object.keys(data[0] as object) as (keyof T)[];
-
-    if (columnOrder) {
-      cols = cols.filter((col) => !columnOrder.includes(col));
-      cols = [...columnOrder, ...cols];
-    }
 
     if (customColumns) {
       customColumns.forEach((customColumn) => {
@@ -49,14 +55,23 @@ export function ADTStatesController<T>({ props }: { props: DynamicTableProps<T> 
         }
       });
     }
+    if (xtraCols?.length) {
+      cols.push(...xtraCols.map((col) => `${col.column as any}-isExtraCol-${col.id}` as any));
+    }
+
+    if (columnOrder) {
+      cols = cols.filter((col) => !columnOrder.includes(col));
+      cols = [...columnOrder, ...cols];
+    }
     return cols;
-  }, [columnsToHide, columnsToShow, data]);
+  }, [columnsToHide, columnsToShow, data, customColumns, columnOrder, xtraCols]);
 
   useEffect(() => {
     const pr: ADTPropsState<any> = {
       ...props,
       data: dataWithIds,
       persistPrimaryColumn: props.persistPrimaryColumn ?? true,
+      extraColumns: xtraCols,
       tableStyle: {
         ...tableStyle,
         highlightColor: tableStyle?.highlightColor ?? "#bcdfff",

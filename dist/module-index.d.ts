@@ -97,12 +97,32 @@ declare const ATHOSDropDown: ({ children, forceOpen, labelColor, wrapperBackColo
 
 type GlobalConfig = {
     maxCharToCut?: number;
-    label?: string;
     maxWidth?: number;
     minWidth?: number;
     minColWidthToShort?: number;
-    colComponent?: React.ReactNode;
     cellComponent?: (cell: any) => React.ReactNode;
+};
+type SpecificColConfig = {
+    maxCharToCut?: number;
+    label?: React.ReactNode;
+    maxWidth?: number;
+    minWidth?: number;
+    minColWidthToShort?: number;
+    cellComponent?: (cell: any) => React.ReactNode;
+    className?: string;
+    style?: React.CSSProperties;
+};
+type ExtraColConfig<T> = {
+    id?: string;
+    column: keyof T;
+    maxCharToCut?: number;
+    label?: React.ReactNode;
+    maxWidth?: number;
+    minWidth?: number;
+    minColWidthToShort?: number;
+    cellComponent?: (cell: any) => React.ReactNode;
+    className?: string;
+    style?: React.CSSProperties;
 };
 type ADTLabelI<T> = {
     label: string;
@@ -125,12 +145,12 @@ type SelectedRowsTooltipI<T> = {
         className?: string;
     };
 };
-type ExtraColumnsI<T> = {
+type ExtraCellColumnsI<T> = {
     showCondition?: (data: T) => boolean;
     component: (data: T) => React.ReactNode;
 };
 type ColConfig<T> = {
-    [key in keyof T]?: GlobalConfig;
+    [key in keyof T]?: SpecificColConfig;
 };
 type StartShortI<T> = {
     [key in keyof T]?: boolean;
@@ -196,7 +216,8 @@ type DynamicTableProps<T> = {
     spacingBetweenColumns?: number;
     spacingBetweenExtraColumns?: number;
     selectedRowsTooltip?: SelectedRowsTooltipI<T>;
-    extraColumns?: ExtraColumnsI<T>[];
+    extraCellColumns?: ExtraCellColumnsI<T>[];
+    extraColumns?: ExtraColConfig<T>[];
     startShort?: StartShortI<T> | boolean;
     persistPrimaryColumn?: {
         backgroundColor?: string;
