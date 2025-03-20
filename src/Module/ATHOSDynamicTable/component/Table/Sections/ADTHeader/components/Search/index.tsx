@@ -2,10 +2,10 @@ import { AnimatePresence, motion } from "framer-motion";
 import { memo, useEffect, useRef, useState } from "react";
 import { FaSearch } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import { generateColorShades } from "../../../../../../utils/color-utils";
-import { filterBySearch } from "../../../../redux/Filtering/provider";
-import { ADTState } from "../../../../redux/store";
-import { IconWrapper } from "../IconWrapper";
+import { generateColorShades } from "../../../../../../../utils/color-utils";
+import { filterBySearch } from "../../../../../redux/Filtering/provider";
+import { ADTState } from "../../../../../redux/store";
+import { IconWrapper } from "../../IconWrapper";
 
 interface SInputProps {
   onChange: (event: any) => void;
@@ -49,7 +49,7 @@ const SInput = ({ onChange, wRef }: SInputProps) => {
   );
 };
 
-const ADTSearch = () => {
+export const ADTSearch = memo(() => {
   const [openSearch, setOpenSearch] = useState(false);
   const dispatch = useDispatch();
   const toggleSearch = () => {
@@ -87,6 +87,4 @@ const ADTSearch = () => {
       </IconWrapper>
     </>
   );
-};
-
-export default memo(ADTSearch);
+});

@@ -42,7 +42,7 @@ const ADTCellColumn = ({ row, rowIndex, index, isLastRow, isCheck, col, isLastCo
   });
   const cellWrapperProps = {
     id,
-    className: `${tdClassName(index, persistPrimaryColumn)} ${isLastRow ? "rounded-ee-md" : ""}`,
+    className: `${tdClassName(index, persistPrimaryColumn)} ${isLastRow && !isCheck ? "rounded-ee-md" : ""}`,
     style: {
       color: textColor,
 
@@ -53,7 +53,6 @@ const ADTCellColumn = ({ row, rowIndex, index, isLastRow, isCheck, col, isLastCo
       }),
       borderBottomRightRadius: isLastCol && "6px",
       borderTopRightRadius: isLastCol && "6px",
-      overflow: isLastCol && "hidden",
     },
     animate: {
       ...persistStyle,

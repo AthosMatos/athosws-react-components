@@ -92,9 +92,6 @@ const ADTSelectedRowsToast = () => {
                 hoverColors={{
                   backColor: generateColorShades(tableStyle?.accentColor || "#f3f3f3").dark,
                 }}
-                wrapperBackColor={tableStyle?.accentColor || "#f3f3f3"}
-                borderColor={forceOpacity(tableStyle?.textColor || "#f3f3f3", 0.3)}
-                labelColor={tableStyle?.textColor}
                 onClose={() => {
                   setOpenDropDown(false);
                 }}
@@ -112,6 +109,8 @@ const ADTSelectedRowsToast = () => {
                 style={{
                   backgroundColor: tableStyle?.accentColor || "#f3f3f3",
                   color: tableStyle?.textColor,
+                  borderColor: forceOpacity(tableStyle?.textColor || "#f3f3f3", 0.3),
+                  borderWidth: 1,
                 }}
               >
                 <ADTSRTIconWrapper

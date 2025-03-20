@@ -99,8 +99,8 @@ export type TableStyle<T> = {
   };
 };
 
-type HeaderStyle = {
-  title: TdefaultStyles;
+/* type HeaderStyle = {
+  title?: TdefaultStyles;
   subtitle?: TdefaultStyles;
   config?: TdefaultStyles & {
     dropdown?: TdefaultStyles;
@@ -112,14 +112,19 @@ type HeaderStyle = {
     };
   };
 };
-
+type FooterStyle = {
+  navigation?: {
+    navButton?: TdefaultStyles;
+    pageIndicator?: TdefaultStyles;
+    pageButton?: TdefaultStyles;
+    extraPages?: TdefaultStyles;
+  };
+}; */
 type ResizableConfig = {
   autoBorder?: boolean;
 };
 
 export type DynamicTableProps<T> = {
-  headerStyle?: HeaderStyle;
-
   loading?: boolean | string;
   boldColumns?: boolean;
   wrapperClassName?: string;

@@ -1,9 +1,9 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { FaCheck } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import { generateColorShades, getContrastColor } from "../../../../../../../../utils/color-utils";
-import { filterColumns } from "../../../../../../redux/Filtering/provider";
-import { ADTState } from "../../../../../../redux/store";
+import { generateColorShades, getContrastColor } from "../../../../../../../../../utils/color-utils";
+import { filterColumns } from "../../../../../../../redux/Filtering/provider";
+import { ADTState } from "../../../../../../../redux/store";
 
 interface ColGroupProps {
   cols: string[];

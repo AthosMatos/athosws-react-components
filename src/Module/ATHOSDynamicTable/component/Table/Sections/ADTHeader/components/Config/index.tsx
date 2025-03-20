@@ -1,13 +1,14 @@
 import { FaFilter } from "react-icons/fa";
 import { MdTune } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
-import { ATHOSDropDown } from "../../../../../../ATHOSDropDown/component";
-import { LabelI } from "../../../../../../ATHOSDropDown/component/interfaces";
-import { generateColorShades } from "../../../../../../utils/color-utils";
-import { toggleColOrderFilter } from "../../../../redux/Filtering/provider";
-import { ADTState } from "../../../../redux/store";
-import { IconWrapper } from "../IconWrapper";
-import ItemWrapper from "../ItemWrapper";
+
+import { ATHOSDropDown } from "../../../../../../../ATHOSDropDown/component";
+import { LabelI } from "../../../../../../../ATHOSDropDown/component/interfaces";
+import { generateColorShades } from "../../../../../../../utils/color-utils";
+import { toggleColOrderFilter } from "../../../../../redux/Filtering/provider";
+import { ADTState } from "../../../../../redux/store";
+import { IconWrapper } from "../../IconWrapper";
+import ItemWrapper from "../../ItemWrapper";
 import ColumnsItem from "./ColumnsItem";
 
 const FilterItem = () => {
@@ -36,8 +37,10 @@ const ADTConfig = () => {
   return (
     <ATHOSDropDown
       position="left"
-      borderColor={accentColor && generateColorShades(accentColor).light}
-      wrapperBackColor={accentColor}
+      style={{
+        borderColor: accentColor && generateColorShades(accentColor).light,
+        backgroundColor: accentColor,
+      }}
       labels={options}
     >
       <IconWrapper>

@@ -56,14 +56,14 @@ const ListItem = ({
 const ATHOSDropDown = ({
   children,
   forceOpen,
-  labelColor,
-  wrapperBackColor,
+
   onClose,
   position = "top-left",
   id = v4(),
   labels,
   style,
-  borderColor,
+  className,
+
   hoverColors,
 }: ATHOSDropDownProps) => {
   const [open, setOpen] = useState(false);
@@ -100,14 +100,10 @@ const ATHOSDropDown = ({
             animate={{ width: "auto", height: "auto" }}
             exit={{ width: 0, height: 0 }}
             transition={transition}
-            style={{
-              backgroundColor: wrapperBackColor,
-              color: labelColor,
-              borderColor: borderColor,
-            }}
-            className={`z-50 dropdown-content menu !p-0 m-2 overflow-hidden bg-white rounded-md border border-gray-300 text-gray-500 gap-1 flex`}
+            style={style}
+            className={`z-50 dropdown-content menu !p-0 m-2 overflow-hidden ${className}`}
           >
-            <div className="p-1">
+            <div className="p-1 gap-1 flex flex-col">
               {labels.map((option, index) => (
                 <ListItem hoverColors={hoverColors} key={index} onClick={option.onClick} option={option} open={open} />
               ))}

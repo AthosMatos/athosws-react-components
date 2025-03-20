@@ -95,7 +95,7 @@ const ATHOSDynamicTablePage = () => {
         //spacingBetweenCells={10}
         tableStyle={{
           textColor: isDark ? "white" : "black",
-          accentColor: isDark ? "rgba(255, 255, 255, 0.1)" : "transparent",
+          accentColor: isDark ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.1)",
           accentColor2: isDark ? "rgba(255, 255, 255, 0.05)" : "rgb(226, 226, 226)",
           cellTextColor: {
             global: isDark ? "white" : "black",

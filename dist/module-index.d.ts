@@ -86,15 +86,31 @@ interface ATHOSDropDownProps {
     position?: "top-left" | "top-right" | "bottom-left" | "bottom-right" | "left" | "right";
     id?: string;
     labels: LabelI[];
-    wrapperBackColor?: string;
-    borderColor?: string;
-    labelColor?: string;
     style?: React.CSSProperties;
+    className?: string;
     hoverColors?: HoverColorsI;
 }
 
-declare const ATHOSDropDown: ({ children, forceOpen, labelColor, wrapperBackColor, onClose, position, id, labels, style, borderColor, hoverColors, }: ATHOSDropDownProps) => react_jsx_runtime.JSX.Element;
+declare const ATHOSDropDown: ({ children, forceOpen, onClose, position, id, labels, style, className, hoverColors, }: ATHOSDropDownProps) => react_jsx_runtime.JSX.Element;
 
+interface ATHOSPopUpProps {
+    children: React.ReactNode;
+    forceOpen?: boolean;
+    onClose?: () => void;
+    position?: "top-left" | "top-right" | "bottom-left" | "bottom-right" | "left" | "right" | "top-center" | "bottom-center";
+    contentStyle?: React.CSSProperties;
+    contentClassName?: string;
+    style?: React.CSSProperties;
+    className?: string;
+    content: React.ReactNode;
+}
+
+declare const ATHOSPopUp: ({ children, forceOpen, onClose, position, className, contentClassName, contentStyle, content, style, }: ATHOSPopUpProps) => react_jsx_runtime.JSX.Element;
+
+type TdefaultStyles = {
+    style?: React.CSSProperties;
+    className?: string;
+};
 type GlobalConfig = {
     maxCharToCut?: number;
     maxWidth?: number;
@@ -109,9 +125,7 @@ type SpecificColConfig = {
     minWidth?: number;
     minColWidthToShort?: number;
     cellComponent?: (cell: any) => React.ReactNode;
-    className?: string;
-    style?: React.CSSProperties;
-};
+} & TdefaultStyles;
 type ExtraColConfig<T> = {
     id?: string;
     column: keyof T;
@@ -121,9 +135,7 @@ type ExtraColConfig<T> = {
     minWidth?: number;
     minColWidthToShort?: number;
     cellComponent?: (cell: any) => React.ReactNode;
-    className?: string;
-    style?: React.CSSProperties;
-};
+} & TdefaultStyles;
 type ADTLabelI<T> = {
     label: string;
     onClick: (selectedData: T[]) => void;
@@ -140,10 +152,7 @@ type SelectedRowsTooltipI<T> = {
         onClick: (selectedData: T[]) => void;
     };
     othersFunc?: ADTLabelI<T>[];
-    containerColor?: {
-        style?: React.CSSProperties;
-        className?: string;
-    };
+    containerColor?: TdefaultStyles;
 };
 type ExtraCellColumnsI<T> = {
     showCondition?: (data: T) => boolean;
@@ -172,6 +181,12 @@ type CellColumnTextTableStyle<T> = {
     };
 };
 type TableStyle<T> = {
+    selected?: {
+        rowColor?: string;
+        rowTextColor?: string;
+        rowBorderColor?: string;
+        selectedIconColor?: string;
+    };
     highlightColor?: string;
     textColor?: string;
     accentColor?: string;
@@ -190,7 +205,7 @@ type ResizableConfig = {
 };
 type DynamicTableProps<T> = {
     loading?: boolean | string;
-    boldHeader?: boolean;
+    boldColumns?: boolean;
     wrapperClassName?: string;
     tableWrapperClassName?: string;
     className?: string;
@@ -659,4 +674,4 @@ declare function useWindowDimensions(): {
     };
 };
 
-export { ATHOSButton, type ATHOSButtonProps, ATHOSCards, ATHOSCollapse, ATHOSColors, ATHOSDropDown, ATHOSDynamicTable, ATHOSDynamicTableProvider, ATHOSInput, ATHOSMenu, ATHOSModal, ATHOSResizableDiv, ATHOSSideMenu, ATHOSSwitcher, ATHOSTabs, ATHOSToast, ATHOSTooltip, ATHOSVirtualDiv, DeleteHandle, DragHandle, GripIcon, GripIconVertical, adaptSize, convertRemToPixels, generateColorShades, getContrastColor, getUnitWithoutValue, getValueWithoutUnit, isBiggerThan, useATHOSDynamicTableContext, useATHOSModal, useATHOSToast, useClickOutside, useWindowDimensions };
+export { ATHOSButton, type ATHOSButtonProps, ATHOSCards, ATHOSCollapse, ATHOSColors, ATHOSDropDown, ATHOSDynamicTable, ATHOSDynamicTableProvider, ATHOSInput, ATHOSMenu, ATHOSModal, ATHOSPopUp, ATHOSResizableDiv, ATHOSSideMenu, ATHOSSwitcher, ATHOSTabs, ATHOSToast, ATHOSTooltip, ATHOSVirtualDiv, DeleteHandle, DragHandle, GripIcon, GripIconVertical, adaptSize, convertRemToPixels, generateColorShades, getContrastColor, getUnitWithoutValue, getValueWithoutUnit, isBiggerThan, useATHOSDynamicTableContext, useATHOSModal, useATHOSToast, useClickOutside, useWindowDimensions };

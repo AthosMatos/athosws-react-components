@@ -28,10 +28,9 @@ export interface ATHOSDropDownProps {
   position?: "top-left" | "top-right" | "bottom-left" | "bottom-right" | "left" | "right";
   id?: string;
   labels: LabelI[];
-  wrapperBackColor?: string;
-  borderColor?: string;
-  labelColor?: string;
+
   style?: React.CSSProperties;
+  className?: string;
   hoverColors?: HoverColorsI;
 }
 
