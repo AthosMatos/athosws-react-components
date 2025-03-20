@@ -1,0 +1,15 @@
+# Ignore everything except dist, package.json, and README.md
+node_modules
+src
+tests
+rollup.config.js
+tsconfig.json
+public
+*.log
+.vscode
+.git
+.github
+.public
+prettierrc.json
+.prettierrc
+.prettierignore

@@ -1,5 +1,6 @@
 import * as react_jsx_runtime from 'react/jsx-runtime';
 import React$1, { ReactNode, ReactElement, RefObject } from 'react';
+import { CSSProperties } from 'styled-components';
 import { IconType } from 'react-icons';
 import { NavigateFunction, Location } from 'react-router';
 
@@ -62,36 +63,24 @@ interface ATHOSCollapseProps {
 }
 declare const ATHOSCollapse: ({ children, collpasedComponent, onChanges, containerClassName: className }: ATHOSCollapseProps) => react_jsx_runtime.JSX.Element;
 
-type LabelWithIconType = {
-    icon: ReactNode;
-    text: string;
-};
-type LabelType = ((open: boolean) => ReactNode) | ReactNode | string | LabelWithIconType;
 interface LabelI {
-    label: LabelType;
+    label: ReactNode;
     onClick?: () => void;
-    hoverColors?: {
-        backColor?: string;
-        textColor?: string;
-    };
-}
-interface HoverColorsI {
-    backColor?: string;
-    textColor?: string;
+    className?: string;
+    style?: CSSProperties;
 }
 interface ATHOSDropDownProps {
     children: React.ReactNode;
-    forceOpen?: boolean;
-    onClose?: () => void;
-    position?: "top-left" | "top-right" | "bottom-left" | "bottom-right" | "left" | "right";
-    id?: string;
+    position?: "top-left" | "top-right" | "bottom-left" | "bottom-right" | "left" | "right" | "top" | "bottom";
     labels: LabelI[];
     style?: React.CSSProperties;
     className?: string;
-    hoverColors?: HoverColorsI;
+    labelsClassName?: string;
+    labelsStyle?: React.CSSProperties;
+    spacing?: number;
 }
 
-declare const ATHOSDropDown: ({ children, forceOpen, onClose, position, id, labels, style, className, hoverColors, }: ATHOSDropDownProps) => react_jsx_runtime.JSX.Element;
+declare const ATHOSDropDown: ({ children, labelsStyle, position, spacing, labels, style, className, labelsClassName, }: ATHOSDropDownProps) => react_jsx_runtime.JSX.Element;
 
 interface ATHOSPopUpProps {
     children: React.ReactNode;

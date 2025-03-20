@@ -1,20 +1,16 @@
 import { ReactNode } from "react";
+import { CSSProperties } from "styled-components";
 
 export type LabelWithIconType = {
   icon: ReactNode;
   text: string;
 };
-export const isLabelWithIconType = (label: LabelType): label is LabelWithIconType => {
-  return (label as LabelWithIconType).icon !== undefined;
-};
-type LabelType = ((open: boolean) => ReactNode) | ReactNode | string | LabelWithIconType;
+
 export interface LabelI {
-  label: LabelType;
+  label: ReactNode;
   onClick?: () => void;
-  hoverColors?: {
-    backColor?: string;
-    textColor?: string;
-  };
+  className?: string;
+  style?: CSSProperties;
 }
 export interface HoverColorsI {
   backColor?: string;
@@ -23,15 +19,13 @@ export interface HoverColorsI {
 
 export interface ATHOSDropDownProps {
   children: React.ReactNode;
-  forceOpen?: boolean;
-  onClose?: () => void;
-  position?: "top-left" | "top-right" | "bottom-left" | "bottom-right" | "left" | "right";
-  id?: string;
+  position?: "top-left" | "top-right" | "bottom-left" | "bottom-right" | "left" | "right" | "top" | "bottom";
   labels: LabelI[];
-
   style?: React.CSSProperties;
   className?: string;
-  hoverColors?: HoverColorsI;
+  labelsClassName?: string;
+  labelsStyle?: React.CSSProperties;
+  spacing?: number;
 }
 
 export type ADDContainerProps = {

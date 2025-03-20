@@ -37,7 +37,7 @@ export const Switch = ({ icon, label, className, style, dftClassName, dftStyle, 
       onClick={onclick}
       className={`${cls} !bg-transparent text-black ${selected ? "" : "opacity-30"} flex z-10
           transition-all duration-300 gap-2 select-none cursor-pointer 
-          text-sm rounded-lg p-1  px-2 items-center font-semibold `}
+          text-sm rounded-lg p-1 px-2 items-center font-semibold !bg-transparent !border-none`}
     >
       {icon}
       {label}
@@ -53,19 +53,5 @@ export const Floating = (props: StyleI & { aRef: any }) => {
   const dftCls = dftClassName?.active;
   const cls = `${className} ${dftCls}`;
 
-  return (
-    <motion.div
-      ref={props.aRef}
-      initial={false}
-      /*  animate={{
-        width: selectedDim.width,
-        height: selectedDim.height,
-      }} */
-      transition={transition}
-      style={stl}
-      className={`${cls} absolute
-          select-none rounded-[0.6rem]
-           shadow-sm bg-white `}
-    />
-  );
+  return <motion.div ref={props.aRef} initial={false} transition={transition} style={stl} className={`${cls} absolute select-none `} />;
 };

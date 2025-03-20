@@ -1,8 +1,6 @@
-import { AnimatePresence, motion } from "framer-motion";
-import { useRef, useState } from "react";
+import { useMemo } from "react";
 import { v4 } from "uuid";
-import { useClickOutside } from "../../hooks/useClickOutside";
-import { ATHOSDropDownProps, HoverColorsI, isLabelWithIconType, LabelI } from "./interfaces";
+import { ATHOSDropDownProps, LabelI } from "./interfaces";
 /**
  *
  */
@@ -14,67 +12,41 @@ const transition = {
 const ListItem = ({
   option,
   onClick,
-  open,
-  hoverColors,
+  className,
+  style,
 }: {
   option: LabelI;
   onClick?: () => void;
-  open: boolean;
-  hoverColors?: HoverColorsI;
+  className?: string;
+  style?: React.CSSProperties;
 }) => {
-  const backColor = option.hoverColors?.backColor || hoverColors?.backColor || "rgb(212, 212, 212)";
-  const defaultClassName = `p-2 flex cursor-pointer rounded-md`;
-  const className = isLabelWithIconType(option.label)
-    ? `flex items-center gap-2 ${defaultClassName}`
-    : typeof option.label === "string"
-    ? `${defaultClassName}`
-    : undefined;
+  const defaultClassName = `cursor-pointer select-none `;
+
   return (
-    <motion.div
-      onClick={onClick}
-      className={className}
-      whileHover={{
-        backgroundColor: backColor,
+    <li
+      style={{
+        ...style,
+        ...option.style,
       }}
+      onClick={onClick}
+      className={`${defaultClassName} ${className} ${option.className}`}
     >
-      {option.label instanceof Function ? (
-        option.label(open)
-      ) : isLabelWithIconType(option.label) ? (
-        <>
-          {option.label.icon}
-          <p>{option.label.text}</p>
-        </>
-      ) : typeof option.label === "string" ? (
-        <p className="w-max">{option.label}</p>
-      ) : (
-        option.label
-      )}
-    </motion.div>
+      {option.label}
+    </li>
   );
 };
 
 const ATHOSDropDown = ({
   children,
-  forceOpen,
-
-  onClose,
+  labelsStyle,
   position = "top-left",
-  id = v4(),
+  spacing = 6,
   labels,
   style,
   className,
-
-  hoverColors,
+  labelsClassName,
 }: ATHOSDropDownProps) => {
-  const [open, setOpen] = useState(false);
-  const BRef = useRef<HTMLDivElement>(null);
-  const ARef = useRef<HTMLDivElement>(null);
-  useClickOutside({
-    callback: () => {
-      setOpen(false);
-    },
-    refs: [ARef, BRef],
-  });
+  const id = useMemo(() => v4(), []);
   const pos =
     position === "top-left"
       ? "dropdown-top dropdown-end"
@@ -85,32 +57,40 @@ const ATHOSDropDown = ({
       : position === "bottom-right"
       ? "dropdown-bottom"
       : position === "left"
-      ? "dropdown-left"
-      : "dropdown-right";
+      ? "dropdown-left dropdown-center"
+      : position === "right"
+      ? "dropdown-right dropdown-center"
+      : position === "top"
+      ? "dropdown-top dropdown-center"
+      : position === "bottom" && "dropdown-bottom dropdown-center";
+
+  const gap = useMemo(
+    () =>
+      position.includes("top")
+        ? { marginBottom: `${spacing}px` }
+        : position.includes("bottom")
+        ? { marginTop: `${spacing}px` }
+        : position.includes("left")
+        ? { marginRight: `${spacing}px` }
+        : { marginLeft: `${spacing}px` },
+    [spacing, position]
+  );
+
   return (
-    <div className={`dropdown dropdown-open  ${pos}`}>
-      <div className="cursor-pointer" ref={ARef} onClick={() => setOpen(!open)}>
+    <div className={`${pos}`}>
+      <button popoverTarget={id} style={{ anchorName: `--anchor-${id}` } as any}>
         {children}
-      </div>
-      <AnimatePresence>
-        {(open || forceOpen) && (
-          <motion.div
-            ref={BRef}
-            initial={{ width: 0, height: 0 }}
-            animate={{ width: "auto", height: "auto" }}
-            exit={{ width: 0, height: 0 }}
-            transition={transition}
-            style={style}
-            className={`z-50 dropdown-content menu !p-0 m-2 overflow-hidden ${className}`}
-          >
-            <div className="p-1 gap-1 flex flex-col">
-              {labels.map((option, index) => (
-                <ListItem hoverColors={hoverColors} key={index} onClick={option.onClick} option={option} open={open} />
-              ))}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      </button>
+      <ul
+        className={`dropdown flex flex-col rounded-box shadow-sm ${className}`}
+        popover="auto"
+        id={id}
+        style={{ ...style, ...gap, positionAnchor: `--anchor-${id}` } as any}
+      >
+        {labels.map((option, index) => (
+          <ListItem style={labelsStyle} className={labelsClassName} key={index} onClick={option.onClick} option={option} />
+        ))}
+      </ul>
     </div>
   );
 };

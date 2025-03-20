@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { IoClose, IoMenu } from "react-icons/io5";
 import { useSelector } from "react-redux";
 import { ATHOSDropDown } from "../../../../ATHOSDropDown/component";
 import { ATHOSToast } from "../../../../ATHOSToast";
-import { forceOpacity, generateColorShades } from "../../../../utils/color-utils";
+import { forceOpacity } from "../../../../utils/color-utils";
 import { useADTSelect } from "../../redux/Select/hook";
 import { ADTState } from "../../redux/store";
 import ADTCheckBox from "../ADTCheckBox";
@@ -11,14 +11,12 @@ import { ADTATWrapper, ADTBRDSimple, ADTSRTFSWrapper, ADTSRTIconWrapper, ADTSRTL
 import useSelectors_ADTSelectedRowsToast from "./useSelectors";
 
 const ADTSelectedRowsToast = () => {
-  const [openDropDown, setOpenDropDown] = useState(false);
   const { selectedRows, selectedRowsToastOpen, checkState, tableStyle, selectedRowsTooltip, data, tableName } =
     useSelectors_ADTSelectedRowsToast();
 
   const { uncheckAll, openSelectedRowsToast, closeSelectedRowsToast } = useADTSelect();
 
   const onDismiss = () => {
-    setOpenDropDown(false);
     uncheckAll();
   };
   const containerColor = useSelector((state: ADTState) => state.ADTPropsReducer.selectedRowsTooltip?.containerColor);
@@ -89,12 +87,6 @@ const ADTSelectedRowsToast = () => {
 
             {selectedRowsTooltip?.othersFunc && (
               <ATHOSDropDown
-                hoverColors={{
-                  backColor: generateColorShades(tableStyle?.accentColor || "#f3f3f3").dark,
-                }}
-                onClose={() => {
-                  setOpenDropDown(false);
-                }}
                 labels={selectedRowsTooltip.othersFunc.map((func) => {
                   return {
                     label: func.label,
@@ -104,7 +96,6 @@ const ADTSelectedRowsToast = () => {
                     },
                   };
                 })}
-                id={tableName}
                 position="top-left"
                 style={{
                   backgroundColor: tableStyle?.accentColor || "#f3f3f3",
@@ -113,13 +104,7 @@ const ADTSelectedRowsToast = () => {
                   borderWidth: 1,
                 }}
               >
-                <ADTSRTIconWrapper
-                  pad={8}
-                  backColor={tableStyle?.accentColor || "#f3f3f3"}
-                  onClick={() => {
-                    setOpenDropDown(!openDropDown);
-                  }}
-                >
+                <ADTSRTIconWrapper pad={8} backColor={tableStyle?.accentColor || "#f3f3f3"}>
                   <IoMenu />
                 </ADTSRTIconWrapper>
               </ATHOSDropDown>
