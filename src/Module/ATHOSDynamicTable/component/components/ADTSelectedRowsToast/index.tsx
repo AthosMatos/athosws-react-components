@@ -64,8 +64,8 @@ const ADTSelectedRowsToast = () => {
             {selectedRowsTooltip?.mainFunc && (
               <ADTSRTMainFunc
                 onClick={() => {
+                  selectedRowsTooltip.mainFunc!.onClick(data.filter((row) => selectedRows.includes(row.uniqueId)));
                   onDismiss();
-                  selectedRowsTooltip.mainFunc!.onClick(selectedRows.map((index) => data[index]));
                 }}
                 highlightColor={tableStyle?.highlightColor!}
               >
@@ -78,7 +78,7 @@ const ADTSelectedRowsToast = () => {
                 backColor={tableStyle?.textColor || "#f3f3f3"}
                 onClick={() => {
                   onDismiss();
-                  selectedRowsTooltip.secondaryFunc!.onClick(selectedRows.map((index) => data[index]));
+                  selectedRowsTooltip.secondaryFunc!.onClick(data.filter((row) => selectedRows.includes(row.uniqueId)));
                 }}
               >
                 {selectedRowsTooltip.secondaryFunc.label ?? selectedRowsTooltip.secondaryFunc.icon}
@@ -91,7 +91,7 @@ const ADTSelectedRowsToast = () => {
                   return {
                     label: func.label,
                     onClick: () => {
-                      func.onClick(selectedRows.map((index) => data[index]));
+                      func.onClick(data.filter((row) => selectedRows.includes(row.uniqueId)));
                       onDismiss();
                     },
                   };

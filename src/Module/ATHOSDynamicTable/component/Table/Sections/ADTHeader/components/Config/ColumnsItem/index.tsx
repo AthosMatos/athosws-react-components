@@ -4,7 +4,7 @@ import { FaMinus } from "react-icons/fa";
 import { FaPlus, FaTableList } from "react-icons/fa6";
 import { useSelector } from "react-redux";
 
-import { ATHOSCollapse } from "../../../../../../../../ATHOSCollapse";
+import { ATHOSCollapse } from "../../../../../../../../ATHOSCollapse/component";
 import { ADTState } from "../../../../../../redux/store";
 import ItemWrapper from "../../../ItemWrapper";
 import ColGroup from "./ColGroup";
@@ -52,11 +52,12 @@ const ColumnsItem = () => {
 
   return (
     <ATHOSCollapse
-      containerClassName="flex flex-col gap-2 "
-      onChanges={(isOpen) => setIsOpen(isOpen)}
+      onOpen={(isOpen) => setIsOpen(isOpen)}
       collpasedComponent={<ColGroup cols={cols} isOn={(col) => filteredColumns.includes(col)} />}
     >
-      <ItemWrapper isOpen={isOpen} label="Colunas" extraComponent={<PlusMinus isSelected={isOpen} />} icon={<FaTableList size={18} />} />
+      <div className="flex flex-col gap-2">
+        <ItemWrapper isOpen={isOpen} label="Colunas" extraComponent={<PlusMinus isSelected={isOpen} />} icon={<FaTableList size={18} />} />
+      </div>
     </ATHOSCollapse>
   );
 };

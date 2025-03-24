@@ -34,6 +34,7 @@ export const useADTBorder = (colID: string, minColWidthToShort: number, setcolsh
       const ColDivWidth = ColDivRect.width;
       const Plus = Math.round(pageX - (BRDWrapperDivRect.right - 4)); //-4 to centralize in the cursor
       const newWidth = ColDivWidth + Plus;
+
       if (newWidth < minColWidthToShort) {
         setcolshort(true);
       } else {

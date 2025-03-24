@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { AppState } from "../../..";
 import { ATHOSDynamicTable } from "../component";
 import { useATHOSDynamicTableContext } from "../component/context";
-import { realData } from "./data";
+import { realData as rd } from "./data";
 
 const ATHOSDynamicTablePage = () => {
   const theme = useSelector((state: AppState) => state.ThemeReducer.theme);
@@ -17,6 +17,8 @@ const ATHOSDynamicTablePage = () => {
       setLoading(false);
     }, 2000);
   }, []);
+
+  const [realData, setRealData] = useState(rd);
 
   return (
     <>
@@ -74,6 +76,13 @@ const ATHOSDynamicTablePage = () => {
           containerColor: {
             className: "bg-white dark:bg-zinc-800",
           },
+          mainFunc: {
+            label: "Remover",
+            onClick: (data) => {
+              const newData = realData.filter((rd) => data.find((d) => d.id !== rd.id));
+              setRealData(newData);
+            },
+          },
         }}
         columnsToShow={["dtDataHoraEnvio", "txNumero", "txAssunto"]}
         resizeable
@@ -85,14 +94,21 @@ const ATHOSDynamicTablePage = () => {
         columnOrder={["txNumero"]}
         globalConfig={{
           maxCharToCut: 10,
+          minColWidthToShort: 150,
         }}
-        colConfig={{
-          txNumero: {
-            maxCharToCut: 30,
-            className: "min-w-max",
+        /*  colConfig={{
+          txAssunto: {
+            //maxCharToCut: 30,
+            minColWidthToShort: 150,
+
+            //className: "min-w-max",
           },
-        }}
-        //spacingBetweenCells={10}
+          txNumero: {
+            minColWidthToShort: 150,
+          },
+        }} */
+        spacingBetweenCells={4}
+        spacingBetweenColumns={10}
         tableStyle={{
           textColor: isDark ? "white" : "black",
           accentColor: isDark ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.1)",
@@ -105,12 +121,12 @@ const ATHOSDynamicTablePage = () => {
             global: isDark ? "rgba(255, 255, 255, 0.7)" : "rgba(0, 0, 0, 0.7)",
           },
         }}
-        startShort
+        //startShort
         data={realData}
         extraColumns={[
           {
             column: "txNumero",
-            label: "Número da Transação",
+            label: "N T",
             cellComponent: (data) => {
               return <div className="bg-red-500">{data}</div>;
             },
@@ -118,9 +134,6 @@ const ATHOSDynamicTablePage = () => {
           {
             column: "txNumero",
             label: "Número da Transação",
-            cellComponent: (data) => {
-              return <div className="">{data}</div>;
-            },
           },
         ]}
         tableName="Real Data"

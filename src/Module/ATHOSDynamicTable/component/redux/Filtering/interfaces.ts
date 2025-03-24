@@ -8,7 +8,6 @@ export interface PagingState {
   pageSize: PageSizesType;
   firstOpen: boolean;
   columnOrder: string[];
-  showColOrderFilter: boolean;
   orderSorted: {
     state: number;
     column: string | null;

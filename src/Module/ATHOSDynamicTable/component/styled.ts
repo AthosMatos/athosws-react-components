@@ -29,8 +29,6 @@ interface ADTColWrapperProps {
 }
 
 export const ADTColumnWrapper = styled.th<ADTColWrapperProps>`
-  font-size: 1rem;
-  font-weight: 400;
   color: ${(props) => props.textColor ?? ATHOSColors.grey.dark_05};
   white-space: nowrap;
   user-select: none;
@@ -88,9 +86,6 @@ export const ADTCellColWrapper = styled(motion.td).attrs({
 })<{
   persistent?: boolean;
 }>`
-  font-size: 1rem;
-  font-weight: 400;
-
   ${(props) =>
     props.persistent &&
     `

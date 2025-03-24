@@ -1,20 +1,11 @@
 import { ReactNode } from "react";
 import { CSSProperties } from "styled-components";
 
-export type LabelWithIconType = {
-  icon: ReactNode;
-  text: string;
-};
-
 export interface LabelI {
   label: ReactNode;
   onClick?: () => void;
   className?: string;
   style?: CSSProperties;
-}
-export interface HoverColorsI {
-  backColor?: string;
-  textColor?: string;
 }
 
 export interface ATHOSDropDownProps {
@@ -26,15 +17,6 @@ export interface ATHOSDropDownProps {
   labelsClassName?: string;
   labelsStyle?: React.CSSProperties;
   spacing?: number;
+  matchChildrenWidth?: boolean;
+  onOpen?: (isOpen: boolean) => void;
 }
-
-export type ADDContainerProps = {
-  top?: number | string;
-  left?: number | string;
-  right?: number | string;
-  bottom?: number | string;
-  width?: number | string;
-  height?: number | string;
-  opacity?: number;
-  transform?: string;
-};

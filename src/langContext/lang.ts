@@ -163,6 +163,16 @@ export const AppText = {
           "en-US": "See the Virtual Div in action",
         },
       },
+      popUp: {
+        title: {
+          "pt-BR": "PopUp",
+          "en-US": "PopUp",
+        },
+        subtitle: {
+          "pt-BR": "Veja o PopUp em ação",
+          "en-US": "See the PopUp in action",
+        },
+      },
     },
   },
 };

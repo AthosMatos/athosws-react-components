@@ -9,7 +9,6 @@ const initialState: FilteringState = {
   pageSize: 5,
   firstOpen: true,
   columnOrder: [],
-  showColOrderFilter: true,
   orderSorted: { column: null, state: -1 },
   defaultDataOrder: [],
 };
@@ -18,9 +17,6 @@ const Slice = createSlice({
   name: "ADTFilteredProps",
   initialState,
   reducers: {
-    toggleColOrderFilter: (state) => {
-      state.showColOrderFilter = !state.showColOrderFilter;
-    },
     filterBySearch: (
       state,
       action: PayloadAction<{
@@ -128,9 +124,14 @@ const Slice = createSlice({
         });
         return { sorted, start, end };
       };
+
       //order states, -1 = not sorted, 0 = ascending, 1 = descending
-      const { column, data } = action.payload;
-      if (state.orderSorted.column === column) {
+      const { column: col, data } = action.payload;
+      let column = col;
+      if (col.includes("-isExtraCol-")) {
+        column = col.split("-isExtraCol-")[0];
+      }
+      if (state.orderSorted.column === col) {
         if (state.orderSorted.state === 0) {
           const { end, sorted, start } = filter();
           state.filteredData = sorted.reverse().slice(start, end);
@@ -147,7 +148,7 @@ const Slice = createSlice({
       state.defaultDataOrder = state.filteredData;
       const { end, sorted, start } = filter();
       state.filteredData = sorted.slice(start, end);
-      state.orderSorted.column = column;
+      state.orderSorted.column = col;
       state.orderSorted.state = 0;
     },
   },
@@ -163,7 +164,6 @@ export const {
   changePageSize,
   setFirstOpen,
 
-  toggleColOrderFilter,
   sortDataByColumn,
 } = Slice.actions;
 

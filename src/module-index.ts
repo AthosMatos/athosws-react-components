@@ -9,7 +9,7 @@ export { DeleteHandle } from "./Module/ATHOSCard/component/v2/DeleteHandle";
 export { DragHandle } from "./Module/ATHOSCard/component/v2/DragHandle";
 /* Cards */
 
-export { ATHOSCollapse } from "./Module/ATHOSCollapse";
+export { ATHOSCollapse } from "./Module/ATHOSCollapse/component";
 export { ATHOSDropDown } from "./Module/ATHOSDropDown/component";
 export { ATHOSPopUp } from "./Module/ATHOSPopUp/component";
 /* Table */

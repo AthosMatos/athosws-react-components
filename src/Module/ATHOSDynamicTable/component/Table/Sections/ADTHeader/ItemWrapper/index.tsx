@@ -1,5 +1,4 @@
 import { motion } from "framer-motion";
-import { FaCheck } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { generateColorShades, getContrastColor } from "../../../../../../utils/color-utils";
 import { ADTState } from "../../../../redux/store";
@@ -7,13 +6,12 @@ import { ADTState } from "../../../../redux/store";
 interface ItemWrapperProps {
   label: string;
   icon?: React.ReactNode;
-  isSelected?: boolean;
   isOpen?: boolean;
   onClick?: () => void;
   extraComponent?: React.ReactNode;
 }
 
-const ItemWrapper = ({ isSelected, isOpen, onClick, extraComponent, label, icon }: ItemWrapperProps) => {
+const ItemWrapper = ({ isOpen, onClick, extraComponent, label, icon }: ItemWrapperProps) => {
   const { tableStyle } = useSelector((state: ADTState) => ({
     tableStyle: state.ADTPropsReducer.tableStyle,
   }));
@@ -30,7 +28,7 @@ const ItemWrapper = ({ isSelected, isOpen, onClick, extraComponent, label, icon 
         ${isOpen ? "bg-gray-200" : "hover:bg-gray-100"}
         `}
       style={
-        tableStyle?.highlightColor && isSelected
+        tableStyle?.highlightColor
           ? {
               backgroundColor: tableStyle?.highlightColor,
               color: getContrastColor(tableStyle?.highlightColor),
@@ -43,7 +41,7 @@ const ItemWrapper = ({ isSelected, isOpen, onClick, extraComponent, label, icon 
     >
       <div
         style={
-          tableStyle?.highlightColor && isSelected
+          tableStyle?.highlightColor
             ? {
                 color: getContrastColor(tableStyle?.highlightColor),
               }
@@ -57,11 +55,6 @@ const ItemWrapper = ({ isSelected, isOpen, onClick, extraComponent, label, icon 
         {label}
       </div>
       {extraComponent}
-      {isSelected && (
-        <div className="p-1">
-          <FaCheck size={10} color={textColor} />
-        </div>
-      )}
     </motion.div>
   );
 };

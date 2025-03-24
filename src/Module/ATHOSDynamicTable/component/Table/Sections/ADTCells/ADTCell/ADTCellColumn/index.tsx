@@ -6,11 +6,10 @@ import { ADTCellColWrapper } from "../../../../../styled";
 import { getCellWrapperStyle, tdClassName } from "../../../consts";
 import useADTCellCol from "./hooks";
 import { ADTCellColumnProps } from "./interfaces";
-import useSelectors_ADTCellColumn from "./useSelectors";
 
 const ADTCellColumn = ({ row, rowIndex, index, isLastRow, isCheck, col, isLastCol }: ADTCellColumnProps) => {
-  const { colConfig, persistPrimaryColumn } = useSelectors_ADTCellColumn();
-  const customCols = useSelector((state: ADTState) => state.ADTPropsReducer.customColumns);
+  const persistPrimaryColumn = useSelector((state: ADTState) => state.ADTPropsReducer.persistPrimaryColumn);
+
   const extraColumns = useSelector((state: ADTState) => state.ADTPropsReducer.extraColumns);
 
   const extraCol = useMemo(() => {
@@ -31,7 +30,7 @@ const ADTCellColumn = ({ row, rowIndex, index, isLastRow, isCheck, col, isLastCo
   const spacingBetweenColumns = useSelector((state: ADTState) => state.ADTPropsReducer.spacingBetweenColumns);
   const spacingBetweenCells = useSelector((state: ADTState) => state.ADTPropsReducer.spacingBetweenCells);
 
-  const { rowValue, textColor, touch, showTooltip, persistStyle, className, style } = useADTCellCol({
+  const { textColor, touch, showTooltip, persistStyle, Cell } = useADTCellCol({
     column: actualcolumn,
     row,
     rowIndex,
@@ -48,11 +47,13 @@ const ADTCellColumn = ({ row, rowIndex, index, isLastRow, isCheck, col, isLastCo
 
       ...getCellWrapperStyle({
         //bRight: true,
-        paddingHorizontal: spacingBetweenColumns,
+
+        paddingHorizontal: index != 0 ? spacingBetweenColumns : undefined,
         vertPad: spacingBetweenCells,
       }),
       borderBottomRightRadius: isLastCol && "6px",
       borderTopRightRadius: isLastCol && "6px",
+      left: index === 0 ? "42px" : undefined,
     },
     animate: {
       ...persistStyle,
@@ -62,25 +63,6 @@ const ADTCellColumn = ({ row, rowIndex, index, isLastRow, isCheck, col, isLastCo
     },
   };
 
-  const cell = useMemo(() => {
-    const customColumns = customCols?.find((col) => col.newLabel === actualcolumn)?.render(row);
-
-    if (extraColumns?.length && extraCol && extraColumns.find((exc) => exc.id == extraCol.split("-isExtraCol-")[1])?.cellComponent) {
-      return extraColumns.find((exc) => exc.id == extraCol.split("-isExtraCol-")[1]).cellComponent(row[actualcolumn]);
-    } else if (colConfig && colConfig[actualcolumn]?.cellComponent) {
-      return colConfig[actualcolumn]?.cellComponent(row[actualcolumn]);
-    }
-    return customColumns || rowValue;
-  }, [actualcolumn, row, colConfig, rowValue, extraColumns, extraCol]);
-
-  const Cell =
-    className || style ? (
-      <div className={className} style={style}>
-        {cell}
-      </div>
-    ) : (
-      cell
-    );
   const tooltipContent = row[actualcolumn];
 
   return (

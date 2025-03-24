@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { BiCard, BiCollapseVertical } from "react-icons/bi";
-import { BsFillMenuButtonWideFill, BsInputCursorText } from "react-icons/bs";
+import { BiCollapseVertical } from "react-icons/bi";
+import { BsFillMenuButtonWideFill, BsGrid3X2GapFill, BsInputCursorText } from "react-icons/bs";
 import { FaTable } from "react-icons/fa6";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { GrInstallOption } from "react-icons/gr";
@@ -10,12 +10,15 @@ import { TfiViewList } from "react-icons/tfi";
 import { VscScreenFull } from "react-icons/vsc";
 import { useSelector } from "react-redux";
 import { AppState } from "..";
+import { PopUpIcon } from "../assets/icons/popUp";
 import { AppText } from "../langContext/lang";
 import ATHOSButtonPage from "../Module/ATHOSButton/page";
 import ATHOSCardPage from "../Module/ATHOSCard/page";
+import ATHOSCollapsePage from "../Module/ATHOSCollapse/page";
 import ATHOSDropDownPage from "../Module/ATHOSDropDown/page";
 import ATHOSDynamicTablePage from "../Module/ATHOSDynamicTable/page";
 import { OptKeyed } from "../Module/ATHOSMenu/helpers";
+import ATHOSPopUpPage from "../Module/ATHOSPopUp/page";
 import AthosVirtualDivPage from "../Module/ATHOSVirtualDiv/page";
 import { usePage } from "../pageContext/redux";
 import InstallPage from "../pages/Install";
@@ -38,7 +41,7 @@ export type WithComponent<T> = {
 const RoutesContext = createContext<WithComponent<OptKeyed>>({} as WithComponent<OptKeyed>);
 export const RoutesProvider = ({ children }: { children: React.ReactNode }) => {
   const lang = useSelector((state: AppState) => state.LangReducer.lang);
-  const pageTitle = useSelector((state: AppState) => state.PageReducer);
+
   const [pageLang, setPageLang] = useState<any>();
   const { setTitle } = usePage();
 
@@ -46,12 +49,6 @@ export const RoutesProvider = ({ children }: { children: React.ReactNode }) => {
     setPageLang(pageLang);
     setTitle(pageLang.title[lang], pageLang.subtitle[lang]);
   };
-
-  /* useEffect(() => {
-    if (!pageTitle.title && !pageTitle.subtitle) {
-      setPageTitle(AppText.pages.install);
-    }
-  }, [pageTitle]); */
 
   useEffect(() => {
     if (pageLang) {
@@ -86,20 +83,20 @@ export const RoutesProvider = ({ children }: { children: React.ReactNode }) => {
           path: "components/cards",
           component: ATHOSCardPage,
           label: "Cards",
-          icon: <BiCard />,
+          icon: <BsGrid3X2GapFill />,
           onClick: () => setPageTitle(AppText.pages.components.cards),
           onInit: () => setPageTitle(AppText.pages.components.cards),
         },
         collapse: {
           path: "components/collapse",
-          component: ATHOSCardPage,
+          component: ATHOSCollapsePage,
           label: "Collapse",
           icon: <BiCollapseVertical />,
           onClick: () => setPageTitle(AppText.pages.components.collapse),
           onInit: () => setPageTitle(AppText.pages.components.collapse),
         },
         dropDown: {
-          path: "components/add",
+          path: "components/dropdown",
           component: ATHOSDropDownPage,
           label: "Drop Down",
           icon: <BsFillMenuButtonWideFill />,
@@ -107,7 +104,7 @@ export const RoutesProvider = ({ children }: { children: React.ReactNode }) => {
           onInit: () => setPageTitle(AppText.pages.components.dropdown),
         },
         dynamicTable: {
-          path: "components/adt",
+          path: "components/dynamictable",
           component: ATHOSDynamicTablePage,
           label: AppText.pages.components.dynamicTable.title[lang],
           icon: <FaTable />,
@@ -138,6 +135,14 @@ export const RoutesProvider = ({ children }: { children: React.ReactNode }) => {
           onClick: () => setPageTitle(AppText.pages.components.modal),
           onInit: () => setPageTitle(AppText.pages.components.modal),
         },
+        popup: {
+          path: "components/popup",
+          component: ATHOSPopUpPage,
+          label: "PopUp",
+          icon: <PopUpIcon className="w-4 h-4 fill-white" />,
+          onClick: () => setPageTitle(AppText.pages.components.popUp),
+          onInit: () => setPageTitle(AppText.pages.components.popUp),
+        },
         resizableDiv: {
           path: "components/resizableDiv",
           component: ATHOSCardPage,
@@ -154,7 +159,31 @@ export const RoutesProvider = ({ children }: { children: React.ReactNode }) => {
           onClick: () => setPageTitle(AppText.pages.components.switcher),
           onInit: () => setPageTitle(AppText.pages.components.switcher),
         },
-        virtualList: {
+        tabs: {
+          path: "components/tabs",
+          component: ATHOSCardPage,
+          label: "Switcher",
+          icon: <VscScreenFull />,
+          onClick: () => setPageTitle(AppText.pages.components.switcher),
+          onInit: () => setPageTitle(AppText.pages.components.switcher),
+        },
+        toast: {
+          path: "components/toast",
+          component: ATHOSCardPage,
+          label: "Switcher",
+          icon: <VscScreenFull />,
+          onClick: () => setPageTitle(AppText.pages.components.switcher),
+          onInit: () => setPageTitle(AppText.pages.components.switcher),
+        },
+        tooltip: {
+          path: "components/tooltip",
+          component: ATHOSCardPage,
+          label: "Switcher",
+          icon: <VscScreenFull />,
+          onClick: () => setPageTitle(AppText.pages.components.switcher),
+          onInit: () => setPageTitle(AppText.pages.components.switcher),
+        },
+        virtualDiv: {
           path: "components/virtualDiv",
           component: AthosVirtualDivPage,
           label: "Virtual Div",

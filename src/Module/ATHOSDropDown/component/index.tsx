@@ -1,13 +1,9 @@
-import { useMemo } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { v4 } from "uuid";
 import { ATHOSDropDownProps, LabelI } from "./interfaces";
 /**
  *
  */
-const transition = {
-  duration: 0.3,
-  ease: "easeInOut",
-};
 
 const ListItem = ({
   option,
@@ -45,7 +41,10 @@ const ATHOSDropDown = ({
   style,
   className,
   labelsClassName,
+  matchChildrenWidth,
+  onOpen,
 }: ATHOSDropDownProps) => {
+  const [isOpen, setIsOpen] = useState(false);
   const id = useMemo(() => v4(), []);
   const pos =
     position === "top-left"
@@ -76,9 +75,25 @@ const ATHOSDropDown = ({
     [spacing, position]
   );
 
+  const childRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (childRef.current && matchChildrenWidth) {
+      const childWidth = childRef.current.getBoundingClientRect().width;
+      const dropdown = document.getElementById(id);
+      if (dropdown) {
+        dropdown.style.width = `${childWidth}px`;
+      }
+    }
+  }, [childRef.current, matchChildrenWidth, children]);
+
+  useEffect(() => {
+    onOpen && onOpen(isOpen);
+  }, [isOpen]);
+
   return (
     <div className={`${pos}`}>
-      <button popoverTarget={id} style={{ anchorName: `--anchor-${id}` } as any}>
+      <button onClick={() => setIsOpen(!isOpen)} ref={childRef} popoverTarget={id} style={{ anchorName: `--anchor-${id}` } as any}>
         {children}
       </button>
       <ul

@@ -10,29 +10,20 @@ import ADTBorder from "./ADTBorder";
 import ColOrderFilter from "./ColOrderFilter";
 
 const ADTCol = ({ column, index }: { column: string; index: number }) => {
-  const {
-    colConfig,
-    persistPrimaryColumn,
-    spacingBetweenColumns,
-    showColFilter,
-    extraColumns,
-    tableStyle,
-    boldHeader,
-    paddingHeader,
-    tableName,
-    data,
-  } = useSelector((state: ADTState) => ({
-    spacingBetweenColumns: state.ADTPropsReducer.spacingBetweenColumns,
-    persistPrimaryColumn: state.ADTPropsReducer.persistPrimaryColumn,
-    tableStyle: state.ADTPropsReducer.tableStyle,
-    colConfig: state.ADTPropsReducer.colConfig,
-    tableName: state.ADTPropsReducer.tableName,
-    paddingHeader: state.ADTPropsReducer.spacingHeader,
-    boldHeader: state.ADTPropsReducer.boldColumns,
-    data: state.ADTPropsReducer.data,
-    showColFilter: state.ADTFilteringReducer.showColOrderFilter,
-    extraColumns: state.ADTPropsReducer.extraColumns,
-  }));
+  const { colConfig, persistPrimaryColumn, spacingBetweenColumns, extraColumns, tableStyle, boldHeader, paddingHeader, tableName, data } =
+    useSelector((state: ADTState) => ({
+      spacingBetweenColumns: state.ADTPropsReducer.spacingBetweenColumns,
+      persistPrimaryColumn: state.ADTPropsReducer.persistPrimaryColumn,
+      tableStyle: state.ADTPropsReducer.tableStyle,
+      colConfig: state.ADTPropsReducer.colConfig,
+      tableName: state.ADTPropsReducer.tableName,
+      paddingHeader: state.ADTPropsReducer.spacingHeader,
+      boldHeader: state.ADTPropsReducer.boldColumns,
+      data: state.ADTPropsReducer.data,
+      extraColumns: state.ADTPropsReducer.extraColumns,
+    }));
+  const globalConfig = useSelector((state: ADTState) => state.ADTPropsReducer.globalConfig);
+  const minColWidthToShort = (colConfig && colConfig[column]?.minColWidthToShort) || globalConfig?.minColWidthToShort;
 
   const textColor = useMemo(() => {
     const globalColor = tableStyle?.columnTextColor?.global;
@@ -43,16 +34,16 @@ const ADTCol = ({ column, index }: { column: string; index: number }) => {
 
   const value = useMemo(() => {
     let v: ReactNode = column;
-    if (colConfig) {
-      if (extraColumns?.length && column.includes("-isExtraCol-")) {
-        const normalCol = column.split("-isExtraCol-")[0];
-        v = extraColumns.find((col) => col.column === normalCol)?.label;
-      } else if (colConfig[column]?.label) {
-        v = colConfig[column]?.label;
-      }
+    if (extraColumns?.length && column.includes("-isExtraCol-")) {
+      const colId = column.split("-isExtraCol-")[1];
+
+      v = extraColumns.find((col) => col.id === colId)?.label;
+    } else if (colConfig && colConfig[column]?.label) {
+      v = colConfig[column]?.label;
     }
+
     return v;
-  }, [column, colConfig]);
+  }, [column, colConfig, extraColumns]);
 
   const persistStyle = useMemo(() => {
     if (persistPrimaryColumn && index === 0) {
@@ -82,10 +73,8 @@ const ADTCol = ({ column, index }: { column: string; index: number }) => {
   const dispatch = useDispatch();
 
   const sort = () => {
-    showColFilter && dispatch(sortDataByColumn({ column, data }));
+    dispatch(sortDataByColumn({ column, data }));
   };
-  const globalConfig = useSelector((state: ADTState) => state.ADTPropsReducer.globalConfig);
-  const minColWidthToShort = (colConfig && colConfig[column]?.minColWidthToShort) || globalConfig?.minColWidthToShort;
 
   const setcolshort = (short: boolean) => {
     dispatch(setColShort({ column, short }));
@@ -98,13 +87,16 @@ const ADTCol = ({ column, index }: { column: string; index: number }) => {
       className={`
       ${tdClassName(index, persistPrimaryColumn)}
        rounded-se-md`}
-      style={persistStyle}
+      style={{
+        ...persistStyle,
+        left: index === 0 ? "42px" : undefined,
+      }}
       id={id}
       paddingHorizontal={index > 0 ? spacingBetweenColumns : undefined}
       textColor={textColor}
     >
       <ADTColBorderWrapper bold={boldHeader}>
-        <div className={`flex flex-1 justify-between items-center ${showColFilter ? "cursor-pointer" : ""}`} onClick={sort}>
+        <div className={`flex flex-1 justify-between items-center cursor-pointer`} onClick={sort}>
           {value}
 
           <ColOrderFilter column={column} />
