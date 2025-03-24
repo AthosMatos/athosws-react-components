@@ -1,9 +1,9 @@
 import { useSelector } from "react-redux";
 import { ADTState } from "../../../redux/store";
 import { ADTTR } from "../../../styled";
-import ADTCellCheckBox from "./ADTCell/ADTCellCheckBox";
-import ADTCellColumn from "./ADTCell/ADTCellColumn";
-import ADTCellExtraCols from "./ADTCell/ADTCellExtraCols";
+import ADTCellCheckBox from "./ADTCellCheckBox";
+import ADTCellColumn from "./ADTCellColumn";
+import ADTCellExtraCols from "./ADTCellExtraCols";
 
 const variants = {
   hidden: {
@@ -15,13 +15,20 @@ const variants = {
 };
 
 const ADTCells = () => {
-  const { filteredColumns, extraCellColumns, pageSize, filteredData, selectedRows, highlightColor } = useSelector((state: ADTState) => ({
+  const {
+    filteredColumns,
+    extraCellColumns,
+    pageSize,
+    filteredData,
+    selectedRows,
+    selected: selectedColor,
+  } = useSelector((state: ADTState) => ({
     filteredColumns: state.ADTFilteringReducer.filteredColumns,
     extraCellColumns: state.ADTPropsReducer.extraCellColumns,
     pageSize: state.ADTFilteringReducer.filteredData.length,
     filteredData: state.ADTFilteringReducer.filteredData,
     selectedRows: state.ADTSelectReducer.selectedRows,
-    highlightColor: state.ADTPropsReducer.tableStyle?.highlightColor,
+    selected: state.ADTPropsReducer.tableStyle?.selected,
   }));
 
   return filteredData?.map((row, rowIndex) => (
@@ -31,7 +38,7 @@ const ADTCells = () => {
       animate={{
         opacity: 1,
         ...(selectedRows.includes(row.uniqueId) && {
-          backgroundColor: highlightColor,
+          backgroundColor: selectedColor?.rowColor,
         }),
       }}
       exit="hidden"
@@ -42,6 +49,7 @@ const ADTCells = () => {
       <ADTCellCheckBox isLast={rowIndex === pageSize - 1} rowId={row.uniqueId} isCheck={selectedRows.includes(row.uniqueId)} />
       {filteredColumns.map((column, index) => (
         <ADTCellColumn
+          hasExtraCols={!!extraCellColumns}
           key={index}
           col={column}
           isCheck={selectedRows.includes(row.uniqueId)}
@@ -53,7 +61,7 @@ const ADTCells = () => {
         />
       ))}
 
-      {extraCellColumns && <ADTCellExtraCols row={row} />}
+      {extraCellColumns && <ADTCellExtraCols isCheck={selectedRows.includes(row.uniqueId)} row={row} />}
     </ADTTR>
   ));
 };

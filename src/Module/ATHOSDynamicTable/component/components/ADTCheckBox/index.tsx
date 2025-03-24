@@ -5,9 +5,11 @@ import { ADTState } from "../../redux/store";
 import { ADTCheckBoxProps } from "./interfaces";
 import { ADTCheckBoxWrapper, ADTCheckIcon, ADTDoubleCheckIcon } from "./styled";
 
-const ADTCheckBox = ({ checked, check, big, clicable, highlightColor }: ADTCheckBoxProps) => {
+const ADTCheckBox = ({ checked, check, big, clicable, isRow }: ADTCheckBoxProps) => {
   const page = useSelector((state: ADTState) => state.ADTFilteringReducer.page);
   const selectedPages = useSelector((state: ADTState) => state.ADTSelectReducer.selectedPages);
+  const highlightColor = useSelector((state: ADTState) => state.ADTPropsReducer.tableStyle?.highlightColor);
+  const accentColor = useSelector((state: ADTState) => state.ADTPropsReducer.tableStyle?.accentColor);
 
   const isPageSelected = useMemo(() => {
     return selectedPages.includes(page);
@@ -20,7 +22,7 @@ const ADTCheckBox = ({ checked, check, big, clicable, highlightColor }: ADTCheck
     if (checked == true) {
       return <ADTCheckIcon big={big} />;
     }
-    if (typeof checked == "object" || isPageSelected) {
+    if (!isRow && (typeof checked == "object" || isPageSelected)) {
       return <ADTDoubleCheckIcon big={big} />;
     }
 
@@ -29,12 +31,15 @@ const ADTCheckBox = ({ checked, check, big, clicable, highlightColor }: ADTCheck
     }
   }, [checked, isPageSelected]);
 
+  console.log("ADTCheckBox", checked, isPageSelected);
+
   return (
     <ADTCheckBoxWrapper
+      accentColor={accentColor}
       clicable={clicable}
       big={big}
       highlightColor={highlightColor}
-      checkedState={isPageSelected || checked}
+      checkedState={checked || isPageSelected}
       onClick={check}
     >
       {Check}

@@ -9,6 +9,7 @@ export const CheckBoxWidth = "1rem";
 
 export const ADTCheckBoxWrapper = styled(motion.div)<{
   highlightColor: string;
+  accentColor: string;
   checkedState: checkStates | boolean;
   big?: boolean;
   clicable?: boolean;
@@ -33,18 +34,18 @@ export const ADTCheckBoxWrapper = styled(motion.div)<{
     }
   `}
 
-  ${({ checkedState, highlightColor }) => {
+  ${({ checkedState, highlightColor, accentColor }) => {
     if (checkedState === true || checkedState === CheckState.ALL) {
       return `
           box-shadow: 0px 0px 0.2rem 1px ${generateColorShades(highlightColor).darker};
           color: ${getContrastColor(highlightColor)};
           border-color: ${getContrastColor(highlightColor)};
         `;
-    } else if (typeof checkedState === "object") {
+    } else {
       return `
-          box-shadow: 0px 0px 0.2rem 1px ${ATHOSColors.grey.default};
-          color: ${ATHOSColors.grey.dark};
-          border-color: ${ATHOSColors.grey.dark};
+          box-shadow: 0px 0px 0.2rem 1px ${accentColor || ATHOSColors.grey.default};
+          color: ${accentColor || ATHOSColors.grey.dark};
+          border-color: ${accentColor || ATHOSColors.grey.dark};
         `;
     }
   }}

@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { useSelector } from "react-redux";
-import { ADTState } from "../../../../../../redux/store";
+import { ADTState } from "../../../../../redux/store";
 import { useMobileTouchHandler } from "./useMobileTouchHandler";
 import { usePrimaryColHandler } from "./usePrimaryColHandler";
 import { useTextColor } from "./useTextColor";

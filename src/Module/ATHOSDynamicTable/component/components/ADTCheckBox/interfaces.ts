@@ -5,5 +5,5 @@ export type ADTCheckBoxProps = {
   big?: boolean;
   clicable?: boolean;
   check: () => void;
-  highlightColor: string;
+  isRow?: boolean;
 };

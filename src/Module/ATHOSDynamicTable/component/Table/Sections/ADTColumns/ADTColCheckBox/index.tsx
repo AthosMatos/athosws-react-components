@@ -46,7 +46,7 @@ const ADTColCheckBox = () => {
       pRight
       //paddingHorizontal={paddingBetweenColumns}
     >
-      <ADTCheckBox highlightColor={tableStyle?.highlightColor!} checked={checkState} check={() => checkAllButtonClick()} />
+      <ADTCheckBox checked={checkState} check={() => checkAllButtonClick()} />
     </ADTColumnWrapper>
   );
 };

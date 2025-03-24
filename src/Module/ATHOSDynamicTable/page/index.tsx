@@ -107,16 +107,28 @@ const ATHOSDynamicTablePage = () => {
             minColWidthToShort: 150,
           },
         }} */
+        extraCellColumns={[
+          {
+            component: (data) => {
+              return <div className="text-black dark:text-white">{data.id}</div>;
+            },
+          },
+        ]}
         spacingBetweenCells={4}
         spacingBetweenColumns={10}
         tableStyle={{
+          selected: {
+            rowBorderColor: "rgb(151, 29, 104)",
+            rowColor: "rgb(212, 127, 180)",
+            rowTextColor: "rgb(136, 16, 92)",
+          },
           textColor: isDark ? "white" : "black",
-          accentColor: isDark ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.1)",
+          accentColor: isDark ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.884)",
           accentColor2: isDark ? "rgba(255, 255, 255, 0.05)" : "rgb(226, 226, 226)",
           cellTextColor: {
             global: isDark ? "white" : "black",
           },
-          highlightColor: isDark ? "rgb(68, 68, 68)" : "rgb(206, 206, 206)",
+          highlightColor: "rgb(37, 130, 184)",
           columnTextColor: {
             global: isDark ? "rgba(255, 255, 255, 0.7)" : "rgba(0, 0, 0, 0.7)",
           },
@@ -128,7 +140,7 @@ const ATHOSDynamicTablePage = () => {
             column: "txNumero",
             label: "N T",
             cellComponent: (data) => {
-              return <div className="bg-red-500">{data}</div>;
+              return <div className="bg-red-500 text-white">{data}</div>;
             },
           },
           {

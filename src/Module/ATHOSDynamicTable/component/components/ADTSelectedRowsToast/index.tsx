@@ -46,13 +46,7 @@ const ADTSelectedRowsToast = () => {
         }}
       >
         <ADTSRTFSWrapper>
-          <ADTCheckBox
-            highlightColor={tableStyle?.highlightColor!}
-            clicable={false}
-            big
-            checked={checkState == 0 ? true : checkState}
-            check={() => {}}
-          />
+          <ADTCheckBox clicable={false} big checked={checkState == 0 ? true : checkState} check={() => {}} />
           <ADTSRTLabel>{selectedRows.length} Items</ADTSRTLabel>
         </ADTSRTFSWrapper>
         <ADTBRDSimple w={1} h={20} />

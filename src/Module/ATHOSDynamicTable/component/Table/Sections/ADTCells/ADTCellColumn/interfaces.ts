@@ -4,7 +4,7 @@ export interface ADTCellColumnProps {
   index: number;
   isLastRow?: boolean;
   isLastCol?: boolean;
-
+  hasExtraCols?: boolean;
   isCheck?: boolean;
   col: any;
 }

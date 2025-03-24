@@ -1,13 +1,13 @@
 import { memo, useMemo } from "react";
 import { useSelector } from "react-redux";
-import { ATHOSTooltip } from "../../../../../../../ATHOSTooltip";
-import { ADTState } from "../../../../../redux/store";
-import { ADTCellColWrapper } from "../../../../../styled";
-import { getCellWrapperStyle, tdClassName } from "../../../consts";
+import { ATHOSTooltip } from "../../../../../../ATHOSTooltip";
+import { ADTState } from "../../../../redux/store";
+import { ADTCellColWrapper } from "../../../../styled";
+import { getCellWrapperStyle, tdClassName } from "../../consts";
 import useADTCellCol from "./hooks";
 import { ADTCellColumnProps } from "./interfaces";
 
-const ADTCellColumn = ({ row, rowIndex, index, isLastRow, isCheck, col, isLastCol }: ADTCellColumnProps) => {
+const ADTCellColumn = ({ row, rowIndex, hasExtraCols, index, isLastRow, isCheck, col, isLastCol }: ADTCellColumnProps) => {
   const persistPrimaryColumn = useSelector((state: ADTState) => state.ADTPropsReducer.persistPrimaryColumn);
 
   const extraColumns = useSelector((state: ADTState) => state.ADTPropsReducer.extraColumns);
@@ -39,6 +39,7 @@ const ADTCellColumn = ({ row, rowIndex, index, isLastRow, isCheck, col, isLastCo
     isCheck,
     extraCol,
   });
+  const selectedColor = useSelector((state: ADTState) => state.ADTPropsReducer.tableStyle?.selected);
   const cellWrapperProps = {
     id,
     className: `${tdClassName(index, persistPrimaryColumn)} ${isLastRow && !isCheck ? "rounded-ee-md" : ""}`,
@@ -51,14 +52,19 @@ const ADTCellColumn = ({ row, rowIndex, index, isLastRow, isCheck, col, isLastCo
         paddingHorizontal: index != 0 ? spacingBetweenColumns : undefined,
         vertPad: spacingBetweenCells,
       }),
-      borderBottomRightRadius: isLastCol && "6px",
-      borderTopRightRadius: isLastCol && "6px",
+      borderBottomRightRadius: isLastCol && !hasExtraCols && "6px",
+      borderTopRightRadius: isLastCol && !hasExtraCols && "6px",
       left: index === 0 ? "42px" : undefined,
     },
     animate: {
       ...persistStyle,
       ...(isCheck && {
-        boxShadow: `0 1px 0 #000 inset, 0 -1px 0 #000 inset ${isLastCol ? ", -1px 0 0 #000 inset" : ""}`,
+        boxShadow: `0 1px 0 ${selectedColor?.rowBorderColor || "#000"} inset, 0 -1px 0 ${selectedColor?.rowBorderColor || "#000"} inset ${
+          isLastCol && !hasExtraCols ? `, -1px 0 0 ${selectedColor?.rowBorderColor || "#000"} inset` : ""
+        }`,
+      }),
+      ...(isCheck && {
+        color: selectedColor?.rowTextColor || "inherit",
       }),
     },
   };
