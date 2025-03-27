@@ -1,3 +1,5 @@
+import { ReactNode } from "react";
+
 type TdefaultStyles = {
   style?: React.CSSProperties;
   className?: string;
@@ -83,12 +85,10 @@ export type TableStyle<T> = {
     rowColor?: string;
     rowTextColor?: string;
     rowBorderColor?: string;
+    rowSpacingColor?: string;
     selectedIconColor?: string;
   };
-  highlightColor?: string;
-  textColor?: string;
-  accentColor?: string;
-  accentColor2?: string;
+
   cellTextColor?: {
     global?: string;
     specific?: CellColumnTextTableStyle<T>;
@@ -125,6 +125,14 @@ type ResizableConfig = {
 };
 
 export type DynamicTableProps<T> = {
+  tableSelectedFuncs?: {
+    title?: string;
+    funcs?: {
+      label: ReactNode;
+      onClick: (selectedData: T[]) => void;
+    }[];
+  };
+  tableFilterName?: string;
   loading?: boolean | string;
   boldColumns?: boolean;
   wrapperClassName?: string;
@@ -148,10 +156,11 @@ export type DynamicTableProps<T> = {
   columnOrder?: (keyof T)[];
   noDataPlaceholder?: React.ReactNode;
   style?: React.CSSProperties;
-  spacingBetweenCells?: number;
-  spacingHeader?: number;
-  spacingBetweenColumns?: number;
-  spacingBetweenExtraColumns?: number;
+  spacingBetweenCells?: number | string;
+  paddingInCells?: number | string;
+  spacingHeader?: number | string;
+  spacingBetweenColumns?: number | string;
+  spacingBetweenExtraColumns?: number | string;
   selectedRowsTooltip?: SelectedRowsTooltipI<T>;
   extraCellColumns?: ExtraCellColumnsI<T>[];
   extraColumns?: ExtraColConfig<T>[];

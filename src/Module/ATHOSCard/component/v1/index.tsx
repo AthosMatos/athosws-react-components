@@ -16,7 +16,7 @@ export const ATHOSCards = ({ boards, setBoards, deleteMode }: ATHOSCardsProps) =
       return {
         ...board,
         id: board.id || v4(),
-        cards: board.cards.map((card, index) => {
+        cards: board.cards.map((card: any, index: number) => {
           return {
             ...card,
             id: card.id || v4(),
@@ -37,7 +37,7 @@ export const ATHOSCards = ({ boards, setBoards, deleteMode }: ATHOSCardsProps) =
           if (board.id === boardId) {
             return {
               ...board,
-              cards: board.cards.filter((c) => c.id !== id),
+              cards: board.cards?.filter((c) => c.id !== id),
             };
           }
           return board;

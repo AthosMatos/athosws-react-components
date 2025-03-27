@@ -13,7 +13,7 @@ interface ClickOutsideBaseProps {
 }
 
 interface ClickOutsideRefProps extends ClickOutsideBaseProps {
-  refs: RefObject<HTMLElement>[];
+  refs: RefObject<any>[];
 }
 
 interface ClickOutsideIdProps extends ClickOutsideBaseProps {
@@ -33,7 +33,7 @@ export const useClickOutside = (props: ClickOutsideProps) => {
     refs = props.ids.map((id) => {
       const ref = { current: document.getElementById(id) };
       return ref;
-    });
+    }) as any;
   }
 
   const handleClick = (e: MouseEvent) => {

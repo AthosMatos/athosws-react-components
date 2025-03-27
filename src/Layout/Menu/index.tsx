@@ -32,8 +32,8 @@ const Menu = () => {
         generalColors={{
           selected: {
             className: `text-black bg-gradient-to-r border
-            dark:from-pink-800 dark:to-indigo-400 dark:border-neutral-400 dark:text-white
-            from-pink-400 to-indigo-100 border-neutral-600
+            dark:from-pink-800 dark:to-indigo-400 dark:border-zinc-500 dark:text-white
+            from-pink-400 to-indigo-100 border-zinc-600
             `,
           },
           menu: {
@@ -42,12 +42,12 @@ const Menu = () => {
                 className: "text-black bg-transparent dark:text-white",
               },
               clicked: {
-                className: "bg-zinc-300 border border-neutral-500 dark:bg-zinc-800 text-black dark:text-white",
+                className: "bg-zinc-300 border border-zinc-500 dark:bg-zinc-800 text-black dark:text-white",
               },
             },
 
-            className: `bg-zinc-200 dark:bg-zinc-700 border-neutral-400 
-            bg-opacity-95 dark:bg-opacity-95 dark:border-neutral-500 border`,
+            className: `bg-zinc-200 dark:bg-zinc-700 border-zinc-400 
+            bg-opacity-95 dark:bg-opacity-95 dark:border-zinc-500 border`,
           },
         }}
       />

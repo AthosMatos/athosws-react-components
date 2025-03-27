@@ -1,8 +1,8 @@
 import { ATHOSColors } from "../../../colors/colors";
 
 interface IndicatorProps {
-  indicatorRef: React.RefObject<HTMLDivElement>;
-  indicatorWrapperRef: React.RefObject<HTMLDivElement>;
+  indicatorRef: any;
+  indicatorWrapperRef: any;
   indicatorPadding: number;
   setIsDown: React.Dispatch<React.SetStateAction<boolean>>;
 }

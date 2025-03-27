@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 interface ATHOSCollapseProps {
   children: React.ReactNode;
   collpasedComponent: React.ReactNode;
-  onOpen?: (isOpen: boolean) => void;
+  onToggle?: (isOpen: boolean) => void;
   position?: "top" | "bottom" | "left" | "right";
   spacing?: number;
   initialOpen?: boolean;
@@ -41,7 +41,7 @@ export const ATHOSCollapse = ({
   collpasedComponent,
   spacing,
   position = "bottom",
-  onOpen: onChanges,
+  onToggle: onChanges,
   initialOpen,
   collapsedClassName,
 }: ATHOSCollapseProps) => {

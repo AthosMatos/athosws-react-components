@@ -14,10 +14,10 @@ const LangSwitcher = () => {
     <ATHOSSwitcher
       selectedId={lang}
       className={{
-        container: "dark:bg-zinc-800 border-zinc-300 dark:border-zinc-600 border",
+        container: "dark:bg-zinc-800 border-zinc-300 dark:border-zinc-700 border",
         switches: {
           default: "text-black dark:text-white",
-          active: "bg-zinc-100 dark:bg-zinc-600 dark:text-white rounded-lg border border-zinc-300",
+          active: "bg-zinc-100 dark:bg-zinc-600 dark:text-white rounded-lg border dark:border-zinc-500 border-zinc-300",
         },
       }}
       onChange={(id: any) => setLang(id)}

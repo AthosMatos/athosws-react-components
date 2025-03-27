@@ -1,5 +1,6 @@
 import { ReactNode } from "react";
 import { CSSProperties } from "styled-components";
+import { PopUpPosition } from "../../hooks/private/usePopUp";
 
 export interface LabelI {
   label: ReactNode;
@@ -10,13 +11,13 @@ export interface LabelI {
 
 export interface ATHOSDropDownProps {
   children: React.ReactNode;
-  position?: "top-left" | "top-right" | "bottom-left" | "bottom-right" | "left" | "right" | "top" | "bottom";
-  labels: LabelI[];
+  position?: PopUpPosition;
+  labels?: LabelI[];
   style?: React.CSSProperties;
   className?: string;
-  labelsClassName?: string;
+  labelClassName?: string;
   labelsStyle?: React.CSSProperties;
   spacing?: number;
   matchChildrenWidth?: boolean;
-  onOpen?: (isOpen: boolean) => void;
+  onToggle?: (isOpen: boolean) => void;
 }

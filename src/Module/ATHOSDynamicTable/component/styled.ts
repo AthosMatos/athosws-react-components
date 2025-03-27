@@ -1,6 +1,5 @@
 import { motion } from "framer-motion";
 import styled from "styled-components";
-import { ATHOSColors } from "../../colors/colors";
 
 export const ADTColBorderWrapper = styled.div<{
   bold?: boolean;
@@ -10,26 +9,20 @@ export const ADTColBorderWrapper = styled.div<{
   justify-content: space-between;
   height: 100%;
   align-items: center;
-  ${(props) =>
-    props.bold &&
-    `
-    font-weight: 500;
-  `}
+  font-weight: ${(props) => (props.bold ? 500 : 400)};
 `;
 
 interface ADTColWrapperProps {
   checkBox?: boolean;
   pLeft?: boolean;
   pRight?: boolean;
-  paddingHorizontal?: number;
-  paddingBottom?: number;
   textColor?: string;
   height?: number;
   persistent?: boolean;
 }
 
 export const ADTColumnWrapper = styled.th<ADTColWrapperProps>`
-  color: ${(props) => props.textColor ?? ATHOSColors.grey.dark_05};
+  color: ${(props) => props.textColor};
   white-space: nowrap;
   user-select: none;
 
@@ -51,18 +44,7 @@ export const ADTColumnWrapper = styled.th<ADTColWrapperProps>`
     padding-right: 0.8rem;
   `}
 
-  ${(props) =>
-    props.paddingHorizontal &&
-    `
-    padding-left: ${props.paddingHorizontal}px;
-    padding-right: ${props.paddingHorizontal}px;
-  `}
-
-  ${(props) =>
-    props.paddingBottom &&
-    `
-    padding-bottom: ${props.paddingBottom}px;
-  `}
+ 
 
   ${(props) =>
     props.checkBox &&

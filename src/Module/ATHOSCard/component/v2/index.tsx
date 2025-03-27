@@ -1,4 +1,4 @@
-import type { Active, Over } from "@dnd-kit/core";
+import type { Active, DragEndEvent } from "@dnd-kit/core";
 import { DndContext, KeyboardSensor, MeasuringStrategy, PointerSensor, useSensor, useSensors } from "@dnd-kit/core";
 import { SortableContext, sortableKeyboardCoordinates } from "@dnd-kit/sortable";
 import React, { useMemo, useState } from "react";
@@ -61,7 +61,7 @@ export function ATHOSCards<T extends BaseItem>(props: React.HTMLAttributes<HTMLD
   const onDragStart = ({ active }: { active: Active }) => {
     setActive(active);
   };
-  const onDragEnd = ({ active, over }: { active: Active; over: Over }) => {
+  const onDragEnd = ({ active, over }: DragEndEvent) => {
     if (over && active.id !== over?.id) {
       const activeIndex = items.findIndex(({ id }) => id === active.id);
       const overIndex = items.findIndex(({ id }) => id === over.id);
@@ -87,7 +87,7 @@ export function ATHOSCards<T extends BaseItem>(props: React.HTMLAttributes<HTMLD
           ))}
         </div>
       </SortableContext>
-      <Overlay activeItem={activeItem} renderItem={render} />
+      <Overlay activeItem={activeItem as any} renderItem={render} />
     </DndContext>
   );
 }

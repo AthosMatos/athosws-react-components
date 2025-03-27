@@ -35,7 +35,7 @@ const ADTLoadingBar = ({
           repeatType: "reverse",
         }}
         style={{
-          backgroundColor: tableStyle?.highlightColor || "white",
+          backgroundColor: "white",
         }}
         className="w-0 h-full rounded-full absolute"
       />

@@ -1,41 +1,37 @@
 import { motion } from "framer-motion";
 import { FaCheck, FaCircle } from "react-icons/fa";
 import styled from "styled-components";
-import { ATHOSColors } from "../../../../colors/colors";
-import { generateColorShades, getContrastColor } from "../../../../utils/color-utils";
-import { CheckState, checkStates } from "../../redux/Select/interfaces";
+import { checkStates } from "../../redux/Select/interfaces";
 
 export const CheckBoxWidth = "1rem";
 
-export const ADTCheckBoxWrapper = styled(motion.div)<{
-  highlightColor: string;
-  accentColor: string;
+export const ADTCheckBoxWrapper = styled(motion.div).attrs({
+  className: `flex items-center justify-center 
+  w-4 h-4 rounded-md border
+  border-zinc-400 dark:border-zinc-500 select-none
+  cursor-pointer
+  `,
+})<{
   checkedState: checkStates | boolean;
   big?: boolean;
   clicable?: boolean;
-}>`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: ${({ big }) => (big ? "1.5rem" : CheckBoxWidth)};
-  height: ${({ big }) => (big ? "1.5rem" : CheckBoxWidth)};
-  border: 1px solid ${ATHOSColors.grey.light};
-  cursor: ${({ clicable }) => (clicable != false ? "pointer" : "default")};
-  border-radius: 0.4rem;
-  transition: all 0.14s;
+}>``;
 
-  user-select: none;
-
-  ${({ clicable }) =>
-    clicable != false &&
-    `
-    &:active {
-      transform: scale(0.9);
-    }
-  `}
-
-  ${({ checkedState, highlightColor, accentColor }) => {
+/* 
+ box-shadow: 0px 0px 0.2rem 1px ${ATHOSColors.white.eggshell};
+        color: ${ATHOSColors.white.eggshell};
+*/
+// border-color: ${ATHOSColors.white.eggshell} !important;
+/* ${({ checkedState, highlightColor, accentColor }) => {
+    return ``;
     if (checkedState === true || checkedState === CheckState.ALL) {
+      if (!highlightColor) {
+        return `
+          box-shadow: 0px 0px 0.2rem 1px ${ATHOSColors.grey.default};
+          color: ${ATHOSColors.grey.dark};
+          border-color: ${ATHOSColors.grey.dark};
+        `;
+      }
       return `
           box-shadow: 0px 0px 0.2rem 1px ${generateColorShades(highlightColor).darker};
           color: ${getContrastColor(highlightColor)};
@@ -48,9 +44,7 @@ export const ADTCheckBoxWrapper = styled(motion.div)<{
           border-color: ${accentColor || ATHOSColors.grey.dark};
         `;
     }
-  }}
-`;
-
+  }} */
 export const ADTCheckIcon = styled(FaCheck)<{ big?: boolean }>`
   font-size: ${({ big }) => (big ? "0.7rem" : "0.5rem")};
   color: inherit;

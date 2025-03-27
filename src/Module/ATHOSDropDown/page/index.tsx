@@ -45,11 +45,11 @@ const ATHOSDropDownPage = () => {
               },
             },
           ]}
-          onOpen={(isOpen) => {
+          onToggle={(isOpen) => {
             setIsOpened(isOpen);
           }}
           className="bg-zinc-800 border border-zinc-600 p-1"
-          labelsClassName="text-white p-2 rounded-md hover:bg-zinc-700 transition-all active:bg-zinc-600 active:scale-95"
+          labelClassName="text-white p-2 rounded-md hover:bg-zinc-700 transition-all active:bg-zinc-600 active:scale-95"
         >
           <div className="bg-zinc-500 p-2">{isOpened ? "Click to Open" : "Click to Close"}</div>
         </ATHOSDropDown>

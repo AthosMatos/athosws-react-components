@@ -27,7 +27,7 @@ const SortableItemContext = createContext<Context>({
   setIsDeleting() {},
 });
 
-function animateLayoutChanges(args) {
+function animateLayoutChanges(args: any) {
   const { isSorting, wasDragging } = args;
 
   if (isSorting || wasDragging) {

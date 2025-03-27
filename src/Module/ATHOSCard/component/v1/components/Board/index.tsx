@@ -3,7 +3,7 @@ import { Droppable } from "react-beautiful-dnd";
 import { BoardI } from "../../interface";
 import ATHOSCard from "../Card";
 
-const ATHOSCardBoard = (props: BoardI & { placeholderProps }) => {
+const ATHOSCardBoard = (props: BoardI & { placeholderProps: any }) => {
   const {
     id,
     cards = [],

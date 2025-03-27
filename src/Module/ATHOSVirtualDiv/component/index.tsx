@@ -27,15 +27,17 @@ export const ATHOSVirtualDiv = ({
     let left = rect.left;
     let bottom = rect.bottom;
     let right = rect.right;
-    const viewport = document.getElementById(viewportId);
-    if (viewport) {
-      innerHeight = viewport.clientHeight;
-      innerWidth = viewport.clientWidth;
-      const viewportRect = viewport.getBoundingClientRect();
-      top = rect.top - viewportRect.top;
-      left = rect.left - viewportRect.left;
-      bottom = rect.bottom - viewportRect.top;
-      right = rect.right - viewportRect.left;
+    if (viewportId) {
+      const viewport = document.getElementById(viewportId);
+      if (viewport) {
+        innerHeight = viewport.clientHeight;
+        innerWidth = viewport.clientWidth;
+        const viewportRect = viewport.getBoundingClientRect();
+        top = rect.top - viewportRect.top;
+        left = rect.left - viewportRect.left;
+        bottom = rect.bottom - viewportRect.top;
+        right = rect.right - viewportRect.left;
+      }
     }
 
     return top >= -offset && left >= -offset && bottom <= innerHeight + offset && right <= innerWidth;

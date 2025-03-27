@@ -10,8 +10,10 @@ type Group = {
 };
 
 const useLocalSave = ({ savename }: Props) => {
+  if (!savename) return { sizes: { Width: "100%", Height: "100%" }, saveSizes: () => {} };
   const localStorage = window.localStorage;
-  const sizes: Group = (savename && JSON.parse(localStorage.getItem(savename))) || {
+  const item = localStorage.getItem(savename);
+  const sizes: Group = (item && JSON.parse(item)) || {
     Width: "100%",
     Height: "100%",
   };

@@ -5,7 +5,7 @@ import { DeleteHandle } from "../component/v2/DeleteHandle";
 import { DragHandle } from "../component/v2/DragHandle";
 
 const ATHOSCardPage = () => {
-  const [fakeAsyncData, setFakeAsyncData] = useState(null);
+  const [fakeAsyncData, setFakeAsyncData] = useState<string | null>(null);
 
   useEffect(() => {
     async function fakedataget() {
@@ -17,7 +17,7 @@ const ATHOSCardPage = () => {
     }
 
     fakedataget().then((data) => {
-      setFakeAsyncData(data);
+      setFakeAsyncData(data as string);
     });
   }, []);
   const [items, setItems] = useState([

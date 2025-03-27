@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 
 export interface ATHOSCardProps extends CreateATHOSCardProps {
   id: string;
-  index?: number;
+  index: number;
   removeSelf: () => void;
   setIsDeleting: React.Dispatch<React.SetStateAction<boolean>>;
   isDeleting: boolean;

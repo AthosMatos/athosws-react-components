@@ -1,13 +1,17 @@
+import { PopUpPosition } from "../../hooks/private/usePopUp";
+
 export interface ATHOSPopUpProps {
   children: React.ReactNode;
-  forceOpen?: boolean;
-  onClose?: () => void;
-  position?: "top-left" | "top-right" | "bottom-left" | "bottom-right" | "left" | "right" | "top-center" | "bottom-center";
+
+  onToggle?: (isOpen: boolean) => void;
+  position?: PopUpPosition;
+  style?: React.CSSProperties;
   contentStyle?: React.CSSProperties;
   contentClassName?: string;
-  style?: React.CSSProperties;
   className?: string;
   content: React.ReactNode;
+  spacing?: number;
+  matchChildrenWidth?: boolean;
 }
 
 export type APUContainerProps = {

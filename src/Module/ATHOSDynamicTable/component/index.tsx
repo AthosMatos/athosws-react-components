@@ -9,14 +9,14 @@ import { ADTTableWrapper } from "./styled";
 import { configureStore } from "@reduxjs/toolkit";
 import { useEffect, useMemo } from "react";
 import useSelectors_ADTSelectedRowsToast from "./components/ADTSelectedRowsToast/useSelectors";
-import { useATHOSDynamicTableContext } from "./context";
+import { useATHOSDynamicTableContextPrivate } from "./context";
 import ADTCustomStatesReducer from "./redux/CustomStates/provider";
 import ADTFilteringReducer from "./redux/Filtering/provider";
 import ADTPropsReducer from "./redux/props/provider";
 import ADTSelectReducer from "./redux/Select/provider";
 import Table from "./Table";
-import ADTHeader from "./Table/Sections/ADTHeader";
-import ADTNav from "./Table/Sections/ADTNav";
+import ADTHeader from "./Table/ADTHeader";
+import ADTNav from "./Table/ADTNav";
 
 /**
  *
@@ -28,11 +28,11 @@ const Comp = ({ props, stly }: { stly?: boolean; props: DynamicTableProps<any> }
   ADTStatesController({ props });
   const { selectedRows, data, tableName } = useSelectors_ADTSelectedRowsToast();
 
-  const tableContext = useATHOSDynamicTableContext();
+  const tableContext = useATHOSDynamicTableContextPrivate();
   if (tableContext) {
     useEffect(() => {
       //console.log("selectedRows", selectedRows);
-      tableContext.setSelectedData({ ...tableContext.selectedData, [tableName]: selectedRows?.map((row) => data[row]) });
+      tableContext.setSelectedData({ ...tableContext.selectedData, [tableName]: selectedRows?.map((row: any) => data[row]) });
     }, [selectedRows]);
   }
 

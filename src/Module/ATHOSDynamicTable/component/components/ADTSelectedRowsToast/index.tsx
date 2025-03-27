@@ -3,7 +3,6 @@ import { IoClose, IoMenu } from "react-icons/io5";
 import { useSelector } from "react-redux";
 import { ATHOSDropDown } from "../../../../ATHOSDropDown/component";
 import { ATHOSToast } from "../../../../ATHOSToast";
-import { forceOpacity } from "../../../../utils/color-utils";
 import { useADTSelect } from "../../redux/Select/hook";
 import { ADTState } from "../../redux/store";
 import ADTCheckBox from "../ADTCheckBox";
@@ -40,8 +39,8 @@ const ADTSelectedRowsToast = () => {
       <ADTATWrapper
         className={containerColor?.className}
         style={{
-          color: tableStyle?.textColor,
-          backgroundColor: tableStyle?.accentColor2 || containerColor?.className || containerColor?.style ? undefined : "#f3f3f3",
+          // color: tableStyle?.textColor,
+          backgroundColor: "#f3f3f3",
           ...containerColor?.style,
         }}
       >
@@ -61,7 +60,7 @@ const ADTSelectedRowsToast = () => {
                   selectedRowsTooltip.mainFunc!.onClick(data.filter((row) => selectedRows.includes(row.uniqueId)));
                   onDismiss();
                 }}
-                highlightColor={tableStyle?.highlightColor!}
+                //highlightColor={tableStyle?.highlightColor!}
               >
                 {selectedRowsTooltip.mainFunc.icon ?? selectedRowsTooltip.mainFunc.label}
               </ADTSRTMainFunc>
@@ -69,7 +68,7 @@ const ADTSelectedRowsToast = () => {
             {selectedRowsTooltip?.secondaryFunc && (
               <ADTSRTIconWrapper
                 pad={8}
-                backColor={tableStyle?.textColor || "#f3f3f3"}
+                backColor={"#f3f3f3"}
                 onClick={() => {
                   onDismiss();
                   selectedRowsTooltip.secondaryFunc!.onClick(data.filter((row) => selectedRows.includes(row.uniqueId)));
@@ -92,13 +91,13 @@ const ADTSelectedRowsToast = () => {
                 })}
                 position="top-left"
                 style={{
-                  backgroundColor: tableStyle?.accentColor || "#f3f3f3",
+                  /* backgroundColor: tableStyle?.accentColor || "#f3f3f3",
                   color: tableStyle?.textColor,
-                  borderColor: forceOpacity(tableStyle?.textColor || "#f3f3f3", 0.3),
+                  borderColor: forceOpacity(tableStyle?.textColor || "#f3f3f3", 0.3), */
                   borderWidth: 1,
                 }}
               >
-                <ADTSRTIconWrapper pad={8} backColor={tableStyle?.accentColor || "#f3f3f3"}>
+                <ADTSRTIconWrapper pad={8} backColor={"#f3f3f3"}>
                   <IoMenu />
                 </ADTSRTIconWrapper>
               </ATHOSDropDown>

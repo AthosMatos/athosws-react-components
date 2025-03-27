@@ -59,6 +59,7 @@ const useResizableDiv = (localSaveName?: string) => {
 
   useEffect(() => {
     const resize = (e: MouseEvent) => {
+      if (!resizableRef.current) return;
       const currWidth = e.pageX - resizableRef.current.offsetLeft;
       const currHeight = e.pageY - resizableRef.current.offsetTop;
       const cursorSize = 8;
@@ -78,6 +79,7 @@ const useResizableDiv = (localSaveName?: string) => {
     };
 
     const onMouseUp = () => {
+      if (!resizableRef.current) return;
       setIsDown(false);
       saveSizes(resizableRef.current.style.width, resizableRef.current.style.height);
     };

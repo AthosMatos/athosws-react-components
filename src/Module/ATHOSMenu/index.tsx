@@ -103,7 +103,7 @@ const AM = (props: ATHOSMenuProps) => {
   }
 
   const selectedHeight = useMemo(() => {
-    return ARef.current?.clientHeight + 10;
+    return (ARef.current?.clientHeight || 0) + 10;
   }, [ARef.current]);
 
   return (

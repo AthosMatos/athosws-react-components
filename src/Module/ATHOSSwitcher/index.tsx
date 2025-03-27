@@ -12,7 +12,7 @@ const AS: React.FC<ATHOSSwitcherProps> = (props: ATHOSSwitcherProps) => {
   const { switchs, style, className } = props;
   const dispatch = useDispatch();
 
-  const { selected: selectedi } = useSelector((state: ASState) => state.ASSelectedPropsReducer);
+  const selectedi = useSelector((state: ASState) => state.ASSelectedPropsReducer.selected);
 
   const switchDims = useRef<{ width: number; height: number }[]>([]);
   const floatingRef = useRef<HTMLDivElement>(null);
@@ -96,7 +96,7 @@ const AS: React.FC<ATHOSSwitcherProps> = (props: ATHOSSwitcherProps) => {
   }, [selectedi, floatingRef.current]);
 
   return (
-    <div style={style?.container} className={`${className?.container} relative flex gap-2 bg-zinc-200 p-[0.2rem]`}>
+    <div style={style?.container} className={`${className?.container} relative flex gap-2 bg-zinc-200 p-[0.2rem] rounded-xl`}>
       <Floating aRef={floatingRef} dftClassName={className?.switches} dftStyle={style?.switches} />
       {switchs.map((sw, i) => (
         <Switch index={i} dftClassName={className?.switches} dftStyle={style?.switches} key={i} {...sw} />

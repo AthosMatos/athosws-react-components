@@ -8,8 +8,7 @@ import { ADTCheckBoxWrapper, ADTCheckIcon, ADTDoubleCheckIcon } from "./styled";
 const ADTCheckBox = ({ checked, check, big, clicable, isRow }: ADTCheckBoxProps) => {
   const page = useSelector((state: ADTState) => state.ADTFilteringReducer.page);
   const selectedPages = useSelector((state: ADTState) => state.ADTSelectReducer.selectedPages);
-  const highlightColor = useSelector((state: ADTState) => state.ADTPropsReducer.tableStyle?.highlightColor);
-  const accentColor = useSelector((state: ADTState) => state.ADTPropsReducer.tableStyle?.accentColor);
+  const checkIconColor = useSelector((state: ADTState) => state.ADTPropsReducer.tableStyle?.selected?.selectedIconColor);
 
   const isPageSelected = useMemo(() => {
     return selectedPages.includes(page);
@@ -30,15 +29,16 @@ const ADTCheckBox = ({ checked, check, big, clicable, isRow }: ADTCheckBoxProps)
       return null;
     }
   }, [checked, isPageSelected]);
-
-  console.log("ADTCheckBox", checked, isPageSelected);
-
+  const isCheck = (checked || isPageSelected) === true || checked === CheckState.ALL;
   return (
     <ADTCheckBoxWrapper
-      accentColor={accentColor}
+      style={{
+        borderColor: isCheck ? checkIconColor : undefined,
+        color: isCheck ? checkIconColor : undefined,
+        boxShadow: isCheck ? `0px 0px 0.2rem 1px ${checkIconColor}` : undefined,
+      }}
       clicable={clicable}
       big={big}
-      highlightColor={highlightColor}
       checkedState={checked || isPageSelected}
       onClick={check}
     >

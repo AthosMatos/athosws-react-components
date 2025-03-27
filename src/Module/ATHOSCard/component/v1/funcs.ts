@@ -23,6 +23,7 @@ export const onEnd = (
   if (res.source.droppableId === res.destination.droppableId) {
     const preItems = boards.find((board) => board.id === res.source.droppableId)?.cards;
     //console.log(preItems);
+    if (!preItems) return;
     const newItems = reorder(preItems, res.source.index, res.destination.index).map((card, cardIndex) => {
       return {
         ...card,

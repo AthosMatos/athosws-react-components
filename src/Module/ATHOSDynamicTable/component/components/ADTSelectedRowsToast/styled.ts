@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { ATHOSColors } from "../../../../colors/colors";
-import { generateColorShades, getContrastColor } from "../../../../utils/color-utils";
+import { generateColorShades } from "../../../../utils/color-utils";
 
 export const ADTBRDSimple = styled.div<{ w: number; h: number }>`
   width: ${(props) => props.w}px;
@@ -52,7 +52,7 @@ export const ADTSRTIconWrapper = styled.div<{ backColor: string; pad: number }>`
   border-radius: 6px;
   cursor: pointer;
   background-color: ${(props) => props.backColor};
-  /* outline: 1px solid ${(props) => generateColorShades(props.backColor).dark}; */
+
   user-select: none;
   box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.2);
   transition: all 0.14s;
@@ -64,14 +64,14 @@ export const ADTSRTIconWrapper = styled.div<{ backColor: string; pad: number }>`
     background-color: ${(props) => generateColorShades(props.backColor).dark};
   }
 `;
-
-export const ADTSRTMainFunc = styled.div<{ highlightColor: string }>`
-  background-color: ${(props) => props.highlightColor};
+//color: ${(props) => getContrastColor(props.highlightColor)};
+export const ADTSRTMainFunc = styled.div<{ highlightColor?: string }>`
+  /* background-color: ${(props) => props.highlightColor}; */
   padding: 8px 18px;
   font-size: 1rem;
   border-radius: 6px;
   font-weight: 500;
-  color: ${(props) => getContrastColor(props.highlightColor)};
+
   cursor: pointer;
   display: flex;
   transition: all 0.14s;
@@ -79,17 +79,15 @@ export const ADTSRTMainFunc = styled.div<{ highlightColor: string }>`
   &:active {
     transform: scale(0.92);
   }
-
-  &:hover {
-    ${(props) => {
-      const bColor = generateColorShades(props.highlightColor).dark;
-      const color = getContrastColor(bColor);
-
-      return `background-color: ${bColor}; color: ${color};`;
-    }};
-  }
 `;
+/* &:hover {
+    ${(props) => {
+    const bColor = generateColorShades(props.highlightColor).dark;
+    const color = getContrastColor(bColor);
 
+    return `background-color: ${bColor}; color: ${color};`;
+  }};
+  } */
 export const ADTSRTLabel = styled.label`
   font-size: 1rem;
 `;

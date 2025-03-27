@@ -74,8 +74,9 @@ export function ADTStatesController<T>({ props }: { props: DynamicTableProps<T> 
       extraColumns: xtraCols,
       tableStyle: {
         ...tableStyle,
-        highlightColor: tableStyle?.highlightColor ?? "#bcdfff",
+        //highlightColor: tableStyle?.highlightColor ?? "#bcdfff",
       },
+      columns,
     };
     dispatch(fillADTProps(pr));
   }, [props]);
