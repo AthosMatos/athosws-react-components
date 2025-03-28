@@ -14,7 +14,7 @@ const ADTHeader = () => {
     <div className="flex mb-4 justify-between gap-2">
       <ADTInfo />
       {dataLen > 0 && !loading && (
-        <div className="flex gap-1 text-zinc-400 select-none flex-1 justify-end">
+        <div className="flex flex-wrap gap-1 text-zinc-400 select-none flex-1 justify-end">
           <ADTSelectedFuncs />
           <ADTColumnsFilter />
           <ADTSearch />
