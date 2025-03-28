@@ -5,7 +5,7 @@ import { generateColorShades } from "../../../../utils/color-utils";
 export const ADTBRDSimple = styled.div<{ w: number; h: number }>`
   width: ${(props) => props.w}px;
   height: ${(props) => props.h}px;
-  background-color: ${ATHOSColors.grey.light};
+  background-color: ${ATHOSColors.gray.light};
 `;
 
 /* 

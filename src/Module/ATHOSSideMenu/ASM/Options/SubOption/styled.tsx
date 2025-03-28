@@ -51,7 +51,7 @@ export const ASMSubOptionWrapper = (props: ASMSubOptionWrapperProps) => {
         backcolor = colorConfig?.hover?.clicked?.hasSelectedChildren?.backColor || dftColor;
         textcolor = colorConfig?.hover?.clicked?.hasSelectedChildren?.textColor || getContrastColor(dftColor);
       } else if (hasChildren) {
-        const dftColor = colors.accent ? generateColorShades(colors.accent).darker : ATHOSColors.grey.dark;
+        const dftColor = colors.accent ? generateColorShades(colors.accent).darker : ATHOSColors.gray.dark;
         backcolor = colorConfig?.hover?.clicked?.hasChildren?.backColor || dftColor;
         textcolor = colorConfig?.hover?.clicked?.hasChildren?.textColor || getContrastColor(dftColor);
       } else {
@@ -60,7 +60,7 @@ export const ASMSubOptionWrapper = (props: ASMSubOptionWrapperProps) => {
         textcolor = colorConfig?.hover?.clicked?.textColor || getContrastColor(dftColor);
       }
     } else {
-      const dftColor = colors.accent ? generateColorShades(colors.accent).default : ATHOSColors.grey.light;
+      const dftColor = colors.accent ? generateColorShades(colors.accent).default : ATHOSColors.gray.light;
       backcolor = colorConfig?.hover?.backColor || dftColor;
       textcolor = colorConfig?.hover?.textColor || getContrastColor(dftColor);
     }
@@ -78,7 +78,7 @@ export const ASMSubOptionWrapper = (props: ASMSubOptionWrapperProps) => {
           backcolor = colorConfig?.clicked?.hasSelectedChildren?.backColor || dftColor;
           textcolor = colorConfig?.clicked?.hasSelectedChildren?.textColor || getContrastColor(dftColor);
         } else {
-          const dftColor = colors.accent ? generateColorShades(colors.accent).light : ATHOSColors.grey.light;
+          const dftColor = colors.accent ? generateColorShades(colors.accent).light : ATHOSColors.gray.light;
           backcolor = colorConfig?.clicked?.hasChildren?.backColor || dftColor;
           textcolor = colorConfig?.clicked?.hasChildren?.textColor || getContrastColor(dftColor);
         }

@@ -21,6 +21,26 @@ module.exports = {
           "--tw-shadow-colored": "0px 0px 0.2rem 1px var(--tw-shadow-color), 0px 0px 0.2rem 1px var(--tw-shadow-color)",
           "box-shadow": "var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)",
         },
+        ".text-coal": {
+          "--tw-text-opacity": 1,
+          color: "rgb(36 36 36 / var(--tw-text-opacity, 1))",
+        },
+        ".text-coal-light": {
+          "--tw-text-opacity": 1,
+          color: "rgb(142 142 142 / var(--tw-text-opacity, 1))",
+        },
+        ".text-snow": {
+          "--tw-text-opacity": 1,
+          color: "rgb(249 249 249 / var(--tw-text-opacity, 1))",
+        },
+        "bg-snow": {
+          "--tw-bg-opacity": 1,
+          backgroundColor: "rgb(249 249 249 / var(--tw-bg-opacity, 1))",
+        },
+        ".bg-coal": {
+          "--tw-bg-opacity": 1,
+          backgroundColor: "rgb(36 36 36 / var(--tw-bg-opacity, 1))",
+        },
         /*  ".scrollbar::-webkit-scrollbar": {
           height: "2px",
           width: "2px",

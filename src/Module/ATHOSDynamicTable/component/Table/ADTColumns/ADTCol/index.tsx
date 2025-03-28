@@ -1,4 +1,4 @@
-import { ReactNode, useMemo } from "react";
+import { ReactNode, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ATHOSColors } from "../../../../../colors/colors";
 import { setColShort } from "../../../redux/CustomStates/provider";
@@ -80,15 +80,18 @@ const ADTCol = ({ column, index }: { column: string; index: number }) => {
     dispatch(setColShort({ column, short }));
   };
 
+  const [isMouseOver, setIsMouseOver] = useState(false);
+
   return (
     <ADTColumnWrapper
+      onMouseOver={() => setIsMouseOver(true)}
+      onMouseLeave={() => setIsMouseOver(false)}
       persistent={!!persistPrimaryColumn && index === 0}
       className={`
       ${tdClassName(index, persistPrimaryColumn)}
        rounded-se-md`}
       style={{
         ...persistStyle,
-        //left: index === 0 ? "42px" : undefined,
         paddingBottom: paddingHeader,
         paddingLeft: index > 0 ? spacingBetweenColumns : undefined,
         paddingRight: index > 0 ? spacingBetweenColumns : undefined,
@@ -102,7 +105,7 @@ const ADTCol = ({ column, index }: { column: string; index: number }) => {
 
           <ColOrderFilter column={column} />
         </div>
-        <ADTBorder minColWidthToShort={minColWidthToShort} colID={id} setcolshort={setcolshort} />
+        <ADTBorder showBorder={isMouseOver} minColWidthToShort={minColWidthToShort} colID={id} setcolshort={setcolshort} />
       </ADTColBorderWrapper>
     </ADTColumnWrapper>
   );

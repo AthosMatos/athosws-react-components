@@ -13,7 +13,7 @@ const ColOrderFilter = ({ column }: { column: string }) => {
     isSorting && (
       <FaCaretDown
         size={12}
-        className={`text-gray-400 transition-transform duration-300 ease-in-out
+        className={`text-zinc-400 transition-transform duration-300 ease-in-out
    ${!isAsc ? "transform rotate-180" : ""}
      `}
         color={isSorting ? "red" : undefined}

@@ -27,9 +27,9 @@ export const ADTCheckBoxWrapper = styled(motion.div).attrs({
     if (checkedState === true || checkedState === CheckState.ALL) {
       if (!highlightColor) {
         return `
-          box-shadow: 0px 0px 0.2rem 1px ${ATHOSColors.grey.default};
-          color: ${ATHOSColors.grey.dark};
-          border-color: ${ATHOSColors.grey.dark};
+          box-shadow: 0px 0px 0.2rem 1px ${ATHOSColors.zinc.default};
+          color: ${ATHOSColors.zinc.dark};
+          border-color: ${ATHOSColors.zinc.dark};
         `;
       }
       return `
@@ -39,9 +39,9 @@ export const ADTCheckBoxWrapper = styled(motion.div).attrs({
         `;
     } else {
       return `
-          box-shadow: 0px 0px 0.2rem 1px ${accentColor || ATHOSColors.grey.default};
-          color: ${accentColor || ATHOSColors.grey.dark};
-          border-color: ${accentColor || ATHOSColors.grey.dark};
+          box-shadow: 0px 0px 0.2rem 1px ${accentColor || ATHOSColors.zinc.default};
+          color: ${accentColor || ATHOSColors.zinc.dark};
+          border-color: ${accentColor || ATHOSColors.zinc.dark};
         `;
     }
   }} */

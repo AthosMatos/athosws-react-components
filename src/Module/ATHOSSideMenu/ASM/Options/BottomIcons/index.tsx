@@ -18,7 +18,7 @@ const BottomIcons = () => {
       {editable && !hideMenu && <ASMEditOption Icon={editable.Icon ?? BiSolidPencil} label={editable.label ?? ""} />}
       {collapsable && (
         <ASMHideOption
-          Icon={collapsable.Icon ?? <ASMArrowLeft clicked={hideMenu} activeColor={ATHOSColors.grey.default} />}
+          Icon={collapsable.Icon ?? <ASMArrowLeft clicked={hideMenu} activeColor={ATHOSColors.gray.default} />}
           label={collapsable.label ?? ""}
         />
       )}

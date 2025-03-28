@@ -53,7 +53,7 @@ export const RDDot = styled.div`
 export const RDResizeIcon = styled(TbResize)<{ toogle: boolean }>`
   width: 20px;
   height: 20px;
-  color: ${ATHOSColors.grey.default};
+  color: ${ATHOSColors.gray.default};
   cursor: pointer;
   opacity: 0.5;
 

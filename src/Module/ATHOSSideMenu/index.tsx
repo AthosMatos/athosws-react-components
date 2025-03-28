@@ -13,7 +13,7 @@ import { ASMContainer, ASMExtraContainer, ASMOverlayWrapper } from "./styled";
 
 export function ATHOSSideMenu(props: ATHOSSideMenuProps) {
   const Comp = (
-    <ASMExtraContainer accentColor={props.colors.sideBorder ?? ATHOSColors.grey.default}>
+    <ASMExtraContainer accentColor={props.colors.sideBorder ?? ATHOSColors.gray.default}>
       <ASM />
     </ASMExtraContainer>
   );

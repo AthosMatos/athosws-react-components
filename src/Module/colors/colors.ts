@@ -5,7 +5,7 @@ export const ATHOSColors = {
     dark: "#15827C",
     darker: "#0F4D4A",
   },
-  grey: {
+  gray: {
     darker_2: "#333333",
     darker: "#4D4D4D",
     dark: "#888888",

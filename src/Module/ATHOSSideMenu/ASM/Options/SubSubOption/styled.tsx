@@ -53,7 +53,7 @@ export const ASMSubSubOptionWrapper = (props: ASMSubOptionWrapperProps) => {
       setBackColor(colorConfig?.hover?.clicked?.backColor || dftColor);
       setTextColor(colorConfig?.hover?.clicked?.textColor || getContrastColor(dftColor));
     } else {
-      const dftColor = colors.accent ?? ATHOSColors.grey.light;
+      const dftColor = colors.accent ?? ATHOSColors.gray.light;
       setBackColor(colorConfig?.hover?.backColor || dftColor);
       setTextColor(colorConfig?.hover?.textColor || getContrastColor(dftColor));
     }

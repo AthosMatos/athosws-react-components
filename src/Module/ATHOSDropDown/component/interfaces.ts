@@ -8,11 +8,9 @@ export interface LabelI {
   className?: string;
   style?: CSSProperties;
 }
-
-export interface ATHOSDropDownProps {
+interface ATHOSDropDownBaseProps {
   children: React.ReactNode;
   position?: PopUpPosition;
-  labels?: LabelI[];
   style?: React.CSSProperties;
   className?: string;
   labelClassName?: string;
@@ -21,3 +19,13 @@ export interface ATHOSDropDownProps {
   matchChildrenWidth?: boolean;
   onToggle?: (isOpen: boolean) => void;
 }
+export interface ATHOSDropDownPropsList extends ATHOSDropDownBaseProps {
+  labels: LabelI[];
+}
+
+export interface ATHOSDropDownPropsCols extends ATHOSDropDownBaseProps {
+  cols: LabelI[][];
+  colClassName?: string;
+  colStyle?: CSSProperties;
+}
+export type ATHOSDropDownProps = ATHOSDropDownPropsList | ATHOSDropDownPropsCols;

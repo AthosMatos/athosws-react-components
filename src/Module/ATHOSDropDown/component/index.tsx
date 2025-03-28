@@ -1,5 +1,5 @@
 import { usePopUp } from "../../hooks/private/usePopUp";
-import { ATHOSDropDownProps, LabelI } from "./interfaces";
+import { ATHOSDropDownProps, ATHOSDropDownPropsCols, ATHOSDropDownPropsList, LabelI } from "./interfaces";
 /**
  *
  */
@@ -31,18 +31,19 @@ const ListItem = ({
   );
 };
 
-const ATHOSDropDown = ({
-  children,
-  labelsStyle,
-  position = "top-left",
-  spacing = 6,
-  labels,
-  style,
-  className,
-  labelClassName: labelsClassName,
-  matchChildrenWidth,
-  onToggle,
-}: ATHOSDropDownProps) => {
+const ATHOSDropDown = (props: ATHOSDropDownProps) => {
+  const {
+    children,
+    className,
+    labelsStyle,
+    position = "bottom-left",
+    style,
+    spacing,
+    matchChildrenWidth = false,
+    onToggle,
+    labelClassName,
+  } = props;
+
   const { childRef, gap, id, pos, contentRef, setIsOpened } = usePopUp({
     onToggle,
     matchChildrenWidth,
@@ -50,6 +51,15 @@ const ATHOSDropDown = ({
     spacing,
   });
 
+  // Type guard function to check if we have labels
+  const hasLabels = (props: ATHOSDropDownProps): props is ATHOSDropDownPropsList => {
+    return "labels" in props && Array.isArray(props.labels);
+  };
+
+  // Type guard function to check if we have cols
+  const hasCols = (props: ATHOSDropDownProps): props is ATHOSDropDownPropsCols => {
+    return "cols" in props && Array.isArray(props.cols);
+  };
   return (
     <div className={`${pos}`}>
       <button
@@ -67,9 +77,19 @@ const ATHOSDropDown = ({
         id={id}
         style={{ ...style, ...gap, positionAnchor: `--anchor-${id}` } as any}
       >
-        {labels?.map((option, index) => (
-          <ListItem style={labelsStyle} className={labelsClassName} key={index} onClick={option.onClick} option={option} />
-        ))}
+        {hasLabels(props)
+          ? props.labels?.map((option, index) => (
+              <ListItem style={labelsStyle} className={labelClassName} key={index} onClick={option.onClick} option={option} />
+            ))
+          : hasCols(props)
+          ? props.cols?.map((colGroup, index) => (
+              <div key={index} className={`flex ${props.colClassName}`} style={props.colStyle}>
+                {colGroup.map((option, index) => (
+                  <ListItem style={labelsStyle} className={labelClassName} key={index} onClick={option.onClick} option={option} />
+                ))}
+              </div>
+            ))
+          : null}
       </ul>
     </div>
   );

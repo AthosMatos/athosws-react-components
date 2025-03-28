@@ -40,7 +40,7 @@ const Comp = ({ props, stly }: { stly?: boolean; props: DynamicTableProps<any> }
     <ADTTableWrapper
       resizable={!!props.resizeable}
       style={stly ? props.style : undefined}
-      className={`${props.wrapperClassName} flex flex-col rounded-md w-full border border-gray-300 m-0`}
+      className={`${props.wrapperClassName} flex flex-col rounded-md w-full border border-zinc-300 m-0`}
     >
       <ADTHeader />
       <Table />

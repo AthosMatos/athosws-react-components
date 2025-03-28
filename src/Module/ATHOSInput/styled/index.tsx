@@ -27,10 +27,10 @@ export const AIInputWrapper = styled.div<InputProps>`
   align-items: center;
   cursor: text;
   gap: 0.6rem;
-  outline: 1px solid ${ATHOSColors.grey.light};
+  outline: 1px solid ${ATHOSColors.gray.light};
   border-radius: 0.3rem;
   padding: 0.8rem 1rem;
-  background-color: ${ATHOSColors.grey.lighter};
+  background-color: ${ATHOSColors.gray.lighter};
   transition: all 0.14s;
 
   ${({ focused }) => focused && `outline: 1px solid ${ATHOSColors.aqua.default};`}
@@ -113,7 +113,7 @@ export const AIWrapper = styled.div`
 
 export const AIInputLabel = styled.label`
   font-size: 1rem;
-  color: ${ATHOSColors.grey.dark};
+  color: ${ATHOSColors.gray.dark};
 `;
 export const AIErrorLabel = styled.label`
   font-size: 1rem;

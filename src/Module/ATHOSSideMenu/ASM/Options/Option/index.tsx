@@ -24,9 +24,9 @@ const ASMOption = ({ option, children, index }: ASMOptionProps) => {
   const hasSelectedChildren = option.subOptions?.some((sub) => sub.subSubOptions?.some((subsub) => subsub.selected));
   const backColor = background
     ? getContrastColor(background) == "black"
-      ? ATHOSColors.grey.light
-      : ATHOSColors.grey.darker
-    : ATHOSColors.grey.default;
+      ? ATHOSColors.gray.light
+      : ATHOSColors.gray.darker
+    : ATHOSColors.gray.default;
 
   const labelAnimProps = {
     initial: {

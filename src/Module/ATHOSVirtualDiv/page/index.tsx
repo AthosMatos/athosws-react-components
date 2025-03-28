@@ -17,7 +17,7 @@ const CachedImg = ({ src, index }: { src: string; index?: number }) => {
       {loaded ? (
         <img className="w-full h-full object-cover" src={cachedImg.src} />
       ) : (
-        <div className="w-full h-full bg-gray-300 animate-pulse" />
+        <div className="w-full h-full bg-zinc-300 animate-pulse" />
       )}
     </ATHOSVirtualDiv>
   );

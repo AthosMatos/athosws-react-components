@@ -35,7 +35,7 @@ const ATHOSCard = (props: ATHOSCardProps) => {
         >
           <div className="flex relative p-2 justify-center">
             <div {...provided.dragHandleProps} className="w-2/3">
-              <GripIcon className="w-full fill-gray-300" />
+              <GripIcon className="w-full fill-zinc-300" />
             </div>
             <FaTrash
               onClick={() => {

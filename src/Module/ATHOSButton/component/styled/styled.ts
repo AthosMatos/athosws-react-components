@@ -12,7 +12,7 @@ interface ButtonsProps {
 
 export const ATHOSButton_default = styled.div<ButtonsProps>`
   background-color: ${(props) => props.color || "white"};
-  outline: 0.1rem solid ${(props) => (props.color ? generateColorShades(props.color).darker : ATHOSColors.grey.default)};
+  outline: 0.1rem solid ${(props) => (props.color ? generateColorShades(props.color).darker : ATHOSColors.gray.default)};
   color: ${(props) => props.textColor || getContrastColor(props.color || "white")};
 
   ${ATHOSButton_dftprops}
@@ -59,9 +59,9 @@ export const ATHOSButton_action = styled.div<ButtonsProps>`
 `;
 
 export const ATHOSButton_disabled = styled.div<ButtonsProps>`
-  background-color: ${(props) => props.color || ATHOSColors.grey.default};
+  background-color: ${(props) => props.color || ATHOSColors.gray.default};
   outline: none;
-  color: ${(props) => props.textColor || getContrastColor(props.color || ATHOSColors.grey.default)};
+  color: ${(props) => props.textColor || getContrastColor(props.color || ATHOSColors.gray.default)};
 
   ${ATHOSButton_dftprops}
   ${(props) =>
