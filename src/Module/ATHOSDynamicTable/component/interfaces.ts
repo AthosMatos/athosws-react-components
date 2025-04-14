@@ -53,6 +53,8 @@ export type SelectedRowsTooltipI<T> = {
 };
 
 export type ExtraCellColumnsI<T> = {
+  label?: string;
+  center?: boolean;
   showCondition?: (data: T) => boolean;
   component: (data: T) => React.ReactNode;
 };
@@ -66,9 +68,24 @@ export type StartShortI<T> = {
 export type ColumnTextTableStyle<T> = {
   [key in keyof T]?: string;
 };
-
+type ColumnTextTableStyleCustomLabelADD = {
+  [key: string]: string;
+};
 export type CellColumnTextTableStyle<T> = {
   [key in keyof T]?: {
+    global?: string;
+    specificIndex?: {
+      indexes: number[];
+      color: string;
+    };
+    condional?: {
+      showCondition: (rowColumnData: string) => boolean;
+      color: string;
+    };
+  };
+};
+export type CellColumnTextTableStyleCustomLabelADD = {
+  [key: string]: {
     global?: string;
     specificIndex?: {
       indexes: number[];
@@ -91,11 +108,11 @@ export type TableStyle<T> = {
 
   cellTextColor?: {
     global?: string;
-    specific?: CellColumnTextTableStyle<T>;
+    specific?: CellColumnTextTableStyle<T> & CellColumnTextTableStyleCustomLabelADD;
   };
   columnTextColor?: {
     global?: string;
-    specific?: ColumnTextTableStyle<T>;
+    specific?: ColumnTextTableStyle<T> & ColumnTextTableStyleCustomLabelADD;
   };
 };
 
@@ -161,7 +178,7 @@ export type DynamicTableProps<T> = {
   spacingHeader?: number | string;
   spacingBetweenColumns?: number | string;
   spacingBetweenExtraColumns?: number | string;
-  selectedRowsTooltip?: SelectedRowsTooltipI<T>;
+  selectedRowsToast?: SelectedRowsTooltipI<T>;
   extraCellColumns?: ExtraCellColumnsI<T>[];
   extraColumns?: ExtraColConfig<T>[];
   startShort?: StartShortI<T> | boolean;

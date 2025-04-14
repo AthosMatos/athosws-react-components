@@ -5,7 +5,7 @@ import { ATHOSToastProps } from "./interfaces";
 import { ATWrapper } from "./styled";
 
 const Toast = ({ children, className }: { children: ReactNode; className?: string }) => {
-  return <div className={`${className} bg-white z-50 dark:bg-black rounded-md p-4 shadow-md text-black dark:text-white`}>{children}</div>;
+  return <div className={`${className} bg-snow z-50 dark:bg-black rounded-md p-4 shadow-md text-black dark:text-snow`}>{children}</div>;
 };
 
 export const ATHOSToast = (props: ATHOSToastProps) => {

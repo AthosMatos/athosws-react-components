@@ -16,7 +16,7 @@ const Layout = () => {
   const { subtitle, title } = useSelector((state: AppState) => state.PageReducer);
 
   return (
-    <div className={`h-full min-h-screen flex-1 p-4 flex flex-col gap-4 bg-zinc-100 dark:bg-zinc-900`}>
+    <div className={`h-full min-h-screen flex-1 p-4 flex flex-col gap-4 bg-white dark:bg-coal-dark`}>
       <div className="flex justify-between">
         <Menu />
         <div className="flex gap-2">

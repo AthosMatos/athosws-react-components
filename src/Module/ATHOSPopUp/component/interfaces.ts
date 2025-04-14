@@ -6,8 +6,8 @@ export interface ATHOSPopUpProps {
   onToggle?: (isOpen: boolean) => void;
   position?: PopUpPosition;
   style?: React.CSSProperties;
-  contentStyle?: React.CSSProperties;
-  contentClassName?: string;
+  contentWrapperStyle?: React.CSSProperties;
+  contentWrapperClassName?: string;
   className?: string;
   content: React.ReactNode;
   spacing?: number;

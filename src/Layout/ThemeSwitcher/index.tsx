@@ -11,7 +11,7 @@ const ThemeSwitcher = () => {
     <div
       onClick={() => dispatch(tooogleTheme())}
       className={`w-16 h-10 flex rounded-full p-1 
-cursor-pointer text-black dark:text-white 
+cursor-pointer text-black dark:text-snow 
 bg-yellow-200 dark:bg-slate-800 transition-colors
 bg-opacity-50 border-zinc-300 dark:border-zinc-600 border
 ${theme === "light" ? "justify-start" : "justify-end"}`}

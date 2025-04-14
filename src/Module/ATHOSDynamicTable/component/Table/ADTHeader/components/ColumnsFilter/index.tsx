@@ -3,7 +3,7 @@ import { FaFilter } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { ATHOSPopUp } from "../../../../../../ATHOSPopUp/component";
 import { ADTState } from "../../../../redux/store";
-import { ItemWrapper } from "../../styledWrappers";
+import { ItemWrapper, ListWrapperClassname } from "../../styledWrappers";
 import ColGroup from "./ColGroup";
 
 const ADTColumnsFilter = () => {
@@ -23,7 +23,7 @@ const ADTColumnsFilter = () => {
     <ATHOSPopUp
       position="left-top"
       onToggle={(isOpen) => setIsOpen(isOpen)}
-      contentClassName="flex flex-col flex-1 rounded-md border w-max border-zinc-300 dark:border-zinc-600 text-sm dark:bg-zinc-700 bg-zinc-200 p-1 h-fit"
+      contentWrapperClassName={ListWrapperClassname}
       content={<ColGroup cols={cols} isOn={(col) => filteredColumns.includes(col)} />}
     >
       <ItemWrapper open={isOpen} label={name || "Filtrar Colunas"} icon={<FaFilter size={16} />} />

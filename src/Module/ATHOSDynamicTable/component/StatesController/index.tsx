@@ -1,21 +1,12 @@
 import { useEffect, useMemo } from "react";
 import { useDispatch } from "react-redux";
 import { v4 } from "uuid";
+import { fillIds } from "../../../utils/data-utils";
 import { DynamicTableProps } from "../interfaces";
 import { setTotalItems } from "../redux/CustomStates/provider";
 import { setFilteredColumns, setFilteredData } from "../redux/Filtering/provider";
 import { ADTPropsState } from "../redux/props/interfaces";
 import { fillADTProps, setColumns } from "../redux/props/provider";
-
-//check if data values have id
-const fillIds = (data: any[]) => {
-  return data.map((row) => {
-    return {
-      ...row,
-      uniqueId: row.uniqueId || v4(),
-    };
-  });
-};
 
 export function ADTStatesController<T>({ props }: { props: DynamicTableProps<T> }) {
   const { data, columnsToHide, columnsToShow, customColumns, tableStyle, columnOrder, extraColumns } = props;

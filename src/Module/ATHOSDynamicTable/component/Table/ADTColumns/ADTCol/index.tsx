@@ -93,6 +93,7 @@ const ADTCol = ({ column, index }: { column: string; index: number }) => {
       style={{
         ...persistStyle,
         paddingBottom: paddingHeader,
+        left: index === 0 ? "36px" : undefined,
         paddingLeft: index > 0 ? spacingBetweenColumns : undefined,
         paddingRight: index > 0 ? spacingBetweenColumns : undefined,
       }}

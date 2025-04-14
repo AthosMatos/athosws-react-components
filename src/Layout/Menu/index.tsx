@@ -32,17 +32,17 @@ const Menu = () => {
         generalColors={{
           selected: {
             className: `text-black bg-gradient-to-r border
-            dark:from-pink-800 dark:to-indigo-400 dark:border-zinc-500 dark:text-white
+            dark:from-pink-800 dark:to-indigo-400 dark:border-zinc-500 dark:text-snow
             from-pink-400 to-indigo-100 border-zinc-600
             `,
           },
           menu: {
             option: {
               defaults: {
-                className: "text-black bg-transparent dark:text-white",
+                className: "text-black bg-transparent dark:text-snow",
               },
               clicked: {
-                className: "bg-zinc-300 border border-zinc-500 dark:bg-zinc-800 text-black dark:text-white",
+                className: "bg-zinc-300 border border-zinc-500 dark:bg-zinc-800 text-black dark:text-snow",
               },
             },
 

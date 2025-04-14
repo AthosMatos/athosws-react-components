@@ -4,16 +4,19 @@ import { useSelector } from "react-redux";
 import { ATHOSDropDown } from "../../../../../../ATHOSDropDown/component";
 import { LabelI } from "../../../../../../ATHOSDropDown/component/interfaces";
 import { ADTState } from "../../../../redux/store";
-import { ItemWrapper } from "../../styledWrappers";
-import { listButtonClassname } from "../ListButtons";
+import { ItemWrapper, ListButtonClassname, ListWrapperClassname } from "../../styledWrappers";
 
 const ADTSelectedFuncs = () => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const { name, funcs } = useSelector((state: ADTState) => ({
+  const { name, funcs, data, selectedRows } = useSelector((state: ADTState) => ({
     name: state.ADTPropsReducer.tableSelectedFuncs?.title,
     funcs: state.ADTPropsReducer.tableSelectedFuncs?.funcs,
+    selectedRows: state.ADTSelectReducer.selectedRows,
+    data: state.ADTPropsReducer.data,
   }));
+
+  const selectedData = data.filter((row) => selectedRows.includes(row.uniqueId));
 
   return (
     funcs &&
@@ -22,10 +25,10 @@ const ADTSelectedFuncs = () => {
         position="left-top"
         onToggle={(isOpen) => setIsOpen(isOpen)}
         labels={funcs?.map((func) => {
-          return { label: func.label, onClick: func.onClick } as LabelI;
+          return { label: func.label, onClick: () => func.onClick(selectedData) } as LabelI;
         })}
-        className="rounded-md border w-max border-zinc-300 dark:border-zinc-600 text-sm dark:bg-zinc-700 bg-zinc-200 p-1 h-fit"
-        labelClassName={listButtonClassname}
+        className={ListWrapperClassname}
+        labelClassName={ListButtonClassname}
       >
         <ItemWrapper open={isOpen} label={name || "Funcionalidades em Lote"} icon={<FaLayerGroup size={16} />} />
       </ATHOSDropDown>

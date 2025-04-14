@@ -4,6 +4,6 @@ export type ADTCheckBoxProps = {
   checked: checkStates | boolean;
   big?: boolean;
   clicable?: boolean;
-  check: () => void;
+  check?: () => void;
   isRow?: boolean;
 };

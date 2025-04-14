@@ -50,9 +50,9 @@ const ADTCellCheckBox = ({ rowId, isLast, isCheck, index }: { rowId: string; ind
         }),
         borderColor: typeof persistPrimaryColumn == "object" ? persistPrimaryColumn.backgroundColor : rowSpacingColor,
         borderTopWidth: paddingBetweenCells,
+        ...persistStyle,
       }}
       animate={{
-        ...persistStyle,
         ...(isCheck && {
           boxShadow: `1px 0 0 ${rowBorderColor || rowColor} inset, 0 1px 0 ${rowBorderColor || rowColor} inset, 0 -1px 0 ${
             rowBorderColor || rowColor

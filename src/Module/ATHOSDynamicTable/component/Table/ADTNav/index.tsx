@@ -123,7 +123,7 @@ const ADTNav = () => {
                           <input
                             type="number"
                             placeholder="Go to page"
-                            className="w-full dark:bg-black bg-zinc-200 dark:text-white text-black rounded-md outline-none transition-colors focus:border-zinc-400 p-1 border border-zinc-500 "
+                            className="w-full dark:bg-black bg-zinc-200 dark:text-snow text-black rounded-md outline-none transition-colors focus:border-zinc-400 p-1 border border-zinc-500 "
                             onChange={(e) => {
                               const val = parseInt(e.target.value);
                               if (val > 0 && val <= totalPages) {

@@ -18,7 +18,7 @@ const ADTSelectedRowsToast = () => {
   const onDismiss = () => {
     uncheckAll();
   };
-  const containerColor = useSelector((state: ADTState) => state.ADTPropsReducer.selectedRowsTooltip?.containerColor);
+  const containerColor = useSelector((state: ADTState) => state.ADTPropsReducer.selectedRowsToast?.containerColor);
 
   useEffect(() => {
     if (selectedRows.length > 0) {
@@ -40,12 +40,12 @@ const ADTSelectedRowsToast = () => {
         className={containerColor?.className}
         style={{
           // color: tableStyle?.textColor,
-          backgroundColor: "#f3f3f3",
+
           ...containerColor?.style,
         }}
       >
         <ADTSRTFSWrapper>
-          <ADTCheckBox clicable={false} big checked={checkState == 0 ? true : checkState} check={() => {}} />
+          <ADTCheckBox clicable={false} big checked={checkState == 0 ? true : checkState} />
           <ADTSRTLabel>{selectedRows.length} Items</ADTSRTLabel>
         </ADTSRTFSWrapper>
         <ADTBRDSimple w={1} h={20} />

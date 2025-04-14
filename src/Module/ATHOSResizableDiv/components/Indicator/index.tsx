@@ -18,7 +18,7 @@ const Indicator = ({ indicatorRef, indicatorWrapperRef, indicatorPadding, setIsD
       }}
       className="absolute pointer-events-none"
     >
-      <div ref={indicatorRef} className="bg-white rounded-md p-[0.3rem]">
+      <div ref={indicatorRef} className="bg-snow rounded-md p-[0.3rem]">
         <div
           style={{
             backgroundColor: ATHOSColors.aqua.default,

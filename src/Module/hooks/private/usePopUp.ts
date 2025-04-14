@@ -86,5 +86,5 @@ export const usePopUp = ({ position = "top", matchChildrenWidth = false, spacing
   useEffect(() => {
     onToggle && onToggle(isOpened);
   }, [isOpened]);
-  return { id, pos, gap, childRef, contentRef, setIsOpened };
+  return { id, pos, gap, childRef, contentRef, setIsOpened, isOpened };
 };

@@ -25,7 +25,7 @@ const ADTBorder = ({
 }: {
   colID: string;
   minColWidthToShort?: number;
-  setcolshort: (short: boolean) => void;
+  setcolshort?: (short: boolean) => void;
   showBorder: boolean;
 }) => {
   const { wrapperid } = useADTBorder({

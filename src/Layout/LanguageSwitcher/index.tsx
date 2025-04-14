@@ -16,8 +16,8 @@ const LangSwitcher = () => {
       className={{
         container: "dark:bg-zinc-800 border-zinc-300 dark:border-zinc-700 border",
         switches: {
-          default: "text-black dark:text-white",
-          active: "bg-zinc-100 dark:bg-zinc-600 dark:text-white rounded-lg border dark:border-zinc-500 border-zinc-300",
+          default: "text-black dark:text-snow",
+          active: "bg-snow dark:bg-zinc-600 dark:text-snow rounded-lg border dark:border-zinc-500 border-zinc-300",
         },
       }}
       onChange={(id: any) => setLang(id)}

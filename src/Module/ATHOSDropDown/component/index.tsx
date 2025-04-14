@@ -42,6 +42,8 @@ const ATHOSDropDown = (props: ATHOSDropDownProps) => {
     matchChildrenWidth = false,
     onToggle,
     labelClassName,
+    buttonClassName,
+    buttonStyle,
   } = props;
 
   const { childRef, gap, id, pos, contentRef, setIsOpened } = usePopUp({
@@ -63,10 +65,16 @@ const ATHOSDropDown = (props: ATHOSDropDownProps) => {
   return (
     <div className={`${pos}`}>
       <button
+        className={buttonClassName}
         onClick={() => setIsOpened((prev) => !prev)}
         ref={childRef}
         popoverTarget={id}
-        style={{ anchorName: `--anchor-${id}` } as any}
+        style={
+          {
+            anchorName: `--anchor-${id}`,
+            ...buttonStyle,
+          } as any
+        }
       >
         {children}
       </button>

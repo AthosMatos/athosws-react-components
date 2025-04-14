@@ -15,7 +15,7 @@ export const useADTBorder = ({
 }: {
   colID: string;
   minColWidthToShort?: number;
-  setcolshort: (short: boolean) => void;
+  setcolshort?: (short: boolean) => void;
 }) => {
   const wrapperid = v4();
 
@@ -42,7 +42,7 @@ export const useADTBorder = ({
       const ColDivWidth = ColDivRect.width;
       const Plus = Math.round(pageX - (BRDWrapperDivRect.right - 4)); //-4 to centralize in the cursor
       const newWidth = ColDivWidth + Plus;
-      if (minColWidthToShort) {
+      if (minColWidthToShort && setcolshort) {
         if (newWidth < minColWidthToShort) {
           setcolshort(true);
         } else {
@@ -57,7 +57,7 @@ export const useADTBorder = ({
     const initWidths = () => {
       const ColDivRect = ColDivs[0].getBoundingClientRect();
       const ColDivWidth = ColDivRect.width;
-      if (minColWidthToShort) {
+      if (minColWidthToShort && setcolshort) {
         if (ColDivWidth < minColWidthToShort) {
           setcolshort(true);
         } else {

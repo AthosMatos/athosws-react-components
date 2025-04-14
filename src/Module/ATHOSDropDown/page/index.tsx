@@ -13,7 +13,7 @@ labels={[{ label: "Item 1", onClick: () => {
 } }, { label: "Item 2", onClick: () => {
   alert("Item 2 clicked");
 } }]}
-className="bg-zinc-100 border border-zinc-300 gap-1 p-1"
+className="bg-snow border border-zinc-300 gap-1 p-1"
 onOpen={(isOpen) => {
   setIsOpened(isOpen);
 }}
@@ -62,7 +62,7 @@ onToggle={(isOpen) => {
   setIsOpened(isOpen);
 }}
 className="bg-zinc-800 border border-zinc-600 p-1"
-labelClassName="text-white w-max p-2 rounded-md hover:bg-zinc-700 transition-all active:bg-zinc-600 active:scale-95"
+labelClassName="text-snow w-max p-2 rounded-md hover:bg-zinc-700 transition-all active:bg-zinc-600 active:scale-95"
 >
   <div className="bg-zinc-500 p-2">{isOpened ? "Click to Open" : "Click to Close"}</div>
 </ATHOSDropDown>`;
@@ -95,7 +95,7 @@ const ATHOSDropDownPage = () => {
               setIsOpened(isOpen);
             }}
             className="bg-zinc-800 border border-zinc-600 p-1"
-            labelClassName="text-white p-2 rounded-md hover:bg-zinc-700 transition-all active:bg-zinc-600 active:scale-95"
+            labelClassName="text-snow p-2 rounded-md hover:bg-zinc-700 transition-all active:bg-zinc-600 active:scale-95"
           >
             <div className="bg-zinc-500 p-2">{isOpened ? "Click to Open" : "Click to Close"}</div>
           </ATHOSDropDown>
@@ -140,7 +140,7 @@ const ATHOSDropDownPage = () => {
               setIsOpened(isOpen);
             }}
             className="bg-zinc-800 border border-zinc-600 p-1"
-            labelClassName="text-white w-max p-2 rounded-md hover:bg-zinc-700 transition-all active:bg-zinc-600 active:scale-95"
+            labelClassName="text-snow w-max p-2 rounded-md hover:bg-zinc-700 transition-all active:bg-zinc-600 active:scale-95"
           >
             <div className="bg-zinc-500 p-2">{isOpened ? "Click to Open" : "Click to Close"}</div>
           </ATHOSDropDown>

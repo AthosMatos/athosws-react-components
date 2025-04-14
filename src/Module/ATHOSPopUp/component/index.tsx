@@ -5,13 +5,13 @@ const ATHOSPopUp = ({
   children,
   onToggle,
   position = "top",
-  contentClassName,
+  contentWrapperClassName: contentClassName,
   content,
   style,
   matchChildrenWidth,
   spacing,
   className,
-  contentStyle,
+  contentWrapperStyle: contentStyle,
 }: ATHOSPopUpProps) => {
   const { childRef, gap, id, pos, contentRef, setIsOpened } = usePopUp({
     onToggle,
@@ -38,7 +38,7 @@ const ATHOSPopUp = ({
         id={id}
         style={
           {
-            boxShadow: "2px 8px 20px rgba(0, 0, 0, 0.14)",
+            //boxShadow: "2px 8px 20px rgba(0, 0, 0, 0.14)",
             ...contentStyle,
             ...gap,
             positionAnchor: `--anchor-${id}`,

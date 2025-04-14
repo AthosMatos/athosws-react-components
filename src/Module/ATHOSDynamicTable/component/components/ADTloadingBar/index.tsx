@@ -20,7 +20,7 @@ const ADTLoadingBar = ({
       exit={{
         opacity: 0,
       }}
-      className="w-full relative text-black bg-white items-center bg-opacity-15 h-5 flex justify-center p-[0.05rem] rounded-full"
+      className="w-full relative text-black bg-snow items-center bg-opacity-15 h-5 flex justify-center p-[0.05rem] rounded-full"
     >
       <motion.div
         initial={{

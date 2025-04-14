@@ -11,10 +11,10 @@ const ADTHeader = () => {
   const dataLen = useSelector((state: ADTState) => state.ADTPropsReducer.data)?.length;
 
   return (
-    <div className="flex mb-4 justify-between gap-2">
+    <div className="flex mb-2 justify-between gap-2">
       <ADTInfo />
       {dataLen > 0 && !loading && (
-        <div className="flex flex-wrap gap-1 text-zinc-400 select-none flex-1 justify-end">
+        <div className="flex flex-wrap gap-1 text-coal-light select-none flex-1 justify-end">
           <ADTSelectedFuncs />
           <ADTColumnsFilter />
           <ADTSearch />

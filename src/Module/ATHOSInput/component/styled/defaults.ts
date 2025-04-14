@@ -1,4 +1,4 @@
-import { ATHOSColors } from "../../colors/colors";
+import { ATHOSColors } from "../../../colors/colors";
 
 export const AIIconsDefault = `
     color: ${ATHOSColors.gray.dark};

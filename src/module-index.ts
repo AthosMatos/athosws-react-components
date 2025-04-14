@@ -18,7 +18,7 @@ export { ATHOSDynamicTable } from "./Module/ATHOSDynamicTable/component";
 export { ATHOSDynamicTableProvider, useATHOSDynamicTableContext } from "./Module/ATHOSDynamicTable/component/context";
 
 /* Table */
-export { ATHOSInput } from "./Module/ATHOSInput";
+export { ATHOSInput } from "./Module/ATHOSInput/component";
 export { ATHOSResizableDiv } from "./Module/ATHOSResizableDiv";
 export { ATHOSSideMenu } from "./Module/ATHOSSideMenu";
 export { ATHOSSwitcher } from "./Module/ATHOSSwitcher";

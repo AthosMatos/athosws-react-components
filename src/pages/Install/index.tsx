@@ -31,9 +31,9 @@ const InstallPage = () => {
         className={{
           tab: {
             default: "text-neutral-400 dark:text-neutral-500 ",
-            active: "bg-zinc-200 dark:bg-zinc-700 text-black dark:text-white",
+            active: "bg-zinc-200 dark:bg-zinc-700 text-black dark:text-snow",
           },
-          body: "text-black dark:text-white bg-zinc-200 dark:bg-zinc-700",
+          body: "text-black dark:text-snow bg-zinc-200 dark:bg-zinc-700",
         }}
         tabs={[
           {

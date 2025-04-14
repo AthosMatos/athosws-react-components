@@ -1,4 +1,4 @@
-export const realData = [
+export const rd = [
   {
     id: 754318,
     idDistribuicao: 868060,

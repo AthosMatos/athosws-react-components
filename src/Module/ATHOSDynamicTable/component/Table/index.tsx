@@ -37,7 +37,7 @@ const Table = () => {
           >
             <ADTTable className={`w-full ${tableClassName}`}>
               <ADTHeader
-                className="text-zinc-500 dark:text-zinc-400"
+                className="text-zinc-500 dark:text-zinc-400 "
                 style={{
                   color: coltextColor,
                 }}

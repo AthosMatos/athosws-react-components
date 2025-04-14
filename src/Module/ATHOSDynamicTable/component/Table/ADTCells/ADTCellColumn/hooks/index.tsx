@@ -67,13 +67,12 @@ const useADTCellCol = ({
   }, [startShort, row, column, maxCharToCut, short, hasExtraCol]);
 
   const cell = useMemo(() => {
-    const customColumns = customCols?.find((col) => col.newLabel === column)?.render?.(row);
-
     if (hasExtraCol) {
-      return extraColumns?.find((exc) => exc.id == extraCol.split("-isExtraCol-")[1])?.cellComponent?.(row[column]);
+      return extraColumns?.find((exc) => exc.id == extraCol.split("-isExtraCol-")[1])?.cellComponent?.(row);
     } else if (colConfig && colConfig[column]?.cellComponent) {
-      return colConfig[column]?.cellComponent(row[column]);
+      return colConfig[column]?.cellComponent(row);
     }
+    const customColumns = customCols?.find((col) => col.newLabel === column)?.render?.(row);
     return customColumns || rowValue;
   }, [column, row, colConfig, rowValue, extraColumns, extraCol, hasExtraCol]);
 

@@ -13,7 +13,7 @@ interface SInputProps {
 /* 
 ${
     openSearch
-      ? `w-2/5 max-w-[300px] px-2 focus:bg-zinc-100 
+      ? `w-2/5 max-w-[300px] px-2 focus:bg-snow 
   bg-zinc-50 border
    border-zinc-200 opacity-100`
       : "hidden"

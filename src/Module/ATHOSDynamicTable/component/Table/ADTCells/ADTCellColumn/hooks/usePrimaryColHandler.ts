@@ -7,6 +7,7 @@ import { persistentBorderStyle, persitentBorderWidth } from "../../../../styled"
 export const usePrimaryColHandler = ({ index, isLast, isCheck }: { index: number; isLast: boolean; isCheck?: boolean }) => {
   const persistPrimaryColumn = useSelector((state: ADTState) => state.ADTPropsReducer.persistPrimaryColumn);
   const selectedColor = useSelector((state: ADTState) => state.ADTPropsReducer.tableStyle)?.selected;
+
   const persistStyle = useMemo(() => {
     if (persistPrimaryColumn && index === 0) {
       const obj = {} as any;
@@ -27,9 +28,10 @@ export const usePrimaryColHandler = ({ index, isLast, isCheck }: { index: number
         obj["borderBottomWidth"] = persitentBorderWidth;
         obj["borderBottomStyle"] = persistentBorderStyle;
       }
+
       return obj;
     }
-  }, [persistPrimaryColumn, isLast, index, , isCheck, selectedColor]);
+  }, [persistPrimaryColumn, isLast, index, isCheck, selectedColor]);
 
   return persistStyle;
 };

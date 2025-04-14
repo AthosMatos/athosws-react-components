@@ -5,6 +5,23 @@ interface ItemWrapperProps {
   onClick?: () => void;
 }
 
+export const ListWrapperClassname = `flex gap-1 flex-col shadow-lg flex-1 rounded-lg border w-max 
+border-smooth-darker-grey dark:border-zinc-600
+text-sm
+dark:!bg-zinc-900 dark:!bg-opacity-80 !bg-smooth-grey p-1
+h-fit backdrop-blur-sm`;
+export const ListButtonClassname = `flex transition-all bg-white bg-opacity-80 dark:bg-pixe dark:bg-opacity-80
+          cursor-pointer items-center gap-2 rounded-md p-2 border border-transparent
+          hover:border-smooth-darker-grey dark:hover:border-zinc-600 active:scale-95
+          text-zinc-600 dark:text-zinc-200`;
+
+/* border border-zinc-300 dark:border-zinc-600  */
+const defaultWrapperClassName = (open?: boolean) => `
+  transition-all active:scale-95 cursor-pointer hover:dark:text-snow hover:text-coal 
+  rounded-md h-10 text-sm gap-2
+  flex items-center justify-center ${open ? "dark:bg-snow dark:bg-opacity-5 bg-black bg-opacity-5" : ""}
+`;
+
 export const ItemWrapper = ({ open, onClick, label, icon }: ItemWrapperProps) => {
   return (
     <div
@@ -12,11 +29,7 @@ export const ItemWrapper = ({ open, onClick, label, icon }: ItemWrapperProps) =>
         e.preventDefault();
         onClick && onClick();
       }}
-      className={`
-      transition-all active:scale-95 cursor-pointer hover:dark:text-white hover:text-black 
-      rounded-md border  border-zinc-300 dark:border-zinc-600 px-3 h-10 text-sm gap-2
-      flex items-center justify-center ${open ? "dark:bg-white dark:bg-opacity-5 bg-black bg-opacity-5" : ""}
-      `}
+      className={`px-3 ${defaultWrapperClassName(open)}`}
     >
       {icon}
       {label}
@@ -39,12 +52,7 @@ export const IconWrapper = ({ children, onClick, open, wref }: IconWrapperProps)
         e.preventDefault();
         onClick && onClick();
       }}
-      className={`
-      transition-all active:scale-95 cursor-pointer hover:dark:text-white hover:text-black 
-      rounded-md border border-zinc-300 dark:border-zinc-600 w-10 h-10 
-      flex items-center justify-center ${open ? "bg-zinc-200 dark:text-white text-black dark:bg-zinc-700" : ""}
-   
-      `}
+      className={`w-10 ${defaultWrapperClassName(open)}`}
     >
       {children}
     </div>

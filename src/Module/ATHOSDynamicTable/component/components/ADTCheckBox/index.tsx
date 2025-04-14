@@ -15,17 +15,11 @@ const ADTCheckBox = ({ checked, check, big, clicable, isRow }: ADTCheckBoxProps)
   }, [selectedPages, page]);
 
   const Check = useMemo(() => {
-    if (checked == CheckState.ALL) {
+    if (checked == CheckState.ALL || checked == true) {
       return <ADTCheckIcon big={big} />;
-    }
-    if (checked == true) {
-      return <ADTCheckIcon big={big} />;
-    }
-    if (!isRow && (typeof checked == "object" || isPageSelected)) {
+    } else if (!isRow && (typeof checked == "object" || isPageSelected)) {
       return <ADTDoubleCheckIcon big={big} />;
-    }
-
-    if (checked == CheckState.NONE) {
+    } else if (checked == CheckState.NONE) {
       return null;
     }
   }, [checked, isPageSelected]);
@@ -36,6 +30,7 @@ const ADTCheckBox = ({ checked, check, big, clicable, isRow }: ADTCheckBoxProps)
         borderColor: isCheck ? checkIconColor : undefined,
         color: isCheck ? checkIconColor : undefined,
         boxShadow: isCheck ? `0px 0px 0.2rem 1px ${checkIconColor}` : undefined,
+        fontSize: big ? "0.7rem" : "0.5rem",
       }}
       clicable={clicable}
       big={big}

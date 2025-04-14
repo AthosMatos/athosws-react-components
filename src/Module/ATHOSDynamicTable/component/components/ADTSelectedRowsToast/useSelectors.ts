@@ -7,7 +7,7 @@ const useSelectors_ADTSelectedRowsToast = () => {
   const checkState = useSelector((state: ADTState) => state.ADTSelectReducer.checkState);
 
   const tableStyle = useSelector((state: ADTState) => state.ADTPropsReducer.tableStyle);
-  const selectedRowsTooltip = useSelector((state: ADTState) => state.ADTPropsReducer.selectedRowsTooltip);
+  const selectedRowsTooltip = useSelector((state: ADTState) => state.ADTPropsReducer.selectedRowsToast);
   const data = useSelector((state: ADTState) => state.ADTPropsReducer.data);
   const tableName = useSelector((state: ADTState) => state.ADTPropsReducer).tableName;
 

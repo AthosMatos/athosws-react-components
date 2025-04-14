@@ -5,7 +5,7 @@ export const ADTColBorderWrapper = styled.div<{
   bold?: boolean;
 }>`
   width: 100%;
-  display: flex;
+  display: inline-flex;
   justify-content: space-between;
   height: 100%;
   align-items: center;
@@ -21,7 +21,9 @@ interface ADTColWrapperProps {
   persistent?: boolean;
 }
 
-export const ADTColumnWrapper = styled.th<ADTColWrapperProps>`
+export const ADTColumnWrapper = styled.th.attrs({
+  className: "pt-2",
+})<ADTColWrapperProps>`
   color: ${(props) => props.textColor};
   white-space: nowrap;
   user-select: none;

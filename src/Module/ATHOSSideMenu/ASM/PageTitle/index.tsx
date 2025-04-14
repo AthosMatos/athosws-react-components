@@ -13,7 +13,7 @@ const PageTitle = () => {
           backgroundColor: selectedData.pageText.backColor,
           borderBottom: `1px solid ${colors.sideBorder}`,
         }}
-        className="bg-white w-full px-4 pt-3 pb-2 flex flex-col text-black"
+        className="bg-snow w-full px-4 pt-3 pb-2 flex flex-col text-black"
       >
         <p
           style={{

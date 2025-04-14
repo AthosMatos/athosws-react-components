@@ -61,7 +61,14 @@ const ADTCells = () => {
         />
       ))}
 
-      {extraCellColumns && <ADTCellExtraCols isCheck={selectedRows.includes(row.uniqueId)} row={row} />}
+      {extraCellColumns && (
+        <ADTCellExtraCols
+          isLast={rowIndex === pageSize - 1}
+          onlyOneLeft={filteredColumns.length === 0}
+          isCheck={selectedRows.includes(row.uniqueId)}
+          row={row}
+        />
+      )}
     </ADTTR>
   ));
 };

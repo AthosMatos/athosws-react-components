@@ -173,6 +173,16 @@ export const AppText = {
           "en-US": "See the PopUp in action",
         },
       },
+      select: {
+        title: {
+          "pt-BR": "Select",
+          "en-US": "Select",
+        },
+        subtitle: {
+          "pt-BR": "Veja o Select em ação",
+          "en-US": "See the Select in action",
+        },
+      },
     },
   },
 };

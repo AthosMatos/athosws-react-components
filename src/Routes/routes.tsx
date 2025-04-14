@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { BiCollapseVertical } from "react-icons/bi";
 import { BsFillMenuButtonWideFill, BsGrid3X2GapFill, BsInputCursorText } from "react-icons/bs";
-import { FaTable } from "react-icons/fa6";
+import { FaListCheck, FaTable } from "react-icons/fa6";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { GrInstallOption } from "react-icons/gr";
 import { RxButton, RxComponent1 } from "react-icons/rx";
@@ -17,8 +17,10 @@ import ATHOSCardPage from "../Module/ATHOSCard/page";
 import ATHOSCollapsePage from "../Module/ATHOSCollapse/page";
 import ATHOSDropDownPage from "../Module/ATHOSDropDown/page";
 import ATHOSDynamicTablePage from "../Module/ATHOSDynamicTable/page";
+import ATHOSInputPage from "../Module/ATHOSInput/page";
 import { OptKeyed } from "../Module/ATHOSMenu/helpers";
 import ATHOSPopUpPage from "../Module/ATHOSPopUp/page";
+import ATHOSSelectPage from "../Module/ATHOSSelect/page";
 import AthosVirtualDivPage from "../Module/ATHOSVirtualDiv/page";
 import { usePage } from "../pageContext/redux";
 import InstallPage from "../pages/Install";
@@ -113,7 +115,7 @@ export const RoutesProvider = ({ children }: { children: React.ReactNode }) => {
         },
         input: {
           path: "components/input",
-          component: ATHOSCardPage,
+          component: ATHOSInputPage,
           label: "Input",
           icon: <BsInputCursorText />,
           onClick: () => setPageTitle(AppText.pages.components.input),
@@ -190,6 +192,14 @@ export const RoutesProvider = ({ children }: { children: React.ReactNode }) => {
           icon: <TfiViewList />,
           onClick: () => setPageTitle(AppText.pages.components.virtualDIV),
           onInit: () => setPageTitle(AppText.pages.components.virtualDIV),
+        },
+        select: {
+          path: "components/select",
+          component: ATHOSSelectPage,
+          label: "Select",
+          icon: <FaListCheck />,
+          onClick: () => setPageTitle(AppText.pages.components.select),
+          onInit: () => setPageTitle(AppText.pages.components.select),
         },
       },
     },

@@ -1,7 +1,8 @@
 import { FaLock, FaUser } from "react-icons/fa";
 import { IoEye, IoEyeOff } from "react-icons/io5";
 import styled from "styled-components";
-import { ATHOSColors } from "../../colors/colors";
+
+import { ATHOSColors } from "../../../colors/colors";
 import { AIIconsDefault } from "./defaults";
 
 export const AIInput = styled.input`
@@ -20,6 +21,9 @@ export const AIInput = styled.input`
 type InputProps = {
   focused: boolean;
   error?: boolean;
+  bgColor?: string;
+  outlineColor?: string;
+  textColor?: string;
 };
 
 export const AIInputWrapper = styled.div<InputProps>`
@@ -27,24 +31,23 @@ export const AIInputWrapper = styled.div<InputProps>`
   align-items: center;
   cursor: text;
   gap: 0.6rem;
-  outline: 1px solid ${ATHOSColors.gray.light};
-  border-radius: 0.3rem;
-  padding: 0.8rem 1rem;
-  background-color: ${ATHOSColors.gray.lighter};
+  outline: 1px solid ${({ outlineColor }) => outlineColor};
+  border-radius: 0.5rem;
+  padding: 0.5rem 0.6rem;
+  background-color: ${({ bgColor }) => bgColor};
   transition: all 0.14s;
-
-  ${({ focused }) => focused && `outline: 1px solid ${ATHOSColors.aqua.default};`}
+  justify-content: space-between;
 
   //on error shake
-    ${({ error }) =>
+  ${({ error }) =>
     error &&
     `
         animation: shake 0.2s;
         animation-iteration-count: 1;
-        outline: 1px solid ${ATHOSColors.red.default};
+        
     `}
 
-    @keyframes shake {
+  @keyframes shake {
     0% {
       transform: translateX(0);
     }
@@ -107,7 +110,7 @@ export const AIEyeOffIcon = styled(IoEyeOff)<ATHOSInputIconProps>`
 export const AIWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
+
   width: fit-content;
 `;
 
@@ -126,4 +129,5 @@ export const AILabelsWrapper = styled.div`
   justify-content: space-between;
   width: 100%;
   align-items: center;
+  font-weight: 300;
 `;

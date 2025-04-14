@@ -1,10 +1,10 @@
 import styled from "styled-components";
 
 const DocumentationWrapper = styled.div.attrs({
-  className: "p-4 flex flex-col gap-3 rounded-lg bg-zinc-200 dark:bg-zinc-800 text-black dark:text-white",
+  className: "p-4 flex flex-col gap-3 rounded-lg bg-zinc-200 dark:bg-zinc-800 text-black dark:text-snow",
 })``;
 const DocumentationPropsWrapper = styled.div.attrs({
-  className: "flex flex-col gap-3 text-black dark:text-white",
+  className: "flex flex-col gap-3 text-black dark:text-snow",
 })``;
 
 const DocumentationPropsLi = styled.li.attrs({

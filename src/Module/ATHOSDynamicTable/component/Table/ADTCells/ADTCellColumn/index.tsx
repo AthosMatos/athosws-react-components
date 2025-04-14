@@ -57,13 +57,12 @@ const ADTCellColumn = ({ row, rowIndex, hasExtraCols, index, isLastRow, isCheck,
       }),
       /* borderBottomRightRadius: isLastCol && !hasExtraCols && "6px",
       borderTopRightRadius: isLastCol && !hasExtraCols && "6px", */
-      //left: index === 0 ? "42px" : undefined,
-      borderColor:
-        index === 0 ? (typeof persistPrimaryColumn == "object" ? persistPrimaryColumn.backgroundColor : rowSpacingColor) : rowSpacingColor,
+      left: index === 0 ? "36px" : undefined,
+      borderTopColor: index === 0 && typeof persistPrimaryColumn == "object" ? persistPrimaryColumn.backgroundColor : rowSpacingColor,
       borderTopWidth: spacingBetweenCells,
+      ...persistStyle,
     },
     animate: {
-      ...persistStyle,
       ...(isCheck && {
         boxShadow: `0 1px 0 ${rowBorderColor || rowColor} inset, 0 -1px 0  ${rowBorderColor || rowColor} inset ${
           isLastCol && !hasExtraCols ? `, -1px 0 0 ${rowBorderColor || rowColor} inset` : ""
