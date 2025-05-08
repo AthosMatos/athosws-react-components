@@ -3,7 +3,7 @@ import { ATHOSColors } from "../../colors/colors";
 import { ATHOSInput } from "../component";
 
 const ATHOSInputPage = () => {
-  const [values, setValues] = useState(["", "", "", "", ""]);
+  const [values, setValues] = useState(["", "", "test", "dsad", ""]);
   return (
     <div className="flex flex-col gap-2 ">
       <ATHOSInput
@@ -12,7 +12,7 @@ const ATHOSInputPage = () => {
         onChange={(text) => {
           setValues((prev) => {
             let newValues = [...prev];
-            newValues[0] = text;
+            newValues[0] = text.currentTarget.value;
             return newValues;
           });
         }}
@@ -28,7 +28,7 @@ const ATHOSInputPage = () => {
         onChange={(text) => {
           setValues((prev) => {
             let newValues = [...prev];
-            newValues[1] = text;
+            newValues[1] = text.currentTarget.value;
             return newValues;
           });
         }}
@@ -36,11 +36,12 @@ const ATHOSInputPage = () => {
         type="password"
       />
       <ATHOSInput
+        disabled
         value={values[2]}
         onChange={(text) => {
           setValues((prev) => {
             let newValues = [...prev];
-            newValues[2] = text;
+            newValues[2] = text.currentTarget.value;
             return newValues;
           });
         }}
@@ -48,11 +49,12 @@ const ATHOSInputPage = () => {
         type="user"
       />
       <ATHOSInput
+        disabled
         value={values[3]}
         onChange={(text) => {
           setValues((prev) => {
             let newValues = [...prev];
-            newValues[3] = text;
+            newValues[3] = text.currentTarget.value;
             return newValues;
           });
         }}

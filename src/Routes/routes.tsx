@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { BiCollapseVertical } from "react-icons/bi";
 import { BsFillMenuButtonWideFill, BsGrid3X2GapFill, BsInputCursorText } from "react-icons/bs";
+import { FaWpforms } from "react-icons/fa";
 import { FaListCheck, FaTable } from "react-icons/fa6";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { GrInstallOption } from "react-icons/gr";
@@ -17,6 +18,7 @@ import ATHOSCardPage from "../Module/ATHOSCard/page";
 import ATHOSCollapsePage from "../Module/ATHOSCollapse/page";
 import ATHOSDropDownPage from "../Module/ATHOSDropDown/page";
 import ATHOSDynamicTablePage from "../Module/ATHOSDynamicTable/page";
+import ATHOSFormPage from "../Module/ATHOSForm/page";
 import ATHOSInputPage from "../Module/ATHOSInput/page";
 import { OptKeyed } from "../Module/ATHOSMenu/helpers";
 import ATHOSPopUpPage from "../Module/ATHOSPopUp/page";
@@ -73,6 +75,14 @@ export const RoutesProvider = ({ children }: { children: React.ReactNode }) => {
       label: AppText.pages.components.title[lang],
       icon: <RxComponent1 />,
       subOpts: {
+        form: {
+          path: "components/form",
+          component: ATHOSFormPage,
+          label: "Form",
+          icon: <FaWpforms />,
+          onClick: () => setPageTitle(AppText.pages.components.form),
+          onInit: () => setPageTitle(AppText.pages.components.form),
+        },
         button: {
           path: "components/button",
           component: ATHOSButtonPage,

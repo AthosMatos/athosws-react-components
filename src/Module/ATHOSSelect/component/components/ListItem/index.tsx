@@ -3,15 +3,8 @@ import { FaCheck } from "react-icons/fa";
 import { VscLoading } from "react-icons/vsc";
 import { useATHOSSelectContext } from "../../context";
 import { SelectedItemI } from "../../intefaces";
-const ListItem = ({
-  option,
-  onClick,
-  className,
-  style,
-  selectedClassName,
-  selectedStyle,
-  isSelected,
-}: {
+
+interface ListItemI {
   option: SelectedItemI;
   onClick?: () => void;
   className?: string;
@@ -19,19 +12,27 @@ const ListItem = ({
   isSelected: boolean;
   selectedClassName?: string;
   selectedStyle?: React.CSSProperties;
-}) => {
+  index: number;
+  isOpened: boolean;
+}
+
+const ListItem = ({ option, onClick, isOpened, className, style, selectedClassName, selectedStyle, isSelected, index }: ListItemI) => {
   const defaultClassName = `cursor-pointer select-none `;
   const { updating } = useATHOSSelectContext();
 
   return (
-    <li
+    <motion.li
+      /* transition={{
+        delay: index * 0.05,
+      }} */
+      animate={{ opacity: isOpened ? 1 : 0 }}
       style={{
         ...style,
         ...option.style,
         ...(isSelected ? selectedStyle : {}),
       }}
       onClick={onClick}
-      className={`flex pr-3 justify-between items-center ${defaultClassName} ${className} ${option.className} ${
+      className={`flex pr-3 justify-between items-center transform-gpu ${defaultClassName} ${className} ${option.className} ${
         isSelected ? selectedClassName : ""
       }`}
     >
@@ -47,7 +48,7 @@ const ListItem = ({
           )
         ) : null}
       </AnimatePresence>
-    </li>
+    </motion.li>
   );
 };
 

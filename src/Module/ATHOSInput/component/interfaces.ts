@@ -15,19 +15,22 @@ export interface ATHOSInputStyles {
     textColor?: string;
     iconColor?: string;
   };
+  disabled?: {
+    backgroundColor?: string;
+    borderColor?: string;
+    textColor?: string;
+    iconColor?: string;
+  };
 }
 
-export interface ATHOSInputProps {
-  type?: "user" | "password";
-  placeholder?: string;
+export type ATHOSInputType = "text" | "email" | "user" | "password" | "number" | "tel" | "url" | "date" | "time" | "color" | "file";
+
+export interface ATHOSInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+  type?: ATHOSInputType;
   label?: string;
   error?: string;
   colors?: ATHOSInputStyles;
-  value: string;
-  onChange: (value: string) => void;
   onBlur?: () => void | Promise<void>;
   onFocus?: () => void | Promise<void>;
   isSubmitting?: boolean;
-  className?: string;
-  style?: React.CSSProperties;
 }

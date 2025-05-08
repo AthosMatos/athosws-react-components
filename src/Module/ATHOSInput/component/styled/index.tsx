@@ -11,8 +11,8 @@ export const AIInput = styled.input`
   background-color: transparent;
   outline: none;
   font-weight: 400;
-  color: ${"black"};
 
+  cursor: ${({ disabled }) => (disabled ? "not-allowed" : "text")};
   &:focus {
     outline: none;
   }
@@ -24,12 +24,13 @@ type InputProps = {
   bgColor?: string;
   outlineColor?: string;
   textColor?: string;
+  disabled?: boolean;
 };
 
 export const AIInputWrapper = styled.div<InputProps>`
   display: flex;
   align-items: center;
-  cursor: text;
+  cursor: ${({ disabled }) => (disabled ? "not-allowed" : "text")};
   gap: 0.6rem;
   outline: 1px solid ${({ outlineColor }) => outlineColor};
   border-radius: 0.5rem;
@@ -37,6 +38,7 @@ export const AIInputWrapper = styled.div<InputProps>`
   background-color: ${({ bgColor }) => bgColor};
   transition: all 0.14s;
   justify-content: space-between;
+  color: ${({ textColor }) => textColor};
 
   //on error shake
   ${({ error }) =>
@@ -115,8 +117,9 @@ export const AIWrapper = styled.div`
 `;
 
 export const AIInputLabel = styled.label`
-  font-size: 1rem;
+  font-size: 0.95rem;
   color: ${ATHOSColors.gray.dark};
+  font-weight: 400;
 `;
 export const AIErrorLabel = styled.label`
   font-size: 1rem;

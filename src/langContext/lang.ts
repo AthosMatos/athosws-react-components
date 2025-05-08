@@ -15,6 +15,16 @@ export const AppText = {
       },
     },
     components: {
+      form: {
+        title: {
+          "pt-BR": "Formulário",
+          "en-US": "Form",
+        },
+        subtitle: {
+          "pt-BR": "Veja o formulário em ação",
+          "en-US": "See the form in action",
+        },
+      },
       title: {
         "pt-BR": "Componentes",
         "en-US": "Components",

@@ -4,12 +4,14 @@ import ListItem from "../ListItem";
 
 const Labels = (props: ATHOSSelectPropsList) => {
   const { labelClassName, labelsStyle } = props;
-  const { select, labels, selectedItems: selected } = useATHOSSelectContext();
+  const { select, labels, selectedItems: selected, isOpened } = useATHOSSelectContext();
 
   return (
     <>
-      {labels?.map((option) => (
+      {labels?.map((option, index) => (
         <ListItem
+          isOpened={isOpened}
+          index={index}
           key={option.value}
           selectedClassName={props.selectedLabelClassName}
           selectedStyle={props.selectedLabelStyle}

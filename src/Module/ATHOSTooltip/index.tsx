@@ -117,7 +117,7 @@ export const ATHOSTooltip = (props: ATHOSTooltipProps) => {
             FollowChildPos(mouseX, mouseY);
           }
         }}
-        // className="cursor-zoom-in"
+        className="w-fit"
         onMouseOver={() => setOpen(true)}
         onMouseLeave={() => setOpen(false)}
         onMouseOut={() => setOpen(false)}

@@ -75,7 +75,7 @@ const Docs = () => {
       </DocumentationText>
       <DocumentationPropsWrapper>
         <ATHOSCollapse
-          onToggle={(isOpen) => setIsPropsShown(isOpen)}
+          onToggle={(isOpen) => setIsPropsShown(!!isOpen)}
           collapsedClassName="w-full"
           initialOpen
           spacing={10}

@@ -1,4 +1,5 @@
 import { createContext, ReactNode, useContext, useEffect, useMemo, useState } from "react";
+import { PopUpPosition, usePopUp } from "../../../hooks/private/usePopUp";
 import { ATHOSSelectedProps, ATHOSSelectPropsCols, ATHOSSelectPropsList, SelectedItemI } from "../intefaces";
 
 interface ATHOSSelectContextI {
@@ -8,15 +9,37 @@ interface ATHOSSelectContextI {
   cols: SelectedItemI[][] | null;
   updating: boolean;
   selectedItems: (string | number)[];
+  childRef: React.RefObject<HTMLButtonElement | null>;
+  gap: any;
+  id: string;
+  pos: string;
+  contentRef: React.RefObject<HTMLUListElement | null>;
+  setIsOpened: React.Dispatch<React.SetStateAction<boolean>>;
+  isOpened: boolean;
 }
 
 const ATHOSSelectContext = createContext<ATHOSSelectContextI | null>(null);
 
-const ATHOSSelectProvider = (props: ATHOSSelectedProps & { children: ReactNode }) => {
-  const { multiSelect = false } = props;
-
+const ATHOSSelectProvider = (
+  props: ATHOSSelectedProps & {
+    children: ReactNode;
+    onToggle?: (isOpen: boolean) => void;
+    position?: PopUpPosition;
+    spacing?: number | string;
+    matchLabelWidth?: boolean;
+  }
+) => {
+  const { multiSelect = false, onToggle, position, spacing, matchLabelWidth } = props;
+  const popUpProps = usePopUp({
+    onToggle,
+    matchChildrenWidth: matchLabelWidth,
+    position,
+    spacing,
+  });
   const [updating, setUpdating] = useState(false);
-  const [selectedItems, setSelectedItems] = useState<(string | number)[]>(props.selected || []);
+  const [selectedItems, setSelectedItems] = useState<(string | number)[]>(
+    Array.isArray(props.selected) ? props.selected : [props.selected]
+  );
   // Type guard function to check if we have labels
   const hasLabels = (props: ATHOSSelectedProps): props is ATHOSSelectPropsList => {
     return "labels" in props && Array.isArray(props.labels);
@@ -80,9 +103,11 @@ const ATHOSSelectProvider = (props: ATHOSSelectedProps & { children: ReactNode }
 
   useEffect(() => {
     if (props.selected) {
-      setSelectedItems(props.selected);
+      setSelectedItems(Array.isArray(props.selected) ? props.selected : [props.selected]);
     }
   }, [props.selected]);
+
+  console.log("ATHOSSelectProvider", props.selected, selectedItems, updating);
 
   return (
     <ATHOSSelectContext.Provider
@@ -93,6 +118,7 @@ const ATHOSSelectProvider = (props: ATHOSSelectedProps & { children: ReactNode }
         labels,
         cols,
         updating,
+        ...popUpProps,
       }}
     >
       {props.children}

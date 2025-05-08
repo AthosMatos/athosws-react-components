@@ -5,7 +5,7 @@ interface ATHOSDynamicTableContextType {
   setSelectedData: (data: any) => void;
 }
 
-const ATHOSDynamicTableContext = createContext<ATHOSDynamicTableContextType | null>(null);
+export const ATHOSDynamicTableContext = createContext<ATHOSDynamicTableContextType | null>(null);
 
 export const ATHOSDynamicTableProvider = ({ children }: { children: React.ReactNode }) => {
   const [selectedData, setSelectedData] = useState<any[] | null>(null);
@@ -20,13 +20,4 @@ export function useATHOSDynamicTableContext<T>() {
   }
 
   return { selectedData: context.selectedData as T[] };
-}
-
-export function useATHOSDynamicTableContextPrivate() {
-  const context = useContext(ATHOSDynamicTableContext);
-  if (!context) {
-    throw new Error("useATHOSDynamicTableContext must be used within a ATHOSDynamicTableProvider");
-  }
-
-  return context;
 }

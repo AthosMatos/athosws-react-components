@@ -1,4 +1,6 @@
-import { usePopUp } from "../../hooks/private/usePopUp";
+import { AnimatePresence, motion } from "framer-motion";
+import { useEffect, useState } from "react";
+import { CollapseTransition } from "../../ATHOSCollapse/component";
 import Cols from "./components/Cols";
 import Labels from "./components/Labels";
 import Selected from "./components/Selected";
@@ -6,28 +8,57 @@ import { ATHOSSelectProvider, useATHOSSelectContext } from "./context";
 import { ATHOSSelectedProps } from "./intefaces";
 
 const AS = (props: ATHOSSelectedProps) => {
-  const { listContainerStyle, position, spacing, listContainerClassName, onToggleOpen: onToggle, matchLabelWidth } = props;
-  const { childRef, gap, id, pos, contentRef, setIsOpened, isOpened } = usePopUp({
-    onToggle,
-    matchChildrenWidth: matchLabelWidth,
-    position,
-    spacing,
-  });
+  const { listContainerStyle, listContainerClassName, onToggleOpen: onToggle, matchLabelWidth, inline } = props;
 
-  const { labels, cols } = useATHOSSelectContext();
+  const [overHidden, setOverHidden] = useState(true);
+
+  const { labels, cols, childRef, contentRef, gap, id, isOpened, pos, setIsOpened } = useATHOSSelectContext();
+
+  useEffect(() => {
+    if (isOpened) {
+      setTimeout(() => {
+        setOverHidden(false);
+      }, 200);
+    }
+    setOverHidden(true);
+  }, [isOpened]);
+
   return (
-    <div className={`${pos}`}>
+    <div className={`${inline ? "" : pos}`}>
       <Selected childRef={childRef} id={id} setIsOpened={setIsOpened} isOpened={isOpened} />
 
-      <ul
-        ref={contentRef}
-        className={`dropdown flex flex-col rounded-box shadow-sm ${listContainerClassName}`}
-        popover="auto"
-        id={id}
-        style={{ ...listContainerStyle, ...gap, positionAnchor: `--anchor-${id}` } as any}
-      >
-        {labels ? <Labels {...(props as any)} /> : cols ? <Cols {...(props as any)} /> : null}
-      </ul>
+      <AnimatePresence>
+        {isOpened && (
+          <motion.ul
+            ref={contentRef}
+            className={`dropdown w-full !opacity-100 flex flex-col rounded-box shadow-sm ${listContainerClassName}`}
+            popover={!inline ? "auto" : undefined}
+            id={id}
+            style={
+              {
+                ...listContainerStyle,
+                ...gap,
+                positionAnchor: !inline ? `--anchor-${id}` : undefined,
+                overflow: overHidden ? "hidden" : "auto",
+              } as any
+            }
+            initial="closed"
+            animate="open"
+            exit="closed"
+            variants={{
+              closed: {
+                height: 0,
+              },
+              open: {
+                height: "auto",
+              },
+            }}
+            transition={CollapseTransition}
+          >
+            {labels ? <Labels {...(props as any)} /> : cols ? <Cols {...(props as any)} /> : null}
+          </motion.ul>
+        )}
+      </AnimatePresence>
     </div>
   );
 };

@@ -43,22 +43,24 @@ const Selected = ({
         } as any
       }
     >
-      {updating ? (
-        <VscLoading className="animate-spin" />
-      ) : (
-        <CheckAnimateWrapper isMulti={!!multiSelect}>
-          {selected.map((item) => {
-            const label = labels?.find((label) => label.value === item)?.label;
-            return (
-              label && (
-                <SelectedItem isMultiSelect={!!multiSelect} key={item}>
-                  {label}
-                </SelectedItem>
-              )
-            );
-          })}
-        </CheckAnimateWrapper>
-      )}
+      <div className="flex gap-2 items-center overflow-auto whitespace-nowrap text-ellipsis">
+        {updating ? (
+          <VscLoading className="animate-spin" />
+        ) : (
+          <CheckAnimateWrapper isMulti={!!multiSelect}>
+            {selected.map((item) => {
+              const label = labels?.find((label) => label.value === item)?.label;
+              return (
+                label && (
+                  <SelectedItem isMultiSelect={!!multiSelect} key={item}>
+                    {label}
+                  </SelectedItem>
+                )
+              );
+            })}
+          </CheckAnimateWrapper>
+        )}
+      </div>
 
       <FaCaretDown className={`transition-all duration-200 ease-in-out right-3 absolute ${isOpened ? "rotate-180" : ""}`} size={16} />
     </button>

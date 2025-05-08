@@ -7,9 +7,9 @@ import { ADTStatesController } from "./StatesController";
 import { ADTTableWrapper } from "./styled";
 
 import { configureStore } from "@reduxjs/toolkit";
-import { useEffect, useMemo } from "react";
+import { useContext, useEffect, useMemo } from "react";
 import useSelectors_ADTSelectedRowsToast from "./components/ADTSelectedRowsToast/useSelectors";
-import { useATHOSDynamicTableContextPrivate } from "./context";
+import { ATHOSDynamicTableContext } from "./context";
 import ADTCustomStatesReducer from "./redux/CustomStates/provider";
 import ADTFilteringReducer from "./redux/Filtering/provider";
 import ADTPropsReducer from "./redux/props/provider";
@@ -28,12 +28,15 @@ const Comp = ({ props, stly }: { stly?: boolean; props: DynamicTableProps<any> }
   ADTStatesController({ props });
   const { selectedRows, data, tableName } = useSelectors_ADTSelectedRowsToast();
 
-  const tableContext = useATHOSDynamicTableContextPrivate();
+  const tableContext = useContext(ATHOSDynamicTableContext);
+
   if (tableContext) {
     useEffect(() => {
       //console.log("selectedRows", selectedRows);
       tableContext.setSelectedData({ ...tableContext.selectedData, [tableName]: selectedRows?.map((row: any) => data[row]) });
     }, [selectedRows]);
+  } else {
+    console.log("useATHOSDynamicTableContextPrivate must be used within a ATHOSDynamicTableProvider");
   }
 
   return (

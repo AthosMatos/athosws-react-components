@@ -19,6 +19,7 @@ export const ATHOSToast = (props: ATHOSToastProps) => {
     gap = 5,
     renderAndFade,
     className,
+    fadeTime,
   } = props;
   const [hide, setHide] = useState(false);
 
@@ -26,7 +27,7 @@ export const ATHOSToast = (props: ATHOSToastProps) => {
     if (renderAndFade) {
       setTimeout(() => {
         setHide(true);
-      }, 3000);
+      }, fadeTime || 3000);
     }
   }, [renderAndFade]);
   const toasDftID = `athos-toast`;

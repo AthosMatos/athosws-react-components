@@ -1,14 +1,24 @@
-import { AnimatePresence, motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import { useClickOutside } from "../../hooks/useClickOutside";
+
+export const CollapseTransition = {
+  duration: 0.35,
+  ease: "circInOut",
+};
 
 interface ATHOSCollapseProps {
   children: React.ReactNode;
   collpasedComponent: React.ReactNode;
-  onToggle?: (isOpen: boolean) => void;
+  onToggle?: (isOpen?: boolean) => void;
   position?: "top" | "bottom" | "left" | "right";
   spacing?: number;
   initialOpen?: boolean;
   collapsedClassName?: string;
+  wrapperClassName?: string;
+  toggleOnWrapperClick?: boolean;
+  fade?: boolean;
+  hideOnClickOutside?: boolean;
 }
 
 const variants = {
@@ -23,6 +33,20 @@ const variants = {
       height: 0,
     },
   },
+  topandbottomWithFade: {
+    initial: {
+      height: 0,
+      opacity: 0,
+    },
+    animate: {
+      height: "auto",
+      opacity: 1,
+    },
+    exit: {
+      height: 0,
+      opacity: 0,
+    },
+  },
   leftandright: {
     initial: {
       width: 0,
@@ -34,6 +58,20 @@ const variants = {
       width: 0,
     },
   },
+  leftandrightWithFade: {
+    initial: {
+      width: 0,
+      opacity: 0,
+    },
+    animate: {
+      width: "auto",
+      opacity: 1,
+    },
+    exit: {
+      width: 0,
+      opacity: 0,
+    },
+  },
 };
 
 export const ATHOSCollapse = ({
@@ -41,17 +79,50 @@ export const ATHOSCollapse = ({
   collpasedComponent,
   spacing,
   position = "bottom",
-  onToggle: onChanges,
+  onToggle,
   initialOpen,
   collapsedClassName,
+  wrapperClassName,
+  toggleOnWrapperClick,
+  fade,
+  hideOnClickOutside,
 }: ATHOSCollapseProps) => {
-  const [isSelected, setIsSelected] = useState(initialOpen || false);
+  const [isOpen, setIsOpen] = useState(initialOpen || false);
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  const childRef = useRef<HTMLDivElement>(null);
+  const collapsedRef = useRef<HTMLDivElement>(null);
+
+  const pos =
+    position === "top" ? "flex-col-reverse" : position === "bottom" ? "flex-col" : position === "left" ? "flex-row-reverse" : "flex-row";
 
   const onClick = () => {
-    setIsSelected(!isSelected);
+    if (toggleOnWrapperClick) return;
+    setIsOpen(!isOpen);
+    if (onToggle) {
+      onToggle(!isOpen);
+    }
   };
+  const onWrapperClick = () => {
+    if (toggleOnWrapperClick) {
+      setIsOpen(!isOpen);
+      if (onToggle) {
+        onToggle(!isOpen);
+      }
+    }
+  };
+  if (hideOnClickOutside) {
+    useClickOutside({
+      callback: () => {
+        setIsOpen(false);
+        if (onToggle) {
+          onToggle(undefined);
+        }
+      },
+      refs: [childRef, childRef, wrapperRef],
+    });
+  }
   const close = () => {
-    setIsSelected(false);
+    setIsOpen(false);
   };
   useEffect(() => {
     return () => {
@@ -59,22 +130,43 @@ export const ATHOSCollapse = ({
     };
   }, []);
 
-  useEffect(() => {
-    onChanges && onChanges(isSelected);
-  }, [isSelected]);
-
-  const pos =
-    position === "top" ? "flex-col-reverse" : position === "bottom" ? "flex-col" : position === "left" ? "flex-row-reverse" : "flex-row";
-
   return (
-    <div
+    <motion.div
       style={{
-        gap: spacing,
+        width: "fit-content",
       }}
-      className={`flex ${pos}`}
+      ref={wrapperRef}
+      animate={{
+        gap: isOpen ? `${spacing}px` : 0,
+      }}
+      onClick={onWrapperClick}
+      className={`flex ${pos} ${wrapperClassName}`}
     >
-      <div onClick={onClick}>{children}</div>
+      <div ref={childRef} onClick={onClick}>
+        {children}
+      </div>
 
+      <motion.div
+        ref={collapsedRef}
+        initial="initial"
+        animate={isOpen ? "animate" : "initial"}
+        variants={
+          position === "top" || position === "bottom"
+            ? fade
+              ? variants.topandbottomWithFade
+              : variants.topandbottom
+            : fade
+            ? variants.leftandrightWithFade
+            : variants.leftandright
+        }
+        className="flex overflow-hidden"
+        transition={CollapseTransition}
+      >
+        <div className={`min-w-max min-h-max ${collapsedClassName}`}>{collpasedComponent}</div>
+      </motion.div>
+
+      {/* 
+      MOST PERFORMANT WAY BUT SOME PROBLEMS WITH ALIGNMENT
       <AnimatePresence initial={false}>
         {isSelected && (
           <motion.div
@@ -92,6 +184,7 @@ export const ATHOSCollapse = ({
           </motion.div>
         )}
       </AnimatePresence>
-    </div>
+      */}
+    </motion.div>
   );
 };

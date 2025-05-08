@@ -1,11 +1,8 @@
-export type ATHOSButtonProps = {
+export interface ATHOSButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
   disabled?: boolean;
-  type: "default" | "alt" | "action";
-  onClick?: () => void;
-  children: React.ReactNode;
-  small?: boolean;
+  icon?: React.ReactNode;
   tooltip?: React.ReactNode;
-  style?: React.CSSProperties;
-  color?: string;
-  textColor?: string;
-};
+  confirmCollapse?: boolean;
+  onConfirm?: () => void;
+  inConfirmClassName?: string;
+}

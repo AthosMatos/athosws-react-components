@@ -17,12 +17,12 @@ import {
 
 import { AnimatePresence, motion } from "framer-motion";
 import { CgSpinner } from "react-icons/cg";
+import { MdBlock } from "react-icons/md";
 /**
  * DESCRIBE COMPONENT
  */
 //ImSpinner2
 const AnimLoading = motion(CgSpinner);
-
 const variants = {
   closed: {
     opacity: 0,
@@ -55,6 +55,7 @@ export const ATHOSInput = (props: ATHOSInputProps) => {
     style,
     onBlur: blur,
     onFocus: focus,
+    disabled,
   } = props;
   const [isFocused, setIsFocused] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
@@ -122,51 +123,59 @@ export const ATHOSInput = (props: ATHOSInputProps) => {
 
   const backgroundColor = useMemo(() => {
     const defaultColor = styles?.backgroundColor || ATHOSColors.gray.lighter;
+    if (disabled) return styles?.disabled?.backgroundColor || ATHOSColors.gray.light_2;
     if (hasError) ATHOSColors.red.default;
     if (isFocused) return styles?.focused?.backgroundColor || defaultColor;
     if (isHovered) return styles?.hover?.backgroundColor || defaultColor;
     return defaultColor;
-  }, [hasError, isFocused, isHovered, styles]);
+  }, [hasError, isFocused, isHovered, styles, disabled]);
 
   const outlineColor = useMemo(() => {
     const defaultColor = styles?.borderColor || ATHOSColors.gray.light;
+    if (disabled) return styles?.disabled?.borderColor || defaultColor;
     if (hasError) return ATHOSColors.red.default;
     if (isFocused) return styles?.focused?.borderColor || defaultColor;
     if (isHovered) return styles?.hover?.borderColor || defaultColor;
     return defaultColor;
-  }, [hasError, isFocused, isHovered, styles]);
+  }, [hasError, isFocused, isHovered, styles, disabled]);
 
   const textColor = useMemo(() => {
     const defaultColor = styles?.textColor || ATHOSColors.gray.dark;
+    if (disabled) return styles?.disabled?.textColor || ATHOSColors.gray.default;
     if (hasError) return ATHOSColors.red.default;
     if (isFocused) return styles?.focused?.textColor || defaultColor;
     if (isHovered) return styles?.hover?.textColor || defaultColor;
     return defaultColor;
-  }, [hasError, isFocused, isHovered, styles]);
+  }, [hasError, isFocused, isHovered, styles, disabled]);
 
   const iconColor = useMemo(() => {
     const defaultColor = styles?.iconColor || ATHOSColors.gray.dark;
+    if (disabled) return styles?.disabled?.iconColor || defaultColor;
     if (hasError) return ATHOSColors.red.default;
     if (isFocused) return styles?.focused?.iconColor || defaultColor;
     if (isHovered) return styles?.hover?.iconColor || defaultColor;
     return defaultColor;
-  }, [hasError, isFocused, isHovered, styles]);
+  }, [hasError, isFocused, isHovered, styles, disabled]);
   return (
     <AIWrapper>
       <AILabelsWrapper>
-        {type === "password" ? (
-          <AIInputLabel>{"Senha"}</AIInputLabel>
-        ) : type === "user" ? (
-          <AIInputLabel>{"Usuário"}</AIInputLabel>
-        ) : (
-          label && <AIInputLabel>{label}</AIInputLabel>
-        )}
+        <div className="flex items-center gap-1">
+          {type === "password" ? (
+            <AIInputLabel>{"Senha"}</AIInputLabel>
+          ) : type === "user" ? (
+            <AIInputLabel>{"Usuário"}</AIInputLabel>
+          ) : (
+            label && <AIInputLabel>{label}</AIInputLabel>
+          )}
+          {disabled && <MdBlock size={13} color={ATHOSColors.gray.dark} />}
+        </div>
         {hasError && <AIErrorLabel>{`*${error}`}</AIErrorLabel>}
       </AILabelsWrapper>
       <AIInputWrapper
         onClick={() => {
           inputRef.current?.focus();
         }}
+        disabled={disabled}
         error={hasError}
         focused={isFocused}
         bgColor={backgroundColor}
@@ -177,9 +186,10 @@ export const ATHOSInput = (props: ATHOSInputProps) => {
       >
         {type === "user" ? <AIUserIcon size={15} error={hasError} /> : type === "password" && <AILockIcon size={15} error={hasError} />}
         <AIInput
+          disabled={disabled}
           value={value}
           onChange={(e) => {
-            onChange && onChange(e.target.value);
+            onChange && onChange(e);
             setHasEdited(true);
           }}
           ref={inputRef}
@@ -191,6 +201,9 @@ export const ATHOSInput = (props: ATHOSInputProps) => {
           onMouseOver={() => setIsHovered(true)}
           type={type === "password" && showPassword ? "text" : type}
           placeholder={type === "user" ? "Usuário" : type === "password" ? "Senha" : placeholder}
+          {...Object.fromEntries(
+            Object.entries(props).filter(([key]) => !["onChange", "onBlur", "onFocus", "value", "className", "style"].includes(key))
+          )}
         />
         <AnimatePresence>
           {updating && (

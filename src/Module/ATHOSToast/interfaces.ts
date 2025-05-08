@@ -6,6 +6,7 @@ export interface ATHOSToastProps {
   position?: "top-right" | "top-left" | "bottom-right" | "bottom-left";
   gap?: number;
   renderAndFade?: boolean;
+  fadeTime?: number;
   children?: React.ReactNode;
   className?: string;
 }

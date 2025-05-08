@@ -4,13 +4,15 @@ import ListItem from "../ListItem";
 
 const Cols = (props: ATHOSSelectPropsCols) => {
   const { colClassName, labelClassName, labelsStyle } = props;
-  const { cols, select, selectedItems: selected } = useATHOSSelectContext();
+  const { cols, select, selectedItems: selected, isOpened } = useATHOSSelectContext();
   return (
     <>
       {cols?.map((colGroup, index) => (
         <div key={index} className={`flex ${colClassName}`} style={props.colStyle}>
-          {colGroup.map((option) => (
+          {colGroup.map((option, optindex) => (
             <ListItem
+              isOpened={isOpened}
+              index={optindex}
               key={option.value}
               selectedClassName={props.selectedLabelClassName}
               selectedStyle={props.selectedLabelStyle}

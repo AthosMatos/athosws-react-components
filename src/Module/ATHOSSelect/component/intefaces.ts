@@ -10,7 +10,7 @@ export interface SelectedItemI {
 }
 
 interface ATHOSSelectBaseProps {
-  selected: (string | number)[];
+  selected: (string | number)[] | string | number;
   position?: PopUpPosition;
   style?: React.CSSProperties;
   className?: string;
@@ -21,7 +21,7 @@ interface ATHOSSelectBaseProps {
   spacing?: number;
   matchLabelWidth?: boolean;
   onToggleOpen?: (isOpen: boolean) => void;
-
+  inline?: boolean;
   listContainerClassName?: string;
   listContainerStyle?: CSSProperties;
   multiSelect?: boolean;
