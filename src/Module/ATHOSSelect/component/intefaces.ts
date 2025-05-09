@@ -25,7 +25,9 @@ interface ATHOSSelectBaseProps {
   listContainerClassName?: string;
   listContainerStyle?: CSSProperties;
   multiSelect?: boolean;
+  multiSelectLabelClassName?: string;
   onChange?: ((selected: (string | number)[]) => Promise<any>) | ((selected: (string | number)[]) => void);
+  withSearch?: boolean;
 }
 export interface ATHOSSelectPropsList extends ATHOSSelectBaseProps {
   labels: SelectedItemI[];

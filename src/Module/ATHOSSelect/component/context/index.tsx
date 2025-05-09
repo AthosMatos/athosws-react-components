@@ -16,6 +16,9 @@ interface ATHOSSelectContextI {
   contentRef: React.RefObject<HTMLUListElement | null>;
   setIsOpened: React.Dispatch<React.SetStateAction<boolean>>;
   isOpened: boolean;
+  lastSelected?: string | number;
+  setLastSelected: React.Dispatch<React.SetStateAction<string | number | undefined>>;
+  multiSelectLabelClassName?: string;
 }
 
 const ATHOSSelectContext = createContext<ATHOSSelectContextI | null>(null);
@@ -29,7 +32,7 @@ const ATHOSSelectProvider = (
     matchLabelWidth?: boolean;
   }
 ) => {
-  const { multiSelect = false, onToggle, position, spacing, matchLabelWidth } = props;
+  const { multiSelect = false, onToggle, position, spacing, matchLabelWidth, multiSelectLabelClassName } = props;
   const popUpProps = usePopUp({
     onToggle,
     matchChildrenWidth: matchLabelWidth,
@@ -40,6 +43,7 @@ const ATHOSSelectProvider = (
   const [selectedItems, setSelectedItems] = useState<(string | number)[]>(
     Array.isArray(props.selected) ? props.selected : [props.selected]
   );
+  const [lastSelected, setLastSelected] = useState<string | number>();
   // Type guard function to check if we have labels
   const hasLabels = (props: ATHOSSelectedProps): props is ATHOSSelectPropsList => {
     return "labels" in props && Array.isArray(props.labels);
@@ -66,6 +70,7 @@ const ATHOSSelectProvider = (
 
   function select(value: string | number) {
     if (updating) return;
+
     const selV = () => {
       const prev = selectedItems;
       if (multiSelect) {
@@ -107,8 +112,6 @@ const ATHOSSelectProvider = (
     }
   }, [props.selected]);
 
-  console.log("ATHOSSelectProvider", props.selected, selectedItems, updating);
-
   return (
     <ATHOSSelectContext.Provider
       value={{
@@ -118,6 +121,9 @@ const ATHOSSelectProvider = (
         labels,
         cols,
         updating,
+        setLastSelected,
+        lastSelected,
+        multiSelectLabelClassName,
         ...popUpProps,
       }}
     >

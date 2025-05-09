@@ -14,9 +14,21 @@ interface ListItemI {
   selectedStyle?: React.CSSProperties;
   index: number;
   isOpened: boolean;
+  isLastSelected: boolean;
 }
 
-const ListItem = ({ option, onClick, isOpened, className, style, selectedClassName, selectedStyle, isSelected, index }: ListItemI) => {
+const ListItem = ({
+  option,
+  onClick,
+  isOpened,
+  isLastSelected,
+  className,
+  style,
+  selectedClassName,
+  selectedStyle,
+  isSelected,
+  index,
+}: ListItemI) => {
   const defaultClassName = `cursor-pointer select-none `;
   const { updating } = useATHOSSelectContext();
 
@@ -39,7 +51,7 @@ const ListItem = ({ option, onClick, isOpened, className, style, selectedClassNa
       {option.label}
       <AnimatePresence>
         {isSelected ? (
-          updating ? (
+          updating && isLastSelected ? (
             <VscLoading className="animate-spin" />
           ) : (
             <motion.div initial={{ opacity: 0, scale: 0.5 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.5 }}>

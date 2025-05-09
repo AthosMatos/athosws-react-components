@@ -3,7 +3,8 @@ import React from "react";
 import { FaCaretDown } from "react-icons/fa6";
 import { VscLoading } from "react-icons/vsc";
 import { useATHOSSelectContext } from "../../context";
-import SelectedItem from "../SelectedItem";
+import SelectedItem from "./SelectedItem";
+import { ATHOSTooltip } from "../../../../ATHOSTooltip";
 
 const CheckAnimateWrapper = ({ children, isMulti }: { children: React.ReactNode; isMulti: boolean }) => {
   if (isMulti) {
@@ -28,11 +29,12 @@ const Selected = ({
     updating,
     labels,
     selectedItems: selected,
+    lastSelected,
   } = useATHOSSelectContext();
 
   return (
     <button
-      className={`${className} min-w-[100px] min-h-[40px] relative flex items-center px-3 gap-2`}
+      className={`${className} min-w-[100px] min-h-[40px] relative flex flex-wrap items-center ${multiSelect ? "px-1" : "px-3"} gap-2`}
       onClick={() => setIsOpened((prev) => !prev)}
       ref={childRef}
       popoverTarget={id}
@@ -43,24 +45,39 @@ const Selected = ({
         } as any
       }
     >
-      <div className="flex gap-2 items-center overflow-auto whitespace-nowrap text-ellipsis">
-        {updating ? (
-          <VscLoading className="animate-spin" />
-        ) : (
-          <CheckAnimateWrapper isMulti={!!multiSelect}>
-            {selected.map((item) => {
-              const label = labels?.find((label) => label.value === item)?.label;
-              return (
-                label && (
-                  <SelectedItem isMultiSelect={!!multiSelect} key={item}>
-                    {label}
-                  </SelectedItem>
-                )
-              );
-            })}
-          </CheckAnimateWrapper>
-        )}
-      </div>
+      {updating && !multiSelect ? (
+        <VscLoading className="animate-spin" />
+      ) : (
+        <CheckAnimateWrapper isMulti={!!multiSelect}>
+          {selected.slice(0, 3).map((item) => {
+            const label = labels?.find((label) => label.value === item)?.label;
+
+            return (
+              label && (
+                <SelectedItem lastSelected={item == lastSelected} isMultiSelect={!!multiSelect} key={item}>
+                  {label}
+                </SelectedItem>
+              )
+            );
+          })}
+          {selected.length > 3 && (
+            <ATHOSTooltip
+              followCursor
+              tooltipContent={
+                <div className="flex flex-col">
+                  {selected.slice(3).map((item) => (
+                    <p>{labels?.find((label) => label.value === item)?.label}</p>
+                  ))}
+                </div>
+              }
+            >
+              <SelectedItem isMultiSelect={!!multiSelect}>
+                <span className="text-sm">{`+${selected.length - 3}`}</span>
+              </SelectedItem>
+            </ATHOSTooltip>
+          )}
+        </CheckAnimateWrapper>
+      )}
 
       <FaCaretDown className={`transition-all duration-200 ease-in-out right-3 absolute ${isOpened ? "rotate-180" : ""}`} size={16} />
     </button>
