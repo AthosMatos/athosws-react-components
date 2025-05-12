@@ -73,6 +73,16 @@ const ATHOSInputPage = () => {
         }}
         className="w-[300px]"
       />
+
+      <ATHOSInput
+        type="file"
+        placeholder="Placeholder"
+        colors={{
+          borderColor: "transparent",
+          backgroundColor: ATHOSColors.gray.light_2,
+        }}
+        className="w-[300px]"
+      />
     </div>
   );
 };
