@@ -109,7 +109,7 @@ export const AIEyeOffIcon = styled(IoEyeOff)<ATHOSInputIconProps>`
   font-size: 1.6rem;
 `;
 
-export const AIWrapper = styled.div`
+export const AIWrapper = styled.label`
   display: flex;
   flex-direction: column;
 

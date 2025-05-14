@@ -4,6 +4,7 @@ import { ATHOSInput } from "../component";
 
 const ATHOSInputPage = () => {
   const [values, setValues] = useState(["", "", "test", "dsad", ""]);
+  const [files, setFiles] = useState<FileList | null>(null);
   return (
     <div className="flex flex-col gap-2 ">
       <ATHOSInput
@@ -81,7 +82,15 @@ const ATHOSInputPage = () => {
           borderColor: "transparent",
           backgroundColor: ATHOSColors.gray.light_2,
         }}
+        value={""}
         className="w-[300px]"
+        onChange={(e) => {
+          console.log(e.target.files);
+          setFiles(e.target.files);
+          if (!e.target.files) return;
+          const files = Array.from(e.target.files).reduce((prev, curr) => prev + curr.name, "");
+          console.log(files);
+        }}
       />
     </div>
   );

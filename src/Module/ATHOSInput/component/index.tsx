@@ -18,6 +18,8 @@ import {
 import { AnimatePresence, motion } from "framer-motion";
 import { CgSpinner } from "react-icons/cg";
 import { MdBlock } from "react-icons/md";
+import { v4 } from "uuid";
+import { FaFile } from "react-icons/fa";
 /**
  * DESCRIBE COMPONENT
  */
@@ -62,7 +64,8 @@ export const ATHOSInput = (props: ATHOSInputProps) => {
   const [showPassword, setShowPassword] = useState(false);
   const [hasEdited, setHasEdited] = useState(false);
   const [updating, setUpdating] = useState(false);
-
+  const id = useMemo(() => v4(), []);
+  const [files, setFiles] = useState<FileList | null>(null);
   const onFocus = () => {
     setIsFocused(true);
     if (focus) {
@@ -157,7 +160,7 @@ export const ATHOSInput = (props: ATHOSInputProps) => {
     return defaultColor;
   }, [hasError, isFocused, isHovered, styles, disabled]);
   return (
-    <AIWrapper>
+    <AIWrapper htmlFor={id}>
       <AILabelsWrapper>
         <div className="flex items-center gap-1">
           {type === "password" ? (
@@ -181,17 +184,30 @@ export const ATHOSInput = (props: ATHOSInputProps) => {
         bgColor={backgroundColor}
         outlineColor={outlineColor}
         textColor={textColor}
-        className={className}
+        className={`${className}`}
         style={style}
       >
         {type === "user" ? <AIUserIcon size={15} error={hasError} /> : type === "password" && <AILockIcon size={15} error={hasError} />}
+        {type === "file" && <FaFile />}
+        {type === "file" && (
+          <div className="">{Array.isArray(value) && value.length ? value.map((v) => v) : value || "Selecione um arquivo"}</div>
+        )}
         <AIInput
+          id={id}
           disabled={disabled}
           value={value}
           onChange={(e) => {
             onChange && onChange(e);
             setHasEdited(true);
+            type == "file" && setFiles(e.target.files);
           }}
+          style={
+            type === "file"
+              ? {
+                  display: "none",
+                }
+              : undefined
+          }
           ref={inputRef}
           onFocus={onFocus}
           onBlur={onBlur}
