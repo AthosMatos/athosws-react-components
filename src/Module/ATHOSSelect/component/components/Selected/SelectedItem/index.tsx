@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { ReactNode } from "react";
-import { useATHOSSelectContext } from "../../../context";
 import { VscLoading } from "react-icons/vsc";
+import { useATHOSSelectContext } from "../../../context";
 const SelectedItem = ({
   isMultiSelect,
   children,

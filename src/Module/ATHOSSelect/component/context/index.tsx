@@ -19,6 +19,10 @@ interface ATHOSSelectContextI {
   lastSelected?: string | number;
   setLastSelected: React.Dispatch<React.SetStateAction<string | number | undefined>>;
   multiSelectLabelClassName?: string;
+  searchValue: string;
+  setSearchValue: React.Dispatch<React.SetStateAction<string>>;
+  originalLabels: SelectedItemI[] | null;
+  originalCols: SelectedItemI[][] | null;
 }
 
 const ATHOSSelectContext = createContext<ATHOSSelectContextI | null>(null);
@@ -40,8 +44,9 @@ const ATHOSSelectProvider = (
     spacing,
   });
   const [updating, setUpdating] = useState(false);
+  const [searchValue, setSearchValue] = useState("");
   const [selectedItems, setSelectedItems] = useState<(string | number)[]>(
-    Array.isArray(props.selected) ? props.selected : [props.selected]
+    Array.isArray(props.selected) ? props.selected : props.selected !== undefined && props.selected !== null ? [props.selected] : []
   );
   const [lastSelected, setLastSelected] = useState<string | number>();
   // Type guard function to check if we have labels
@@ -112,19 +117,47 @@ const ATHOSSelectProvider = (
     }
   }, [props.selected]);
 
+  const filteredLabels = useMemo(() => {
+    return (
+      labels?.filter((label) => {
+        if (label.label) {
+          return label.label.toString().toLowerCase().includes(searchValue.toLowerCase());
+        }
+        return label.value.toString().toLowerCase().includes(searchValue.toLowerCase());
+      }) || null
+    );
+  }, [labels, searchValue]);
+
+  const filteredCols = useMemo(() => {
+    return (
+      cols?.map((col) => {
+        return col.filter((label) => {
+          if (label.label) {
+            return label.label.toString().toLowerCase().includes(searchValue.toLowerCase());
+          }
+          return label.value.toString().toLowerCase().includes(searchValue.toLowerCase());
+        });
+      }) || null
+    );
+  }, [cols, searchValue]);
+
   return (
     <ATHOSSelectContext.Provider
       value={{
         props,
         selectedItems,
         select,
-        labels,
-        cols,
+        labels: filteredLabels,
+        cols: filteredCols,
         updating,
         setLastSelected,
         lastSelected,
         multiSelectLabelClassName,
+        searchValue,
+        setSearchValue,
         ...popUpProps,
+        originalCols: cols,
+        originalLabels: labels,
       }}
     >
       {props.children}

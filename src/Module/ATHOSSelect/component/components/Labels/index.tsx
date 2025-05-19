@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useATHOSSelectContext } from "../../context";
 import { ATHOSSelectPropsList } from "../../intefaces";
 import ListItem from "../ListItem";
@@ -9,10 +8,9 @@ const Labels = (props: ATHOSSelectPropsList) => {
 
   return (
     <>
-      {labels?.map((option, index) => (
+      {labels?.map((option) => (
         <ListItem
           isOpened={isOpened}
-          index={index}
           key={option.value}
           selectedClassName={props.selectedLabelClassName}
           selectedStyle={props.selectedLabelStyle}

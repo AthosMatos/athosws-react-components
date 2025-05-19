@@ -25,6 +25,7 @@ type InputProps = {
   outlineColor?: string;
   textColor?: string;
   disabled?: boolean;
+  paddingHorizontal?: string;
 };
 
 export const AIInputWrapper = styled.div<InputProps>`
@@ -34,12 +35,11 @@ export const AIInputWrapper = styled.div<InputProps>`
   gap: 0.6rem;
   outline: 1px solid ${({ outlineColor }) => outlineColor};
   border-radius: 0.5rem;
-  padding: 0.5rem 0.6rem;
   background-color: ${({ bgColor }) => bgColor};
   transition: all 0.14s;
   justify-content: space-between;
   color: ${({ textColor }) => textColor};
-
+  padding: 0rem ${({ paddingHorizontal }) => (paddingHorizontal ? paddingHorizontal : "0.5rem")} 0;
   //on error shake
   ${({ error }) =>
     error &&
@@ -109,11 +109,11 @@ export const AIEyeOffIcon = styled(IoEyeOff)<ATHOSInputIconProps>`
   font-size: 1.6rem;
 `;
 
-export const AIWrapper = styled.label`
+export const AIWrapper = styled.div`
   display: flex;
   flex-direction: column;
 
-  width: fit-content;
+  /*  width: fit-content; */
 `;
 
 export const AIInputLabel = styled.label`

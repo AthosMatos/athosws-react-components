@@ -1,67 +1,44 @@
-import { useState } from "react";
+import { UseFormRegister } from "react-hook-form";
 import { ATHOSInput } from "../../ATHOSInput/component";
-import { ATHOSInputType } from "../../ATHOSInput/component/interfaces";
+import { ATHOSInputProps, ATHOSInputType } from "../../ATHOSInput/component/interfaces";
 
-interface formValues {
+export interface FormFields extends ATHOSInputProps {
+  name: string;
   label: string;
-  value: string;
-  type: ATHOSInputType;
-  placeholder: string;
-  required: boolean;
-  disabled: boolean;
-  error: string;
-
-  maxLength: number;
-  minLength: number;
+  fieldType: ATHOSInputType | "select";
+  error?: string;
 }
 
-export const ATHOSForm = () => {
-  const [values, setValues] = useState<formValues[]>([
-    {
-      label: "Name",
-      value: "",
-      type: "text",
-      placeholder: "Enter your name",
-      required: true,
-      disabled: false,
-      error: "",
-      maxLength: 50,
-      minLength: 1,
-    },
-    {
-      label: "Email",
-      value: "",
-      type: "email",
-      placeholder: "Enter your email",
-      required: true,
-      disabled: false,
-      error: "",
-      maxLength: 50,
-      minLength: 5,
-    },
-    // Add more fields as needed
-  ]);
+interface ATHOSFormProps {
+  fields: FormFields[];
+  register?: UseFormRegister<any>;
+  maxFieldsWidth?: string;
+}
+
+export const ATHOSForm = ({ fields, register, maxFieldsWidth }: ATHOSFormProps) => {
   return (
     <div className="flex flex-col gap-2 ">
-      {values.map((field, index) => (
-        <ATHOSInput
-          key={index}
-          label={field.label}
-          value={field.value}
-          type={field.type}
-          placeholder={field.placeholder}
-          required={field.required}
-          disabled={field.disabled}
-          error={field.error}
-          maxLength={field.maxLength}
-          minLength={field.minLength}
-          onChange={(e) => {
-            const newValues = [...values];
-            newValues[index].value = e.target.value;
-            setValues(newValues);
-          }}
-        />
-      ))}
+      {fields.map((field, index) =>
+        field.fieldType === "select" ? null : (
+          <ATHOSInput
+            key={index}
+            {...field}
+            style={{ maxWidth: maxFieldsWidth }}
+            {...(register
+              ? register(field.name, {
+                  required: field.required ? `${field.label} is required` : false,
+                  validate: (value) => {
+                    if (field.type === "email") {
+                      return /\S+@\S+\.\S+/.test(value) || `${field.label} is not a valid email`;
+                    }
+                    return true;
+                  },
+                })
+              : {})}
+            type={field.fieldType}
+          />
+        )
+      )}
     </div>
   );
 };

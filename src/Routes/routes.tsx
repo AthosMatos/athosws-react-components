@@ -151,7 +151,7 @@ export const RoutesProvider = ({ children }: { children: React.ReactNode }) => {
           path: "components/popup",
           component: ATHOSPopUpPage,
           label: "PopUp",
-          icon: <PopUpIcon className="w-4 h-4 fill-white" />,
+          icon: <PopUpIcon className="w-4 h-4 dark:fill-white" />,
           onClick: () => setPageTitle(AppText.pages.components.popUp),
           onInit: () => setPageTitle(AppText.pages.components.popUp),
         },

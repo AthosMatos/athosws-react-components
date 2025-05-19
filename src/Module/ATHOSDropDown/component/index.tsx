@@ -1,5 +1,7 @@
+import { motion } from "framer-motion";
 import { usePopUp } from "../../hooks/private/usePopUp";
 import { ATHOSDropDownProps, ATHOSDropDownPropsCols, ATHOSDropDownPropsList, LabelI } from "./interfaces";
+
 /**
  *
  */
@@ -46,7 +48,7 @@ const ATHOSDropDown = (props: ATHOSDropDownProps) => {
     buttonStyle,
   } = props;
 
-  const { childRef, gap, id, pos, contentRef, setIsOpened } = usePopUp({
+  const { childRef, gap, id, pos, contentRef, setIsOpened, isOpened } = usePopUp({
     onToggle,
     matchChildrenWidth,
     position,
@@ -78,27 +80,40 @@ const ATHOSDropDown = (props: ATHOSDropDownProps) => {
       >
         {children}
       </button>
-      <ul
-        ref={contentRef}
-        className={`dropdown flex flex-col rounded-box shadow-sm ${className}`}
-        popover="auto"
-        id={id}
-        style={{ ...style, ...gap, positionAnchor: `--anchor-${id}` } as any}
-      >
-        {hasLabels(props)
-          ? props.labels?.map((option, index) => (
-              <ListItem style={labelsStyle} className={labelClassName} key={index} onClick={option.onClick} option={option} />
-            ))
-          : hasCols(props)
-          ? props.cols?.map((colGroup, index) => (
-              <div key={index} className={`flex ${props.colClassName}`} style={props.colStyle}>
-                {colGroup.map((option, index) => (
-                  <ListItem style={labelsStyle} className={labelClassName} key={index} onClick={option.onClick} option={option} />
-                ))}
-              </div>
-            ))
-          : null}
-      </ul>
+      {isOpened && (
+        <motion.ul
+          ref={contentRef}
+          className={`dropdown flex flex-col rounded-box shadow-sm ${className}`}
+          popover="auto"
+          id={id}
+          style={{ ...style, ...gap, positionAnchor: `--anchor-${id}` } as any}
+          initial="closed"
+          animate="open"
+          exit="closed"
+          variants={{
+            closed: {
+              height: 0,
+            },
+            open: {
+              height: "auto",
+            },
+          }}
+        >
+          {hasLabels(props)
+            ? props.labels?.map((option, index) => (
+                <ListItem style={labelsStyle} className={labelClassName} key={index} onClick={option.onClick} option={option} />
+              ))
+            : hasCols(props)
+            ? props.cols?.map((colGroup, index) => (
+                <div key={index} className={`flex ${props.colClassName}`} style={props.colStyle}>
+                  {colGroup.map((option, index) => (
+                    <ListItem style={labelsStyle} className={labelClassName} key={index} onClick={option.onClick} option={option} />
+                  ))}
+                </div>
+              ))
+            : null}
+        </motion.ul>
+      )}
     </div>
   );
 };

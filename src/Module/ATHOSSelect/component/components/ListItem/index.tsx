@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { FaCheck } from "react-icons/fa";
+import { FaCheck } from "react-icons/fa6";
 import { VscLoading } from "react-icons/vsc";
 import { useATHOSSelectContext } from "../../context";
 import { SelectedItemI } from "../../intefaces";
@@ -12,7 +12,7 @@ interface ListItemI {
   isSelected: boolean;
   selectedClassName?: string;
   selectedStyle?: React.CSSProperties;
-  index: number;
+
   isOpened: boolean;
   isLastSelected: boolean;
 }
@@ -27,7 +27,6 @@ const ListItem = ({
   selectedClassName,
   selectedStyle,
   isSelected,
-  index,
 }: ListItemI) => {
   const defaultClassName = `cursor-pointer select-none `;
   const { updating } = useATHOSSelectContext();

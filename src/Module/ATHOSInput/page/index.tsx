@@ -1,71 +1,37 @@
 import { useState } from "react";
+import { useForm } from "react-hook-form";
 import { ATHOSColors } from "../../colors/colors";
 import { ATHOSInput } from "../component";
 
+interface formValues {
+  firstName: string;
+  password: string;
+  lastName: string;
+  email: string;
+  phoneNumber: string;
+}
+
 const ATHOSInputPage = () => {
-  const [values, setValues] = useState(["", "", "test", "dsad", ""]);
+  const { register, setValue } = useForm<formValues>();
   const [files, setFiles] = useState<FileList | null>(null);
   return (
-    <div className="flex flex-col gap-2 ">
+    <div className="flex flex-col gap-2 w-fit">
       <ATHOSInput
-        value={values[0]}
         label={"Label"}
-        onChange={(text) => {
-          setValues((prev) => {
-            let newValues = [...prev];
-            newValues[0] = text.currentTarget.value;
-            return newValues;
-          });
-        }}
         placeholder="Placeholder"
         colors={{
           focused: {
             borderColor: ATHOSColors.aqua.default,
           },
         }}
+        {...register("firstName")}
       />
+      <ATHOSInput placeholder="Placeholder" type="password" {...register("password")} />
+      <ATHOSInput disabled placeholder="Placeholder" type="user" {...register("lastName")} />
       <ATHOSInput
-        value={values[1]}
-        onChange={(text) => {
-          setValues((prev) => {
-            let newValues = [...prev];
-            newValues[1] = text.currentTarget.value;
-            return newValues;
-          });
-        }}
-        placeholder="Placeholder"
-        type="password"
-      />
-      <ATHOSInput
-        disabled
-        value={values[2]}
-        onChange={(text) => {
-          setValues((prev) => {
-            let newValues = [...prev];
-            newValues[2] = text.currentTarget.value;
-            return newValues;
-          });
-        }}
-        placeholder="Placeholder"
-        type="user"
-      />
-      <ATHOSInput
-        disabled
-        value={values[3]}
-        onChange={(text) => {
-          setValues((prev) => {
-            let newValues = [...prev];
-            newValues[3] = text.currentTarget.value;
-            return newValues;
-          });
-        }}
-        onBlur={async () => {
+        onblur={async () => {
           await new Promise((resolve) => setTimeout(resolve, 1000));
-          setValues((prev) => {
-            let newValues = [...prev];
-            newValues[3] = "blurred";
-            return newValues;
-          });
+          setValue("email", "blurred");
         }}
         placeholder="Placeholder"
         colors={{
@@ -73,23 +39,20 @@ const ATHOSInputPage = () => {
           backgroundColor: ATHOSColors.gray.light_2,
         }}
         className="w-[300px]"
+        {...register("email")}
       />
 
       <ATHOSInput
         type="file"
         placeholder="Placeholder"
         colors={{
-          borderColor: "transparent",
-          backgroundColor: ATHOSColors.gray.light_2,
+          // backgroundColor: ATHOSColors.gray.light_2,
+          textColor: ATHOSColors.gray.dark,
         }}
-        value={""}
         className="w-[300px]"
         onChange={(e) => {
           console.log(e.target.files);
           setFiles(e.target.files);
-          if (!e.target.files) return;
-          const files = Array.from(e.target.files).reduce((prev, curr) => prev + curr.name, "");
-          console.log(files);
         }}
       />
     </div>

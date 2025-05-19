@@ -13,7 +13,6 @@ const Cols = (props: ATHOSSelectPropsCols) => {
             <ListItem
               isLastSelected={lastSelected === option.value}
               isOpened={isOpened}
-              index={optindex}
               key={option.value}
               selectedClassName={props.selectedLabelClassName}
               selectedStyle={props.selectedLabelStyle}

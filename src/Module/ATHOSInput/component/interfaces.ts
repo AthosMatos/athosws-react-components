@@ -23,14 +23,31 @@ export interface ATHOSInputStyles {
   };
 }
 
-export type ATHOSInputType = "text" | "email" | "user" | "password" | "number" | "tel" | "url" | "date" | "time" | "color" | "file";
+export type ATHOSInputType =
+  | "text"
+  | "email"
+  | "user"
+  | "password"
+  | "number"
+  | "tel"
+  | "url"
+  | "date"
+  | "time"
+  | "color"
+  | "file"
+  | "check";
 
 export interface ATHOSInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   type?: ATHOSInputType;
   label?: string;
   error?: string;
+  icon?: React.ReactNode;
   colors?: ATHOSInputStyles;
-  onBlur?: () => void | Promise<void>;
-  onFocus?: () => void | Promise<void>;
+  onblur?: () => void | Promise<void>;
+  onfocus?: () => void | Promise<void>;
   isSubmitting?: boolean;
+  innerPadding?: {
+    vertical?: string;
+    horizontal?: string;
+  };
 }

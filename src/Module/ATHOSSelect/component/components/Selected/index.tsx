@@ -1,11 +1,11 @@
 import { AnimatePresence } from "framer-motion";
 import React from "react";
-import { FaCaretDown } from "react-icons/fa6";
+
+import { PiCaretDownLight } from "react-icons/pi";
 import { VscLoading } from "react-icons/vsc";
+import { ATHOSTooltip } from "../../../../ATHOSTooltip";
 import { useATHOSSelectContext } from "../../context";
 import SelectedItem from "./SelectedItem";
-import { ATHOSTooltip } from "../../../../ATHOSTooltip";
-
 const CheckAnimateWrapper = ({ children, isMulti }: { children: React.ReactNode; isMulti: boolean }) => {
   if (isMulti) {
     return <AnimatePresence>{children}</AnimatePresence>;
@@ -27,7 +27,7 @@ const Selected = ({
   const {
     props: { className, style, multiSelect },
     updating,
-    labels,
+    originalLabels,
     selectedItems: selected,
     lastSelected,
   } = useATHOSSelectContext();
@@ -50,7 +50,7 @@ const Selected = ({
       ) : (
         <CheckAnimateWrapper isMulti={!!multiSelect}>
           {selected.slice(0, 3).map((item) => {
-            const label = labels?.find((label) => label.value === item)?.label;
+            const label = originalLabels?.find((label) => label.value === item)?.label;
 
             return (
               label && (
@@ -66,7 +66,7 @@ const Selected = ({
               tooltipContent={
                 <div className="flex flex-col">
                   {selected.slice(3).map((item) => (
-                    <p>{labels?.find((label) => label.value === item)?.label}</p>
+                    <p>{originalLabels?.find((label) => label.value === item)?.label}</p>
                   ))}
                 </div>
               }
@@ -79,7 +79,7 @@ const Selected = ({
         </CheckAnimateWrapper>
       )}
 
-      <FaCaretDown className={`transition-all duration-200 ease-in-out right-3 absolute ${isOpened ? "rotate-180" : ""}`} size={16} />
+      <PiCaretDownLight className={`transition-all duration-200 ease-in-out right-3 absolute ${isOpened ? "rotate-180" : ""}`} size={16} />
     </button>
   );
 };

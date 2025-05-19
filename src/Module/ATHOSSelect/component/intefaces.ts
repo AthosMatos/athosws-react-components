@@ -10,7 +10,7 @@ export interface SelectedItemI {
 }
 
 interface ATHOSSelectBaseProps {
-  selected: (string | number)[] | string | number;
+  selected?: (string | number)[] | string | number;
   position?: PopUpPosition;
   style?: React.CSSProperties;
   className?: string;
@@ -27,7 +27,12 @@ interface ATHOSSelectBaseProps {
   multiSelect?: boolean;
   multiSelectLabelClassName?: string;
   onChange?: ((selected: (string | number)[]) => Promise<any>) | ((selected: (string | number)[]) => void);
-  withSearch?: boolean;
+  search?: {
+    placeholder?: string;
+    backgroundColor?: string;
+    textColor?: string;
+    borderColor?: string;
+  };
 }
 export interface ATHOSSelectPropsList extends ATHOSSelectBaseProps {
   labels: SelectedItemI[];

@@ -1,14 +1,14 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import { CollapseTransition } from "../../ATHOSCollapse/component";
 import Cols from "./components/Cols";
 import Labels from "./components/Labels";
+import SearchBar from "./components/SearchBar";
 import Selected from "./components/Selected";
 import { ATHOSSelectProvider, useATHOSSelectContext } from "./context";
 import { ATHOSSelectedProps } from "./intefaces";
 
 const AS = (props: ATHOSSelectedProps) => {
-  const { listContainerStyle, listContainerClassName, onToggleOpen: onToggle, matchLabelWidth, inline } = props;
+  const { listContainerStyle, listContainerClassName, onToggleOpen: onToggle, search: withSearch, inline } = props;
 
   const [overHidden, setOverHidden] = useState(true);
 
@@ -31,7 +31,7 @@ const AS = (props: ATHOSSelectedProps) => {
         {isOpened && (
           <motion.ul
             ref={contentRef}
-            className={`dropdown w-full !opacity-100 flex flex-col rounded-box shadow-sm ${listContainerClassName}`}
+            className={`dropdown w-full flex flex-col rounded-box shadow-sm ${listContainerClassName}`}
             popover={!inline ? "auto" : undefined}
             id={id}
             style={
@@ -53,8 +53,9 @@ const AS = (props: ATHOSSelectedProps) => {
                 height: "auto",
               },
             }}
-            transition={CollapseTransition}
+            /*   transition={CollapseTransition} */
           >
+            {withSearch && <SearchBar />}
             {labels ? <Labels {...(props as any)} /> : cols ? <Cols {...(props as any)} /> : null}
           </motion.ul>
         )}
