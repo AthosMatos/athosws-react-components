@@ -9,6 +9,7 @@ const values: FormFields[] = [
     fieldType: "text",
     placeholder: "Enter your first name",
     required: true,
+    className: "w-full",
   },
   {
     name: "lastName",
@@ -18,6 +19,7 @@ const values: FormFields[] = [
     placeholder: "Enter your last name",
     required: true,
     disabled: true,
+    className: "w-full",
   },
   {
     name: "email",
@@ -26,12 +28,13 @@ const values: FormFields[] = [
     fieldType: "email",
     placeholder: "Enter your email",
     required: true,
+    className: "w-full",
   },
 
   {
     name: "phoneNumber",
     label: "Phone Number",
-
+    className: "w-full",
     fieldType: "tel",
     placeholder: "Enter your phone number",
   },

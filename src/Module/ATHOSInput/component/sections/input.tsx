@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { useRef } from "react";
+import { RefObject } from "react";
 import { CgSpinner } from "react-icons/cg";
 import { FaFile } from "react-icons/fa";
 import { useATHOSInputContext } from "../context";
@@ -24,8 +24,7 @@ const variants = {
   },
 };
 
-export const Input = () => {
-  const inputRef = useRef<HTMLInputElement>(null);
+export const Input = ({ inputRef }: { inputRef: RefObject<HTMLInputElement | null> }) => {
   const {
     props,
     backgroundColor,
@@ -51,7 +50,6 @@ export const Input = () => {
       paddingHorizontal={innerPadding?.horizontal}
       onClick={() => {
         type == "check" && setChecked(!checked);
-        inputRef.current?.focus();
       }}
       disabled={disabled}
       error={hasError}
@@ -99,6 +97,7 @@ export const Input = () => {
 
             <AIInput
               id={id}
+              ref={inputRef}
               disabled={disabled}
               value={value}
               onChange={(e) => {
@@ -113,7 +112,6 @@ export const Input = () => {
                     }
                   : undefined
               }
-              ref={inputRef}
               onFocus={onFocus}
               onBlur={onBlur}
               onMouseEnter={() => setIsHovered(true)}
