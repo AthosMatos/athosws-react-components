@@ -15,7 +15,7 @@ export const ATHOSInput = (props: ATHOSInputProps) => {
   const id = useMemo(() => v4(), []);
   return (
     <ATHOSInputProvider props={{ ...props, id }}>
-      <AIWrapper className={props.className} style={props.style}>
+      <AIWrapper className={`${props.className} ${props.type === "check" ? "justify-center" : ""}`} style={props.style}>
         <Label />
         <Input />
       </AIWrapper>

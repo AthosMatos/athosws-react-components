@@ -55,6 +55,16 @@ const ATHOSInputPage = () => {
           setFiles(e.target.files);
         }}
       />
+
+      <ATHOSInput
+        label="Urgente"
+        type="check"
+        colors={{
+          // backgroundColor: ATHOSColors.gray.light_2,
+          textColor: ATHOSColors.gray.dark,
+        }}
+        className="w-10"
+      />
     </div>
   );
 };
