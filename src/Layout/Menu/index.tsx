@@ -21,7 +21,7 @@ const Menu = () => {
   const routesObj = useRoutes();
   const opts = useRef(TranslateToOptions(routesObj)).current;
   return (
-    <div className="md:w-60 w-44">
+    <div className="md:w-60 w-44 sticky left-4">
       <ATHOSMenu
         blur={{ menu: true }}
         navigate={{

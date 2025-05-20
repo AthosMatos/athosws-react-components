@@ -26,6 +26,8 @@ import ATHOSSelectPage from "../Module/ATHOSSelect/page";
 import AthosVirtualDivPage from "../Module/ATHOSVirtualDiv/page";
 import { usePage } from "../pageContext/redux";
 import InstallPage from "../pages/Install";
+import ATHOSBreadcrumbs from "../Module/ATHOSBreadcrumbs/component";
+import ATHOSBreadcrumbsPage from "../Module/ATHOSBreadcrumbs/page";
 
 export type WithComponent<T> = {
   [key in keyof T]: T[key] & {
@@ -75,6 +77,14 @@ export const RoutesProvider = ({ children }: { children: React.ReactNode }) => {
       label: AppText.pages.components.title[lang],
       icon: <RxComponent1 />,
       subOpts: {
+        breadcrumbs: {
+          path: "components/breadcrumbs",
+          component: ATHOSBreadcrumbsPage,
+          label: "Breadcrumbs",
+          icon: <FaWpforms />,
+          onClick: () => setPageTitle(AppText.pages.components.breadcrumbs),
+          onInit: () => setPageTitle(AppText.pages.components.breadcrumbs),
+        },
         form: {
           path: "components/form",
           component: ATHOSFormPage,

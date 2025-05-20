@@ -20,6 +20,7 @@ export const AIInput = styled.input`
 
 type InputProps = {
   focused: boolean;
+  focusedOutlineColor?: string;
   error?: boolean;
   bgColor?: string;
   outlineColor?: string;
@@ -33,7 +34,7 @@ export const AIInputWrapper = styled.div<InputProps>`
   align-items: center;
   cursor: ${({ disabled }) => (disabled ? "not-allowed" : "text")};
   gap: 0.6rem;
-  outline: 1px solid ${({ outlineColor }) => outlineColor};
+  outline: 1px solid ${({ outlineColor, focused, focusedOutlineColor }) => (focused ? focusedOutlineColor : outlineColor)};
   border-radius: 0.5rem;
   background-color: ${({ bgColor }) => bgColor};
   transition: all 0.14s;
@@ -46,7 +47,6 @@ export const AIInputWrapper = styled.div<InputProps>`
     `
         animation: shake 0.2s;
         animation-iteration-count: 1;
-        
     `}
 
   @keyframes shake {

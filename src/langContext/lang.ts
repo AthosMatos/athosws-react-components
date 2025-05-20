@@ -15,6 +15,16 @@ export const AppText = {
       },
     },
     components: {
+      breadcrumbs: {
+        title: {
+          "pt-BR": "Breadcrumb",
+          "en-US": "Breadcrumb",
+        },
+        subtitle: {
+          "pt-BR": "Veja o Breadcrumb em ação",
+          "en-US": "See the Breadcrumb in action",
+        },
+      },
       form: {
         title: {
           "pt-BR": "Formulário",

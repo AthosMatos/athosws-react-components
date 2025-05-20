@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { RefObject } from "react";
+import { RefObject, useRef } from "react";
 import { CgSpinner } from "react-icons/cg";
 import { FaFile } from "react-icons/fa";
 import { useATHOSInputContext } from "../context";
@@ -24,7 +24,7 @@ const variants = {
   },
 };
 
-export const Input = ({ inputRef }: { inputRef: RefObject<HTMLInputElement | null> }) => {
+export const Input = () => {
   const {
     props,
     backgroundColor,
@@ -40,24 +40,38 @@ export const Input = ({ inputRef }: { inputRef: RefObject<HTMLInputElement | nul
     setChecked,
     setIsHovered,
     setShowPassword,
+    setIsFocused,
     textColor,
     checked,
   } = useATHOSInputContext();
   const { disabled, placeholder, icon, type, innerPadding, value, onChange, onFocus, onBlur, id } = props;
-
+  const inputRef = useRef<HTMLInputElement>(null);
   return (
     <AIInputWrapper
       paddingHorizontal={innerPadding?.horizontal}
-      onClick={() => {
+      onClick={(e) => {
         type == "check" && setChecked(!checked);
+        /*  if (isFocused) {
+          inputRef.current?.blur();
+          setIsFocused(false);
+        } else {
+          inputRef.current?.focus();
+          setIsFocused(true);
+        } */
       }}
+      /* onFocus={() => {
+        alert("focus");
+      }}
+      onBlur={() => {
+        alert("blur");
+      }} */
       disabled={disabled}
       error={hasError}
       focused={isFocused}
       bgColor={backgroundColor}
       outlineColor={outlineColor}
       textColor={textColor}
-      className={`select-none ${type === "check" ? "!rounded-full aspect-square  !cursor-pointer" : ""} ${
+      className={`select-none ${type === "check" ? "!rounded-full aspect-square !cursor-pointer" : ""} ${
         checked ? "transition-colors !bg-red-500" : ""
       } ${type === "file" ? "!pr-0" : ""} `}
     >
@@ -65,7 +79,9 @@ export const Input = ({ inputRef }: { inputRef: RefObject<HTMLInputElement | nul
         style={{
           padding: `${innerPadding?.vertical ? innerPadding?.vertical : "0.5rem"} 0`,
         }}
-        className={`flex ${type === "file" ? "w-[70%]" : ""} ${type === "check" ? "w-full h-full" : "overflow-hidden items-center gap-2"} `}
+        className={`flex ${type === "file" ? "w-[70%]" : "w-full"} ${
+          type === "check" ? "w-full h-full" : "overflow-hidden items-center gap-2"
+        } `}
       >
         {type === "check" ? (
           checked && (
@@ -97,8 +113,9 @@ export const Input = ({ inputRef }: { inputRef: RefObject<HTMLInputElement | nul
 
             <AIInput
               id={id}
-              ref={inputRef}
+              //ref={inputRef}
               disabled={disabled}
+              className="w-full"
               value={value}
               onChange={(e) => {
                 onChange && onChange(e);
