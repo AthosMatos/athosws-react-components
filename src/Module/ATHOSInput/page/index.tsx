@@ -36,7 +36,7 @@ const ATHOSInputPage = () => {
         placeholder="Placeholder"
         colors={{
           borderColor: "transparent",
-          backgroundColor: ATHOSColors.gray.light_2,
+          backgroundColor: ATHOSColors.gray.lighter,
         }}
         className="w-[300px]"
         {...register("email")}

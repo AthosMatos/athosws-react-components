@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { v4 } from "uuid";
 import { useClickOutside } from "../useClickOutside";
 
@@ -66,15 +66,16 @@ export const usePopUp = ({ position = "top", matchChildrenWidth = false, spacing
   );
   const childRef = useRef<HTMLButtonElement>(null);
   const contentRef = useRef<HTMLUListElement>(null);
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (childRef.current && matchChildrenWidth) {
       const childWidth = childRef.current.getBoundingClientRect().width;
       const dropdown = document.getElementById(id);
+
       if (dropdown) {
         dropdown.style.width = `${childWidth}px`;
       }
     }
-  }, [childRef.current, matchChildrenWidth]);
+  }, [childRef.current, matchChildrenWidth, isOpened]);
 
   useClickOutside({
     callback: () => {

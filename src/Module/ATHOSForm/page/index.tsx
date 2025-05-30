@@ -5,7 +5,6 @@ const values: FormFields[] = [
   {
     name: "firstName",
     label: "First Name",
-
     fieldType: "text",
     placeholder: "Enter your first name",
     required: true,
@@ -14,7 +13,6 @@ const values: FormFields[] = [
   {
     name: "lastName",
     label: "Last Name",
-
     fieldType: "text",
     placeholder: "Enter your last name",
     required: true,

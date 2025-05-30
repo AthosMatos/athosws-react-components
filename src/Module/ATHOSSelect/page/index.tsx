@@ -41,7 +41,7 @@ const ATHOSSelectPage = () => {
   };
   return (
     <div className="text-black">
-      <div className="flex gap-2">
+      <div className="flex flex-col gap-2">
         <ATHOSSelect
           multiSelect
           selected={selectedItems}
@@ -76,6 +76,7 @@ const ATHOSSelectPage = () => {
         />
         <ATHOSSelect
           // multiSelect
+          label="TESTE"
           inline
           search={{
             placeholder: "Pesquisar",
@@ -83,6 +84,23 @@ const ATHOSSelectPage = () => {
           matchLabelWidth
           className="w-[300px] dark:bg-zinc-800 h-[42px] text-black rounded-lg dark:text-white outline outline-zinc-300 outline-1"
           listContainerClassName="backdrop-blur-[0.08rem] dark:bg-zinc-800 bg-white max-h-[220px] rounded-lg p-[0.3rem] gap-1 outline outline-zinc-300 outline-1"
+          labelClassName="transition-all p-2 text-zinc-300 rounded-md hover:bg-white/20"
+          selectedLabelClassName="bg-white !text-black hover:!bg-white"
+          position="bottom"
+          labels={items}
+        />
+        <ATHOSSelect
+          
+          // multiSelect
+          thin
+          label="TESTE"
+          inline
+          search={{
+            placeholder: "Pesquisar",
+          }}
+          matchLabelWidth
+          className="w-[300px] h-[22px] text-black rounded-lg dark:text-white"
+          listContainerClassName="max-h-[220px] rounded-lg p-[0.3rem] gap-1"
           labelClassName="transition-all p-2 text-zinc-300 rounded-md hover:bg-white/20"
           selectedLabelClassName="bg-white !text-black hover:!bg-white"
           position="bottom"

@@ -20,7 +20,7 @@ export interface BaseItem {
 interface Props<T extends BaseItem> {
   items: T[];
   update(changeItems: T[]): void;
-  render(item: T): JSX.Element;
+  render(item: T): React.JSX.Element;
 }
 
 const measuringConfig = {

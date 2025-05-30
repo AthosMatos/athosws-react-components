@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { RefObject, useRef } from "react";
+import { useRef } from "react";
 import { CgSpinner } from "react-icons/cg";
 import { FaFile } from "react-icons/fa";
 import { useATHOSInputContext } from "../context";
@@ -102,7 +102,9 @@ export const Input = () => {
                   <div className="flex items-center gap-2">
                     <FaFile />
                     {files && files.length > 0 ? (
-                      Array.from(files).map((file) => <p key={file.name}>{file.name}</p>)
+                      Array.from(files).map((file) => (
+                        <p key={file.name}>{file.name.length > 10 ? `${file.name.slice(0, 10)}...` : file.name}</p>
+                      ))
                     ) : (
                       <p>Selecione um arquivo</p>
                     )}

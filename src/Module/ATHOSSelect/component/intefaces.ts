@@ -10,6 +10,11 @@ export interface SelectedItemI {
 }
 
 interface ATHOSSelectBaseProps {
+  justValues?: boolean;
+  thin?: boolean;
+  label?: string;
+  disabled?: boolean;
+  error?: string;
   selected?: (string | number)[] | string | number;
   position?: PopUpPosition;
   style?: React.CSSProperties;
